@@ -1,7 +1,6 @@
 package com.github.htshame;
 
 import com.github.htshame.config.ExclusionConfig;
-import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.rules.AttrNotEndsWithRule;
 import com.github.htshame.rules.AttrNotStartsWithRule;
 import com.github.htshame.rules.NoHyphensInAttributesRule;
@@ -9,6 +8,7 @@ import com.github.htshame.rules.Rule;
 import com.github.htshame.rules.TagMustExistRule;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.w3c.dom.Document;
@@ -25,7 +25,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -36,7 +35,7 @@ import static com.github.htshame.enums.RuleEnum.NO_HYPHENS_IN_ATTRIBUTES;
 import static com.github.htshame.enums.RuleEnum.TAG_MUST_EXIST;
 import static com.github.htshame.rules.Rule.GLOBALLY_EXCLUDED_TAGS;
 
-@Mojo(name = "validate-liquibase-xml")
+@Mojo(name = "validate-liquibase-xml", defaultPhase = LifecyclePhase.COMPILE)
 public class XmlValidatorMojo extends AbstractMojo {
 
     private static final String XML_EXTENSION = ".xml";

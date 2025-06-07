@@ -13,6 +13,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class parses the exclusion XML file.
+ * E.g.:
+ * <pre><code>
+ *      <exclusions>
+ *          <exclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
+ *      </exclusions>
+ * </code></pre>
+ */
 public class ExclusionConfig {
 
     private final Map<String, Set<RuleEnum>> fileRuleExclusions = new HashMap<>();

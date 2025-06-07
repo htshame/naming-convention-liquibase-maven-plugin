@@ -1,3 +1,5 @@
-<exclusions>
+<exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="liquibase-naming-convention.xsd">
+
     <exclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
 </exclusions>

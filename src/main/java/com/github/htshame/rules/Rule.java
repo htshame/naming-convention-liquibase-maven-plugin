@@ -11,7 +11,5 @@ public interface Rule {
 
     List<String> GLOBALLY_EXCLUDED_TAGS = Arrays.asList("databaseChangeLog", "comment", "include");
 
-    String getName(); //rule name
-
     void validate(Document doc, File file) throws MojoExecutionException;
 }

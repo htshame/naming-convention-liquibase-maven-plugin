@@ -1,0 +1,66 @@
+package com.github.htshame.rules;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+import java.io.File;
+import java.util.Set;
+
+public class TagMustExistRule implements Rule {
+
+    private final String requiredTag;
+    private final Set<String> excludedTags;
+
+    public TagMustExistRule(String requiredTag, Set<String> excludedTags) {
+        this.requiredTag = requiredTag;
+        this.excludedTags = excludedTags;
+    }
+
+    @Override
+    public void validate(Document doc, File file) throws MojoExecutionException {
+        Element root = doc.getDocumentElement();
+        traverse(root, file);
+    }
+
+    private void traverse(Element element, File file) throws MojoExecutionException {
+        String tagName = element.getTagName();
+
+        // Skip excluded tag itself and don't validate, but continue to children
+        boolean isExcluded = excludedTags.contains(tagName);
+
+        if (!isExcluded) {
+            boolean hasRequiredChild = hasRequiredChild(element);
+            if (!hasRequiredChild) {
+                throw new MojoExecutionException("Element <" + tagName + "> in file " + file.getName()
+                        + " does not contain required child <" + requiredTag + ">");
+            }
+
+            // Optimization: if it already has the required child, skip deeper checks
+            return;
+        }
+
+        // Always continue to recurse children, regardless of whether the element is excluded
+        NodeList children = element.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node node = children.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                traverse((Element) node, file);
+            }
+        }
+    }
+
+    private boolean hasRequiredChild(Element element) {
+        NodeList children = element.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node child = children.item(i);
+            if (child.getNodeType() == Node.ELEMENT_NODE &&
+                    ((Element) child).getTagName().equals(requiredTag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+}

@@ -1,0 +1,4 @@
+<exclusions>
+    <exclusion fileName="myFile.xml" rule="tag-must-exist"/>
+    <exclusion fileName="otherFile.xml" rule="no-hyphens-in-attributes"/>
+</exclusions>

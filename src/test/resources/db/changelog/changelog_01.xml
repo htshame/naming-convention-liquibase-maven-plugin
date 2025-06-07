@@ -1,0 +1,43 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="changelog_01_1" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_profile"/>
+            </not>
+        </preConditions>
+        <comment>Create user_profile table. Should not fail.</comment>
+        <createTable tableName="user">
+            <column name="id" autoIncrement="true" type="integer">
+                <constraints primaryKey="true" primaryKeyName="pk_user_profile"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="changelog_01_2" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_user_profile_email_unique"/>
+            </not>
+        </preConditions>
+        <comment>Create idx_user_profile_email_unique constraint. Should not fail.</comment>
+        <createIndex tableName="user_profile" indexName="idx_user_profile_email_unique" unique="true">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

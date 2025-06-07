@@ -1,0 +1,17 @@
+package com.github.htshame.rules;
+
+import org.apache.maven.plugin.MojoExecutionException;
+import org.w3c.dom.Document;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+
+public interface Rule {
+
+    List<String> GLOBALLY_EXCLUDED_TAGS = Arrays.asList("databaseChangeLog", "comment", "include");
+
+    String getName(); //rule name
+
+    void validate(Document doc, File file) throws MojoExecutionException;
+}

@@ -1,5 +1,7 @@
 package com.github.htshame;
 
+import com.github.htshame.config.ExclusionConfig;
+import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.rules.AttrNotEndsWithRule;
 import com.github.htshame.rules.AttrNotStartsWithRule;
 import com.github.htshame.rules.NoHyphensInAttributesRule;
@@ -23,6 +25,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -57,8 +60,15 @@ public class XmlValidatorMojo extends AbstractMojo {
             throw new MojoExecutionException("Invalid path: " + filesToValidatePath);
         }
 
-        Set<String> excludedFiles = loadExclusions(exclusions);
         Set<Rule> rules = loadRules(ruleSetPath);
+
+        ExclusionConfig exclusionConfig;
+
+        try {
+            exclusionConfig = ExclusionConfig.fromFile(exclusions);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         List<File> xmlFiles;
         try (Stream<Path> paths = Files.walk(filesToValidatePath.toPath())) {
@@ -74,13 +84,15 @@ public class XmlValidatorMojo extends AbstractMojo {
         List<String> allViolations = new ArrayList<>();
 
         for (File xmlFile : xmlFiles) {
-            if (excludedFiles.contains(xmlFile.getName())) {
-                getLog().info("Skipping excluded file: " + xmlFile.getName());
-                continue;
+            Set<Rule> rulesToValidateWith = new HashSet<>();
+            for (Rule rule : rules) {
+                if (!exclusionConfig.isExcluded(xmlFile.getName(), rule.getName())) {
+                    rulesToValidateWith.add(rule);
+                }
             }
 
             getLog().info("Validating: " + xmlFile.getPath());
-            allViolations.addAll(validate(xmlFile, rules));
+            allViolations.addAll(validate(xmlFile, rulesToValidateWith));
         }
 
         if (!allViolations.isEmpty()) {

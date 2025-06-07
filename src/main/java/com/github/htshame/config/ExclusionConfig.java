@@ -1,5 +1,6 @@
 package com.github.htshame.config;
 
+import com.github.htshame.enums.RuleEnum;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -13,7 +14,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class ExclusionConfig {
-    private final Map<String, Set<String>> fileRuleExclusions = new HashMap<>();
+
+    private final Map<String, Set<RuleEnum>> fileRuleExclusions = new HashMap<>();
 
     public static ExclusionConfig fromFile(File file) throws Exception {
         ExclusionConfig config = new ExclusionConfig();
@@ -30,14 +32,14 @@ public class ExclusionConfig {
 
             config.fileRuleExclusions
                     .computeIfAbsent(fileName, k -> new HashSet<>())
-                    .add(rule);
+                    .add(RuleEnum.fromValue(rule));
         }
 
         return config;
     }
 
-    public boolean isExcluded(String fileName, String ruleName) {
-        Set<String> excludedRules = fileRuleExclusions.get(fileName);
+    public boolean isExcluded(String fileName, RuleEnum ruleName) {
+        Set<RuleEnum> excludedRules = fileRuleExclusions.get(fileName);
         return excludedRules != null && excludedRules.contains(ruleName);
     }
 }

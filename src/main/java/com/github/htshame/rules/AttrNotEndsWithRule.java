@@ -1,5 +1,6 @@
 package com.github.htshame.rules;
 
+import com.github.htshame.enums.RuleEnum;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,6 +26,11 @@ public class AttrNotEndsWithRule implements Rule {
         this.conditionValue = conditionValue;
         this.targetAttribute = targetAttribute;
         this.requiredSuffix = requiredSuffix;
+    }
+
+    @Override
+    public RuleEnum getName() {
+        return RuleEnum.ATTRIBUTE_NOT_ENDS_WITH;
     }
 
     @Override

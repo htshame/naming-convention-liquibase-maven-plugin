@@ -1,5 +1,6 @@
 package com.github.htshame.rules;
 
+import com.github.htshame.enums.RuleEnum;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,6 +18,11 @@ public class TagMustExistRule implements Rule {
     public TagMustExistRule(String requiredTag, Set<String> excludedTags) {
         this.requiredTag = requiredTag;
         this.excludedTags = excludedTags;
+    }
+
+    @Override
+    public RuleEnum getName() {
+        return RuleEnum.TAG_MUST_EXIST;
     }
 
     @Override

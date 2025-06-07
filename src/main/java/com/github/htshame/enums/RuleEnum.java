@@ -16,4 +16,13 @@ public enum RuleEnum {
     public String getValue() {
         return rule;
     }
+
+    public static RuleEnum fromValue(String value) {
+        for (RuleEnum constant : RuleEnum.values()) {
+            if (constant.getValue().equals(value)) {
+                return constant;
+            }
+        }
+        throw new IllegalArgumentException("No enum constant found for value: " + value);
+    }
 }

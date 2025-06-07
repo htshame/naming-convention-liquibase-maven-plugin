@@ -1,5 +1,6 @@
 package com.github.htshame.rules;
 
+import com.github.htshame.enums.RuleEnum;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,6 +18,11 @@ public class AttrNotStartsWithRule implements Rule {
         this.tag = tag;
         this.attribute = attribute;
         this.prefix = prefix;
+    }
+
+    @Override
+    public RuleEnum getName() {
+        return RuleEnum.ATTRIBUTE_NOT_STARTS_WITH;
     }
 
     @Override

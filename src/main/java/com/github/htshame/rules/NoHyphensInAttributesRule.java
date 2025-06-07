@@ -1,5 +1,6 @@
 package com.github.htshame.rules;
 
+import com.github.htshame.enums.RuleEnum;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -18,6 +19,11 @@ public class NoHyphensInAttributesRule implements Rule {
     @Override
     public void validate(Document doc, File file) throws MojoExecutionException {
         validateElement(doc.getDocumentElement(), file);
+    }
+
+    @Override
+    public RuleEnum getName() {
+        return RuleEnum.NO_HYPHENS_IN_ATTRIBUTES;
     }
 
     private void validateElement(Element element, File file) throws MojoExecutionException {

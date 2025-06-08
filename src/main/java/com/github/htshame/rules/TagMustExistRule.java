@@ -1,7 +1,7 @@
 package com.github.htshame.rules;
 
 import com.github.htshame.enums.RuleEnum;
-import org.apache.maven.plugin.MojoExecutionException;
+import com.github.htshame.exception.ValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,12 +26,12 @@ public class TagMustExistRule implements Rule {
     }
 
     @Override
-    public void validate(Document doc, File file) throws MojoExecutionException {
+    public void validate(Document doc, File file) throws ValidationException {
         Element root = doc.getDocumentElement();
         traverse(root, file);
     }
 
-    private void traverse(Element element, File file) throws MojoExecutionException {
+    private void traverse(Element element, File file) throws ValidationException {
         String tagName = element.getTagName();
 
         // Skip excluded tag itself and don't validate, but continue to children
@@ -40,8 +40,9 @@ public class TagMustExistRule implements Rule {
         if (!isExcluded) {
             boolean hasRequiredChild = hasRequiredChild(element);
             if (!hasRequiredChild) {
-                throw new MojoExecutionException("Element <" + tagName + "> in file " + file.getName()
-                        + " does not contain required child <" + requiredTag + ">");
+                String errorMessage = String.format("File: %s. Tag <%s> does not contain required tag <%s>",
+                        file.getName(), tagName, requiredTag);
+                throw new ValidationException(errorMessage);
             }
 
             // Optimization: if it already has the required child, skip deeper checks

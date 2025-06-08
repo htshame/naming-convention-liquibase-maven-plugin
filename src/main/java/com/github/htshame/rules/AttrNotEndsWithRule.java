@@ -1,7 +1,7 @@
 package com.github.htshame.rules;
 
 import com.github.htshame.enums.RuleEnum;
-import org.apache.maven.plugin.MojoExecutionException;
+import com.github.htshame.exception.ValidationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -34,17 +34,23 @@ public class AttrNotEndsWithRule implements Rule {
     }
 
     @Override
-    public void validate(Document doc, File file) throws MojoExecutionException {
+    public void validate(Document doc, File file) throws ValidationException {
         NodeList elements = doc.getElementsByTagName(tag);
         for (int i = 0; i < elements.getLength(); i++) {
             Element elem = (Element) elements.item(i);
             if (conditionValue.equals(elem.getAttribute(conditionAttribute))) {
                 String actualValue = elem.getAttribute(targetAttribute);
                 if (!actualValue.endsWith(requiredSuffix)) {
-                    throw new MojoExecutionException("[" + file.getName() + "] <" + tag +
-                            "> with " + conditionAttribute + "=\"" + conditionValue +
-                            "\" must have " + targetAttribute + " ending with \"" + requiredSuffix +
-                            "\", but found: \"" + actualValue + "\"");
+                    String errorMessage = String.format(
+                            "File: %s. Tag <%s> with %s=\"%s\" must have %s ending with [%s], but found: [%s]",
+                            file.getName(),
+                            tag,
+                            conditionAttribute,
+                            conditionValue,
+                            targetAttribute,
+                            requiredSuffix,
+                            actualValue);
+                    throw new ValidationException(errorMessage);
                 }
             }
         }

@@ -1,7 +1,7 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="liquibase-naming-convention.xsd">
 
-    <rule type="tag-must-exist">
+    <rule name="tag-must-exist">
         <requiredTag>comment</requiredTag>
         <excludedAncestorTags>
             <tag>databaseChangeLog</tag>
@@ -9,13 +9,13 @@
         </excludedAncestorTags>
     </rule>
 
-    <rule type="attr-not-starts-with">
+    <rule name="attr-not-starts-with">
         <tag>createIndex</tag>
         <targetAttribute>indexName</targetAttribute>
         <requiredPrefix>idx_</requiredPrefix>
     </rule>
 
-    <rule type="attr-not-ends-with">
+    <rule name="attr-not-ends-with">
         <tag>createIndex</tag>
         <conditionAttribute>unique</conditionAttribute>
         <conditionValue>true</conditionValue>
@@ -23,6 +23,6 @@
         <requiredSuffix>_unique</requiredSuffix>
     </rule>
 
-    <rule type="no-hyphens-in-attributes"/>
+    <rule name="no-hyphens-in-attributes"/>
 </rules>
 

@@ -14,9 +14,9 @@ public class XmlValidatorMojoIntegrationTest {
     public void testExecute() throws NoSuchFieldException, IllegalAccessException {
         // arrange
         XmlValidatorMojo xmlValidatorMojo = new XmlValidatorMojo();
-        setField(xmlValidatorMojo, "ruleSetPath", new File("src/test/resources/rules.xml"));
-        setField(xmlValidatorMojo, "exclusions", new File("src/test/resources/exclusions.xml"));
-        setField(xmlValidatorMojo, "filesToValidatePath", new File("src/test/resources/db"));
+        setField(xmlValidatorMojo, "pathToRulesFile", new File("src/test/resources/rules.xml"));
+        setField(xmlValidatorMojo, "pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
+        setField(xmlValidatorMojo, "changeLogDirectory", new File("src/test/resources/db"));
 
         // act
         try {

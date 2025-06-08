@@ -47,7 +47,7 @@
                                 </xs:complexType>
                             </xs:element>
                         </xs:choice>
-                        <xs:attribute name="type" type="RuleType" use="required"/>
+                        <xs:attribute name="name" type="RuleType" use="required"/>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>

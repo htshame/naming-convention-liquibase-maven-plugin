@@ -4,7 +4,7 @@
 
     <groupId>com.github.htshame</groupId>
     <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>maven-plugin</packaging>
 
     <name>Liquibase changeSet naming convention Maven Plugin</name>

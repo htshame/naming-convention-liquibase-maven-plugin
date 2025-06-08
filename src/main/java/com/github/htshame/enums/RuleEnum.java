@@ -1,5 +1,8 @@
 package com.github.htshame.enums;
 
+/**
+ * List of available rules.
+ */
 public enum RuleEnum {
 
     ATTRIBUTE_NOT_STARTS_WITH("attr-not-starts-with"),
@@ -9,6 +12,11 @@ public enum RuleEnum {
 
     private final String rule;
 
+    /**
+     * Constructor.
+     *
+     * @param rule - rule.
+     */
     RuleEnum(final String rule) {
         this.rule = rule;
     }
@@ -17,7 +25,13 @@ public enum RuleEnum {
         return rule;
     }
 
-    public static RuleEnum fromValue(String value) {
+    /**
+     * Get enum from string.
+     *
+     * @param value - enum string value.
+     * @return enum.
+     */
+    public static RuleEnum fromValue(final String value) {
         for (RuleEnum constant : RuleEnum.values()) {
             if (constant.getValue().equals(value)) {
                 return constant;

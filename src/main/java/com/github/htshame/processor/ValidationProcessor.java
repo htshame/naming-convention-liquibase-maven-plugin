@@ -57,26 +57,25 @@ public class ValidationProcessor {
     private List<String> processValidation(final File changeLogFile,
                                            final Set<Rule> rules) {
         List<String> validationErrors = new ArrayList<>();
-        Document doc;
+        Document document;
         try {
-            DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            doc = builder.parse(changeLogFile);
-            doc.getDocumentElement().normalize();
+            DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            document = documentBuilder.parse(changeLogFile);
+            document.getDocumentElement().normalize();
         } catch (Exception e) {
             validationErrors.add("[" + changeLogFile.getName() + "] Failed to parse: " + e.getMessage());
             return validationErrors;
         }
 
-        stripExcludedTagAttributes(doc);
+        stripExcludedTagAttributes(document);
 
         for (Rule rule : rules) {
             try {
-                rule.validate(doc, changeLogFile);
+                rule.validate(document);
             } catch (ValidationException e) {
                 validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
             }
         }
-
         return validationErrors;
     }
 
@@ -106,9 +105,9 @@ public class ValidationProcessor {
      * @param changeLogFile - changeLog file.
      * @return set of rules to apply to the given changeLog file.
      */
-    private Set<Rule> excludeRulesBasedOnExclusionFile(Set<Rule> rules,
-                                                       ExclusionParser exclusionParser,
-                                                       File changeLogFile) {
+    private Set<Rule> excludeRulesBasedOnExclusionFile(final Set<Rule> rules,
+                                                       final ExclusionParser exclusionParser,
+                                                       final File changeLogFile) {
         Set<Rule> rulesToValidateWith = new HashSet<>();
         for (Rule rule : rules) {
             if (!exclusionParser.isExcluded(changeLogFile.getName(), rule.getName())) {

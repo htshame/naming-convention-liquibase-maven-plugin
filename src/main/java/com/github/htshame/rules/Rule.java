@@ -4,11 +4,23 @@ import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;
 import org.w3c.dom.Document;
 
-import java.io.File;
-
+/**
+ * Interface for rule handling.
+ */
 public interface Rule {
 
+    /**
+     * Get rule name.
+     *
+     * @return rule name.
+     */
     RuleEnum getName();
 
-    void validate(Document doc, File file) throws ValidationException;
+    /**
+     * Validates the document against the rule which implements {@link Rule}.
+     *
+     * @param document - document.
+     * @throws ValidationException - thrown if validation fails.
+     */
+    void validate(Document document) throws ValidationException;
 }

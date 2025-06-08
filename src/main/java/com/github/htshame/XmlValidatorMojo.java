@@ -18,6 +18,9 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * <code>validate-liquibase-xml</code> processor.
+ */
 @Mojo(name = "validate-liquibase-xml", defaultPhase = LifecyclePhase.COMPILE)
 public class XmlValidatorMojo extends AbstractMojo {
 
@@ -75,7 +78,7 @@ public class XmlValidatorMojo extends AbstractMojo {
      * @param validationErrors - list of validation errors.
      * @throws MojoExecutionException - thrown in there are validation errors.
      */
-    private void checkValidationResult(List<String> validationErrors) throws MojoExecutionException {
+    private void checkValidationResult(final List<String> validationErrors) throws MojoExecutionException {
         if (!validationErrors.isEmpty()) {
             getLog().error("====== Liquibase changeset validation failed ======");
             for (String v : validationErrors) {

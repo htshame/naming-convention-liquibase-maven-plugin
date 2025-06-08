@@ -10,28 +10,70 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 import static com.github.htshame.util.RuleUtil.getText;
 
+/**
+ * Business logic for <code>tag-must-exist</code> rule.
+ * <p>
+ * Checks that each changeSet contains the provided tag.
+ * <p>
+ * E.g.:
+ * <p>
+ * Rule configuration:
+ * <pre><code>
+ *     <rule name="tag-must-exist">
+ *          <requiredTag>comment</requiredTag>
+ *          <excludedAncestorTags>
+ *              <tag>databaseChangeLog</tag>
+ *              <tag>include</tag>
+ *          </excludedAncestorTags>
+ *      </rule>
+ * </code></pre>
+ * will verify that changeSet
+ * <pre><code>
+ *     <changeSet id="changelog_02-4" author="test">
+ *         <comment>Very informative comment.</comment>
+ *     </changeSet>
+ * </code></pre>
+ * contains <code>comment</code>.
+ */
 public class TagMustExistRule implements Rule {
 
     private final String requiredTag;
     private final Set<String> excludedTags;
 
-    public TagMustExistRule(String requiredTag, Set<String> excludedTags) {
+    /**
+     * Constructor.
+     *
+     * @param requiredTag  - rule.requiredTag value.
+     * @param excludedTags - set of rule.excludedAncestorLog values.
+     */
+    public TagMustExistRule(final String requiredTag,
+                            final Set<String> excludedTags) {
         this.requiredTag = requiredTag;
         this.excludedTags = excludedTags;
     }
 
+    /**
+     * Get rule name.
+     *
+     * @return rule name.
+     */
     @Override
     public RuleEnum getName() {
         return RuleEnum.TAG_MUST_EXIST;
     }
 
-    public static TagMustExistRule fromXml(Element element) {
+    /**
+     * Populate rule with the contents from XML file.
+     *
+     * @param element - element.
+     * @return instance of {@link TagMustExistRule}.
+     */
+    public static TagMustExistRule fromXml(final Element element) {
         String requiredChild = getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTagElements = ((Element) element
@@ -43,13 +85,25 @@ public class TagMustExistRule implements Rule {
         return new TagMustExistRule(requiredChild, excludedParents);
     }
 
+    /**
+     * Validate changeLog file.
+     *
+     * @param document - document.
+     * @throws ValidationException - thrown if validation fails.
+     */
     @Override
-    public void validate(Document doc, File file) throws ValidationException {
-        Element root = doc.getDocumentElement();
-        traverse(root, file);
+    public void validate(final Document document) throws ValidationException {
+        Element root = document.getDocumentElement();
+        traverse(root);
     }
 
-    private void traverse(Element element, File file) throws ValidationException {
+    /**
+     * Traverse the contents of the document.
+     *
+     * @param element - element.
+     * @throws ValidationException - thrown if validation fails.
+     */
+    private void traverse(final Element element) throws ValidationException {
         String tagName = element.getTagName();
 
         // Skip excluded tag itself and don't validate, but continue to children
@@ -77,17 +131,23 @@ public class TagMustExistRule implements Rule {
         for (int i = 0; i < children.getLength(); i++) {
             Node node = children.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                traverse((Element) node, file);
+                traverse((Element) node);
             }
         }
     }
 
-    private boolean hasRequiredChild(Element element) {
+    /**
+     * Checks that element contains the requiredTag.
+     *
+     * @param element - element.
+     * @return <code>true</code> if contains. <code>false</code> - if not.
+     */
+    private boolean hasRequiredChild(final Element element) {
         NodeList children = element.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
-            if (child.getNodeType() == Node.ELEMENT_NODE &&
-                    ((Element) child).getTagName().equals(requiredTag)) {
+            if (child.getNodeType() == Node.ELEMENT_NODE
+                    && ((Element) child).getTagName().equals(requiredTag)) {
                 return true;
             }
         }

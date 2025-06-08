@@ -10,6 +10,12 @@ import static org.junit.Assert.assertEquals;
 
 public class XmlValidatorMojoIntegrationTest {
 
+    /**
+     * Integration test for {@link XmlValidatorMojo#execute()}.
+     *
+     * @throws NoSuchFieldException - thrown if required field is missing.
+     * @throws IllegalAccessException - thrown if files not found.
+     */
     @Test
     public void testExecute() throws NoSuchFieldException, IllegalAccessException {
         // arrange

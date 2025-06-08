@@ -28,10 +28,24 @@ import java.util.Set;
  */
 public final class ExclusionParser {
 
+    /**
+     * Sets of excluded rules mapped with the changeLog file.
+     */
     private final Map<String, Set<RuleEnum>> fileRuleExclusions = new HashMap<>();
 
-    public static ExclusionParser parseExclusions(File file) throws ExclusionParserException {
-        if (file == null) {
+    private ExclusionParser() {
+
+    }
+
+    /**
+     * Parse the exclusionsFile with exclusions.
+     *
+     * @param exclusionsFile - exclusionsFile with exclusions.
+     * @return exclusion parser.
+     * @throws ExclusionParserException - thrown if parsing fails.
+     */
+    public static ExclusionParser parseExclusions(final File exclusionsFile) throws ExclusionParserException {
+        if (exclusionsFile == null) {
             return new ExclusionParser();
         }
         try {
@@ -39,7 +53,7 @@ public final class ExclusionParser {
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(file);
+            Document doc = db.parse(exclusionsFile);
 
             NodeList exclusions = doc.getElementsByTagName(ExclusionEnum.EXCLUSION_TAG.getValue());
             for (int i = 0; i < exclusions.getLength(); i++) {
@@ -53,15 +67,26 @@ public final class ExclusionParser {
             }
             return config;
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            throw new ExclusionParserException("Error parsing exclusion XML file");
+            throw new ExclusionParserException("Error parsing exclusion XML exclusionsFile");
         }
     }
 
-    public boolean isExcluded(String fileName, RuleEnum ruleName) {
+    /**
+     * Check whether the rule is excluded or not for the given file.
+     *
+     * @param fileName - changeLog file name.
+     * @param ruleName - rule name.
+     * @return <code>true</code> if excluded, <code>false</code> if not excluded.
+     */
+    public boolean isExcluded(final String fileName,
+                              final RuleEnum ruleName) {
         Set<RuleEnum> excludedRules = fileRuleExclusions.get(fileName);
         return excludedRules != null && excludedRules.contains(ruleName);
     }
 
+    /**
+     * Exclusion XML tags and attributes.
+     */
     private enum ExclusionEnum {
         EXCLUSION_TAG("exclusion"),
         FILE_NAME_ATTR("fileName"),

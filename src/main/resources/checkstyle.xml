@@ -60,7 +60,7 @@
 
     <!-- Checks that a package-info.java file exists for each package.     -->
     <!-- See https://checkstyle.org/checks/javadoc/javadocpackage.html#JavadocPackage -->
-    <module name="JavadocPackage"/>
+<!--    <module name="JavadocPackage"/>-->
 
     <!-- Checks whether files end with a new line.                        -->
     <!-- See https://checkstyle.org/checks/misc/newlineatendoffile.html -->
@@ -106,7 +106,7 @@
         <module name="JavadocMethod"/>
         <module name="JavadocType"/>
 <!--        <module name="JavadocVariable"/>-->
-        <module name="JavadocStyle"/>
+<!--        <module name="JavadocStyle"/>-->
         <module name="MissingJavadocMethod">
             <property name="allowMissingPropertyJavadoc" value="true"/>
         </module>

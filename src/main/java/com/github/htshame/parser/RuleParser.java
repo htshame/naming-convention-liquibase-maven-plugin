@@ -23,8 +23,8 @@ import java.util.Set;
  * This class parses rules XML file.
  * E.g.:
  * <pre><code>
- * <rules>
- *     <rule type="tag-must-exist">
+ *<rules>
+ *    <rule type="tag-must-exist">
  *         <requiredTag>comment</requiredTag>
  *         <excludedAncestorTags>
  *             <tag>databaseChangeLog</tag>
@@ -32,33 +32,43 @@ import java.util.Set;
  *         </excludedAncestorTags>
  *     </rule>
  *
- *     <rule type="attr-not-starts-with">
+ *    <rule type="attr-not-starts-with">
  *         <tag>createIndex</tag>
  *         <targetAttribute>indexName</targetAttribute>
  *         <requiredPrefix>idx_</requiredPrefix>
  *     </rule>
  *
- *     <rule type="attr-not-ends-with">
+ *    <rule type="attr-not-ends-with">
  *         <tag>createIndex</tag>
  *         <conditionAttribute>unique</conditionAttribute>
  *         <conditionValue>true</conditionValue>
  *         <targetAttribute>indexName</targetAttribute>
  *         <requiredSuffix>_unique</requiredSuffix>
  *     </rule>
- *     <rule type="no-hyphens-in-attributes"/>
+ *    <rule type="no-hyphens-in-attributes"/>
  * </rules>
  * </code></pre>
  */
 public class RuleParser {
 
-    final Map<RuleEnum, RuleFactory> RULE_MAP = Map.of(
+    /**
+     * Map of rule processors mapped to the corresponding {@link RuleEnum}.
+     */
+    private final Map<RuleEnum, RuleFactory> ruleMap = Map.of(
             RuleEnum.TAG_MUST_EXIST, TagMustExistRule::fromXml,
             RuleEnum.ATTRIBUTE_NOT_STARTS_WITH, AttrNotStartsWithRule::fromXml,
             RuleEnum.ATTRIBUTE_NOT_ENDS_WITH, AttrNotEndsWithRule::fromXml,
             RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesRule::fromXml
     );
 
-    public Set<Rule> parseRules(File rulesetFile) throws RuleParserException {
+    /**
+     * Parse rules file.
+     *
+     * @param rulesetFile - file with rules.
+     * @return set of rules.
+     * @throws RuleParserException - thrown if parsing fails.
+     */
+    public Set<Rule> parseRules(final File rulesetFile) throws RuleParserException {
         Set<Rule> rules = new HashSet<>();
         try {
             Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
@@ -67,7 +77,7 @@ public class RuleParser {
                 Element ruleElem = (Element) ruleNodes.item(i);
                 RuleEnum type = RuleEnum.fromValue(ruleElem.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
 
-                RuleFactory ruleFactory = RULE_MAP.get(type);
+                RuleFactory ruleFactory = ruleMap.get(type);
                 if (ruleFactory == null) {
                     throw new RuleParserException("Unknown rule type: [" + type + "]");
                 }
@@ -83,6 +93,5 @@ public class RuleParser {
         }
         return rules;
     }
-
 
 }

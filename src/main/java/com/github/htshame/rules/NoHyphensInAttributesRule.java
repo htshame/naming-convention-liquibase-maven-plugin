@@ -11,29 +11,64 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Business logic for <code>no-hyphens-in-attributes</code> rule.
+ * <p>
+ * Checks that the contents of changeLog file do not contain hyphens.
+ * <p>
+ * E.g.:
+ * <p>
+ * Rule configuration:
+ * <pre><code>
+ *    <rule name="no-hyphens-in-attributes"/>
+ * </code></pre>
+ */
 public class NoHyphensInAttributesRule implements Rule {
+
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String HYPHEN = "-";
 
+    /**
+     * Validate changeLog file.
+     *
+     * @param document - document.
+     * @throws ValidationException - thrown if validation fails.
+     */
     @Override
-    public void validate(Document doc, File file) throws ValidationException {
-        validateElement(doc.getDocumentElement());
+    public void validate(final Document document) throws ValidationException {
+        validateElement(document.getDocumentElement());
     }
 
+    /**
+     * Get rule name.
+     *
+     * @return rule name.
+     */
     @Override
     public RuleEnum getName() {
         return RuleEnum.NO_HYPHENS_IN_ATTRIBUTES;
     }
 
-    public static NoHyphensInAttributesRule fromXml(Element element) {
+    /**
+     * Populate rule with the contents from XML file.
+     *
+     * @param element - element.
+     * @return instance of {@link NoHyphensInAttributesRule}.
+     */
+    public static NoHyphensInAttributesRule fromXml(final Element element) {
         return new NoHyphensInAttributesRule();
     }
 
-    private void validateElement(Element element) throws ValidationException {
+    /**
+     * Validate element.
+     *
+     * @param element - element.
+     * @throws ValidationException - thrown if validation fails.
+     */
+    private void validateElement(final Element element) throws ValidationException {
         NamedNodeMap attributes = element.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {
             Attr attr = (Attr) attributes.item(i);
@@ -43,7 +78,8 @@ public class NoHyphensInAttributesRule implements Rule {
             if (!EXCLUDED_ATTRIBUTES.contains(attrName) && attrValue.contains(HYPHEN)) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(
-                        "ChangeSet: id=\"%s\", author=\"%s\". Attribute %s in element <%s> contains hyphen in value: [%s]. Rule: %s",
+                        "ChangeSet: id=\"%s\", author=\"%s\". Attribute %s in element <%s> contains "
+                                + "hyphen in value: [%s]. Rule: %s",
                         changeSetAttributeDto.getId(),
                         changeSetAttributeDto.getAuthor(),
                         attrName,

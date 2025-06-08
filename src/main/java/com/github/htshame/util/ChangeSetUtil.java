@@ -4,14 +4,26 @@ import com.github.htshame.dto.ChangeSetAttributeDto;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class ChangeSetUtil {
+/**
+ * Utility class for getting changeSet's data.
+ */
+public final class ChangeSetUtil {
 
     private static final String CHANGE_SET_TAG_NAME = "changeSet";
     private static final String ID_ATTR_NAME = "id";
     private static final String AUTHOR_ATTR_NAME = "author";
 
+    private ChangeSetUtil() {
 
-    public static ChangeSetAttributeDto getAttributesFromAncestor(Element element) {
+    }
+
+    /**
+     * Get values of <code>id</code> and <code>author</code> attributes.
+     *
+     * @param element - element of the changeSet.
+     * @return object with changeSet attributes.
+     */
+    public static ChangeSetAttributeDto getAttributesFromAncestor(final Element element) {
         if (CHANGE_SET_TAG_NAME.equals(element.getTagName())) {
             return new ChangeSetAttributeDto(
                     getAttributeValue(element, ID_ATTR_NAME),
@@ -30,7 +42,15 @@ public class ChangeSetUtil {
         return new ChangeSetAttributeDto("", "");
     }
 
-    private static String getAttributeValue(Element element, String attributeName) {
+    /**
+     * Retrieve the value of the specified attribute from the given element.
+     *
+     * @param element - element.
+     * @param attributeName - attribute name.
+     * @return attribute value.
+     */
+    private static String getAttributeValue(final Element element,
+                                            final String attributeName) {
         return element.getAttributes().getNamedItem(attributeName).getNodeValue();
     }
 }

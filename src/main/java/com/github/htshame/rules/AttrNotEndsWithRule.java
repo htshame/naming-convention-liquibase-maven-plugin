@@ -9,30 +9,32 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import java.io.File;
-
 import static com.github.htshame.util.RuleUtil.getText;
 
 /**
- * Business logic for "attr-not-ends-with" rule.
+ * Business logic for <code>attr-not-ends-with</code> rule.
  * <p>
- * Checks that the value of given attribute starts with given prefix.
+ * Checks that the value of given attribute ends with given prefix.
  * <p>
  * E.g.:
  * <p>
  * Rule configuration:
  * <pre><code>
- *     <rule name="attr-not-starts-with">
- *         <tag>createIndex</tag>
- *         <targetAttribute>indexName</targetAttribute>
- *         <requiredPrefix>idx_</requiredPrefix>
- *     </rule>
+ *     <rule name="attr-not-ends-with">
+ *          <tag>createIndex</tag>
+ *          <conditionAttribute>unique</conditionAttribute>
+ *          <conditionValue>true</conditionValue>
+ *          <targetAttribute>indexName</targetAttribute>
+ *          <requiredSuffix>_unique</requiredSuffix>
+ *      </rule>
  * </code></pre>
  * will verify that value of <code>indexName</code>
  * <pre><code>
- *     <createIndex indexName="idx_user_metadata_external_user_id"/>
+ *      <createIndex tableName="user_metadata" indexName="idx_user_metadata_external_user_id_unique" unique="true">
+ *          <column name="external_user_id"/>
+ *      </createIndex>
  * </code></pre>
- * indeed starts with <code>idx_</code>.
+ * indeed ends with <code>_unique</code>.
  */
 public class AttrNotEndsWithRule implements Rule {
 
@@ -42,11 +44,20 @@ public class AttrNotEndsWithRule implements Rule {
     private final String targetAttribute;
     private final String requiredSuffix;
 
-    public AttrNotEndsWithRule(String tag,
-                               String conditionAttribute,
-                               String conditionValue,
-                               String targetAttribute,
-                               String requiredSuffix) {
+    /**
+     * Constructor.
+     *
+     * @param tag                - rule.tag value.
+     * @param conditionAttribute - rule.conditionAttribute value.
+     * @param conditionValue     - rule.conditionValue value.
+     * @param targetAttribute    - rule.targetAttribute value.
+     * @param requiredSuffix     - rule.requiredSuffix value.
+     */
+    public AttrNotEndsWithRule(final String tag,
+                               final String conditionAttribute,
+                               final String conditionValue,
+                               final String targetAttribute,
+                               final String requiredSuffix) {
         this.tag = tag;
         this.conditionAttribute = conditionAttribute;
         this.conditionValue = conditionValue;
@@ -54,12 +65,23 @@ public class AttrNotEndsWithRule implements Rule {
         this.requiredSuffix = requiredSuffix;
     }
 
+    /**
+     * Get rule name.
+     *
+     * @return rule name.
+     */
     @Override
     public RuleEnum getName() {
         return RuleEnum.ATTRIBUTE_NOT_ENDS_WITH;
     }
 
-    public static AttrNotEndsWithRule fromXml(Element element) {
+    /**
+     * Populate rule with the contents from XML file.
+     *
+     * @param element - element.
+     * @return instance of {@link AttrNotEndsWithRule}.
+     */
+    public static AttrNotEndsWithRule fromXml(final Element element) {
         return new AttrNotEndsWithRule(
                 getText(element, RuleStructureEnum.TAG_TAG.getValue()),
                 getText(element, RuleStructureEnum.CONDITION_ATTRIBUTE_TAG.getValue()),
@@ -68,9 +90,15 @@ public class AttrNotEndsWithRule implements Rule {
                 getText(element, RuleStructureEnum.REQUIRED_SUFFIX_TAG.getValue()));
     }
 
+    /**
+     * Validate changeLog file.
+     *
+     * @param document - document.
+     * @throws ValidationException - thrown if validation fails.
+     */
     @Override
-    public void validate(Document doc, File file) throws ValidationException {
-        NodeList elements = doc.getElementsByTagName(tag);
+    public void validate(final Document document) throws ValidationException {
+        NodeList elements = document.getElementsByTagName(tag);
         for (int i = 0; i < elements.getLength(); i++) {
             Element element = (Element) elements.item(i);
             if (conditionValue.equals(element.getAttribute(conditionAttribute))) {

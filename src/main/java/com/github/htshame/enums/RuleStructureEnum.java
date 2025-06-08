@@ -1,5 +1,8 @@
 package com.github.htshame.enums;
 
+/**
+ * Rule XML contents.
+ */
 public enum RuleStructureEnum {
     RULE_TAG("rule"),
     NAME_ATTR("name"),

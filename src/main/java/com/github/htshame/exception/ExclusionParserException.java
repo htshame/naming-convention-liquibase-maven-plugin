@@ -10,7 +10,7 @@ public class ExclusionParserException extends Exception {
      *
      * @param message - message.
      */
-    public ExclusionParserException(String message) {
+    public ExclusionParserException(final String message) {
         super(message);
     }
 }

@@ -1,8 +1,18 @@
 package com.github.htshame.exception;
 
+/**
+ * ChangeLog collection exception.
+ */
 public class ChangeLogCollectorException extends Exception {
 
-    public ChangeLogCollectorException(String message, Throwable e) {
+    /**
+     * Constructor.
+     *
+     * @param message - message.
+     * @param e       - throwable.
+     */
+    public ChangeLogCollectorException(final String message,
+                                       final Throwable e) {
         super(message, e);
     }
 }

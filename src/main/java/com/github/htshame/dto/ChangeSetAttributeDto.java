@@ -1,12 +1,22 @@
 package com.github.htshame.dto;
 
+/**
+ * Class to represent changeSet attributes.
+ */
 public class ChangeSetAttributeDto {
 
     private String id;
 
     private String author;
 
-    public ChangeSetAttributeDto(String id, String author) {
+    /**
+     * Constructor.
+     *
+     * @param id     - changeSet id.
+     * @param author - changeSet author.
+     */
+    public ChangeSetAttributeDto(final String id,
+                                 final String author) {
         this.id = id;
         this.author = author;
     }
@@ -15,7 +25,7 @@ public class ChangeSetAttributeDto {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
@@ -23,7 +33,7 @@ public class ChangeSetAttributeDto {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(final String author) {
         this.author = author;
     }
 }

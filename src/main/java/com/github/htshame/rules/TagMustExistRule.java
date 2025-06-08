@@ -2,8 +2,8 @@ package com.github.htshame.rules;
 
 import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
+import com.github.htshame.enums.RuleStructureEnum;
 import com.github.htshame.exception.ValidationException;
-import com.github.htshame.parser.RuleParser;
 import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,7 +14,7 @@ import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
-import static com.github.htshame.parser.RuleParser.getText;
+import static com.github.htshame.util.RuleUtil.getText;
 
 public class TagMustExistRule implements Rule {
 
@@ -32,11 +32,11 @@ public class TagMustExistRule implements Rule {
     }
 
     public static TagMustExistRule fromXml(Element element) {
-        String requiredChild = getText(element, RuleParser.RuleStructureEnum.REQUIRED_TAG.getValue());
+        String requiredChild = getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTagElements = ((Element) element
-                .getElementsByTagName(RuleParser.RuleStructureEnum.EXCLUDED_ANCESTOR_TAGS.getValue()).item(0))
-                .getElementsByTagName(RuleParser.RuleStructureEnum.TAG_TAG.getValue());
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_TAGS.getValue()).item(0))
+                .getElementsByTagName(RuleStructureEnum.TAG_TAG.getValue());
         for (int j = 0; j < excludedTagElements.getLength(); j++) {
             excludedParents.add(excludedTagElements.item(j).getTextContent());
         }

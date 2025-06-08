@@ -1,6 +1,7 @@
 package com.github.htshame.parser;
 
 import com.github.htshame.enums.RuleEnum;
+import com.github.htshame.enums.RuleStructureEnum;
 import com.github.htshame.exception.RuleParserException;
 import com.github.htshame.rules.AttrNotEndsWithRule;
 import com.github.htshame.rules.AttrNotStartsWithRule;
@@ -50,7 +51,7 @@ import java.util.Set;
  */
 public class RuleParser {
 
-    private final Map<RuleEnum, RuleFactory> RULE_MAP = Map.of(
+    final Map<RuleEnum, RuleFactory> RULE_MAP = Map.of(
             RuleEnum.TAG_MUST_EXIST, TagMustExistRule::fromXml,
             RuleEnum.ATTRIBUTE_NOT_STARTS_WITH, AttrNotStartsWithRule::fromXml,
             RuleEnum.ATTRIBUTE_NOT_ENDS_WITH, AttrNotEndsWithRule::fromXml,
@@ -83,32 +84,5 @@ public class RuleParser {
         return rules;
     }
 
-    public static String getText(Element parent, String tagName) {
-        NodeList nodes = parent.getElementsByTagName(tagName);
-        return nodes.getLength() > 0 ? nodes.item(0).getTextContent().trim() : null;
-    }
-
-    public enum RuleStructureEnum {
-        RULE_TAG("rule"),
-        NAME_ATTR("name"),
-        REQUIRED_TAG("requiredTag"),
-        EXCLUDED_ANCESTOR_TAGS("excludedAncestorTags"),
-        TAG_TAG("tag"),
-        TARGET_ATTRIBUTE_TAG("targetAttribute"),
-        REQUIRED_PREFIX_TAG("requiredPrefix"),
-        CONDITION_ATTRIBUTE_TAG("conditionAttribute"),
-        CONDITION_VALUE_TAG("conditionValue"),
-        REQUIRED_SUFFIX_TAG("requiredSuffix");
-
-        private final String value;
-
-        RuleStructureEnum(final String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return this.value;
-        }
-    }
 
 }

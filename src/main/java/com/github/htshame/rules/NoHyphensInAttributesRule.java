@@ -21,7 +21,7 @@ public class NoHyphensInAttributesRule implements Rule {
 
     @Override
     public void validate(Document doc, File file) throws ValidationException {
-        validateElement(doc.getDocumentElement(), file);
+        validateElement(doc.getDocumentElement());
     }
 
     @Override
@@ -33,7 +33,7 @@ public class NoHyphensInAttributesRule implements Rule {
         return new NoHyphensInAttributesRule();
     }
 
-    private void validateElement(Element element, File file) throws ValidationException {
+    private void validateElement(Element element) throws ValidationException {
         NamedNodeMap attributes = element.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {
             Attr attr = (Attr) attributes.item(i);
@@ -58,7 +58,7 @@ public class NoHyphensInAttributesRule implements Rule {
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child.getNodeType() == Node.ELEMENT_NODE) {
-                validateElement((Element) child, file);
+                validateElement((Element) child);
             }
         }
     }

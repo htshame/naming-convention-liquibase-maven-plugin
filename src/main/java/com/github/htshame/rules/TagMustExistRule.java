@@ -1,7 +1,9 @@
 package com.github.htshame.rules;
 
+import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,8 +42,13 @@ public class TagMustExistRule implements Rule {
         if (!isExcluded) {
             boolean hasRequiredChild = hasRequiredChild(element);
             if (!hasRequiredChild) {
-                String errorMessage = String.format("File: %s. Tag <%s> does not contain required tag <%s>",
-                        file.getName(), tagName, requiredTag);
+                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
+                String errorMessage = String.format(
+                        "ChangeSet: id=\"%s\", author=\"%s\". Tag <%s> does not contain required tag <%s>",
+                        changeSetAttributeDto.getId(),
+                        changeSetAttributeDto.getAuthor(),
+                        tagName,
+                        requiredTag);
                 throw new ValidationException(errorMessage);
             }
 

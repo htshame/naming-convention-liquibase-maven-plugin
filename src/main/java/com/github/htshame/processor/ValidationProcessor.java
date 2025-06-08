@@ -22,24 +22,24 @@ import static com.github.htshame.rules.Rule.GLOBALLY_EXCLUDED_TAGS;
 public class ValidationProcessor {
 
     public List<String> validate(List<File> changeLogFiles, Set<Rule> rules, ExclusionParser exclusionParser) {
-        List<String> violations = new ArrayList<>();
+        List<String> validationErrors = new ArrayList<>();
         for (File changeLogFile : changeLogFiles) {
             Set<Rule> rulesToValidateWith = excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
-            violations.addAll(processValidation(changeLogFile, rulesToValidateWith));
+            validationErrors.addAll(processValidation(changeLogFile, rulesToValidateWith));
         }
-        return violations;
+        return validationErrors;
     }
 
     private List<String> processValidation(File changeLogFile, Set<Rule> rules) {
-        List<String> violations = new ArrayList<>();
+        List<String> validationErrors = new ArrayList<>();
         Document doc;
         try {
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             doc = builder.parse(changeLogFile);
             doc.getDocumentElement().normalize();
         } catch (Exception e) {
-            violations.add("[" + changeLogFile.getName() + "] Failed to parse: " + e.getMessage());
-            return violations;
+            validationErrors.add("[" + changeLogFile.getName() + "] Failed to parse: " + e.getMessage());
+            return validationErrors;
         }
 
         stripExcludedTagAttributes(doc);
@@ -48,11 +48,11 @@ public class ValidationProcessor {
             try {
                 rule.validate(doc, changeLogFile);
             } catch (ValidationException e) {
-                violations.add("[" + changeLogFile.getName() + "] " + e.getMessage());
+                validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
             }
         }
 
-        return violations;
+        return validationErrors;
     }
 
     private static void stripExcludedTagAttributes(Document doc) {

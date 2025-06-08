@@ -1,12 +1,16 @@
 package com.github.htshame.rules;
 
+import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AttrNotStartsWithRule implements Rule {
 
@@ -28,13 +32,29 @@ public class AttrNotStartsWithRule implements Rule {
     @Override
     public void validate(Document doc, File file) throws ValidationException {
         NodeList nodes = doc.getElementsByTagName(tag);
+        List<String> errors = new ArrayList<>();
+
         for (int i = 0; i < nodes.getLength(); i++) {
             Element elem = (Element) nodes.item(i);
-            if (elem.hasAttribute(attribute) && !elem.getAttribute(attribute).startsWith(prefix)) {
-                String errorMessage = String.format("File: %s. <%s %s=\"%s\"> must start with \"%s\"",
-                        file.getName(), tag, attribute, elem.getAttribute(attribute), prefix);
-                throw new ValidationException(errorMessage);
+            String attrValue = elem.getAttribute(attribute);
+            if (elem.hasAttribute(attribute) && !attrValue.startsWith(prefix)) {
+                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(elem);
+                String error = String.format(
+                        "ChangeSet: id=\"%s\", author=\"%s\". <%s %s=\"%s\"> must start with \"%s\"",
+                        changeSetAttributeDto.getId(),
+                        changeSetAttributeDto.getAuthor(),
+                        tag,
+                        attribute,
+                        attrValue,
+                        prefix
+                );
+                errors.add(error);
             }
         }
+
+        if (!errors.isEmpty()) {
+            throw new ValidationException(String.join("\n", errors));
+        }
     }
+
 }

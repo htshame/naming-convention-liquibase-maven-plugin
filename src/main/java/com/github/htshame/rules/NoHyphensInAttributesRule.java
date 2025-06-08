@@ -1,7 +1,9 @@
 package com.github.htshame.rules;
 
+import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,9 +37,11 @@ public class NoHyphensInAttributesRule implements Rule {
             String attrValue = attr.getValue();
 
             if (!EXCLUDED_ATTRIBUTES.contains(attrName) && attrValue.contains(HYPHEN)) {
+                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(
-                        "File: %s. Attribute %s in element <%s> contains hyphen in value: [%s]. Rule: %s",
-                        file.getName(),
+                        "ChangeSet: id=\"%s\", author=\"%s\". Attribute %s in element <%s> contains hyphen in value: [%s]. Rule: %s",
+                        changeSetAttributeDto.getId(),
+                        changeSetAttributeDto.getAuthor(),
                         attrName,
                         element.getTagName(),
                         attrValue,

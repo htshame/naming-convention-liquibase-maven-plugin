@@ -21,6 +21,8 @@ import java.util.Set;
 @Mojo(name = "validate-liquibase-xml", defaultPhase = LifecyclePhase.COMPILE)
 public class XmlValidatorMojo extends AbstractMojo {
 
+    private static final String INVALID_PATH = "Invalid path: ";
+
     /**
      * Path to the XML file with rules.
      */
@@ -60,16 +62,27 @@ public class XmlValidatorMojo extends AbstractMojo {
             throw new MojoExecutionException(e.getMessage());
         }
 
-        List<String> allViolations = new ValidationProcessor().validate(changeLogFiles, rules, exclusionParser);
+        List<String> validationErrors = new ValidationProcessor().validate(changeLogFiles, rules, exclusionParser);
 
-        if (!allViolations.isEmpty()) {
+        checkValidationResult(validationErrors);
+
+        getLog().info("All ChangeLog files passed validation.");
+    }
+
+    /**
+     * Check is validation errors exist. Log them if they do.
+     *
+     * @param validationErrors - list of validation errors.
+     * @throws MojoExecutionException - thrown in there are validation errors.
+     */
+    private void checkValidationResult(List<String> validationErrors) throws MojoExecutionException {
+        if (!validationErrors.isEmpty()) {
             getLog().error("====== Liquibase changeset validation failed ======");
-            for (String v : allViolations) {
+            for (String v : validationErrors) {
                 getLog().error(v);
             }
-            throw new MojoExecutionException("Validation failed: " + allViolations.size() + " violation(s) found.");
+            throw new MojoExecutionException("Validation failed: " + validationErrors.size() + " violation(s) found.");
         }
-        getLog().info("All ChangeLog files passed validation.");
     }
 
     /**
@@ -81,10 +94,13 @@ public class XmlValidatorMojo extends AbstractMojo {
      */
     private void validateInput() throws MojoExecutionException {
         if (!changeLogDirectory.isDirectory()) {
-            throw new MojoExecutionException("Invalid path: " + changeLogDirectory);
+            throw new MojoExecutionException(INVALID_PATH + changeLogDirectory);
         }
         if (!pathToRulesFile.exists()) {
-            throw new MojoExecutionException("Invalid path: " + pathToRulesFile);
+            throw new MojoExecutionException(INVALID_PATH + pathToRulesFile);
+        }
+        if (pathToExclusionsFile != null && !pathToExclusionsFile.exists()) {
+            throw new MojoExecutionException(INVALID_PATH + pathToExclusionsFile);
         }
     }
 

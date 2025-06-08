@@ -1,13 +1,36 @@
 package com.github.htshame.rules;
 
+import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
 
+/**
+ * Business logic for "attr-not-ends-with" rule.
+ * <p>
+ * Checks that the value of given attribute starts with given prefix.
+ * <p>
+ * E.g.:
+ * <p>
+ * Rule configuration:
+ * <pre><code>
+ *     <rule name="attr-not-starts-with">
+ *         <tag>createIndex</tag>
+ *         <targetAttribute>indexName</targetAttribute>
+ *         <requiredPrefix>idx_</requiredPrefix>
+ *     </rule>
+ * </code></pre>
+ * will verify that value of <code>indexName</code>
+ * <pre><code>
+ *     <createIndex indexName="idx_user_metadata_external_user_id"/>
+ * </code></pre>
+ * indeed starts with <code>idx_</code>.
+ */
 public class AttrNotEndsWithRule implements Rule {
 
     private final String tag;
@@ -37,13 +60,16 @@ public class AttrNotEndsWithRule implements Rule {
     public void validate(Document doc, File file) throws ValidationException {
         NodeList elements = doc.getElementsByTagName(tag);
         for (int i = 0; i < elements.getLength(); i++) {
-            Element elem = (Element) elements.item(i);
-            if (conditionValue.equals(elem.getAttribute(conditionAttribute))) {
-                String actualValue = elem.getAttribute(targetAttribute);
+            Element element = (Element) elements.item(i);
+            if (conditionValue.equals(element.getAttribute(conditionAttribute))) {
+                String actualValue = element.getAttribute(targetAttribute);
                 if (!actualValue.endsWith(requiredSuffix)) {
+                    ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                     String errorMessage = String.format(
-                            "File: %s. Tag <%s> with %s=\"%s\" must have %s ending with [%s], but found: [%s]",
-                            file.getName(),
+                            "ChangeSet: id=\"%s\", author=\"%s\". Tag <%s> with %s=\"%s\" must have %s ending with "
+                                    + "[%s], but found: [%s]",
+                            changeSetAttributeDto.getId(),
+                            changeSetAttributeDto.getAuthor(),
                             tag,
                             conditionAttribute,
                             conditionValue,

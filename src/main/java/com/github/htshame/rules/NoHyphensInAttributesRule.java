@@ -29,6 +29,10 @@ public class NoHyphensInAttributesRule implements Rule {
         return RuleEnum.NO_HYPHENS_IN_ATTRIBUTES;
     }
 
+    public static NoHyphensInAttributesRule fromXml(Element element) {
+        return new NoHyphensInAttributesRule();
+    }
+
     private void validateElement(Element element, File file) throws ValidationException {
         NamedNodeMap attributes = element.getAttributes();
         for (int i = 0; i < attributes.getLength(); i++) {

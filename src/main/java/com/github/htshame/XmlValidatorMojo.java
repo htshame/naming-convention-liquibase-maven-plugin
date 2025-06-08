@@ -54,7 +54,7 @@ public class XmlValidatorMojo extends AbstractMojo {
         List<File> changeLogFiles;
 
         try {
-            rules = RuleParser.parseRules(pathToRulesFile);
+            rules = new RuleParser().parseRules(pathToRulesFile);
             exclusionParser = ExclusionParser.parseExclusions(pathToExclusionsFile);
             changeLogFiles = ChangeLogParser.collectChangeLogFiles(changeLogDirectory);
         } catch (RuleParserException | ExclusionParserException | ChangeLogCollectorException e) {

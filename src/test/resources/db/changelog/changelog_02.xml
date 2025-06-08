@@ -65,7 +65,7 @@
     </changeSet>
 
     <!-- should fail because it does not contain <comment> -->
-    <changeSet id="changelog_02-4" author="test-4">
+    <changeSet id="changelog_02-4" author="test">
 
     </changeSet>
 

@@ -3,6 +3,7 @@ package com.github.htshame.rules;
 import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.parser.RuleParser;
 import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -10,7 +11,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Set;
+
+import static com.github.htshame.parser.RuleParser.getText;
 
 public class TagMustExistRule implements Rule {
 
@@ -25,6 +29,18 @@ public class TagMustExistRule implements Rule {
     @Override
     public RuleEnum getName() {
         return RuleEnum.TAG_MUST_EXIST;
+    }
+
+    public static TagMustExistRule fromXml(Element element) {
+        String requiredChild = getText(element, RuleParser.RuleStructureEnum.REQUIRED_TAG.getValue());
+        Set<String> excludedParents = new HashSet<>();
+        NodeList excludedTagElements = ((Element) element
+                .getElementsByTagName(RuleParser.RuleStructureEnum.EXCLUDED_ANCESTOR_TAGS.getValue()).item(0))
+                .getElementsByTagName(RuleParser.RuleStructureEnum.TAG_TAG.getValue());
+        for (int j = 0; j < excludedTagElements.getLength(); j++) {
+            excludedParents.add(excludedTagElements.item(j).getTextContent());
+        }
+        return new TagMustExistRule(requiredChild, excludedParents);
     }
 
     @Override

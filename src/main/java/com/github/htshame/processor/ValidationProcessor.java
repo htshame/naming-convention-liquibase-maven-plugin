@@ -3,7 +3,6 @@ package com.github.htshame.processor;
 import com.github.htshame.exception.ValidationException;
 import com.github.htshame.parser.ExclusionParser;
 import com.github.htshame.rules.Rule;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -13,15 +12,19 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static com.github.htshame.rules.Rule.GLOBALLY_EXCLUDED_TAGS;
-
 public class ValidationProcessor {
 
-    public List<String> validate(List<File> changeLogFiles, Set<Rule> rules, ExclusionParser exclusionParser) {
+    private static final List<String> GLOBALLY_EXCLUDED_TAGS =
+            Arrays.asList("databaseChangeLog", "comment", "include");
+
+    public List<String> validate(List<File> changeLogFiles,
+                                 Set<Rule> rules,
+                                 ExclusionParser exclusionParser) {
         List<String> validationErrors = new ArrayList<>();
         for (File changeLogFile : changeLogFiles) {
             Set<Rule> rulesToValidateWith = excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);

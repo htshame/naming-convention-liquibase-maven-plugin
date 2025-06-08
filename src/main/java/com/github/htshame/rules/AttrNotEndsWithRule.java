@@ -3,12 +3,15 @@ package com.github.htshame.rules;
 import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.parser.RuleParser;
 import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+
+import static com.github.htshame.parser.RuleParser.getText;
 
 /**
  * Business logic for "attr-not-ends-with" rule.
@@ -54,6 +57,15 @@ public class AttrNotEndsWithRule implements Rule {
     @Override
     public RuleEnum getName() {
         return RuleEnum.ATTRIBUTE_NOT_ENDS_WITH;
+    }
+
+    public static AttrNotEndsWithRule fromXml(Element element) {
+        return new AttrNotEndsWithRule(
+                getText(element, RuleParser.RuleStructureEnum.TAG_TAG.getValue()),
+                getText(element, RuleParser.RuleStructureEnum.CONDITION_ATTRIBUTE_TAG.getValue()),
+                getText(element, RuleParser.RuleStructureEnum.CONDITION_VALUE_TAG.getValue()),
+                getText(element, RuleParser.RuleStructureEnum.TARGET_ATTRIBUTE_TAG.getValue()),
+                getText(element, RuleParser.RuleStructureEnum.REQUIRED_SUFFIX_TAG.getValue()));
     }
 
     @Override

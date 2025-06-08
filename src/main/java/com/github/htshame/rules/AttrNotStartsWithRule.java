@@ -3,6 +3,7 @@ package com.github.htshame.rules;
 import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.parser.RuleParser;
 import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -11,6 +12,8 @@ import org.w3c.dom.NodeList;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.github.htshame.parser.RuleParser.getText;
 
 public class AttrNotStartsWithRule implements Rule {
 
@@ -27,6 +30,13 @@ public class AttrNotStartsWithRule implements Rule {
     @Override
     public RuleEnum getName() {
         return RuleEnum.ATTRIBUTE_NOT_STARTS_WITH;
+    }
+
+    public static AttrNotStartsWithRule fromXml(Element element) {
+        return new AttrNotStartsWithRule(
+                getText(element, RuleParser.RuleStructureEnum.TAG_TAG.getValue()),
+                getText(element, RuleParser.RuleStructureEnum.TARGET_ATTRIBUTE_TAG.getValue()),
+                getText(element, RuleParser.RuleStructureEnum.REQUIRED_PREFIX_TAG.getValue()));
     }
 
     @Override

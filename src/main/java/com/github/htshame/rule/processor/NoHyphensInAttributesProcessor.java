@@ -1,8 +1,9 @@
-package com.github.htshame.rules;
+package com.github.htshame.rule.processor;
 
 import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.rule.Rule;
 import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -26,7 +27,7 @@ import java.util.List;
  *    <rule name="no-hyphens-in-attributes"/>
  * </code></pre>
  */
-public class NoHyphensInAttributesRule implements Rule {
+public class NoHyphensInAttributesProcessor implements Rule {
 
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String HYPHEN = "-";
@@ -56,10 +57,10 @@ public class NoHyphensInAttributesRule implements Rule {
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
-     * @return instance of {@link NoHyphensInAttributesRule}.
+     * @return instance of {@link NoHyphensInAttributesProcessor}.
      */
-    public static NoHyphensInAttributesRule fromXml(final Element element) {
-        return new NoHyphensInAttributesRule();
+    public static NoHyphensInAttributesProcessor fromXml(final Element element) {
+        return new NoHyphensInAttributesProcessor();
     }
 
     /**

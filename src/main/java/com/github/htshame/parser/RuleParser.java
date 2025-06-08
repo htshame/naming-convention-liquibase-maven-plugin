@@ -3,12 +3,12 @@ package com.github.htshame.parser;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.enums.RuleStructureEnum;
 import com.github.htshame.exception.RuleParserException;
-import com.github.htshame.rules.AttrNotEndsWithRule;
-import com.github.htshame.rules.AttrNotStartsWithRule;
-import com.github.htshame.rules.NoHyphensInAttributesRule;
-import com.github.htshame.rules.Rule;
-import com.github.htshame.rules.RuleFactory;
-import com.github.htshame.rules.TagMustExistRule;
+import com.github.htshame.rule.processor.AttrNotEndsWithProcessor;
+import com.github.htshame.rule.processor.AttrNotStartsWithProcessor;
+import com.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
+import com.github.htshame.rule.Rule;
+import com.github.htshame.rule.RuleFactory;
+import com.github.htshame.rule.processor.TagMustExistProcessor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -55,10 +55,10 @@ public class RuleParser {
      * Map of rule processors mapped to the corresponding {@link RuleEnum}.
      */
     private final Map<RuleEnum, RuleFactory> ruleMap = Map.of(
-            RuleEnum.TAG_MUST_EXIST, TagMustExistRule::fromXml,
-            RuleEnum.ATTRIBUTE_NOT_STARTS_WITH, AttrNotStartsWithRule::fromXml,
-            RuleEnum.ATTRIBUTE_NOT_ENDS_WITH, AttrNotEndsWithRule::fromXml,
-            RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesRule::fromXml
+            RuleEnum.TAG_MUST_EXIST, TagMustExistProcessor::fromXml,
+            RuleEnum.ATTRIBUTE_NOT_STARTS_WITH, AttrNotStartsWithProcessor::fromXml,
+            RuleEnum.ATTRIBUTE_NOT_ENDS_WITH, AttrNotEndsWithProcessor::fromXml,
+            RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesProcessor::fromXml
     );
 
     /**
@@ -71,21 +71,22 @@ public class RuleParser {
     public Set<Rule> parseRules(final File rulesetFile) throws RuleParserException {
         Set<Rule> rules = new HashSet<>();
         try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
-            NodeList ruleNodes = doc.getElementsByTagName(RuleStructureEnum.RULE_TAG.getValue());
+            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
+            NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE_TAG.getValue());
             for (int i = 0; i < ruleNodes.getLength(); i++) {
-                Element ruleElem = (Element) ruleNodes.item(i);
-                RuleEnum type = RuleEnum.fromValue(ruleElem.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
+                Element ruleElement = (Element) ruleNodes.item(i);
+                RuleEnum ruleType =
+                        RuleEnum.fromValue(ruleElement.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
 
-                RuleFactory ruleFactory = ruleMap.get(type);
+                RuleFactory ruleFactory = ruleMap.get(ruleType);
                 if (ruleFactory == null) {
-                    throw new RuleParserException("Unknown rule type: [" + type + "]");
+                    throw new RuleParserException("Unknown rule type: [" + ruleType + "]");
                 }
                 try {
-                    Rule rule = ruleFactory.fromXml(ruleElem);
+                    Rule rule = ruleFactory.fromXml(ruleElement);
                     rules.add(rule);
                 } catch (Exception e) {
-                    throw new RuntimeException("Failed to instantiate rule for type: " + type, e);
+                    throw new RuntimeException("Failed to instantiate rule for type: " + ruleType, e);
                 }
             }
         } catch (Exception e) {

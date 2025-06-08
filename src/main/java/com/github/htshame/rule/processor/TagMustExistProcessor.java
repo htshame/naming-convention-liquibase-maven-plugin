@@ -1,9 +1,10 @@
-package com.github.htshame.rules;
+package com.github.htshame.rule.processor;
 
 import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.enums.RuleStructureEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.rule.Rule;
 import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -40,7 +41,7 @@ import static com.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * contains <code>comment</code>.
  */
-public class TagMustExistRule implements Rule {
+public class TagMustExistProcessor implements Rule {
 
     private final String requiredTag;
     private final Set<String> excludedTags;
@@ -51,8 +52,8 @@ public class TagMustExistRule implements Rule {
      * @param requiredTag  - rule.requiredTag value.
      * @param excludedTags - set of rule.excludedAncestorLog values.
      */
-    public TagMustExistRule(final String requiredTag,
-                            final Set<String> excludedTags) {
+    public TagMustExistProcessor(final String requiredTag,
+                                 final Set<String> excludedTags) {
         this.requiredTag = requiredTag;
         this.excludedTags = excludedTags;
     }
@@ -71,9 +72,9 @@ public class TagMustExistRule implements Rule {
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
-     * @return instance of {@link TagMustExistRule}.
+     * @return instance of {@link TagMustExistProcessor}.
      */
-    public static TagMustExistRule fromXml(final Element element) {
+    public static TagMustExistProcessor fromXml(final Element element) {
         String requiredChild = getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTagElements = ((Element) element
@@ -82,7 +83,7 @@ public class TagMustExistRule implements Rule {
         for (int j = 0; j < excludedTagElements.getLength(); j++) {
             excludedParents.add(excludedTagElements.item(j).getTextContent());
         }
-        return new TagMustExistRule(requiredChild, excludedParents);
+        return new TagMustExistProcessor(requiredChild, excludedParents);
     }
 
     /**

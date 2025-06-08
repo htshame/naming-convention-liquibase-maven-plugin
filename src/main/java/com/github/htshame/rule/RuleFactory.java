@@ -1,4 +1,4 @@
-package com.github.htshame.rules;
+package com.github.htshame.rule;
 
 import org.w3c.dom.Element;
 

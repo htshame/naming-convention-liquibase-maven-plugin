@@ -1,4 +1,4 @@
-package com.github.htshame.rules;
+package com.github.htshame.rule;
 
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.exception.ValidationException;

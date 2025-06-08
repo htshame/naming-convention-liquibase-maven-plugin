@@ -1,9 +1,10 @@
-package com.github.htshame.rules;
+package com.github.htshame.rule.processor;
 
 import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.enums.RuleStructureEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.rule.Rule;
 import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,7 +36,7 @@ import static com.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * indeed starts with <code>idx_</code>.
  */
-public class AttrNotStartsWithRule implements Rule {
+public class AttrNotStartsWithProcessor implements Rule {
 
     private final String tag;
     private final String attribute;
@@ -48,9 +49,9 @@ public class AttrNotStartsWithRule implements Rule {
      * @param attribute - rule.targetAttribute value.
      * @param prefix    - rule.requiredPrefix value.
      */
-    public AttrNotStartsWithRule(final String tag,
-                                 final String attribute,
-                                 final String prefix) {
+    public AttrNotStartsWithProcessor(final String tag,
+                                      final String attribute,
+                                      final String prefix) {
         this.tag = tag;
         this.attribute = attribute;
         this.prefix = prefix;
@@ -70,10 +71,10 @@ public class AttrNotStartsWithRule implements Rule {
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
-     * @return instance of {@link AttrNotStartsWithRule}.
+     * @return instance of {@link AttrNotStartsWithProcessor}.
      */
-    public static AttrNotStartsWithRule fromXml(final Element element) {
-        return new AttrNotStartsWithRule(
+    public static AttrNotStartsWithProcessor fromXml(final Element element) {
+        return new AttrNotStartsWithProcessor(
                 getText(element, RuleStructureEnum.TAG_TAG.getValue()),
                 getText(element, RuleStructureEnum.TARGET_ATTRIBUTE_TAG.getValue()),
                 getText(element, RuleStructureEnum.REQUIRED_PREFIX_TAG.getValue()));

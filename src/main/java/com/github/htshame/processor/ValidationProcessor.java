@@ -2,7 +2,7 @@ package com.github.htshame.processor;
 
 import com.github.htshame.exception.ValidationException;
 import com.github.htshame.parser.ExclusionParser;
-import com.github.htshame.rules.Rule;
+import com.github.htshame.rule.Rule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;

@@ -7,7 +7,7 @@ import com.github.htshame.parser.ChangeLogParser;
 import com.github.htshame.parser.ExclusionParser;
 import com.github.htshame.parser.RuleParser;
 import com.github.htshame.processor.ValidationProcessor;
-import com.github.htshame.rules.Rule;
+import com.github.htshame.rule.Rule;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;

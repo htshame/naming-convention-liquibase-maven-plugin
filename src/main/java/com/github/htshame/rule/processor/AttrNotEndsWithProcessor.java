@@ -1,9 +1,10 @@
-package com.github.htshame.rules;
+package com.github.htshame.rule.processor;
 
 import com.github.htshame.dto.ChangeSetAttributeDto;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.enums.RuleStructureEnum;
 import com.github.htshame.exception.ValidationException;
+import com.github.htshame.rule.Rule;
 import com.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -36,7 +37,7 @@ import static com.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * indeed ends with <code>_unique</code>.
  */
-public class AttrNotEndsWithRule implements Rule {
+public class AttrNotEndsWithProcessor implements Rule {
 
     private final String tag;
     private final String conditionAttribute;
@@ -53,11 +54,11 @@ public class AttrNotEndsWithRule implements Rule {
      * @param targetAttribute    - rule.targetAttribute value.
      * @param requiredSuffix     - rule.requiredSuffix value.
      */
-    public AttrNotEndsWithRule(final String tag,
-                               final String conditionAttribute,
-                               final String conditionValue,
-                               final String targetAttribute,
-                               final String requiredSuffix) {
+    public AttrNotEndsWithProcessor(final String tag,
+                                    final String conditionAttribute,
+                                    final String conditionValue,
+                                    final String targetAttribute,
+                                    final String requiredSuffix) {
         this.tag = tag;
         this.conditionAttribute = conditionAttribute;
         this.conditionValue = conditionValue;
@@ -79,10 +80,10 @@ public class AttrNotEndsWithRule implements Rule {
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
-     * @return instance of {@link AttrNotEndsWithRule}.
+     * @return instance of {@link AttrNotEndsWithProcessor}.
      */
-    public static AttrNotEndsWithRule fromXml(final Element element) {
-        return new AttrNotEndsWithRule(
+    public static AttrNotEndsWithProcessor fromXml(final Element element) {
+        return new AttrNotEndsWithProcessor(
                 getText(element, RuleStructureEnum.TAG_TAG.getValue()),
                 getText(element, RuleStructureEnum.CONDITION_ATTRIBUTE_TAG.getValue()),
                 getText(element, RuleStructureEnum.CONDITION_VALUE_TAG.getValue()),

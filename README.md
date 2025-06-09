@@ -1,18 +1,21 @@
-### — You use Liquibase?
+### You use Liquibase?
 
-### — You work with other developers whom you can't really control with PR reviews?
+### You work with other developers whom you can't really control with PR reviews?
 
-### — Tired of inconsistent names of tables, indexes, foreign keys and other parts of the database schema?
+### Tired of inconsistent names of tables, indexes, foreign keys and other parts of the database schema?
 
-## naming-convention-liquibase-maven-plugin is here to help!
+Just use <b>naming-convention-liquibase-maven-plugin</b>!
 
 This plugin allows you to create a set of rules and enforce them.
 
-If someone names the index 'customer_external_id_idx' instead of 'idx_customer_external_id' (or vice versa), the build
+- If someone names the index 'customer_external_id_idx' instead of 'idx_customer_external_id' (or vice versa), the build
 will fail!
-If someone names the table 'customer-metadata' instead of 'customer_metadata' (or vice versa), the build will fail!
-If someone does not write <comment> to the changeSet, the build will fail!
-If someone... - well, you get the point!
+
+- If someone names the table 'customer-metadata' instead of 'customer_metadata' (or vice versa), the build will fail!
+
+- If someone does not write <comment> to the changeSet, the build will fail!
+
+- If someone... - well, you get the point!
 ---
 
 # How do I use it?

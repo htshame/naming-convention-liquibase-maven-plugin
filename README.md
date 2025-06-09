@@ -1,4 +1,4 @@
-### You use Liquibase?
+### You use [Liquibase](https://github.com/liquibase/liquibase)?
 
 ### You work with other developers whom you can't really control with PR reviews?
 
@@ -9,19 +9,21 @@ Just use <b>naming-convention-liquibase-maven-plugin</b>!
 This plugin allows you to create a set of rules and enforce them.
 
 - If someone names the index 'customer_external_id_idx' instead of 'idx_customer_external_id' (or vice versa), the build
-will fail!
+  will fail!
 
 - If someone names the table 'customer-metadata' instead of 'customer_metadata' (or vice versa), the build will fail!
 
 - If someone does not write <comment> to the changeSet, the build will fail!
 
 - If someone... - well, you get the point!
+
 ---
 
 # How do I use it?
 
 1. Create rules.xml (or name it differently) file and provide it in `<pathToRulesFile>`: e.g. {link}
-2. Create exclusions.xml (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`: e.g. {link}
+2. Create exclusions.xml (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`: e.g.
+   {link}
 3. Provide the path to the directory with Liquibase XML changeLogs in `<changeLogDirectory>`.
 4. Put this into your pom.xml:
     ```xml
@@ -88,58 +90,82 @@ Example:
     <requiredPrefix>idx_</requiredPrefix>
 </rule>
 ```
+
 Will check that each `indexName` attribute of each `<createIndex>` tag starts with `idx_`.
 
 ### attr-ends-with
+
 Checks that specified attribute ends with specified value.
 
 Example:
+
 ```xml
-    <rule name="attr-ends-with">
-        <tag>addForeignKeyConstraint</tag>
-        <targetAttribute>constraintName</targetAttribute>
-        <requiredSuffix>_fk</requiredSuffix>
-    </rule>
+
+<rule name="attr-ends-with">
+    <tag>addForeignKeyConstraint</tag>
+    <targetAttribute>constraintName</targetAttribute>
+    <requiredSuffix>_fk</requiredSuffix>
+</rule>
 ```
+
 Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `__fk`.
 
 ### attr-ends-with-conditioned
+
 Checks that specified attribute ends with specified value if the certain attribute is present and has certain value.
 
 Example:
+
 ```xml
-    <rule name="attr-ends-with-conditioned">
-        <tag>createIndex</tag>
-        <conditionAttribute>unique</conditionAttribute>
-        <conditionValue>true</conditionValue>
-        <targetAttribute>indexName</targetAttribute>
-        <requiredSuffix>_unique</requiredSuffix>
-    </rule>
+
+<rule name="attr-ends-with-conditioned">
+    <tag>createIndex</tag>
+    <conditionAttribute>unique</conditionAttribute>
+    <conditionValue>true</conditionValue>
+    <targetAttribute>indexName</targetAttribute>
+    <requiredSuffix>_unique</requiredSuffix>
+</rule>
 ```
-Will check that each `indexName` attribute of each `<createIndex>` tag ends with `_unique` if attribute `unique="true"`is present. 
+
+Will check that each `indexName` attribute of each `<createIndex>` tag ends with `_unique` if attribute `unique="true"`
+is present.
 
 ### no-hyphens-in-attributes
 
 Example:
+
 ```xml
+
 <rule name="no-hyphens-in-attributes"/>
 ```
-Checks that `-` are not present in the changeLog at all. `<databaseChangeLog>`, `<comment>`, `<included>` tags are excluded from the check.
+
+Checks that `-` are not present in the changeLog at all. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
+excluded from the check.
 
 ### no-underscores-in-attributes
 
 Example:
+
 ```xml
+
 <rule name="no-underscores-in-attributes"/>
 ```
-Checks that `_` are not present in the changeLog at all. `<databaseChangeLog>`, `<comment>`, `<included>` tags are excluded from the check.
+
+Checks that `_` are not present in the changeLog at all. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
+excluded from the check.
 
 ---
+
 ## Exclusions
 
 You can always add an exclusion to the set of rules. Create a separate `exclusions.xml` (or give it another name).
 
 Example:
+
 ```xml
+
 <exclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
 ```
+
+License
+[Apache 2.0 License.](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/LICENSE)

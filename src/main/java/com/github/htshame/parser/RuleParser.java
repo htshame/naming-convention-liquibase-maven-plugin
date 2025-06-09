@@ -3,8 +3,8 @@ package com.github.htshame.parser;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.enums.RuleStructureEnum;
 import com.github.htshame.exception.RuleParserException;
-import com.github.htshame.rule.processor.AttrNotEndsWithProcessor;
-import com.github.htshame.rule.processor.AttrNotStartsWithProcessor;
+import com.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
+import com.github.htshame.rule.processor.AttrStartsWithProcessor;
 import com.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
 import com.github.htshame.rule.Rule;
 import com.github.htshame.rule.RuleFactory;
@@ -32,13 +32,13 @@ import java.util.Set;
  *         </excludedAncestorTags>
  *     </rule>
  *
- *    <rule type="attr-not-starts-with">
+ *    <rule type="attr-starts-with">
  *         <tag>createIndex</tag>
  *         <targetAttribute>indexName</targetAttribute>
  *         <requiredPrefix>idx_</requiredPrefix>
  *     </rule>
  *
- *    <rule type="attr-not-ends-with">
+ *    <rule type="attr-ends-with-conditioned">
  *         <tag>createIndex</tag>
  *         <conditionAttribute>unique</conditionAttribute>
  *         <conditionValue>true</conditionValue>
@@ -56,8 +56,8 @@ public class RuleParser {
      */
     private final Map<RuleEnum, RuleFactory> ruleMap = Map.of(
             RuleEnum.TAG_MUST_EXIST, TagMustExistProcessor::fromXml,
-            RuleEnum.ATTRIBUTE_NOT_STARTS_WITH, AttrNotStartsWithProcessor::fromXml,
-            RuleEnum.ATTRIBUTE_NOT_ENDS_WITH, AttrNotEndsWithProcessor::fromXml,
+            RuleEnum.ATTRIBUTE_STARTS_WITH, AttrStartsWithProcessor::fromXml,
+            RuleEnum.ATTRIBUTE_ENDS_WITH, AttrEndsWithConditionedProcessor::fromXml,
             RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesProcessor::fromXml
     );
 

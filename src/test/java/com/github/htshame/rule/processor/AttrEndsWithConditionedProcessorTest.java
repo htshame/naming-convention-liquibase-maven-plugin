@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class AttrNotEndsWithProcessorTest {
+public class AttrEndsWithConditionedProcessorTest {
 
     private static final String TAG = "createIndex";
     private static final String CONDITION_ATTRIBUTE = "unique";
@@ -39,10 +39,10 @@ public class AttrNotEndsWithProcessorTest {
         Element ruleElement = (Element) ruleNodes.item(0);
 
         // act
-        RuleEnum actual = AttrNotEndsWithProcessor.fromXml(ruleElement).getName();
+        RuleEnum actual = AttrEndsWithConditionedProcessor.fromXml(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.ATTRIBUTE_NOT_ENDS_WITH, actual);
+        assertEquals(RuleEnum.ATTRIBUTE_ENDS_WITH, actual);
     }
 
     /**
@@ -54,12 +54,12 @@ public class AttrNotEndsWithProcessorTest {
         Document document = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File("src/test/resources/com/github/htshame/rule/processor/"
-                        + "attr-not-ends-with-failure.xml"));
+                        + "attr-ends-with-conditioned-failure.xml"));
         boolean isExceptionThrown = false;
 
         // act
         try {
-            new AttrNotEndsWithProcessor(
+            new AttrEndsWithConditionedProcessor(
                     TAG,
                     CONDITION_ATTRIBUTE,
                     CONDITION_VALUE,
@@ -82,12 +82,12 @@ public class AttrNotEndsWithProcessorTest {
         Document document = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File("src/test/resources/com/github/htshame/rule/processor/"
-                        + "attr-not-ends-with-success.xml"));
+                        + "attr-ends-with-conditioned-success.xml"));
         boolean isExceptionThrown = false;
 
         // act
         try {
-            new AttrNotEndsWithProcessor(
+            new AttrEndsWithConditionedProcessor(
                     TAG,
                     CONDITION_ATTRIBUTE,
                     CONDITION_VALUE,

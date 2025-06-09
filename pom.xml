@@ -7,9 +7,31 @@
     <version>1.0.1</version>
     <packaging>maven-plugin</packaging>
 
-    <name>Liquibase changeSet naming convention Maven Plugin</name>
+    <name>${project.groupId}:${project.artifactId}</name>
+
+    <description>
+        A lightweight Maven plugin for validating XML Liquibase changeLog files
+        against a customizable set of structural and content rules.
+        This plugin enables teams to enforce Liquibase changeLog standards across codebases with zero runtime
+        dependencies and minimal configuration overhead.
+    </description>
 
     <url>https://github.com/htshame/naming-convention-liquibase-maven-plugin</url>
+
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git://github.com/htshame/naming-convention-liquibase-maven-plugin</connection>
+        <developerConnection>
+            scm:git:ssh://github.com:htshame/naming-convention-liquibase-maven-plugin.git
+        </developerConnection>
+        <url>https://github.com/htshame/naming-convention-liquibase-maven-plugin/tree/main</url>
+    </scm>
 
     <properties>
         <java.version>11</java.version>

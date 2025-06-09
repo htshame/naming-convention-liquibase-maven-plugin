@@ -13,7 +13,7 @@ import org.w3c.dom.NodeList;
 import static com.github.htshame.util.RuleUtil.getText;
 
 /**
- * Business logic for <code>attr-not-ends-with</code> rule.
+ * Business logic for <code>attr-ends-with-conditioned</code> rule.
  * <p>
  * Checks that the value of given attribute ends with given prefix.
  * <p>
@@ -21,7 +21,7 @@ import static com.github.htshame.util.RuleUtil.getText;
  * <p>
  * Rule configuration:
  * <pre><code>
- *     <rule name="attr-not-ends-with">
+ *     <rule name="attr-ends-with-conditioned">
  *          <tag>createIndex</tag>
  *          <conditionAttribute>unique</conditionAttribute>
  *          <conditionValue>true</conditionValue>
@@ -37,7 +37,7 @@ import static com.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * indeed ends with <code>_unique</code>.
  */
-public class AttrNotEndsWithProcessor implements Rule {
+public class AttrEndsWithConditionedProcessor implements Rule {
 
     private final String tag;
     private final String conditionAttribute;
@@ -54,11 +54,11 @@ public class AttrNotEndsWithProcessor implements Rule {
      * @param targetAttribute    - rule.targetAttribute value.
      * @param requiredSuffix     - rule.requiredSuffix value.
      */
-    public AttrNotEndsWithProcessor(final String tag,
-                                    final String conditionAttribute,
-                                    final String conditionValue,
-                                    final String targetAttribute,
-                                    final String requiredSuffix) {
+    public AttrEndsWithConditionedProcessor(final String tag,
+                                            final String conditionAttribute,
+                                            final String conditionValue,
+                                            final String targetAttribute,
+                                            final String requiredSuffix) {
         this.tag = tag;
         this.conditionAttribute = conditionAttribute;
         this.conditionValue = conditionValue;
@@ -73,17 +73,17 @@ public class AttrNotEndsWithProcessor implements Rule {
      */
     @Override
     public RuleEnum getName() {
-        return RuleEnum.ATTRIBUTE_NOT_ENDS_WITH;
+        return RuleEnum.ATTRIBUTE_ENDS_WITH;
     }
 
     /**
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
-     * @return instance of {@link AttrNotEndsWithProcessor}.
+     * @return instance of {@link AttrEndsWithConditionedProcessor}.
      */
-    public static AttrNotEndsWithProcessor fromXml(final Element element) {
-        return new AttrNotEndsWithProcessor(
+    public static AttrEndsWithConditionedProcessor fromXml(final Element element) {
+        return new AttrEndsWithConditionedProcessor(
                 getText(element, RuleStructureEnum.TAG_TAG.getValue()),
                 getText(element, RuleStructureEnum.CONDITION_ATTRIBUTE_TAG.getValue()),
                 getText(element, RuleStructureEnum.CONDITION_VALUE_TAG.getValue()),

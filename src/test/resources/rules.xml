@@ -9,13 +9,13 @@
         </excludedAncestorTags>
     </rule>
 
-    <rule name="attr-not-starts-with">
+    <rule name="attr-starts-with">
         <tag>createIndex</tag>
         <targetAttribute>indexName</targetAttribute>
         <requiredPrefix>idx_</requiredPrefix>
     </rule>
 
-    <rule name="attr-not-ends-with">
+    <rule name="attr-ends-with-conditioned">
         <tag>createIndex</tag>
         <conditionAttribute>unique</conditionAttribute>
         <conditionValue>true</conditionValue>

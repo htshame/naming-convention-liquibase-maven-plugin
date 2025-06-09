@@ -16,7 +16,7 @@ import java.util.List;
 import static com.github.htshame.util.RuleUtil.getText;
 
 /**
- * Business logic for <code>attr-not-starts-with</code> rule.
+ * Business logic for <code>attr-starts-with</code> rule.
  * <p>
  * Checks that the value of given attribute starts with given prefix.
  * <p>
@@ -24,7 +24,7 @@ import static com.github.htshame.util.RuleUtil.getText;
  * <p>
  * Rule configuration:
  * <pre><code>
- *    <rule name="attr-not-starts-with">
+ *    <rule name="attr-starts-with">
  *         <tag>createIndex</tag>
  *         <targetAttribute>indexName</targetAttribute>
  *         <requiredPrefix>idx_</requiredPrefix>
@@ -36,7 +36,7 @@ import static com.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * indeed starts with <code>idx_</code>.
  */
-public class AttrNotStartsWithProcessor implements Rule {
+public class AttrStartsWithProcessor implements Rule {
 
     private final String tag;
     private final String attribute;
@@ -49,9 +49,9 @@ public class AttrNotStartsWithProcessor implements Rule {
      * @param attribute - rule.targetAttribute value.
      * @param prefix    - rule.requiredPrefix value.
      */
-    public AttrNotStartsWithProcessor(final String tag,
-                                      final String attribute,
-                                      final String prefix) {
+    public AttrStartsWithProcessor(final String tag,
+                                   final String attribute,
+                                   final String prefix) {
         this.tag = tag;
         this.attribute = attribute;
         this.prefix = prefix;
@@ -64,17 +64,17 @@ public class AttrNotStartsWithProcessor implements Rule {
      */
     @Override
     public RuleEnum getName() {
-        return RuleEnum.ATTRIBUTE_NOT_STARTS_WITH;
+        return RuleEnum.ATTRIBUTE_STARTS_WITH;
     }
 
     /**
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
-     * @return instance of {@link AttrNotStartsWithProcessor}.
+     * @return instance of {@link AttrStartsWithProcessor}.
      */
-    public static AttrNotStartsWithProcessor fromXml(final Element element) {
-        return new AttrNotStartsWithProcessor(
+    public static AttrStartsWithProcessor fromXml(final Element element) {
+        return new AttrStartsWithProcessor(
                 getText(element, RuleStructureEnum.TAG_TAG.getValue()),
                 getText(element, RuleStructureEnum.TARGET_ATTRIBUTE_TAG.getValue()),
                 getText(element, RuleStructureEnum.REQUIRED_PREFIX_TAG.getValue()));

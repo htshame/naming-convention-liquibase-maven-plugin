@@ -8,8 +8,8 @@
         <xs:restriction base="xs:string">
             <xs:enumeration value="tag-must-exist"/>
             <xs:enumeration value="no-hyphens-in-attributes"/>
-            <xs:enumeration value="attr-not-starts-with"/>
-            <xs:enumeration value="attr-not-ends-with"/>
+            <xs:enumeration value="attr-starts-with"/>
+            <xs:enumeration value="attr-ends-with-conditioned"/>
         </xs:restriction>
     </xs:simpleType>
 

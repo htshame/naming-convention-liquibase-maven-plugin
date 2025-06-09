@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class AttrNotStartsWithProcessorTest {
+public class AttrStartsWithProcessorTest {
 
     private static final String TAG = "createIndex";
     private static final String TARGET_ATTRIBUTE = "indexName";
@@ -37,10 +37,10 @@ public class AttrNotStartsWithProcessorTest {
         Element ruleElement = (Element) ruleNodes.item(0);
 
         // act
-        RuleEnum actual = AttrNotStartsWithProcessor.fromXml(ruleElement).getName();
+        RuleEnum actual = AttrStartsWithProcessor.fromXml(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.ATTRIBUTE_NOT_STARTS_WITH, actual);
+        assertEquals(RuleEnum.ATTRIBUTE_STARTS_WITH, actual);
     }
 
     /**
@@ -52,12 +52,12 @@ public class AttrNotStartsWithProcessorTest {
         Document document = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File("src/test/resources/com/github/htshame/rule/processor/"
-                        + "attr-not-starts-with-failure.xml"));
+                        + "attr-starts-with-failure.xml"));
         boolean isExceptionThrown = false;
 
         // act
         try {
-            new AttrNotStartsWithProcessor(
+            new AttrStartsWithProcessor(
                     TAG,
                     TARGET_ATTRIBUTE,
                     REQUIRED_PREFIX).validate(document);
@@ -78,12 +78,12 @@ public class AttrNotStartsWithProcessorTest {
         Document document = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File("src/test/resources/com/github/htshame/rule/processor/"
-                        + "attr-not-starts-with-success.xml"));
+                        + "attr-starts-with-success.xml"));
         boolean isExceptionThrown = false;
 
         // act
         try {
-            new AttrNotStartsWithProcessor(
+            new AttrStartsWithProcessor(
                     TAG,
                     TARGET_ATTRIBUTE,
                     REQUIRED_PREFIX).validate(document);

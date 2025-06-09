@@ -107,7 +107,6 @@ public class TagMustExistProcessor implements Rule {
     private void traverse(final Element element) throws ValidationException {
         String tagName = element.getTagName();
 
-        // Skip excluded tag itself and don't validate, but continue to children
         boolean isExcluded = excludedTags.contains(tagName);
 
         if (!isExcluded) {
@@ -122,12 +121,9 @@ public class TagMustExistProcessor implements Rule {
                         requiredTag);
                 throw new ValidationException(errorMessage);
             }
-
-            // Optimization: if it already has the required child, skip deeper checks
             return;
         }
 
-        // Always continue to recurse children, regardless of whether the element is excluded
         NodeList children = element.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node node = children.item(i);

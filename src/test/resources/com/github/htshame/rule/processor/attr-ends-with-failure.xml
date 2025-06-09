@@ -1,0 +1,23 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="changelog_02_3" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="fk_user_activation_user_profile_id_user_profile_id"/>
+            </not>
+            <tableExists tableName="user_activation"/>
+            <columnExists tableName="user_activation" columnName="user_profile_id"/>
+            <tableExists tableName="user_profile"/>
+            <columnExists tableName="user_profile" columnName="id"/>
+        </preConditions>
+        <comment>
+            Comment
+        </comment>
+        <addForeignKeyConstraint baseTableName="user_activation" baseColumnNames="user_profile_id"
+                                 constraintName="fk_user_activation_user_profile_id_user_profile_id"
+                                 referencedTableName="user_profile" referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

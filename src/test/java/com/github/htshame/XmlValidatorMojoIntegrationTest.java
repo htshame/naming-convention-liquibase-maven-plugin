@@ -29,7 +29,7 @@ public class XmlValidatorMojoIntegrationTest {
             xmlValidatorMojo.execute();
         } catch (MojoExecutionException ae) {
             // assert
-            assertEquals("Validation failed: 4 violation(s) found.", ae.getMessage());
+            assertEquals("Validation failed: 7 violation(s) found.", ae.getMessage());
         }
     }
 

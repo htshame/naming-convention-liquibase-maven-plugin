@@ -18,13 +18,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class AttrEndsWithConditionedProcessorTest {
+public class AttrEndsWithProcessorTest {
 
-    private static final String TAG = "createIndex";
-    private static final String CONDITION_ATTRIBUTE = "unique";
-    private static final String CONDITION_VALUE = "true";
-    private static final String TARGET_ATTRIBUTE = "indexName";
-    private static final String REQUIRED_SUFFIX = "_unique";
+    private static final String TAG = "addForeignKeyConstraint";
+    private static final String TARGET_ATTRIBUTE = "constraintName";
+    private static final String REQUIRED_SUFFIX = "_fk";
 
     /**
      * Test getting the name.
@@ -39,10 +37,10 @@ public class AttrEndsWithConditionedProcessorTest {
         Element ruleElement = (Element) ruleNodes.item(0);
 
         // act
-        RuleEnum actual = AttrEndsWithConditionedProcessor.fromXml(ruleElement).getName();
+        RuleEnum actual = AttrEndsWithProcessor.fromXml(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, actual);
+        assertEquals(RuleEnum.ATTRIBUTE_ENDS_WITH, actual);
     }
 
     /**
@@ -54,15 +52,13 @@ public class AttrEndsWithConditionedProcessorTest {
         Document document = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File("src/test/resources/com/github/htshame/rule/processor/"
-                        + "attr-ends-with-conditioned-failure.xml"));
+                        + "attr-ends-with-failure.xml"));
         boolean isExceptionThrown = false;
 
         // act
         try {
-            new AttrEndsWithConditionedProcessor(
+            new AttrEndsWithProcessor(
                     TAG,
-                    CONDITION_ATTRIBUTE,
-                    CONDITION_VALUE,
                     TARGET_ATTRIBUTE,
                     REQUIRED_SUFFIX).validate(document);
         } catch (ValidationException e) {
@@ -82,15 +78,13 @@ public class AttrEndsWithConditionedProcessorTest {
         Document document = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File("src/test/resources/com/github/htshame/rule/processor/"
-                        + "attr-ends-with-conditioned-success.xml"));
+                        + "attr-ends-with-success.xml"));
         boolean isExceptionThrown = false;
 
         // act
         try {
-            new AttrEndsWithConditionedProcessor(
+            new AttrEndsWithProcessor(
                     TAG,
-                    CONDITION_ATTRIBUTE,
-                    CONDITION_VALUE,
                     TARGET_ATTRIBUTE,
                     REQUIRED_SUFFIX).validate(document);
         } catch (ValidationException e) {

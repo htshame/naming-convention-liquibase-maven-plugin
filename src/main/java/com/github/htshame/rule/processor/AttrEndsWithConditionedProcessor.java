@@ -15,7 +15,7 @@ import static com.github.htshame.util.RuleUtil.getText;
 /**
  * Business logic for <code>attr-ends-with-conditioned</code> rule.
  * <p>
- * Checks that the value of given attribute ends with given prefix.
+ * Checks that the value of given attribute ends with given prefix if the specified condition is met.
  * <p>
  * E.g.:
  * <p>
@@ -73,7 +73,7 @@ public class AttrEndsWithConditionedProcessor implements Rule {
      */
     @Override
     public RuleEnum getName() {
-        return RuleEnum.ATTRIBUTE_ENDS_WITH;
+        return RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED;
     }
 
     /**

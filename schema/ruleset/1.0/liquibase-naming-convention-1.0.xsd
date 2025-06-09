@@ -10,6 +10,8 @@
             <xs:enumeration value="no-hyphens-in-attributes"/>
             <xs:enumeration value="attr-starts-with"/>
             <xs:enumeration value="attr-ends-with-conditioned"/>
+            <xs:enumeration value="attr-ends-with"/>
+            <xs:enumeration value="no-underscores-in-attributes"/>
         </xs:restriction>
     </xs:simpleType>
 

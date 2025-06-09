@@ -6,8 +6,10 @@ package com.github.htshame.enums;
 public enum RuleEnum {
 
     ATTRIBUTE_STARTS_WITH("attr-starts-with"),
-    ATTRIBUTE_ENDS_WITH("attr-ends-with-conditioned"),
+    ATTRIBUTE_ENDS_WITH("attr-ends-with"),
+    ATTRIBUTE_ENDS_WITH_CONDITIONED("attr-ends-with-conditioned"),
     NO_HYPHENS_IN_ATTRIBUTES("no-hyphens-in-attributes"),
+    NO_UNDERSCORES_IN_ATTRIBUTES("no-underscores-in-attributes"),
     TAG_MUST_EXIST("tag-must-exist");
 
     private final String rule;

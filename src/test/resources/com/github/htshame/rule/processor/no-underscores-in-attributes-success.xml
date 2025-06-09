@@ -1,0 +1,15 @@
+    <changeSet id="changelog_02_3" author="test_1">
+        <preConditions onFail="MARK-RAN">
+            <not>
+                <indexExists indexName="user-metadata-external-user-id-unique-idx"/>
+            </not>
+            <tableExists tableName="user-metadata"/>
+            <columnExists tableName="user-metadata" columnName="external-user-id"/>
+        </preConditions>
+        <comment>
+            Comment comment
+        </comment>
+        <createIndex tableName="user-metadata" indexName="user-metadata-external-user-id-unique-idx" unique="true">
+            <column name="external-user-id"/>
+        </createIndex>
+    </changeSet>

@@ -3,12 +3,9 @@ package com.github.htshame.parser;
 import com.github.htshame.enums.RuleEnum;
 import com.github.htshame.enums.RuleStructureEnum;
 import com.github.htshame.exception.RuleParserException;
-import com.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
-import com.github.htshame.rule.processor.AttrStartsWithProcessor;
-import com.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
 import com.github.htshame.rule.Rule;
 import com.github.htshame.rule.RuleFactory;
-import com.github.htshame.rule.processor.TagMustExistProcessor;
+import com.github.htshame.rule.factory.RuleProcessorFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -16,7 +13,6 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -52,16 +48,6 @@ import java.util.Set;
 public class RuleParser {
 
     /**
-     * Map of rule processors mapped to the corresponding {@link RuleEnum}.
-     */
-    private final Map<RuleEnum, RuleFactory> ruleMap = Map.of(
-            RuleEnum.TAG_MUST_EXIST, TagMustExistProcessor::fromXml,
-            RuleEnum.ATTRIBUTE_STARTS_WITH, AttrStartsWithProcessor::fromXml,
-            RuleEnum.ATTRIBUTE_ENDS_WITH, AttrEndsWithConditionedProcessor::fromXml,
-            RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesProcessor::fromXml
-    );
-
-    /**
      * Parse rules file.
      *
      * @param rulesetFile - file with rules.
@@ -78,10 +64,7 @@ public class RuleParser {
                 RuleEnum ruleType =
                         RuleEnum.fromValue(ruleElement.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
 
-                RuleFactory ruleFactory = ruleMap.get(ruleType);
-                if (ruleFactory == null) {
-                    throw new RuleParserException("Unknown rule type: [" + ruleType + "]");
-                }
+                RuleFactory ruleFactory = RuleProcessorFactory.getFactory(ruleType);
                 try {
                     Rule rule = ruleFactory.fromXml(ruleElement);
                     rules.add(rule);

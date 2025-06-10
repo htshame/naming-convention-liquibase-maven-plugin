@@ -168,3 +168,5 @@ Example:
 
 License
 [Apache 2.0 License.](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/LICENSE)
+
+[Link](https://github.com/htshame/naming-convention-liquibase-maven-plugin) to the code repository.

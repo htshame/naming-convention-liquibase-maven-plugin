@@ -19,15 +19,13 @@ This plugin allows you to create a set of rules and enforce them.
 
 ---
 
-# How do I use it?
+# How to use it?
 
-1. Create rules.xml (or name it differently) file and provide it in `<pathToRulesFile>`: e.g. {link}
-2. Create exclusions.xml (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`: e.g.
-   {link}
+1. Create [rules.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/rules_example.xml) (or name it differently) file and provide it in `<pathToRulesFile>`.
+2. Create [exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml) (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`.
 3. Provide the path to the directory with Liquibase XML changeLogs in `<changeLogDirectory>`.
 4. Put this into your pom.xml:
     ```xml
-    
     <plugin>
         <groupId>com.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
@@ -64,7 +62,6 @@ Checks that specified tag exists in every changeSet.
 Example:
 
 ```xml
-
 <rule name="tag-must-exist">
     <requiredTag>comment</requiredTag>
     <excludedAncestorTags>
@@ -83,7 +80,6 @@ Checks that specified attribute starts with specified value.
 Example:
 
 ```xml
-
 <rule name="attr-starts-with">
     <tag>createIndex</tag>
     <targetAttribute>indexName</targetAttribute>
@@ -100,7 +96,6 @@ Checks that specified attribute ends with specified value.
 Example:
 
 ```xml
-
 <rule name="attr-ends-with">
     <tag>addForeignKeyConstraint</tag>
     <targetAttribute>constraintName</targetAttribute>
@@ -117,7 +112,6 @@ Checks that specified attribute ends with specified value if the certain attribu
 Example:
 
 ```xml
-
 <rule name="attr-ends-with-conditioned">
     <tag>createIndex</tag>
     <conditionAttribute>unique</conditionAttribute>
@@ -135,7 +129,6 @@ is present.
 Example:
 
 ```xml
-
 <rule name="no-hyphens-in-attributes"/>
 ```
 
@@ -147,7 +140,6 @@ excluded from the check.
 Example:
 
 ```xml
-
 <rule name="no-underscores-in-attributes"/>
 ```
 
@@ -163,7 +155,6 @@ You can always add an exclusion to the set of rules. Create a separate `exclusio
 Example:
 
 ```xml
-
 <exclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
 ```
 

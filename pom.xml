@@ -52,7 +52,7 @@
         <jacoco.maven.plugin.version>0.8.13</jacoco.maven.plugin.version>
         <!-- plugin versions -->
 
-        <test.coverage.min.threshold>0.57</test.coverage.min.threshold>
+        <test.coverage.min.threshold>0.61</test.coverage.min.threshold>
     </properties>
 
     <dependencies>

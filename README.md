@@ -19,7 +19,7 @@ This plugin allows you to create a set of rules and enforce them.
 
 ---
 
-# How do I use it?
+# How to use it?
 
 1. Create [rules.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/rules_example.xml) (or name it differently) file and provide it in `<pathToRulesFile>`.
 2. Create [exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml) (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`.

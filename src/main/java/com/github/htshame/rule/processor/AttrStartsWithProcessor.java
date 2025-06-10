@@ -16,26 +16,26 @@ import java.util.List;
 import static com.github.htshame.util.RuleUtil.getText;
 
 /**
- * Business logic for <code>attr-starts-with</code> rule.
+ * Business logic for the <code>attr-starts-with</code> rule.
  * <p>
- * Checks that the value of given attribute starts with given prefix.
- * <p>
- * E.g.:
- * <p>
- * Rule configuration:
+ * Checks that the value of a given attribute starts with the specified prefix.
+ * </p>
+ * <p>Example:</p>
+ * <p>Rule configuration:</p>
  * <pre><code>
- *    <rule name="attr-starts-with">
- *         <tag>createIndex</tag>
- *         <targetAttribute>indexName</targetAttribute>
- *         <requiredPrefix>idx_</requiredPrefix>
- *     </rule>
+ * &lt;rule name="attr-starts-with"&gt;
+ *     &lt;tag&gt;createIndex&lt;/tag&gt;
+ *     &lt;targetAttribute&gt;indexName&lt;/targetAttribute&gt;
+ *     &lt;requiredPrefix&gt;idx_&lt;/requiredPrefix&gt;
+ * &lt;/rule&gt;
  * </code></pre>
- * will verify that value of <code>indexName</code>
+ * <p>This will verify that the value of <code>indexName</code>:</p>
  * <pre><code>
- *     <createIndex indexName="idx_user_metadata_external_user_id"/>
+ * &lt;createIndex indexName="idx_user_metadata_external_user_id"/&gt;
  * </code></pre>
  * indeed starts with <code>idx_</code>.
  */
+
 public class AttrStartsWithProcessor implements Rule {
 
     private final String tag;

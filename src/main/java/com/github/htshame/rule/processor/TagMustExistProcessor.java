@@ -17,29 +17,28 @@ import java.util.Set;
 import static com.github.htshame.util.RuleUtil.getText;
 
 /**
- * Business logic for <code>tag-must-exist</code> rule.
+ * Business logic for the <code>tag-must-exist</code> rule.
  * <p>
- * Checks that each changeSet contains the provided tag.
- * <p>
- * E.g.:
- * <p>
- * Rule configuration:
+ * Checks that each <code>changeSet</code> contains the specified required tag.
+ * </p>
+ * <p>Example:</p>
+ * <p>Rule configuration:</p>
  * <pre><code>
- *     <rule name="tag-must-exist">
- *          <requiredTag>comment</requiredTag>
- *          <excludedAncestorTags>
- *              <tag>databaseChangeLog</tag>
- *              <tag>include</tag>
- *          </excludedAncestorTags>
- *      </rule>
+ * &lt;rule name="tag-must-exist"&gt;
+ *     &lt;requiredTag&gt;comment&lt;/requiredTag&gt;
+ *     &lt;excludedAncestorTags&gt;
+ *         &lt;tag&gt;databaseChangeLog&lt;/tag&gt;
+ *         &lt;tag&gt;include&lt;/tag&gt;
+ *     &lt;/excludedAncestorTags&gt;
+ * &lt;/rule&gt;
  * </code></pre>
- * will verify that changeSet
+ * <p>This will verify that the following <code>changeSet</code>:</p>
  * <pre><code>
- *     <changeSet id="changelog_02-4" author="test">
- *         <comment>Very informative comment.</comment>
- *     </changeSet>
+ * &lt;changeSet id="changelog_02-4" author="test"&gt;
+ *     &lt;comment&gt;Very informative comment.&lt;/comment&gt;
+ * &lt;/changeSet&gt;
  * </code></pre>
- * contains <code>comment</code>.
+ * contains the <code>comment</code> tag.
  */
 public class TagMustExistProcessor implements Rule {
 

@@ -18,14 +18,15 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class parses the exclusion XML file.
- * E.g.:
+ * This class parses the exclusions XML file.
+ * <p>Example:</p>
  * <pre><code>
- *      <exclusions>
- *          <exclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
- *      </exclusions>
+ * &lt;exclusions&gt;
+ *     &lt;exclusion fileName="changelog_03.xml" rule="tag-must-exist"/&gt;
+ * &lt;/exclusions&gt;
  * </code></pre>
  */
+
 public final class ExclusionParser {
 
     /**

@@ -23,14 +23,19 @@ import java.util.List;
  * E.g.:
  * <p>
  * Rule configuration:
- * <pre><code>
- *    <rule name="no-hyphens-in-attributes"/>
- * </code></pre>
+ * {@code <rule name="no-hyphens-in-attributes"/>}
  */
 public class NoHyphensInAttributesProcessor implements Rule {
 
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String HYPHEN = "-";
+
+    /**
+     * Default constructor.
+     */
+    public NoHyphensInAttributesProcessor() {
+
+    }
 
     /**
      * Validate changeLog file.

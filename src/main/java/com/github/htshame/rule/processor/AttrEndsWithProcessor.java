@@ -13,28 +13,29 @@ import org.w3c.dom.NodeList;
 import static com.github.htshame.util.RuleUtil.getText;
 
 /**
- * Business logic for <code>attr-ends-with</code> rule.
+ * Business logic for the <code>attr-ends-with</code> rule.
  * <p>
- * Checks that the value of given attribute ends with given prefix.
- * <p>
- * E.g.:
- * <p>
- * Rule configuration:
+ * Checks that the value of a given attribute ends with the specified suffix.
+ * </p>
+ * <p>Example:</p>
+ * <p>Rule configuration:</p>
  * <pre><code>
- *     <rule name="attr-ends-with-conditioned">
- *          <tag>addForeignKeyConstraint</tag>
- *          <targetAttribute>constraintName</targetAttribute>
- *          <requiredSuffix>_fk</requiredSuffix>
- *      </rule>
+ * &lt;rule name="attr-ends-with-conditioned"&gt;
+ *     &lt;tag&gt;addForeignKeyConstraint&lt;/tag&gt;
+ *     &lt;targetAttribute&gt;constraintName&lt;/targetAttribute&gt;
+ *     &lt;requiredSuffix&gt;_fk&lt;/requiredSuffix&gt;
+ * &lt;/rule&gt;
  * </code></pre>
- * will verify that value of <code>constraintName</code>
+ * <p>This will verify that the value of <code>constraintName</code>:</p>
  * <pre><code>
- *      <addForeignKeyConstraint baseTableName="user_activation" baseColumnNames="user_profile_id"
- *                                  constraintName="user_activation_user_profile_id_user_profile_id_fk"
- *                                  referencedTableName="user_profile" referencedColumnNames="id"/>
+ * &lt;addForeignKeyConstraint baseTableName="user_activation"
+ *                           baseColumnNames="user_profile_id"
+ *                           constraintName="user_activation_user_profile_id_user_profile_id_fk"
+ *                           referencedTableName="user_profile" referencedColumnNames="id"/&gt;
  * </code></pre>
  * indeed ends with <code>_fk</code>.
  */
+
 public class AttrEndsWithProcessor implements Rule {
 
     private final String tag;

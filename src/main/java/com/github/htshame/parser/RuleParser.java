@@ -16,33 +16,34 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * This class parses rules XML file.
- * E.g.:
+ * Parses the rules XML file.
+ * <p>Example:</p>
  * <pre><code>
- *<rules>
- *    <rule type="tag-must-exist">
- *         <requiredTag>comment</requiredTag>
- *         <excludedAncestorTags>
- *             <tag>databaseChangeLog</tag>
- *             <tag>include</tag>
- *         </excludedAncestorTags>
- *     </rule>
+ * &lt;rules&gt;
+ *     &lt;rule type="tag-must-exist"&gt;
+ *         &lt;requiredTag&gt;comment&lt;/requiredTag&gt;
+ *         &lt;excludedAncestorTags&gt;
+ *             &lt;tag&gt;databaseChangeLog&lt;/tag&gt;
+ *             &lt;tag&gt;include&lt;/tag&gt;
+ *         &lt;/excludedAncestorTags&gt;
+ *     &lt;/rule&gt;
  *
- *    <rule type="attr-starts-with">
- *         <tag>createIndex</tag>
- *         <targetAttribute>indexName</targetAttribute>
- *         <requiredPrefix>idx_</requiredPrefix>
- *     </rule>
+ *     &lt;rule type="attr-starts-with"&gt;
+ *         &lt;tag&gt;createIndex&lt;/tag&gt;
+ *         &lt;targetAttribute&gt;indexName&lt;/targetAttribute&gt;
+ *         &lt;requiredPrefix&gt;idx_&lt;/requiredPrefix&gt;
+ *     &lt;/rule&gt;
  *
- *    <rule type="attr-ends-with-conditioned">
- *         <tag>createIndex</tag>
- *         <conditionAttribute>unique</conditionAttribute>
- *         <conditionValue>true</conditionValue>
- *         <targetAttribute>indexName</targetAttribute>
- *         <requiredSuffix>_unique</requiredSuffix>
- *     </rule>
- *    <rule type="no-hyphens-in-attributes"/>
- * </rules>
+ *     &lt;rule type="attr-ends-with-conditioned"&gt;
+ *         &lt;tag&gt;createIndex&lt;/tag&gt;
+ *         &lt;conditionAttribute&gt;unique&lt;/conditionAttribute&gt;
+ *         &lt;conditionValue&gt;true&lt;/conditionValue&gt;
+ *         &lt;targetAttribute&gt;indexName&lt;/targetAttribute&gt;
+ *         &lt;requiredSuffix&gt;_unique&lt;/requiredSuffix&gt;
+ *     &lt;/rule&gt;
+ *
+ *     &lt;rule type="no-hyphens-in-attributes"/&gt;
+ * &lt;/rules&gt;
  * </code></pre>
  */
 public class RuleParser {

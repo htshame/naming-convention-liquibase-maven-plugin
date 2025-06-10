@@ -16,17 +16,17 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Business logic for <code>no-underscores-in-attributes</code> rule.
+ * Business logic for the <code>no-underscores-in-attributes</code> rule.
  * <p>
- * Checks that the contents of changeLog file do not contain underscores.
- * <p>
- * E.g.:
- * <p>
- * Rule configuration:
+ * Checks that the contents of the changeLog file do not contain underscores.
+ * </p>
+ * <p>Example:</p>
+ * <p>Rule configuration:</p>
  * <pre><code>
- *    <rule name="no-underscores-in-attributes"/>
+ * &lt;rule name="no-underscores-in-attributes"/&gt;
  * </code></pre>
  */
+
 public class NoUnderscoresInAttributesProcessor implements Rule {
 
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");

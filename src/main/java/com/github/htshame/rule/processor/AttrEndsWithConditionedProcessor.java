@@ -13,30 +13,31 @@ import org.w3c.dom.NodeList;
 import static com.github.htshame.util.RuleUtil.getText;
 
 /**
- * Business logic for <code>attr-ends-with-conditioned</code> rule.
+ * Business logic for the <code>attr-ends-with-conditioned</code> rule.
  * <p>
- * Checks that the value of given attribute ends with given prefix if the specified condition is met.
- * <p>
- * E.g.:
- * <p>
- * Rule configuration:
+ * Checks that the value of a given attribute ends with the specified suffix
+ * if the specified condition is met.
+ * </p>
+ * <p>Example:</p>
+ * <p>Rule configuration:</p>
  * <pre><code>
- *     <rule name="attr-ends-with-conditioned">
- *          <tag>createIndex</tag>
- *          <conditionAttribute>unique</conditionAttribute>
- *          <conditionValue>true</conditionValue>
- *          <targetAttribute>indexName</targetAttribute>
- *          <requiredSuffix>_unique</requiredSuffix>
- *      </rule>
+ * &lt;rule name="attr-ends-with-conditioned"&gt;
+ *     &lt;tag&gt;createIndex&lt;/tag&gt;
+ *     &lt;conditionAttribute&gt;unique&lt;/conditionAttribute&gt;
+ *     &lt;conditionValue&gt;true&lt;/conditionValue&gt;
+ *     &lt;targetAttribute&gt;indexName&lt;/targetAttribute&gt;
+ *     &lt;requiredSuffix&gt;_unique&lt;/requiredSuffix&gt;
+ * &lt;/rule&gt;
  * </code></pre>
- * will verify that value of <code>indexName</code>
+ * <p>This will verify that the value of <code>indexName</code>:</p>
  * <pre><code>
- *      <createIndex tableName="user_metadata" indexName="idx_user_metadata_external_user_id_unique" unique="true">
- *          <column name="external_user_id"/>
- *      </createIndex>
+ * &lt;createIndex tableName="user_metadata" indexName="idx_user_metadata_external_user_id_unique" unique="true"&gt;
+ *     &lt;column name="external_user_id"/&gt;
+ * &lt;/createIndex&gt;
  * </code></pre>
  * indeed ends with <code>_unique</code>.
  */
+
 public class AttrEndsWithConditionedProcessor implements Rule {
 
     private final String tag;

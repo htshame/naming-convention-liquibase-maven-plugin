@@ -25,8 +25,16 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Artem Zagnitko</name>
+            <email>htshame@gmail.com</email>
+            <organizationUrl>https://htshame.github.io/naming-convention-liquibase-maven-plugin/</organizationUrl>
+        </developer>
+    </developers>
+
     <scm>
-        <connection>scm:git:git://github.com/htshame/naming-convention-liquibase-maven-plugin</connection>
+        <connection>scm:git:git://github.com/htshame/naming-convention-liquibase-maven-plugin.git</connection>
         <developerConnection>
             scm:git:ssh://github.com:htshame/naming-convention-liquibase-maven-plugin.git
         </developerConnection>

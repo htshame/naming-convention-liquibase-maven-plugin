@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.htshame</groupId>
+    <groupId>io.github.htshame</groupId>
     <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -25,8 +25,16 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Artem Zagnitko</name>
+            <email>htshame@gmail.com</email>
+            <organizationUrl>https://htshame.github.io/naming-convention-liquibase-maven-plugin/</organizationUrl>
+        </developer>
+    </developers>
+
     <scm>
-        <connection>scm:git:git://github.com/htshame/naming-convention-liquibase-maven-plugin</connection>
+        <connection>scm:git:git://github.com/htshame/naming-convention-liquibase-maven-plugin.git</connection>
         <developerConnection>
             scm:git:ssh://github.com:htshame/naming-convention-liquibase-maven-plugin.git
         </developerConnection>
@@ -50,9 +58,12 @@
         <maven.checkstyle.plugin.version>3.6.0</maven.checkstyle.plugin.version>
         <com.puppycrawl.tools.checkstyle.version>10.25.0</com.puppycrawl.tools.checkstyle.version>
         <jacoco.maven.plugin.version>0.8.13</jacoco.maven.plugin.version>
+        <org.apache.maven.plugins.maven-javadoc-plugin>3.6.0</org.apache.maven.plugins.maven-javadoc-plugin>
+        <org.apache.maven.plugins.maven-source-plugin>3.3.0</org.apache.maven.plugins.maven-source-plugin>
+        <org.apache.maven.plugins.maven-gpg-plugin>3.1.0</org.apache.maven.plugins.maven-gpg-plugin>
         <!-- plugin versions -->
 
-        <test.coverage.min.threshold>0.57</test.coverage.min.threshold>
+        <test.coverage.min.threshold>0.61</test.coverage.min.threshold>
     </properties>
 
     <dependencies>
@@ -145,6 +156,20 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${org.apache.maven.plugins.maven-javadoc-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.maven.plugin.version}</version>
@@ -185,4 +210,67 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>ossrh</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${org.apache.maven.plugins.maven-source-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- GPG Sign -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${org.apache.maven.plugins.maven-gpg-plugin}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
 </project>

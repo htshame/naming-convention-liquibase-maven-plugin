@@ -28,7 +28,7 @@ This plugin allows you to create a set of rules and enforce them.
     ```xml
     
     <plugin>
-        <groupId>com.github.htshame</groupId>
+        <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
         <version>1.0.0</version>
         <executions>

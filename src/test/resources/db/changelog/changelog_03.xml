@@ -5,7 +5,14 @@
 
     <!-- should NOT fail because this 'comment must be present' rule is excluded in the exclusions.xml file -->
     <changeSet id="changelog_03-1" author="test-4">
-
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_metadata"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user_metadata">
+            <column name="id" type="bigint"/>
+        </createTable>
     </changeSet>
 
 </databaseChangeLog>

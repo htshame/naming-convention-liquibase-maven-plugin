@@ -29,7 +29,17 @@
         <requiredSuffix>_fk</requiredSuffix>
     </rule>
 
-    <rule name="no-hyphens-in-attributes"/>
+    <rule name="no-hyphens-in-attributes">
+        <excludedAncestorTags>
+            <tag>defaultValue</tag>
+            <tag>defaultValueComputed</tag>
+        </excludedAncestorTags>
+    </rule>
 
-    <rule name="no-underscores-in-attributes"/>
+    <rule name="no-underscores-in-attributes">
+        <excludedAncestorTags>
+            <tag>defaultValue</tag>
+            <tag>defaultValueComputed</tag>
+        </excludedAncestorTags>
+    </rule>
 </rules>

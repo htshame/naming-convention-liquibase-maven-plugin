@@ -2,4 +2,5 @@
             xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/1.0/liquibase-naming-convention-1.0.xsd">
 
     <exclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
+    <exclusion fileName="changelog_03.xml" rule="no-underscores-in-attributes"/>
 </exclusions>

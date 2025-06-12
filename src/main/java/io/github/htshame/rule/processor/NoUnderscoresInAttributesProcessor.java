@@ -2,6 +2,7 @@ package io.github.htshame.rule.processor;
 
 import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.rule.Rule;
 import io.github.htshame.util.ChangeSetUtil;
@@ -13,7 +14,11 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static io.github.htshame.util.RuleUtil.isExcludedByAncestor;
 
 /**
  * Business logic for the <code>no-underscores-in-attributes</code> rule.
@@ -32,11 +37,15 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String UNDERSCORE = "_";
 
-    /**
-     * Default constructor.
-     */
-    public NoUnderscoresInAttributesProcessor() {
+    private final Set<String> excludedAncestorTags;
 
+    /**
+     * Constructor.
+     *
+     * @param excludedAncestorTags - excluded tags.
+     */
+    public NoUnderscoresInAttributesProcessor(final Set<String> excludedAncestorTags) {
+        this.excludedAncestorTags = excludedAncestorTags != null ? excludedAncestorTags : new HashSet<>();
     }
 
     /**
@@ -67,7 +76,14 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
      * @return instance of {@link NoUnderscoresInAttributesProcessor}.
      */
     public static NoUnderscoresInAttributesProcessor fromXml(final Element element) {
-        return new NoUnderscoresInAttributesProcessor();
+        Set<String> excludedParents = new HashSet<>();
+        NodeList excludedTagElements = ((Element) element
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_TAGS.getValue()).item(0))
+                .getElementsByTagName(RuleStructureEnum.TAG_TAG.getValue());
+        for (int j = 0; j < excludedTagElements.getLength(); j++) {
+            excludedParents.add(excludedTagElements.item(j).getTextContent());
+        }
+        return new NoUnderscoresInAttributesProcessor(excludedParents);
     }
 
     /**
@@ -83,7 +99,10 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
             String attrName = attr.getName();
             String attrValue = attr.getValue();
 
-            if (!EXCLUDED_ATTRIBUTES.contains(attrName) && attrValue.contains(UNDERSCORE)) {
+            if (!isExcludedByAncestor(element)
+                    && !EXCLUDED_ATTRIBUTES.contains(attrName)
+                    && !excludedAncestorTags.contains(attrName)
+                    && attrValue.contains(UNDERSCORE)) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(
                         "ChangeSet: id=\"%s\", author=\"%s\". Attribute %s in element <%s> contains "
@@ -93,7 +112,7 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
                         attrName,
                         element.getTagName(),
                         attrValue,
-                        RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue());
+                        RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue());
                 throw new ValidationException(errorMessage);
             }
         }
@@ -106,4 +125,5 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
             }
         }
     }
+
 }

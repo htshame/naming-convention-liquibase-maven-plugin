@@ -135,10 +135,15 @@ Example:
 
 ```xml
 
-<rule name="no-hyphens-in-attributes"/>
+<rule name="no-hyphens-in-attributes">
+    <excludedAncestorTags>
+        <tag>defaultValue</tag>
+        <tag>defaultValueComputed</tag>
+    </excludedAncestorTags>
+</rule>
 ```
 
-Checks that `-` are not present in the changeLog at all. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
+Checks that `-` are not present in the changeLog at all, except for excluded attributes. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
 excluded from the check.
 
 ### no-underscores-in-attributes
@@ -147,10 +152,15 @@ Example:
 
 ```xml
 
-<rule name="no-underscores-in-attributes"/>
+<rule name="no-underscores-in-attributes">
+    <excludedAncestorTags>
+        <tag>defaultValue</tag>
+        <tag>defaultValueComputed</tag>
+    </excludedAncestorTags>
+</rule>
 ```
 
-Checks that `_` are not present in the changeLog at all. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
+Checks that `_` are not present in the changeLog at all, except for excluded attributes. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
 excluded from the check.
 
 ---

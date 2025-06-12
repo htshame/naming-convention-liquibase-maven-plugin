@@ -29,10 +29,10 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
         <executions>
             <execution>
-                <id>validate-xml</id>
+                <id>validate-changeLog</id>
                 <phase>compile</phase>
                 <goals>
                     <goal>validate-liquibase-xml</goal>
@@ -129,10 +129,15 @@ is present.
 Example:
 
 ```xml
-<rule name="no-hyphens-in-attributes"/>
+<rule name="no-hyphens-in-attributes">
+    <excludedAncestorTags>
+        <tag>defaultValue</tag>
+        <tag>defaultValueComputed</tag>
+    </excludedAncestorTags>
+</rule>
 ```
 
-Checks that `-` are not present in the changeLog at all. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
+Checks that `-` are not present in the changeLog at all, except for excluded attributes. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
 excluded from the check.
 
 ### no-underscores-in-attributes
@@ -140,10 +145,15 @@ excluded from the check.
 Example:
 
 ```xml
-<rule name="no-underscores-in-attributes"/>
+<rule name="no-underscores-in-attributes">
+    <excludedAncestorTags>
+        <tag>defaultValue</tag>
+        <tag>defaultValueComputed</tag>
+    </excludedAncestorTags>
+</rule>
 ```
 
-Checks that `_` are not present in the changeLog at all. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
+Checks that `_` are not present in the changeLog at all, except for excluded attributes. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
 excluded from the check.
 
 ---

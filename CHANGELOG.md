@@ -15,6 +15,11 @@ and [Semantic Versioning](https://semver.org/).
 - Rule `attr-ends-with-conditioned`: ```conditionAttribute``` setting was renamed to ```conditionAttr```.
 - Rule `attr-ends-with-conditioned`, `attr-ends-with`, `attr-starts-with`: ```targetAttribute``` setting was renamed to
   ```targetAttr```.
+- Added plugin configuration: 
+```xml
+<shouldFailBuild>true</shouldFailBuild>
+```
+Default value is `true`. Build will not fail if set to `false`. 
 - Bugfixes
 
 ---

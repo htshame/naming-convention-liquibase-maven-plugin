@@ -26,11 +26,10 @@ This plugin allows you to create a set of rules and enforce them.
 3. Provide the path to the directory with Liquibase XML changeLogs in `<changeLogDirectory>`.
 4. Put this into your pom.xml:
     ```xml
-    
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -64,7 +63,6 @@ Checks that specified tag exists in every changeSet.
 Example:
 
 ```xml
-
 <rule name="tag-must-exist">
     <requiredTag>comment</requiredTag>
     <excludedTags>
@@ -83,7 +81,6 @@ Checks that specified attribute starts with specified value.
 Example:
 
 ```xml
-
 <rule name="attr-starts-with">
     <tag>createIndex</tag>
     <targetAttr>indexName</targetAttr>
@@ -100,7 +97,6 @@ Checks that specified attribute ends with specified value.
 Example:
 
 ```xml
-
 <rule name="attr-ends-with">
     <tag>addForeignKeyConstraint</tag>
     <targetAttr>constraintName</targetAttr>
@@ -117,7 +113,6 @@ Checks that specified attribute ends with specified value if the certain attribu
 Example:
 
 ```xml
-
 <rule name="attr-ends-with-conditioned">
     <tag>createIndex</tag>
     <conditionAttr>unique</conditionAttr>
@@ -135,7 +130,6 @@ is present.
 Example:
 
 ```xml
-
 <rule name="no-hyphens-in-attributes">
     <excludedAttrs>
         <attr>defaultValue</attr>
@@ -152,7 +146,6 @@ excluded from the check. Attributes `defaultValue` and `defaultValueComputed` wi
 Example:
 
 ```xml
-
 <rule name="no-underscores-in-attributes">
     <excludedAttrs>
         <attr>defaultValue</attr>
@@ -173,9 +166,14 @@ You can always add an exclusion to the set of rules. Create a separate `exclusio
 Example:
 
 ```xml
-
 <exclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
 ```
+
+---
+
+## Note: requires Java 11 or later
+
+---
 
 License
 [Apache 2.0 License.](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/LICENSE)

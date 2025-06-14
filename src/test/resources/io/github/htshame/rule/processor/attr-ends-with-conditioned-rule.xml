@@ -1,0 +1,12 @@
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../../docs/schema/ruleset/1.0.2/liquibase-naming-convention-1.0.2.xsd">
+
+    <rule name="attr-ends-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttribute>unique</conditionAttribute>
+        <conditionValue>true</conditionValue>
+        <targetAttribute>indexName</targetAttribute>
+        <requiredSuffix>_unique</requiredSuffix>
+    </rule>
+</rules>
+

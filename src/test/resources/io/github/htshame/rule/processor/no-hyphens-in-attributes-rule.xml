@@ -1,0 +1,13 @@
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../../docs/schema/ruleset/1.0.2/liquibase-naming-convention-1.0.2.xsd">
+
+    <rule name="no-hyphens-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+            <attr>xmlns:xsi</attr>
+            <attr>xsi:schemaLocation</attr>
+        </excludedAttrs>
+    </rule>
+</rules>
+

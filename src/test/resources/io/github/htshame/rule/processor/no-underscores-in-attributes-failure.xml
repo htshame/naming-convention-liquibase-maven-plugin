@@ -1,3 +1,7 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
     <changeSet id="changelog_02_3" author="test">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -16,3 +20,4 @@
             <column name="user_data" type="varchar(64)" defaultValue="some-data"/>
         </createTable>
     </changeSet>
+</databaseChangeLog>

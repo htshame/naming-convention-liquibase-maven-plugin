@@ -1,12 +1,12 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/1.0/liquibase-naming-convention-1.0.xsd">
+        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/1.0.2/liquibase-naming-convention-1.0.2.xsd">
 
     <rule name="tag-must-exist">
         <requiredTag>comment</requiredTag>
-        <excludedAncestorTags>
+        <excludedTags>
             <tag>databaseChangeLog</tag>
             <tag>include</tag>
-        </excludedAncestorTags>
+        </excludedTags>
     </rule>
 
     <rule name="attr-starts-with">
@@ -30,17 +30,17 @@
     </rule>
 
     <rule name="no-hyphens-in-attributes">
-        <excludedAncestorTags>
-            <tag>defaultValue</tag>
-            <tag>defaultValueComputed</tag>
-        </excludedAncestorTags>
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
     </rule>
 
     <rule name="no-underscores-in-attributes">
-        <excludedAncestorTags>
-            <tag>defaultValue</tag>
-            <tag>defaultValueComputed</tag>
-        </excludedAncestorTags>
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
     </rule>
 </rules>
 

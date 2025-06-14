@@ -22,10 +22,10 @@ import java.util.Set;
  * &lt;rules&gt;
  *     &lt;rule type="tag-must-exist"&gt;
  *         &lt;requiredTag&gt;comment&lt;/requiredTag&gt;
- *         &lt;excludedAncestorTags&gt;
+ *         &lt;excludedTags&gt;
  *             &lt;tag&gt;databaseChangeLog&lt;/tag&gt;
  *             &lt;tag&gt;include&lt;/tag&gt;
- *         &lt;/excludedAncestorTags&gt;
+ *         &lt;/excludedTags&gt;
  *     &lt;/rule&gt;
  *
  *     &lt;rule type="attr-starts-with"&gt;

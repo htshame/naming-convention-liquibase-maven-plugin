@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static io.github.htshame.util.RuleUtil.isExcludedByAncestor;
+import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 
 /**
  * Business logic for <code>no-hyphens-in-attributes</code> rule.
@@ -35,15 +35,15 @@ public class NoHyphensInAttributesProcessor implements Rule {
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String HYPHEN = "-";
 
-    private final Set<String> excludedAncestorTags;
+    private final Set<String> excludedAttrs;
 
     /**
      * Constructor.
      *
-     * @param excludedAncestorTags - excluded tags.
+     * @param excludedAttrs - excluded attributes.
      */
-    public NoHyphensInAttributesProcessor(final Set<String> excludedAncestorTags) {
-        this.excludedAncestorTags = excludedAncestorTags != null ? excludedAncestorTags : new HashSet<>();
+    public NoHyphensInAttributesProcessor(final Set<String> excludedAttrs) {
+        this.excludedAttrs = excludedAttrs != null ? excludedAttrs : new HashSet<>();
     }
 
     /**
@@ -75,12 +75,16 @@ public class NoHyphensInAttributesProcessor implements Rule {
      */
     public static NoHyphensInAttributesProcessor fromXml(final Element element) {
         Set<String> excludedParents = new HashSet<>();
-        NodeList excludedTagElements = ((Element) element
-                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_TAGS.getValue()).item(0))
-                .getElementsByTagName(RuleStructureEnum.TAG_TAG.getValue());
-        for (int j = 0; j < excludedTagElements.getLength(); j++) {
-            excludedParents.add(excludedTagElements.item(j).getTextContent());
+        NodeList excludedTags = element
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
+        if (excludedTags.item(0) != null) {
+            NodeList excludedTagElements = ((Element) excludedTags.item(0))
+                    .getElementsByTagName(RuleStructureEnum.ATTR_TAG.getValue());
+            for (int j = 0; j < excludedTagElements.getLength(); j++) {
+                excludedParents.add(excludedTagElements.item(j).getTextContent());
+            }
         }
+
         return new NoHyphensInAttributesProcessor(excludedParents);
     }
 
@@ -97,9 +101,9 @@ public class NoHyphensInAttributesProcessor implements Rule {
             String attrName = attr.getName();
             String attrValue = attr.getValue();
 
-            if (!isExcludedByAncestor(element)
+            if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
-                    && !excludedAncestorTags.contains(attrName)
+                    && !excludedAttrs.contains(attrName)
                     && attrValue.contains(HYPHEN)) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(

@@ -3,7 +3,7 @@
 
     <rule name="attr-starts-with">
         <tag>createIndex</tag>
-        <targetAttribute>indexName</targetAttribute>
+        <targetAttr>indexName</targetAttr>
         <requiredPrefix>idx_</requiredPrefix>
     </rule>
 </rules>

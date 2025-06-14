@@ -36,10 +36,10 @@
                         <xs:choice minOccurs="0" maxOccurs="unbounded">
                             <xs:element name="requiredTag" type="xs:string"/>
                             <xs:element name="tag" type="xs:string"/>
-                            <xs:element name="targetAttribute" type="xs:string"/>
+                            <xs:element name="targetAttr" type="xs:string"/>
                             <xs:element name="requiredPrefix" type="xs:string"/>
                             <xs:element name="requiredSuffix" type="xs:string"/>
-                            <xs:element name="conditionAttribute" type="xs:string"/>
+                            <xs:element name="conditionAttr" type="xs:string"/>
                             <xs:element name="conditionValue" type="xs:string"/>
 
                             <xs:element name="excludedTags">

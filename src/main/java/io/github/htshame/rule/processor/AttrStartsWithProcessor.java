@@ -25,7 +25,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * <pre><code>
  * &lt;rule name="attr-starts-with"&gt;
  *     &lt;tag&gt;createIndex&lt;/tag&gt;
- *     &lt;targetAttribute&gt;indexName&lt;/targetAttribute&gt;
+ *     &lt;targetAttr&gt;indexName&lt;/targetAttr&gt;
  *     &lt;requiredPrefix&gt;idx_&lt;/requiredPrefix&gt;
  * &lt;/rule&gt;
  * </code></pre>
@@ -46,7 +46,7 @@ public class AttrStartsWithProcessor implements Rule {
      * Constructor.
      *
      * @param tag       - rule.tag value.
-     * @param attribute - rule.targetAttribute value.
+     * @param attribute - rule.targetAttr value.
      * @param prefix    - rule.requiredPrefix value.
      */
     public AttrStartsWithProcessor(final String tag,
@@ -75,9 +75,9 @@ public class AttrStartsWithProcessor implements Rule {
      */
     public static AttrStartsWithProcessor fromXml(final Element element) {
         return new AttrStartsWithProcessor(
-                getText(element, RuleStructureEnum.TAG_TAG.getValue()),
-                getText(element, RuleStructureEnum.TARGET_ATTRIBUTE_TAG.getValue()),
-                getText(element, RuleStructureEnum.REQUIRED_PREFIX_TAG.getValue()));
+                getText(element, RuleStructureEnum.TAG.getValue()),
+                getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
+                getText(element, RuleStructureEnum.REQUIRED_PREFIX.getValue()));
     }
 
     /**

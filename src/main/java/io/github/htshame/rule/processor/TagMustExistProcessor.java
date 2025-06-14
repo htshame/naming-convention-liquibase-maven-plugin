@@ -78,7 +78,7 @@ public class TagMustExistProcessor implements Rule {
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTagElements = ((Element) element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_TAGS.getValue()).item(0))
-                .getElementsByTagName(RuleStructureEnum.TAG_TAG.getValue());
+                .getElementsByTagName(RuleStructureEnum.TAG.getValue());
         for (int j = 0; j < excludedTagElements.getLength(); j++) {
             excludedParents.add(excludedTagElements.item(j).getTextContent());
         }

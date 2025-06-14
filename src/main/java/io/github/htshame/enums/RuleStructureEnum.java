@@ -7,7 +7,7 @@ public enum RuleStructureEnum {
     /**
      * Represents 'rule' tag.
      */
-    RULE_TAG("rule"),
+    RULE("rule"),
     /**
      * Represents 'rule.name' attribute.
      */
@@ -27,31 +27,31 @@ public enum RuleStructureEnum {
     /**
      * Represents 'tag' tag.
      */
-    TAG_TAG("tag"),
+    TAG("tag"),
     /**
      * Represents 'attr' tag.
      */
-    ATTR_TAG("attr"),
+    ATTR("attr"),
     /**
-     * Represents 'targetAttribute' tag.
+     * Represents 'targetAttr' tag.
      */
-    TARGET_ATTRIBUTE_TAG("targetAttribute"),
+    TARGET_ATTR("targetAttr"),
     /**
      * Represents 'requiredPrefix' tag.
      */
-    REQUIRED_PREFIX_TAG("requiredPrefix"),
+    REQUIRED_PREFIX("requiredPrefix"),
     /**
-     * Represents 'conditionAttribute' tag.
+     * Represents 'conditionAttr' tag.
      */
-    CONDITION_ATTRIBUTE_TAG("conditionAttribute"),
+    CONDITION_ATTR("conditionAttr"),
     /**
      * Represents 'conditionValue' tag.
      */
-    CONDITION_VALUE_TAG("conditionValue"),
+    CONDITION_VALUE("conditionValue"),
     /**
      * Represents 'requiredSuffix' tag.
      */
-    REQUIRED_SUFFIX_TAG("requiredSuffix");
+    REQUIRED_SUFFIX("requiredSuffix");
 
     private final String value;
 

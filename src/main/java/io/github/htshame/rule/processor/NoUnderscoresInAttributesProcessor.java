@@ -81,7 +81,7 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
         if (excludedTags.item(0) != null) {
             NodeList excludedTagElements = ((Element) excludedTags.item(0))
-                    .getElementsByTagName(RuleStructureEnum.ATTR_TAG.getValue());
+                    .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
             for (int j = 0; j < excludedTagElements.getLength(); j++) {
                 excludedParents.add(excludedTagElements.item(j).getTextContent());
             }

@@ -23,9 +23,9 @@ import static io.github.htshame.util.RuleUtil.getText;
  * <pre><code>
  * &lt;rule name="attr-ends-with-conditioned"&gt;
  *     &lt;tag&gt;createIndex&lt;/tag&gt;
- *     &lt;conditionAttribute&gt;unique&lt;/conditionAttribute&gt;
+ *     &lt;conditionAttr&gt;unique&lt;/conditionAttr&gt;
  *     &lt;conditionValue&gt;true&lt;/conditionValue&gt;
- *     &lt;targetAttribute&gt;indexName&lt;/targetAttribute&gt;
+ *     &lt;targetAttr&gt;indexName&lt;/targetAttr&gt;
  *     &lt;requiredSuffix&gt;_unique&lt;/requiredSuffix&gt;
  * &lt;/rule&gt;
  * </code></pre>
@@ -41,29 +41,29 @@ import static io.github.htshame.util.RuleUtil.getText;
 public class AttrEndsWithConditionedProcessor implements Rule {
 
     private final String tag;
-    private final String conditionAttribute;
+    private final String conditionAttr;
     private final String conditionValue;
-    private final String targetAttribute;
+    private final String targetAttr;
     private final String requiredSuffix;
 
     /**
      * Constructor.
      *
      * @param tag                - rule.tag value.
-     * @param conditionAttribute - rule.conditionAttribute value.
+     * @param conditionAttr - rule.conditionAttr value.
      * @param conditionValue     - rule.conditionValue value.
-     * @param targetAttribute    - rule.targetAttribute value.
+     * @param targetAttr    - rule.targetAttr value.
      * @param requiredSuffix     - rule.requiredSuffix value.
      */
     public AttrEndsWithConditionedProcessor(final String tag,
-                                            final String conditionAttribute,
+                                            final String conditionAttr,
                                             final String conditionValue,
-                                            final String targetAttribute,
+                                            final String targetAttr,
                                             final String requiredSuffix) {
         this.tag = tag;
-        this.conditionAttribute = conditionAttribute;
+        this.conditionAttr = conditionAttr;
         this.conditionValue = conditionValue;
-        this.targetAttribute = targetAttribute;
+        this.targetAttr = targetAttr;
         this.requiredSuffix = requiredSuffix;
     }
 
@@ -85,11 +85,11 @@ public class AttrEndsWithConditionedProcessor implements Rule {
      */
     public static AttrEndsWithConditionedProcessor fromXml(final Element element) {
         return new AttrEndsWithConditionedProcessor(
-                getText(element, RuleStructureEnum.TAG_TAG.getValue()),
-                getText(element, RuleStructureEnum.CONDITION_ATTRIBUTE_TAG.getValue()),
-                getText(element, RuleStructureEnum.CONDITION_VALUE_TAG.getValue()),
-                getText(element, RuleStructureEnum.TARGET_ATTRIBUTE_TAG.getValue()),
-                getText(element, RuleStructureEnum.REQUIRED_SUFFIX_TAG.getValue()));
+                getText(element, RuleStructureEnum.TAG.getValue()),
+                getText(element, RuleStructureEnum.CONDITION_ATTR.getValue()),
+                getText(element, RuleStructureEnum.CONDITION_VALUE.getValue()),
+                getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
+                getText(element, RuleStructureEnum.REQUIRED_SUFFIX.getValue()));
     }
 
     /**
@@ -103,8 +103,8 @@ public class AttrEndsWithConditionedProcessor implements Rule {
         NodeList elements = document.getElementsByTagName(tag);
         for (int i = 0; i < elements.getLength(); i++) {
             Element element = (Element) elements.item(i);
-            if (conditionValue.equals(element.getAttribute(conditionAttribute))) {
-                String actualValue = element.getAttribute(targetAttribute);
+            if (conditionValue.equals(element.getAttribute(conditionAttr))) {
+                String actualValue = element.getAttribute(targetAttr);
                 if (!actualValue.endsWith(requiredSuffix)) {
                     ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                     String errorMessage = String.format(
@@ -113,9 +113,9 @@ public class AttrEndsWithConditionedProcessor implements Rule {
                             changeSetAttributeDto.getId(),
                             changeSetAttributeDto.getAuthor(),
                             tag,
-                            conditionAttribute,
+                            conditionAttr,
                             conditionValue,
-                            targetAttribute,
+                            targetAttr,
                             requiredSuffix,
                             actualValue);
                     throw new ValidationException(errorMessage);

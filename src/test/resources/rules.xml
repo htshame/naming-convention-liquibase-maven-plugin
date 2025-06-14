@@ -11,21 +11,21 @@
 
     <rule name="attr-starts-with">
         <tag>createIndex</tag>
-        <targetAttribute>indexName</targetAttribute>
+        <targetAttr>indexName</targetAttr>
         <requiredPrefix>idx_</requiredPrefix>
     </rule>
 
     <rule name="attr-ends-with-conditioned">
         <tag>createIndex</tag>
-        <conditionAttribute>unique</conditionAttribute>
+        <conditionAttr>unique</conditionAttr>
         <conditionValue>true</conditionValue>
-        <targetAttribute>indexName</targetAttribute>
+        <targetAttr>indexName</targetAttr>
         <requiredSuffix>_unique</requiredSuffix>
     </rule>
 
     <rule name="attr-ends-with">
         <tag>addForeignKeyConstraint</tag>
-        <targetAttribute>constraintName</targetAttribute>
+        <targetAttr>constraintName</targetAttr>
         <requiredSuffix>_fk</requiredSuffix>
     </rule>
 

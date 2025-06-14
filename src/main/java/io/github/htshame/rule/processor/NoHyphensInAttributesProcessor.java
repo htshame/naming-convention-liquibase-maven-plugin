@@ -35,15 +35,15 @@ public class NoHyphensInAttributesProcessor implements Rule {
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String HYPHEN = "-";
 
-    private final Set<String> excludedAncestorAttrs;
+    private final Set<String> excludedAttrs;
 
     /**
      * Constructor.
      *
-     * @param excludedAncestorAttrs - excluded attributes.
+     * @param excludedAttrs - excluded attributes.
      */
-    public NoHyphensInAttributesProcessor(final Set<String> excludedAncestorAttrs) {
-        this.excludedAncestorAttrs = excludedAncestorAttrs != null ? excludedAncestorAttrs : new HashSet<>();
+    public NoHyphensInAttributesProcessor(final Set<String> excludedAttrs) {
+        this.excludedAttrs = excludedAttrs != null ? excludedAttrs : new HashSet<>();
     }
 
     /**
@@ -76,7 +76,7 @@ public class NoHyphensInAttributesProcessor implements Rule {
     public static NoHyphensInAttributesProcessor fromXml(final Element element) {
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTags = element
-                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_ATTRS.getValue());
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
         if (excludedTags.item(0) != null) {
             NodeList excludedTagElements = ((Element) excludedTags.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR_TAG.getValue());
@@ -103,7 +103,7 @@ public class NoHyphensInAttributesProcessor implements Rule {
 
             if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
-                    && !excludedAncestorAttrs.contains(attrName)
+                    && !excludedAttrs.contains(attrName)
                     && attrValue.contains(HYPHEN)) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(

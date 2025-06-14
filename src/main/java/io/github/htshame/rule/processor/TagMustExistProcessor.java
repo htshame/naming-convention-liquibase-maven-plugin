@@ -26,10 +26,10 @@ import static io.github.htshame.util.RuleUtil.getText;
  * <pre><code>
  * &lt;rule name="tag-must-exist"&gt;
  *     &lt;requiredTag&gt;comment&lt;/requiredTag&gt;
- *     &lt;excludedAncestorTags&gt;
+ *     &lt;excludedTags&gt;
  *         &lt;tag&gt;databaseChangeLog&lt;/tag&gt;
  *         &lt;tag&gt;include&lt;/tag&gt;
- *     &lt;/excludedAncestorTags&gt;
+ *     &lt;/excludedTags&gt;
  * &lt;/rule&gt;
  * </code></pre>
  * <p>This will verify that the following <code>changeSet</code>:</p>
@@ -77,7 +77,7 @@ public class TagMustExistProcessor implements Rule {
         String requiredChild = getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTagElements = ((Element) element
-                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_TAGS.getValue()).item(0))
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_TAGS.getValue()).item(0))
                 .getElementsByTagName(RuleStructureEnum.TAG_TAG.getValue());
         for (int j = 0; j < excludedTagElements.getLength(); j++) {
             excludedParents.add(excludedTagElements.item(j).getTextContent());

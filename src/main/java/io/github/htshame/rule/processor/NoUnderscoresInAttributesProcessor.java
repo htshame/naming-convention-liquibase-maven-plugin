@@ -37,15 +37,15 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String UNDERSCORE = "_";
 
-    private final Set<String> excludedAncestorAttrs;
+    private final Set<String> excludedAttrs;
 
     /**
      * Constructor.
      *
-     * @param excludedAncestorAttrs - excluded attributes.
+     * @param excludedAttrs - excluded attributes.
      */
-    public NoUnderscoresInAttributesProcessor(final Set<String> excludedAncestorAttrs) {
-        this.excludedAncestorAttrs = excludedAncestorAttrs != null ? excludedAncestorAttrs : new HashSet<>();
+    public NoUnderscoresInAttributesProcessor(final Set<String> excludedAttrs) {
+        this.excludedAttrs = excludedAttrs != null ? excludedAttrs : new HashSet<>();
     }
 
     /**
@@ -78,7 +78,7 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
     public static NoUnderscoresInAttributesProcessor fromXml(final Element element) {
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTags = element
-                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_ATTRS.getValue());
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
         if (excludedTags.item(0) != null) {
             NodeList excludedTagElements = ((Element) excludedTags.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR_TAG.getValue());
@@ -104,7 +104,7 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
 
             if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
-                    && !excludedAncestorAttrs.contains(attrName)
+                    && !excludedAttrs.contains(attrName)
                     && attrValue.contains(UNDERSCORE)) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(

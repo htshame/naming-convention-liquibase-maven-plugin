@@ -17,13 +17,13 @@ public enum RuleStructureEnum {
      */
     REQUIRED_TAG("requiredTag"),
     /**
-     * Represents 'excludedAncestorTags' tags.
+     * Represents 'excludedTags' tags.
      */
-    EXCLUDED_ANCESTOR_TAGS("excludedAncestorTags"),
+    EXCLUDED_TAGS("excludedTags"),
     /**
-     * Represents 'excludedAncestorAttrs' tags.
+     * Represents 'excludedAttrs' tags.
      */
-    EXCLUDED_ANCESTOR_ATTRS("excludedAncestorAttrs"),
+    EXCLUDED_ATTRS("excludedAttrs"),
     /**
      * Represents 'tag' tag.
      */

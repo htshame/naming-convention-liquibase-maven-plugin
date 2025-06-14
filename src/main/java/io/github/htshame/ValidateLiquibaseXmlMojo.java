@@ -35,6 +35,7 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
     /**
      * Path to the XML file with exclusions.
      */
+    @Parameter
     private File pathToExclusionsFile;
 
     /**

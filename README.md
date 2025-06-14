@@ -85,7 +85,7 @@ Example:
 
 <rule name="attr-starts-with">
     <tag>createIndex</tag>
-    <targetAttribute>indexName</targetAttribute>
+    <targetAttr>indexName</targetAttr>
     <requiredPrefix>idx_</requiredPrefix>
 </rule>
 ```
@@ -102,7 +102,7 @@ Example:
 
 <rule name="attr-ends-with">
     <tag>addForeignKeyConstraint</tag>
-    <targetAttribute>constraintName</targetAttribute>
+    <targetAttr>constraintName</targetAttr>
     <requiredSuffix>_fk</requiredSuffix>
 </rule>
 ```
@@ -119,9 +119,9 @@ Example:
 
 <rule name="attr-ends-with-conditioned">
     <tag>createIndex</tag>
-    <conditionAttribute>unique</conditionAttribute>
+    <conditionAttr>unique</conditionAttr>
     <conditionValue>true</conditionValue>
-    <targetAttribute>indexName</targetAttribute>
+    <targetAttr>indexName</targetAttr>
     <requiredSuffix>_unique</requiredSuffix>
 </rule>
 ```
@@ -180,3 +180,5 @@ License
 [Apache 2.0 License.](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/LICENSE)
 
 [Link](https://github.com/htshame/naming-convention-liquibase-maven-plugin) to the code repository.
+
+Version [Changelog](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/CHANGELOG.md).

@@ -30,15 +30,15 @@ import java.util.Set;
  *
  *     &lt;rule type="attr-starts-with"&gt;
  *         &lt;tag&gt;createIndex&lt;/tag&gt;
- *         &lt;targetAttribute&gt;indexName&lt;/targetAttribute&gt;
+ *         &lt;targetAttr&gt;indexName&lt;/targetAttr&gt;
  *         &lt;requiredPrefix&gt;idx_&lt;/requiredPrefix&gt;
  *     &lt;/rule&gt;
  *
  *     &lt;rule type="attr-ends-with-conditioned"&gt;
  *         &lt;tag&gt;createIndex&lt;/tag&gt;
- *         &lt;conditionAttribute&gt;unique&lt;/conditionAttribute&gt;
+ *         &lt;conditionAttr&gt;unique&lt;/conditionAttr&gt;
  *         &lt;conditionValue&gt;true&lt;/conditionValue&gt;
- *         &lt;targetAttribute&gt;indexName&lt;/targetAttribute&gt;
+ *         &lt;targetAttr&gt;indexName&lt;/targetAttr&gt;
  *         &lt;requiredSuffix&gt;_unique&lt;/requiredSuffix&gt;
  *     &lt;/rule&gt;
  *
@@ -66,7 +66,7 @@ public class RuleParser {
         Set<Rule> rules = new HashSet<>();
         try {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
-            NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE_TAG.getValue());
+            NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE.getValue());
             for (int i = 0; i < ruleNodes.getLength(); i++) {
                 Element ruleElement = (Element) ruleNodes.item(i);
                 RuleEnum ruleType =

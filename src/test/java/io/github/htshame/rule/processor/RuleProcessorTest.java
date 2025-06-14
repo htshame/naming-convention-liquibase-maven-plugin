@@ -28,7 +28,7 @@ public class RuleProcessorTest {
         Document ruleDocument = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File(ruleFilePath));
-        NodeList ruleNodes = ruleDocument.getElementsByTagName(RuleStructureEnum.RULE_TAG.getValue());
+        NodeList ruleNodes = ruleDocument.getElementsByTagName(RuleStructureEnum.RULE.getValue());
         return (Element) ruleNodes.item(0);
     }
 }

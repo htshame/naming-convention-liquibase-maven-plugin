@@ -22,7 +22,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * <pre><code>
  * &lt;rule name="attr-ends-with-conditioned"&gt;
  *     &lt;tag&gt;addForeignKeyConstraint&lt;/tag&gt;
- *     &lt;targetAttribute&gt;constraintName&lt;/targetAttribute&gt;
+ *     &lt;targetAttr&gt;constraintName&lt;/targetAttr&gt;
  *     &lt;requiredSuffix&gt;_fk&lt;/requiredSuffix&gt;
  * &lt;/rule&gt;
  * </code></pre>
@@ -39,21 +39,21 @@ import static io.github.htshame.util.RuleUtil.getText;
 public class AttrEndsWithProcessor implements Rule {
 
     private final String tag;
-    private final String targetAttribute;
+    private final String targetAttr;
     private final String requiredSuffix;
 
     /**
      * Constructor.
      *
      * @param tag             - rule.tag value.
-     * @param targetAttribute - rule.targetAttribute value.
+     * @param targetAttr - rule.targetAttr value.
      * @param requiredSuffix  - rule.requiredSuffix value.
      */
     public AttrEndsWithProcessor(final String tag,
-                                 final String targetAttribute,
+                                 final String targetAttr,
                                  final String requiredSuffix) {
         this.tag = tag;
-        this.targetAttribute = targetAttribute;
+        this.targetAttr = targetAttr;
         this.requiredSuffix = requiredSuffix;
     }
 
@@ -75,9 +75,9 @@ public class AttrEndsWithProcessor implements Rule {
      */
     public static AttrEndsWithProcessor fromXml(final Element element) {
         return new AttrEndsWithProcessor(
-                getText(element, RuleStructureEnum.TAG_TAG.getValue()),
-                getText(element, RuleStructureEnum.TARGET_ATTRIBUTE_TAG.getValue()),
-                getText(element, RuleStructureEnum.REQUIRED_SUFFIX_TAG.getValue()));
+                getText(element, RuleStructureEnum.TAG.getValue()),
+                getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
+                getText(element, RuleStructureEnum.REQUIRED_SUFFIX.getValue()));
     }
 
     /**
@@ -91,7 +91,7 @@ public class AttrEndsWithProcessor implements Rule {
         NodeList elements = document.getElementsByTagName(tag);
         for (int i = 0; i < elements.getLength(); i++) {
             Element element = (Element) elements.item(i);
-            String actualValue = element.getAttribute(targetAttribute);
+            String actualValue = element.getAttribute(targetAttr);
             if (!actualValue.endsWith(requiredSuffix)) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(
@@ -100,7 +100,7 @@ public class AttrEndsWithProcessor implements Rule {
                         changeSetAttributeDto.getId(),
                         changeSetAttributeDto.getAuthor(),
                         tag,
-                        targetAttribute,
+                        targetAttr,
                         requiredSuffix,
                         actualValue);
                 throw new ValidationException(errorMessage);

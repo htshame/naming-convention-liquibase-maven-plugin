@@ -7,4 +7,4 @@ description: |
   with zero runtime dependencies and minimal configuration overhead.
 theme: jekyll-theme-slate
 includes:
-  - assets/css/style.css
+  - assets/css/style.scss

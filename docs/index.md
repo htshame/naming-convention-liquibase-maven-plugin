@@ -1,3 +1,9 @@
+<style>
+.main-content {
+  max-width: 1200px;
+}
+</style>
+
 ### You use [Liquibase](https://github.com/liquibase/liquibase)?
 
 ### You work with other developers whom you can't really control with PR reviews?

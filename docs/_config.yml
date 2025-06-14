@@ -6,3 +6,5 @@ description: |
   Enables teams to enforce Liquibase changeLog standards across codebases
   with zero runtime dependencies and minimal configuration overhead.
 #theme: jekyll-theme-slate
+includes:
+  - assets/css/style.scss

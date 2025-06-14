@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static io.github.htshame.util.RuleUtil.isExcludedByAncestor;
+import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 
 /**
  * Business logic for the <code>no-underscores-in-attributes</code> rule.
@@ -37,15 +37,15 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String UNDERSCORE = "_";
 
-    private final Set<String> excludedAncestorTags;
+    private final Set<String> excludedAncestorAttrs;
 
     /**
      * Constructor.
      *
-     * @param excludedAncestorTags - excluded tags.
+     * @param excludedAncestorAttrs - excluded attributes.
      */
-    public NoUnderscoresInAttributesProcessor(final Set<String> excludedAncestorTags) {
-        this.excludedAncestorTags = excludedAncestorTags != null ? excludedAncestorTags : new HashSet<>();
+    public NoUnderscoresInAttributesProcessor(final Set<String> excludedAncestorAttrs) {
+        this.excludedAncestorAttrs = excludedAncestorAttrs != null ? excludedAncestorAttrs : new HashSet<>();
     }
 
     /**
@@ -78,8 +78,8 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
     public static NoUnderscoresInAttributesProcessor fromXml(final Element element) {
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTagElements = ((Element) element
-                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_TAGS.getValue()).item(0))
-                .getElementsByTagName(RuleStructureEnum.TAG_TAG.getValue());
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_ATTRS.getValue()).item(0))
+                .getElementsByTagName(RuleStructureEnum.ATTR_TAG.getValue());
         for (int j = 0; j < excludedTagElements.getLength(); j++) {
             excludedParents.add(excludedTagElements.item(j).getTextContent());
         }
@@ -99,9 +99,9 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
             String attrName = attr.getName();
             String attrValue = attr.getValue();
 
-            if (!isExcludedByAncestor(element)
+            if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
-                    && !excludedAncestorTags.contains(attrName)
+                    && !excludedAncestorAttrs.contains(attrName)
                     && attrValue.contains(UNDERSCORE)) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(

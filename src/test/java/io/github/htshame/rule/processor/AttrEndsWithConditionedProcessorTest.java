@@ -1,12 +1,10 @@
 package io.github.htshame.rule.processor;
 
 import io.github.htshame.enums.RuleEnum;
-import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -18,13 +16,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class AttrEndsWithConditionedProcessorTest {
+public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTest {
 
-    private static final String TAG = "createIndex";
-    private static final String CONDITION_ATTRIBUTE = "unique";
-    private static final String CONDITION_VALUE = "true";
-    private static final String TARGET_ATTRIBUTE = "indexName";
-    private static final String REQUIRED_SUFFIX = "_unique";
+    private static final String RULE_URL =
+            "src/test/resources/io/github/htshame/rule/processor/attr-ends-with-conditioned-rule.xml";
+
+    /**
+     * Default constructor.
+     */
+    public AttrEndsWithConditionedProcessorTest() {
+        super(RULE_URL);
+    }
 
     /**
      * Test getting the name.
@@ -32,11 +34,7 @@ public class AttrEndsWithConditionedProcessorTest {
     @Test
     public void testGetName() throws ParserConfigurationException, IOException, SAXException {
         // arrange
-        Document document = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(new File("src/test/resources/rules.xml"));
-        NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE_TAG.getValue());
-        Element ruleElement = (Element) ruleNodes.item(0);
+        Element ruleElement = prepareRuleELement();
 
         // act
         RuleEnum actual = AttrEndsWithConditionedProcessor.fromXml(ruleElement).getName();
@@ -56,15 +54,11 @@ public class AttrEndsWithConditionedProcessorTest {
                 .parse(new File("src/test/resources/io/github/htshame/rule/processor/"
                         + "attr-ends-with-conditioned-failure.xml"));
         boolean isExceptionThrown = false;
+        Element ruleElement = prepareRuleELement();
 
         // act
         try {
-            new AttrEndsWithConditionedProcessor(
-                    TAG,
-                    CONDITION_ATTRIBUTE,
-                    CONDITION_VALUE,
-                    TARGET_ATTRIBUTE,
-                    REQUIRED_SUFFIX).validate(document);
+            AttrEndsWithConditionedProcessor.fromXml(ruleElement).validate(document);
         } catch (ValidationException e) {
             isExceptionThrown = true;
         }
@@ -84,15 +78,11 @@ public class AttrEndsWithConditionedProcessorTest {
                 .parse(new File("src/test/resources/io/github/htshame/rule/processor/"
                         + "attr-ends-with-conditioned-success.xml"));
         boolean isExceptionThrown = false;
+        Element ruleElement = prepareRuleELement();
 
         // act
         try {
-            new AttrEndsWithConditionedProcessor(
-                    TAG,
-                    CONDITION_ATTRIBUTE,
-                    CONDITION_VALUE,
-                    TARGET_ATTRIBUTE,
-                    REQUIRED_SUFFIX).validate(document);
+            AttrEndsWithConditionedProcessor.fromXml(ruleElement).validate(document);
         } catch (ValidationException e) {
             isExceptionThrown = true;
         }

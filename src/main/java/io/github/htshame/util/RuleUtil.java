@@ -32,12 +32,12 @@ public final class RuleUtil {
     }
 
     /**
-     * Is tag excluded by ancestor.
+     * Is tag excluded by ancestor tag.
      *
      * @param element - element.
      * @return <code>true</code> if excluded. <code>false</code> - if not.
      */
-    public static boolean isExcludedByAncestor(final Element element) {
+    public static boolean isExcludedByAncestorTag(final Element element) {
         Node current = element;
         while (current != null && current.getNodeType() == Node.ELEMENT_NODE) {
             if (EXCLUDED_TAG.contains(((Element) current).getTagName())) {

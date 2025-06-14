@@ -21,9 +21,17 @@ public enum RuleStructureEnum {
      */
     EXCLUDED_ANCESTOR_TAGS("excludedAncestorTags"),
     /**
+     * Represents 'excludedAncestorAttrs' tags.
+     */
+    EXCLUDED_ANCESTOR_ATTRS("excludedAncestorAttrs"),
+    /**
      * Represents 'tag' tag.
      */
     TAG_TAG("tag"),
+    /**
+     * Represents 'attr' tag.
+     */
+    ATTR_TAG("attr"),
     /**
      * Represents 'targetAttribute' tag.
      */

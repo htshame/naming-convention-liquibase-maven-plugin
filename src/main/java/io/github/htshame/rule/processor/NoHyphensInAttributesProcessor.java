@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static io.github.htshame.util.RuleUtil.isExcludedByAncestor;
+import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 
 /**
  * Business logic for <code>no-hyphens-in-attributes</code> rule.
@@ -35,15 +35,15 @@ public class NoHyphensInAttributesProcessor implements Rule {
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String HYPHEN = "-";
 
-    private final Set<String> excludedAncestorTags;
+    private final Set<String> excludedAncestorAttrs;
 
     /**
      * Constructor.
      *
-     * @param excludedAncestorTags - excluded tags.
+     * @param excludedAncestorAttrs - excluded attributes.
      */
-    public NoHyphensInAttributesProcessor(final Set<String> excludedAncestorTags) {
-        this.excludedAncestorTags = excludedAncestorTags != null ? excludedAncestorTags : new HashSet<>();
+    public NoHyphensInAttributesProcessor(final Set<String> excludedAncestorAttrs) {
+        this.excludedAncestorAttrs = excludedAncestorAttrs != null ? excludedAncestorAttrs : new HashSet<>();
     }
 
     /**
@@ -76,8 +76,8 @@ public class NoHyphensInAttributesProcessor implements Rule {
     public static NoHyphensInAttributesProcessor fromXml(final Element element) {
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTagElements = ((Element) element
-                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_TAGS.getValue()).item(0))
-                .getElementsByTagName(RuleStructureEnum.TAG_TAG.getValue());
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_ATTRS.getValue()).item(0))
+                .getElementsByTagName(RuleStructureEnum.ATTR_TAG.getValue());
         for (int j = 0; j < excludedTagElements.getLength(); j++) {
             excludedParents.add(excludedTagElements.item(j).getTextContent());
         }
@@ -97,9 +97,9 @@ public class NoHyphensInAttributesProcessor implements Rule {
             String attrName = attr.getName();
             String attrValue = attr.getValue();
 
-            if (!isExcludedByAncestor(element)
+            if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
-                    && !excludedAncestorTags.contains(attrName)
+                    && !excludedAncestorAttrs.contains(attrName)
                     && attrValue.contains(HYPHEN)) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(

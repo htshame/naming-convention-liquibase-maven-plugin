@@ -30,17 +30,17 @@
     </rule>
 
     <rule name="no-hyphens-in-attributes">
-        <excludedAncestorTags>
-            <tag>defaultValue</tag>
-            <tag>defaultValueComputed</tag>
-        </excludedAncestorTags>
+        <excludedAncestorAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAncestorAttrs>
     </rule>
 
     <rule name="no-underscores-in-attributes">
-        <excludedAncestorTags>
-            <tag>defaultValue</tag>
-            <tag>defaultValueComputed</tag>
-        </excludedAncestorTags>
+        <excludedAncestorAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAncestorAttrs>
     </rule>
 </rules>
 

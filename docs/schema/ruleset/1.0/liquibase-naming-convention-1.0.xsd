@@ -49,6 +49,14 @@
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
+
+                            <xs:element name="excludedAncestorAttrs">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="attr" type="xs:string" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
                         </xs:choice>
                         <xs:attribute name="name" type="RuleType" use="required"/>
                     </xs:complexType>

@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../../docs/schema/ruleset/1.0/liquibase-naming-convention-1.0.xsd">
+        xsi:noNamespaceSchemaLocation="../../../../../../../../docs/schema/ruleset/1.0.1/liquibase-naming-convention-1.0.1.xsd">
 
     <rule name="no-hyphens-in-attributes">
         <excludedAncestorAttrs>

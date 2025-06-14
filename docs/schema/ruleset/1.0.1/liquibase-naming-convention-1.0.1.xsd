@@ -2,7 +2,7 @@
 <xs:schema
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         elementFormDefault="qualified"
-        version="1.0">
+        version="1.1">
 
     <xs:simpleType name="RuleType">
         <xs:restriction base="xs:string">
@@ -18,7 +18,7 @@
     <xs:element name="exclusions">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="exclusion" maxOccurs="unbounded">
+                <xs:element name="exclusion" maxOccurs="unbounded" minOccurs="0">
                     <xs:complexType>
                         <xs:attribute name="fileName" type="xs:string" use="required"/>
                         <xs:attribute name="rule" type="RuleType" use="required"/>
@@ -46,6 +46,14 @@
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element name="tag" type="xs:string" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+
+                            <xs:element name="excludedAncestorAttrs">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="attr" type="xs:string" maxOccurs="unbounded"/>
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>

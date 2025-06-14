@@ -66,10 +66,10 @@ Example:
 
 <rule name="tag-must-exist">
     <requiredTag>comment</requiredTag>
-    <excludedAncestorTags>
+    <excludedTags>
         <tag>databaseChangeLog</tag>
         <tag>include</tag>
-    </excludedAncestorTags>
+    </excludedTags>
 </rule>
 ```
 
@@ -136,15 +136,15 @@ Example:
 ```xml
 
 <rule name="no-hyphens-in-attributes">
-    <excludedAncestorTags>
-        <tag>defaultValue</tag>
-        <tag>defaultValueComputed</tag>
-    </excludedAncestorTags>
+    <excludedAttrs>
+        <attr>defaultValue</attr>
+        <attr>defaultValueComputed</attr>
+    </excludedAttrs>
 </rule>
 ```
 
 Checks that `-` are not present in the changeLog at all, except for excluded attributes. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
-excluded from the check.
+excluded from the check. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ### no-underscores-in-attributes
 
@@ -153,15 +153,15 @@ Example:
 ```xml
 
 <rule name="no-underscores-in-attributes">
-    <excludedAncestorTags>
-        <tag>defaultValue</tag>
-        <tag>defaultValueComputed</tag>
-    </excludedAncestorTags>
+    <excludedAttrs>
+        <attr>defaultValue</attr>
+        <attr>defaultValueComputed</attr>
+    </excludedAttrs>
 </rule>
 ```
 
 Checks that `_` are not present in the changeLog at all, except for excluded attributes. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
-excluded from the check.
+excluded from the check. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ---
 

@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -46,6 +46,7 @@ This plugin allows you to create a set of rules and enforce them.
                 ${project.basedir}/src/main/resources/liquibaseNaming/exclusions.xml
             </pathToExclusionsFile>
             <changeLogDirectory>${project.basedir}/src/main/resources/db</changeLogDirectory>
+            <shouldFailBuild>true</shouldFailBuild>
         </configuration>
     </plugin>
     ```

@@ -1,4 +1,8 @@
-<link rel="stylesheet" href="assets/css/custom.css">
+<style>
+#main-content .inner {
+  max-width: 1200px !important;
+}
+</style>
 
 ### You use [Liquibase](https://github.com/liquibase/liquibase)?
 

@@ -5,6 +5,8 @@
         <excludedAncestorAttrs>
             <attr>defaultValue</attr>
             <attr>defaultValueComputed</attr>
+            <attr>xmlns:xsi</attr>
+            <attr>xsi:schemaLocation</attr>
         </excludedAncestorAttrs>
     </rule>
 </rules>

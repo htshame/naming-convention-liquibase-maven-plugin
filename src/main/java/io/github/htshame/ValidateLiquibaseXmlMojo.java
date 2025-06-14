@@ -35,7 +35,6 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
     /**
      * Path to the XML file with exclusions.
      */
-    @Parameter(required = false)
     private File pathToExclusionsFile;
 
     /**
@@ -43,6 +42,9 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
      */
     @Parameter(required = true)
     private File changeLogDirectory;
+
+    @Parameter(defaultValue = "true")
+    private Boolean shouldFailBuild;
 
     /**
      * Default constructor.
@@ -74,9 +76,16 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
 
         List<String> validationErrors = new ValidationProcessor().validate(changeLogFiles, rules, exclusionParser);
 
-        checkValidationResult(validationErrors);
-
-        getLog().info("All ChangeLog files passed validation.");
+        try {
+            checkValidationResult(validationErrors);
+            getLog().info("All ChangeLog files passed validation.");
+        } catch (MojoExecutionException e) {
+            if (Boolean.TRUE.equals(shouldFailBuild)) {
+                throw e;
+            }
+            getLog().warn(e.getMessage()
+                    + " Build will not fail because <shouldFailBuild>false</shouldFailBuild>.");
+        }
     }
 
     /**

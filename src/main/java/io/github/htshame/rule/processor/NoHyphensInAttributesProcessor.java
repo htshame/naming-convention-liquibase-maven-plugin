@@ -75,12 +75,16 @@ public class NoHyphensInAttributesProcessor implements Rule {
      */
     public static NoHyphensInAttributesProcessor fromXml(final Element element) {
         Set<String> excludedParents = new HashSet<>();
-        NodeList excludedTagElements = ((Element) element
-                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_ATTRS.getValue()).item(0))
-                .getElementsByTagName(RuleStructureEnum.ATTR_TAG.getValue());
-        for (int j = 0; j < excludedTagElements.getLength(); j++) {
-            excludedParents.add(excludedTagElements.item(j).getTextContent());
+        NodeList excludedTags = element
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ANCESTOR_ATTRS.getValue());
+        if (excludedTags.item(0) != null) {
+            NodeList excludedTagElements = ((Element) excludedTags.item(0))
+                    .getElementsByTagName(RuleStructureEnum.ATTR_TAG.getValue());
+            for (int j = 0; j < excludedTagElements.getLength(); j++) {
+                excludedParents.add(excludedTagElements.item(j).getTextContent());
+            }
         }
+
         return new NoHyphensInAttributesProcessor(excludedParents);
     }
 

@@ -7,6 +7,14 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 1.0.4
+
+- Fix issue with changeSet processing.
+- Improve logging.
+- Add the ability to exclude separate changeSet.
+
+---
+
 ## Version 1.0.3
 
 - Resolved issue causing exclusion rules to be ignored.
@@ -51,6 +59,7 @@ Initial implementation.
 
 ### Previous Releases
 
+- [1.0.3](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.4.md)
 - [1.0.3](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.3.md)
 - [1.0.2](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.2.md)
 - [1.0.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.1.md)

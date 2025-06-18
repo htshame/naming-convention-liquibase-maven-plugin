@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/1.0.2/liquibase-naming-convention-1.0.2.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/1.0.4/liquibase-naming-convention-1.0.4.xsd">
 
     <rule name="tag-must-exist">
         <requiredTag>comment</requiredTag>

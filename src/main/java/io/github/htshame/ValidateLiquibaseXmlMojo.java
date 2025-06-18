@@ -16,7 +16,6 @@ import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <code>validate-liquibase-xml</code> processor.
@@ -62,7 +61,7 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         validateInput();
 
-        Set<Rule> rules;
+        List<Rule> rules;
         ExclusionParser exclusionParser;
         List<File> changeLogFiles;
 

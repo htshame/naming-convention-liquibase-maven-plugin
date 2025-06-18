@@ -21,15 +21,15 @@ This plugin allows you to create a set of rules and enforce them.
 
 # How to use it?
 
-1. Create [rules.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/rules_example.xml) (or name it differently) file and provide it in `<pathToRulesFile>`.
-2. Create [exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml) (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`.
+1. Create <b>[rules.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/rules_example.xml)</b> (or name it differently) file and provide it in `<pathToRulesFile>`.
+2. Create <b>[exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml)</b> (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`.
 3. Provide the path to the directory with Liquibase XML changeLogs in `<changeLogDirectory>`.
 4. Put this into your pom.xml:
     ```xml
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>1.0.3</version>
+        <version>1.0.4</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -166,7 +166,8 @@ You can always add an exclusion to the set of rules. Create a separate `exclusio
 Example:
 
 ```xml
-<exclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
+<fileExclusion fileName="changelog_04.xml" rule="no-underscores-in-attributes"/>
+<changeSetExclusion fileName="changelog_04.xml" changeSetId="changelog_04-1" changeSetAuthor="test" rule="tag-must-exist"/>
 ```
 
 ---

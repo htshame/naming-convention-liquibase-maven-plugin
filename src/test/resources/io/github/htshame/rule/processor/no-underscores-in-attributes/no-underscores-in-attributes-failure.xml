@@ -1,0 +1,61 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+    <changeSet id="changelog_02_3" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="user_metadata_external_user_id_unique_idx"/>
+            </not>
+            <tableExists tableName="user_metadata"/>
+            <columnExists tableName="user_metadata" columnName="external_user_id"/>
+        </preConditions>
+        <comment>
+            Comment comment
+        </comment>
+        <createIndex tableName="user_metadata" indexName="user_metadata_external_user_id_unique_idx" unique="true">
+            <column name="external_user_id"/>
+        </createIndex>
+        <createTable tableName="user_meta">
+            <column name="user_data" type="varchar(64)" defaultValue="some-data"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="changelog_02_4" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="user_metadata_external_user_id_unique_idx"/>
+            </not>
+            <tableExists tableName="user_metadata"/>
+            <columnExists tableName="user_metadata" columnName="external_user_id"/>
+        </preConditions>
+        <comment>
+            Comment comment
+        </comment>
+        <createIndex tableName="user_metadata" indexName="user_metadata_external_user_id_unique_idx" unique="true">
+            <column name="external_user_id"/>
+        </createIndex>
+        <createTable tableName="user_meta">
+            <column name="user_data" type="varchar(64)" defaultValueComputed="some_data"/>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="changelog_02_5" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="user-metadata-external-user-id-unique-idx"/>
+            </not>
+            <tableExists tableName="user-metadata"/>
+            <columnExists tableName="user-metadata" columnName="external-user-id"/>
+        </preConditions>
+        <comment>
+            Comment comment
+        </comment>
+        <createIndex tableName="user-metadata" indexName="user-metadata-external-user-id-unique-idx" unique="true">
+            <column name="external-user-id"/>
+        </createIndex>
+        <createTable tableName="user-meta">
+            <column name="user-data" type="varchar(64)" defaultValueComputed="some_data"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

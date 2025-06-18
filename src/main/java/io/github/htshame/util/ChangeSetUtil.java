@@ -9,7 +9,10 @@ import org.w3c.dom.Node;
  */
 public final class ChangeSetUtil {
 
-    private static final String CHANGE_SET_TAG_NAME = "changeSet";
+    /**
+     * ChangeSet tag name.
+     */
+    public static final String CHANGE_SET_TAG_NAME = "changeSet";
     private static final String ID_ATTR_NAME = "id";
     private static final String AUTHOR_ATTR_NAME = "author";
 

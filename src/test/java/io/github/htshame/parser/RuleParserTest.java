@@ -11,6 +11,7 @@ import io.github.htshame.rule.processor.TagMustExistProcessor;
 import org.junit.Test;
 
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,7 +43,7 @@ public class RuleParserTest {
         );
 
         // act
-        Set<Rule> actual = ruleParser.parseRules(ruleFile);
+        List<Rule> actual = ruleParser.parseRules(ruleFile);
 
         // assert
         assertEquals(RULE_SET_SIZE, actual.size());

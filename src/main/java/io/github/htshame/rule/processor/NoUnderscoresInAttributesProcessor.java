@@ -4,10 +4,11 @@ import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
+import io.github.htshame.rule.RulePreProcessor;
 import io.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -32,7 +33,7 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
  * </code></pre>
  */
 
-public class NoUnderscoresInAttributesProcessor implements Rule {
+public class NoUnderscoresInAttributesProcessor extends RulePreProcessor implements Rule {
 
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String UNDERSCORE = "_";
@@ -49,14 +50,21 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
     }
 
     /**
-     * Validate changeLog file.
+     * Validate changeSet.
      *
-     * @param document - document.
+     * @param changeSetElement  - changeSet element.
+     * @param exclusionParser   - exclusion parser.
+     * @param changeLogFileName - changeLog file name.
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final Document document) throws ValidationException {
-        validateElement(document.getDocumentElement());
+    public void validate(final Element changeSetElement,
+                         final ExclusionParser exclusionParser,
+                         final String changeLogFileName) throws ValidationException {
+        if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
+            return;
+        }
+        validateElement(changeSetElement);
     }
 
     /**
@@ -108,14 +116,14 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
                     && attrValue.contains(UNDERSCORE)) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(
-                        "ChangeSet: id=\"%s\", author=\"%s\". Attribute %s in element <%s> contains "
-                                + "underscore in value: [%s]. Rule: %s",
+                        "ChangeSet: id=\"%s\", author=\"%s\". Rule: [%s]. Attribute %s in element <%s> contains "
+                                + "underscore in value: [%s].",
                         changeSetAttributeDto.getId(),
                         changeSetAttributeDto.getAuthor(),
+                        getName().getValue(),
                         attrName,
                         element.getTagName(),
-                        attrValue,
-                        RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue());
+                        attrValue);
                 throw new ValidationException(errorMessage);
             }
         }

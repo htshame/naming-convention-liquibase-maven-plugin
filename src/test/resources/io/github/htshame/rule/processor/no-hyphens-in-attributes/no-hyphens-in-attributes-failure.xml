@@ -20,4 +20,23 @@
             <column name="creation_date" type="DATETIME" defaultValue="1970-01-01 00:00:00"/>
         </createTable>
     </changeSet>
+
+    <changeSet id="changelog_02_4" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="user_metadata_external_user_id_unique_idx"/>
+            </not>
+            <tableExists tableName="user-metadata-table"/>
+            <columnExists tableName="user-metadata" columnName="external_user_id"/>
+        </preConditions>
+        <comment>
+            Comment comment
+        </comment>
+        <createIndex tableName="user-metadata" indexName="user_metadata_external_user_id_unique_idx" unique="true">
+            <column name="external_user_id"/>
+        </createIndex>
+        <createTable tableName="user_meta">
+            <column name="creation_date" type="DATETIME" defaultValueComputed="1970-01-01 00:00:00"/>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

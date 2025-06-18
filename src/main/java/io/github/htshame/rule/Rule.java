@@ -2,7 +2,8 @@ package io.github.htshame.rule;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ValidationException;
-import org.w3c.dom.Document;
+import io.github.htshame.parser.ExclusionParser;
+import org.w3c.dom.Element;
 
 /**
  * Interface for rule handling.
@@ -17,10 +18,15 @@ public interface Rule {
     RuleEnum getName();
 
     /**
-     * Validates the document against the rule which implements {@link Rule}.
+     * Validates the changeSet against the rule which implements {@link Rule}.
      *
-     * @param document - document.
+     * @param changeSetElement  - element containing changeSet.
+     * @param exclusionParser   - exclusion parser.
+     * @param changeLogFileName - changeLog file name.
      * @throws ValidationException - thrown if validation fails.
      */
-    void validate(Document document) throws ValidationException;
+    void validate(Element changeSetElement,
+                  ExclusionParser exclusionParser,
+                  String changeLogFileName) throws ValidationException;
+
 }

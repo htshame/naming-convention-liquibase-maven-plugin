@@ -1,5 +1,6 @@
 package io.github.htshame.parser;
 
+import io.github.htshame.dto.ChangeSetExclusionDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ExclusionParserException;
 import org.w3c.dom.Document;
@@ -26,13 +27,17 @@ import java.util.Set;
  * &lt;/exclusions&gt;
  * </code></pre>
  */
-
 public final class ExclusionParser {
 
     /**
      * Sets of excluded rules mapped with the changeLog file.
      */
     private final Map<String, Set<RuleEnum>> fileRuleExclusions = new HashMap<>();
+
+    /**
+     * Sets of excluded rules mapped by the excluded changeSet.
+     */
+    private final Map<ChangeSetExclusionDto, Set<RuleEnum>> changeSetRuleExclusions = new HashMap<>();
 
     private ExclusionParser() {
 
@@ -56,14 +61,29 @@ public final class ExclusionParser {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(exclusionsFile);
 
-            NodeList exclusions = doc.getElementsByTagName(ExclusionEnum.EXCLUSION_TAG.getValue());
-            for (int i = 0; i < exclusions.getLength(); i++) {
-                Element exclusion = (Element) exclusions.item(i);
+            NodeList fileExclusions = doc.getElementsByTagName(ExclusionEnum.FILE_EXCLUSION_TAG.getValue());
+            for (int i = 0; i < fileExclusions.getLength(); i++) {
+                Element exclusion = (Element) fileExclusions.item(i);
                 String fileName = exclusion.getAttribute(ExclusionEnum.FILE_NAME_ATTR.getValue()).trim();
                 String rule = exclusion.getAttribute(ExclusionEnum.RULE_ATTR.getValue()).trim();
 
                 config.fileRuleExclusions
                         .computeIfAbsent(fileName, k -> new HashSet<>())
+                        .add(RuleEnum.fromValue(rule));
+            }
+
+            NodeList changeSetExclusions = doc.getElementsByTagName(ExclusionEnum.CHANGESET_EXCLUSION_TAG.getValue());
+            for (int i = 0; i < changeSetExclusions.getLength(); i++) {
+                Element exclusion = (Element) changeSetExclusions.item(i);
+                String fileName = exclusion.getAttribute(ExclusionEnum.FILE_NAME_ATTR.getValue()).trim();
+                String rule = exclusion.getAttribute(ExclusionEnum.RULE_ATTR.getValue()).trim();
+                String changeSetId = exclusion.getAttribute(ExclusionEnum.CHANGESET_ID_ATTR.getValue()).trim();
+                String changeSetAuthor = exclusion.getAttribute(ExclusionEnum.CHANGESET_AUTHOR_ATTR.getValue()).trim();
+
+                config.changeSetRuleExclusions
+                        .computeIfAbsent(
+                                new ChangeSetExclusionDto(fileName, changeSetId, changeSetAuthor),
+                                k -> new HashSet<>())
                         .add(RuleEnum.fromValue(rule));
             }
             return config;
@@ -79,9 +99,27 @@ public final class ExclusionParser {
      * @param ruleName - rule name.
      * @return <code>true</code> if excluded, <code>false</code> if not excluded.
      */
-    public boolean isExcluded(final String fileName,
-                              final RuleEnum ruleName) {
+    public boolean isFileExcluded(final String fileName,
+                                  final RuleEnum ruleName) {
         Set<RuleEnum> excludedRules = fileRuleExclusions.get(fileName);
+        return excludedRules != null && excludedRules.contains(ruleName);
+    }
+
+    /**
+     * Check whether the rule is excluded or not for the given changeSet.
+     *
+     * @param fileName        - changeLog file name.
+     * @param changeSetId     - changeSet id.
+     * @param changeSetAuthor - changeSet author.
+     * @param ruleName        - rule name.
+     * @return <code>true</code> if excluded, <code>false</code> if not excluded.
+     */
+    public boolean isChangeSetExcluded(final String fileName,
+                                       final String changeSetId,
+                                       final String changeSetAuthor,
+                                       final RuleEnum ruleName) {
+        Set<RuleEnum> excludedRules = changeSetRuleExclusions.get(
+                new ChangeSetExclusionDto(fileName, changeSetId, changeSetAuthor));
         return excludedRules != null && excludedRules.contains(ruleName);
     }
 
@@ -89,8 +127,11 @@ public final class ExclusionParser {
      * Exclusion XML tags and attributes.
      */
     private enum ExclusionEnum {
-        EXCLUSION_TAG("exclusion"),
+        FILE_EXCLUSION_TAG("fileExclusion"),
+        CHANGESET_EXCLUSION_TAG("changeSetExclusion"),
         FILE_NAME_ATTR("fileName"),
+        CHANGESET_ID_ATTR("changeSetId"),
+        CHANGESET_AUTHOR_ATTR("changeSetAuthor"),
         RULE_ATTR("rule");
 
         private final String value;

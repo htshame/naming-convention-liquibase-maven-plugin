@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
+
 /**
  * This class is responsible for actual validation based on
  * provided rules XML file,
@@ -38,18 +40,18 @@ public class ValidationProcessor {
     /**
      * Commence validation.
      *
-     * @param changeLogFiles - changeLog files to validate.
-     * @param rules - set of rules to validate against.
+     * @param changeLogFiles  - changeLog files to validate.
+     * @param rules           - set of rules to validate against.
      * @param exclusionParser - exclusions.
      * @return list of validation errors. Empty list if there are no errors.
      */
     public List<String> validate(final List<File> changeLogFiles,
-                                 final Set<Rule> rules,
+                                 final List<Rule> rules,
                                  final ExclusionParser exclusionParser) {
         List<String> validationErrors = new ArrayList<>();
         for (File changeLogFile : changeLogFiles) {
             Set<Rule> rulesToValidateWith = excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
-            validationErrors.addAll(processValidation(changeLogFile, rulesToValidateWith));
+            validationErrors.addAll(processValidation(changeLogFile, rulesToValidateWith, exclusionParser));
         }
         return validationErrors;
     }
@@ -57,18 +59,32 @@ public class ValidationProcessor {
     /**
      * Process a single changeLog file.
      *
-     * @param changeLogFile - changeLog file.
-     * @param rules - set of rules.
+     * @param changeLogFile   - changeLog file.
+     * @param rules           - set of rules.
+     * @param exclusionParser - exclusion parser.
      * @return list of validation errors. Empty list of there are no errors.
      */
     private List<String> processValidation(final File changeLogFile,
-                                           final Set<Rule> rules) {
+                                           final Set<Rule> rules,
+                                           final ExclusionParser exclusionParser) {
         List<String> validationErrors = new ArrayList<>();
         Document document;
         try {
             DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             document = documentBuilder.parse(changeLogFile);
             document.getDocumentElement().normalize();
+
+            for (Rule rule : rules) {
+                NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
+                for (int i = 0; i < changeSetList.getLength(); i++) {
+                    try {
+                        Element changeSetElement = (Element) changeSetList.item(i);
+                        rule.validate(changeSetElement, exclusionParser, changeLogFile.getName());
+                    } catch (ValidationException e) {
+                        validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
+                    }
+                }
+            }
         } catch (Exception e) {
             validationErrors.add("[" + changeLogFile.getName() + "] Failed to parse: " + e.getMessage());
             return validationErrors;
@@ -76,13 +92,7 @@ public class ValidationProcessor {
 
         stripExcludedTagAttributes(document);
 
-        for (Rule rule : rules) {
-            try {
-                rule.validate(document);
-            } catch (ValidationException e) {
-                validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
-            }
-        }
+
         return validationErrors;
     }
 
@@ -107,17 +117,17 @@ public class ValidationProcessor {
     /**
      * Exclude rules based on the data from the exclusion file.
      *
-     * @param rules - set of specified rules.
+     * @param rules           - set of specified rules.
      * @param exclusionParser - exclusion parser.
-     * @param changeLogFile - changeLog file.
+     * @param changeLogFile   - changeLog file.
      * @return set of rules to apply to the given changeLog file.
      */
-    private Set<Rule> excludeRulesBasedOnExclusionFile(final Set<Rule> rules,
+    private Set<Rule> excludeRulesBasedOnExclusionFile(final List<Rule> rules,
                                                        final ExclusionParser exclusionParser,
                                                        final File changeLogFile) {
         Set<Rule> rulesToValidateWith = new HashSet<>();
         for (Rule rule : rules) {
-            if (!exclusionParser.isExcluded(changeLogFile.getName(), rule.getName())) {
+            if (!exclusionParser.isFileExcluded(changeLogFile.getName(), rule.getName())) {
                 rulesToValidateWith.add(rule);
             }
         }

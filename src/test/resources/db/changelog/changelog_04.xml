@@ -3,8 +3,18 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
 
-    <!-- should NOT fail because this 'comment must be present' rule is excluded in the exclusions.xml file -->
-    <changeSet id="changelog_03-1" author="test">
+    <changeSet id="changelog_04-1" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user_metadata"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user_metadata">
+            <column name="id" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="changelog_04-2" author="test">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="user_metadata"/>

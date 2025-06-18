@@ -4,9 +4,10 @@ import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
+import io.github.htshame.rule.RulePreProcessor;
 import io.github.htshame.util.ChangeSetUtil;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -40,7 +41,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * contains the <code>comment</code> tag.
  */
-public class TagMustExistProcessor implements Rule {
+public class TagMustExistProcessor extends RulePreProcessor implements Rule {
 
     private final String requiredTag;
     private final Set<String> excludedTags;
@@ -86,15 +87,21 @@ public class TagMustExistProcessor implements Rule {
     }
 
     /**
-     * Validate changeLog file.
+     * Validate changeSet.
      *
-     * @param document - document.
+     * @param changeSetElement  - changeSet element.
+     * @param exclusionParser   - exclusion parser.
+     * @param changeLogFileName - changeLog file name.
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final Document document) throws ValidationException {
-        Element root = document.getDocumentElement();
-        traverse(root);
+    public void validate(final Element changeSetElement,
+                         final ExclusionParser exclusionParser,
+                         final String changeLogFileName) throws ValidationException {
+        if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
+            return;
+        }
+        traverse(changeSetElement);
     }
 
     /**
@@ -113,9 +120,10 @@ public class TagMustExistProcessor implements Rule {
             if (!hasRequiredChild) {
                 ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(
-                        "ChangeSet: id=\"%s\", author=\"%s\". Tag <%s> does not contain required tag <%s>",
+                        "ChangeSet: id=\"%s\", author=\"%s\". Rule: [%s]. Tag <%s> does not contain required tag <%s>",
                         changeSetAttributeDto.getId(),
                         changeSetAttributeDto.getAuthor(),
+                        getName().getValue(),
                         tagName,
                         requiredTag);
                 throw new ValidationException(errorMessage);

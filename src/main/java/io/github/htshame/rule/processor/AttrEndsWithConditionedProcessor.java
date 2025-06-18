@@ -4,9 +4,10 @@ import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
+import io.github.htshame.rule.RulePreProcessor;
 import io.github.htshame.util.ChangeSetUtil;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -38,7 +39,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * indeed ends with <code>_unique</code>.
  */
 
-public class AttrEndsWithConditionedProcessor implements Rule {
+public class AttrEndsWithConditionedProcessor extends RulePreProcessor implements Rule {
 
     private final String tag;
     private final String conditionAttr;
@@ -49,11 +50,11 @@ public class AttrEndsWithConditionedProcessor implements Rule {
     /**
      * Constructor.
      *
-     * @param tag                - rule.tag value.
-     * @param conditionAttr - rule.conditionAttr value.
-     * @param conditionValue     - rule.conditionValue value.
-     * @param targetAttr    - rule.targetAttr value.
-     * @param requiredSuffix     - rule.requiredSuffix value.
+     * @param tag            - rule.tag value.
+     * @param conditionAttr  - rule.conditionAttr value.
+     * @param conditionValue - rule.conditionValue value.
+     * @param targetAttr     - rule.targetAttr value.
+     * @param requiredSuffix - rule.requiredSuffix value.
      */
     public AttrEndsWithConditionedProcessor(final String tag,
                                             final String conditionAttr,
@@ -93,34 +94,44 @@ public class AttrEndsWithConditionedProcessor implements Rule {
     }
 
     /**
-     * Validate changeLog file.
+     * Validate changeSet.
      *
-     * @param document - document.
+     * @param changeSetElement  - changeSet element.
+     * @param exclusionParser   - exclusion parser.
+     * @param changeLogFileName - changeLog file name.
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final Document document) throws ValidationException {
-        NodeList elements = document.getElementsByTagName(tag);
+    public void validate(final Element changeSetElement,
+                         final ExclusionParser exclusionParser,
+                         final String changeLogFileName) throws ValidationException {
+        if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
+            return;
+        }
+        NodeList elements = changeSetElement.getElementsByTagName(tag);
         for (int i = 0; i < elements.getLength(); i++) {
             Element element = (Element) elements.item(i);
-            if (conditionValue.equals(element.getAttribute(conditionAttr))) {
-                String actualValue = element.getAttribute(targetAttr);
-                if (!actualValue.endsWith(requiredSuffix)) {
-                    ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
-                    String errorMessage = String.format(
-                            "ChangeSet: id=\"%s\", author=\"%s\". Tag <%s> with %s=\"%s\" must have %s ending with "
-                                    + "[%s], but found: [%s]",
-                            changeSetAttributeDto.getId(),
-                            changeSetAttributeDto.getAuthor(),
-                            tag,
-                            conditionAttr,
-                            conditionValue,
-                            targetAttr,
-                            requiredSuffix,
-                            actualValue);
-                    throw new ValidationException(errorMessage);
-                }
+            if (!conditionValue.equals(element.getAttribute(conditionAttr))) {
+                continue;
             }
+            String actualValue = element.getAttribute(targetAttr);
+            if (actualValue.endsWith(requiredSuffix)) {
+                continue;
+            }
+            ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(changeSetElement);
+            String errorMessage = String.format(
+                    "ChangeSet: id=\"%s\", author=\"%s\". Rule: [%s]. Tag <%s> with %s=\"%s\" must have "
+                            + "%s ending with [%s], but found: [%s]",
+                    changeSetAttributeDto.getId(),
+                    changeSetAttributeDto.getAuthor(),
+                    getName().getValue(),
+                    tag,
+                    conditionAttr,
+                    conditionValue,
+                    targetAttr,
+                    requiredSuffix,
+                    actualValue);
+            throw new ValidationException(errorMessage);
         }
     }
 }

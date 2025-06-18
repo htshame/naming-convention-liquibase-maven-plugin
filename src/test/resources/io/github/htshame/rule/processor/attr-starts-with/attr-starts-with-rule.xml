@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../../docs/schema/ruleset/1.0.2/liquibase-naming-convention-1.0.2.xsd">
+        xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/1.0.2/liquibase-naming-convention-1.0.2.xsd">
 
     <rule name="attr-starts-with">
         <tag>createIndex</tag>

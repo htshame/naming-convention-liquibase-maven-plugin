@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified"
+        version="1.0.4">
+
+    <xs:simpleType name="RuleType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="tag-must-exist"/>
+            <xs:enumeration value="no-hyphens-in-attributes"/>
+            <xs:enumeration value="attr-starts-with"/>
+            <xs:enumeration value="attr-ends-with-conditioned"/>
+            <xs:enumeration value="attr-ends-with"/>
+            <xs:enumeration value="no-underscores-in-attributes"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="exclusions">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="fileExclusion" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:attribute name="fileName" type="xs:string" use="required"/>
+                        <xs:attribute name="rule" type="RuleType" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="changeSetExclusion" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:attribute name="fileName" type="xs:string" use="required"/>
+                        <xs:attribute name="changeSetId" type="xs:string" use="required"/>
+                        <xs:attribute name="changeSetAuthor" type="xs:string" use="required"/>
+                        <xs:attribute name="rule" type="RuleType" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="rules">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="rule" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:choice minOccurs="0" maxOccurs="unbounded">
+                            <xs:element name="requiredTag" type="xs:string"/>
+                            <xs:element name="tag" type="xs:string"/>
+                            <xs:element name="targetAttr" type="xs:string"/>
+                            <xs:element name="requiredPrefix" type="xs:string"/>
+                            <xs:element name="requiredSuffix" type="xs:string"/>
+                            <xs:element name="conditionAttr" type="xs:string"/>
+                            <xs:element name="conditionValue" type="xs:string"/>
+
+                            <xs:element name="excludedTags">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="tag" type="xs:string" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+
+                            <xs:element name="excludedAttrs">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="attr" type="xs:string" maxOccurs="unbounded"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:choice>
+                        <xs:attribute name="name" type="RuleType" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

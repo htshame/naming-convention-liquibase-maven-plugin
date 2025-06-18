@@ -18,4 +18,20 @@
             <column name="external_user_id"/>
         </createIndex>
     </changeSet>
+
+    <changeSet id="changelog_02_4" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="user_metadata_external_user_id_unique_idx"/>
+            </not>
+            <tableExists tableName="user-metadata"/>
+            <columnExists tableName="user-metadata" columnName="external_user_id"/>
+        </preConditions>
+        <comment>
+            Comment
+        </comment>
+        <createIndex tableName="user-metadata" indexName="user_metadata_external_user_id_unique_idx1" unique="true">
+            <column name="external_user_id"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

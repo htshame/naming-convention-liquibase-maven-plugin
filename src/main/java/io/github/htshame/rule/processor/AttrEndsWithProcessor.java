@@ -4,9 +4,10 @@ import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
+import io.github.htshame.rule.RulePreProcessor;
 import io.github.htshame.util.ChangeSetUtil;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -36,7 +37,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * indeed ends with <code>_fk</code>.
  */
 
-public class AttrEndsWithProcessor implements Rule {
+public class AttrEndsWithProcessor extends RulePreProcessor implements Rule {
 
     private final String tag;
     private final String targetAttr;
@@ -81,24 +82,32 @@ public class AttrEndsWithProcessor implements Rule {
     }
 
     /**
-     * Validate changeLog file.
+     * Validate changeSet.
      *
-     * @param document - document.
+     * @param changeSetElement  - changeSet element.
+     * @param exclusionParser   - exclusion parser.
+     * @param changeLogFileName - changeLog file name.
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final Document document) throws ValidationException {
-        NodeList elements = document.getElementsByTagName(tag);
+    public void validate(final Element changeSetElement,
+                         final ExclusionParser exclusionParser,
+                         final String changeLogFileName) throws ValidationException {
+        if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
+            return;
+        }
+        NodeList elements = changeSetElement.getElementsByTagName(tag);
         for (int i = 0; i < elements.getLength(); i++) {
             Element element = (Element) elements.item(i);
             String actualValue = element.getAttribute(targetAttr);
             if (!actualValue.endsWith(requiredSuffix)) {
-                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
+                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(changeSetElement);
                 String errorMessage = String.format(
-                        "ChangeSet: id=\"%s\", author=\"%s\". Tag <%s> must have %s ending with "
+                        "ChangeSet: id=\"%s\", author=\"%s\". Rule: [%s]. Tag <%s> must have %s ending with "
                                 + "[%s], but found: [%s]",
                         changeSetAttributeDto.getId(),
                         changeSetAttributeDto.getAuthor(),
+                        getName().getValue(),
                         tag,
                         targetAttr,
                         requiredSuffix,

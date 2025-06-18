@@ -12,8 +12,8 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Parses the rules XML file.
@@ -59,11 +59,11 @@ public class RuleParser {
      * Parse rules file.
      *
      * @param rulesetFile - file with rules.
-     * @return set of rules.
+     * @return list of rules.
      * @throws RuleParserException - thrown if parsing fails.
      */
-    public Set<Rule> parseRules(final File rulesetFile) throws RuleParserException {
-        Set<Rule> rules = new HashSet<>();
+    public List<Rule> parseRules(final File rulesetFile) throws RuleParserException {
+        List<Rule> rules = new ArrayList<>();
         try {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
             NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE.getValue());

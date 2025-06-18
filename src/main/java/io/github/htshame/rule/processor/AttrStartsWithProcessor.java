@@ -4,9 +4,10 @@ import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
+import io.github.htshame.rule.RulePreProcessor;
 import io.github.htshame.util.ChangeSetUtil;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -36,7 +37,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * indeed starts with <code>idx_</code>.
  */
 
-public class AttrStartsWithProcessor implements Rule {
+public class AttrStartsWithProcessor extends RulePreProcessor implements Rule {
 
     private final String tag;
     private final String attribute;
@@ -81,25 +82,33 @@ public class AttrStartsWithProcessor implements Rule {
     }
 
     /**
-     * Validate changeLog file.
+     * Validate changeSet.
      *
-     * @param document - document.
+     * @param changeSetElement  - changeSet element.
+     * @param exclusionParser   - exclusion parser.
+     * @param changeLogFileName - changeLog file name.
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final Document document) throws ValidationException {
-        NodeList nodes = document.getElementsByTagName(tag);
+    public void validate(final Element changeSetElement,
+                         final ExclusionParser exclusionParser,
+                         final String changeLogFileName) throws ValidationException {
+        if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
+            return;
+        }
+        NodeList nodes = changeSetElement.getElementsByTagName(tag);
         List<String> errors = new ArrayList<>();
 
         for (int i = 0; i < nodes.getLength(); i++) {
             Element element = (Element) nodes.item(i);
             String attrValue = element.getAttribute(attribute);
             if (element.hasAttribute(attribute) && !attrValue.startsWith(prefix)) {
-                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
+                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(changeSetElement);
                 String error = String.format(
-                        "ChangeSet: id=\"%s\", author=\"%s\". <%s %s=\"%s\"> must start with \"%s\"",
+                        "ChangeSet: id=\"%s\", author=\"%s\". Rule: [%s]. <%s %s=\"%s\"> must start with \"%s\"",
                         changeSetAttributeDto.getId(),
                         changeSetAttributeDto.getAuthor(),
+                        getName().getValue(),
                         tag,
                         attribute,
                         attrValue,

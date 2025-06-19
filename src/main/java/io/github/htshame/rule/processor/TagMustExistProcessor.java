@@ -1,18 +1,17 @@
 package io.github.htshame.rule.processor;
 
-import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.rule.RulePreProcessor;
-import io.github.htshame.util.ChangeSetUtil;
+import io.github.htshame.rule.RuleHelper;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static io.github.htshame.util.RuleUtil.getText;
@@ -41,7 +40,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * contains the <code>comment</code> tag.
  */
-public class TagMustExistProcessor extends RulePreProcessor implements Rule {
+public class TagMustExistProcessor extends RuleHelper implements Rule {
 
     private final String requiredTag;
     private final Set<String> excludedTags;
@@ -77,11 +76,13 @@ public class TagMustExistProcessor extends RulePreProcessor implements Rule {
     public static TagMustExistProcessor fromXml(final Element element) {
         String requiredChild = getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
         Set<String> excludedParents = new HashSet<>();
-        NodeList excludedTagElements = ((Element) element
-                .getElementsByTagName(RuleStructureEnum.EXCLUDED_TAGS.getValue()).item(0))
-                .getElementsByTagName(RuleStructureEnum.TAG.getValue());
-        for (int j = 0; j < excludedTagElements.getLength(); j++) {
-            excludedParents.add(excludedTagElements.item(j).getTextContent());
+        NodeList excludedTags = element.getElementsByTagName(RuleStructureEnum.EXCLUDED_TAGS.getValue());
+        if (excludedTags.getLength() != 0) {
+            NodeList excludedTagElements = ((Element) excludedTags.item(0))
+                    .getElementsByTagName(RuleStructureEnum.TAG.getValue());
+            for (int j = 0; j < excludedTagElements.getLength(); j++) {
+                excludedParents.add(excludedTagElements.item(j).getTextContent());
+            }
         }
         return new TagMustExistProcessor(requiredChild, excludedParents);
     }
@@ -101,7 +102,7 @@ public class TagMustExistProcessor extends RulePreProcessor implements Rule {
         if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        traverse(changeSetElement);
+        validateElement(changeSetElement);
     }
 
     /**
@@ -110,7 +111,7 @@ public class TagMustExistProcessor extends RulePreProcessor implements Rule {
      * @param element - element.
      * @throws ValidationException - thrown if validation fails.
      */
-    private void traverse(final Element element) throws ValidationException {
+    private void validateElement(final Element element) throws ValidationException {
         String tagName = element.getTagName();
 
         boolean isExcluded = excludedTags.contains(tagName);
@@ -118,15 +119,11 @@ public class TagMustExistProcessor extends RulePreProcessor implements Rule {
         if (!isExcluded) {
             boolean hasRequiredChild = hasRequiredChild(element);
             if (!hasRequiredChild) {
-                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(
-                        "ChangeSet: id=\"%s\", author=\"%s\". Rule: [%s]. Tag <%s> does not contain required tag <%s>",
-                        changeSetAttributeDto.getId(),
-                        changeSetAttributeDto.getAuthor(),
-                        getName().getValue(),
+                        "Tag <%s> does not contain required tag <%s>",
                         tagName,
                         requiredTag);
-                throw new ValidationException(errorMessage);
+                throw new ValidationException(composeErrorMessage(element, getName(), List.of(errorMessage)));
             }
             return;
         }
@@ -135,7 +132,7 @@ public class TagMustExistProcessor extends RulePreProcessor implements Rule {
         for (int i = 0; i < children.getLength(); i++) {
             Node node = children.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
-                traverse((Element) node);
+                validateElement((Element) node);
             }
         }
     }

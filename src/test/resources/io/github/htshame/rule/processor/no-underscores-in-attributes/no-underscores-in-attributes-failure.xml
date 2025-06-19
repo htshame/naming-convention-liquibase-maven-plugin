@@ -11,11 +11,8 @@
             <columnExists tableName="user_metadata" columnName="external_user_id"/>
         </preConditions>
         <comment>
-            Comment comment
+            Comment_comment
         </comment>
-        <createIndex tableName="user_metadata" indexName="user_metadata_external_user_id_unique_idx" unique="true">
-            <column name="external_user_id"/>
-        </createIndex>
         <createTable tableName="user_meta">
             <column name="user_data" type="varchar(64)" defaultValue="some-data"/>
         </createTable>
@@ -32,7 +29,7 @@
         <comment>
             Comment comment
         </comment>
-        <createIndex tableName="user_metadata" indexName="user_metadata_external_user_id_unique_idx" unique="true">
+        <createIndex tableName="user_metadata" indexName="user_idx" unique="true">
             <column name="external_user_id"/>
         </createIndex>
         <createTable tableName="user_meta">

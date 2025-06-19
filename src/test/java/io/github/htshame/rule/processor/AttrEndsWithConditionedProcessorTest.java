@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTest {
+public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH =
             "src/test/resources/io/github/htshame/rule/processor/attr-ends-with-conditioned/";
@@ -73,12 +73,12 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]\n"
                         + "Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
                         + "but found: [user_metadata_external_user_id_unique_idx]",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]\n"
                         + "Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
                         + "but found: [user_metadata_external_user_id_unique_idx1]");
         List<String> actualErrorMessages = new ArrayList<>();
@@ -119,13 +119,14 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTest {
         Element ruleElement = prepareRuleELement();
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
+
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]\n"
                         + "Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
                         + "but found: [user_metadata_external_user_id_unique_idx]",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]\n"
                         + "Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
                         + "but found: [user_metadata_external_user_id_unique_idx1]");
         List<String> actualErrorMessages = new ArrayList<>();
@@ -167,8 +168,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
         List<String> expectedErrorMessages = List.of(
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED.getValue() + "]\n"
                         + "Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
                         + "but found: [user_metadata_external_user_id_unique_idx1]");
         List<String> actualErrorMessages = new ArrayList<>();

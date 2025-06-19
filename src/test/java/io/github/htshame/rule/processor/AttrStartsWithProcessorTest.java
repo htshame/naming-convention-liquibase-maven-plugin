@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class AttrStartsWithProcessorTest extends RuleProcessorTest {
+public class AttrStartsWithProcessorTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH =
             "src/test/resources/io/github/htshame/rule/processor/attr-starts-with/";
@@ -73,12 +73,12 @@ public class AttrStartsWithProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]\n"
                         + "<createIndex indexName=\"user_metadata_external_user_id_unique_idx\"> "
                         + "must start with \"idx_\"",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]\n"
                         + "<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
                         + "must start with \"idx_\"");
         List<String> actualErrorMessages = new ArrayList<>();
@@ -119,12 +119,12 @@ public class AttrStartsWithProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]\n"
                         + "<createIndex indexName=\"user_metadata_external_user_id_unique_idx\"> "
                         + "must start with \"idx_\"",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]\n"
                         + "<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
                         + "must start with \"idx_\"");
         List<String> actualErrorMessages = new ArrayList<>();
@@ -165,8 +165,8 @@ public class AttrStartsWithProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
         List<String> expectedErrorMessages = List.of(
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_STARTS_WITH.getValue() + "]\n"
                         + "<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
                         + "must start with \"idx_\"");
         List<String> actualErrorMessages = new ArrayList<>();

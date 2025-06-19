@@ -6,8 +6,8 @@ import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.parser.ChangeLogParser;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.parser.RuleParser;
-import io.github.htshame.processor.ValidationProcessor;
 import io.github.htshame.rule.Rule;
+import io.github.htshame.validator.ValidationManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -74,7 +74,7 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
             throw new MojoExecutionException(e.getMessage());
         }
 
-        List<String> validationErrors = new ValidationProcessor().validate(changeLogFiles, rules, exclusionParser);
+        List<String> validationErrors = new ValidationManager().validate(changeLogFiles, rules, exclusionParser);
 
         try {
             checkValidationResult(validationErrors);

@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TagMustExistTest extends RuleProcessorTest {
+public class TagMustExistTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH =
             "src/test/resources/io/github/htshame/rule/processor/tag-must-exist/";
@@ -74,11 +74,11 @@ public class TagMustExistTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
                         + "Tag <changeSet> does not contain required tag <comment>",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
                         + "Tag <changeSet> does not contain required tag <comment>");
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -118,11 +118,11 @@ public class TagMustExistTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
                         + "Tag <changeSet> does not contain required tag <comment>",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
                         + "Tag <changeSet> does not contain required tag <comment>");
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -162,8 +162,8 @@ public class TagMustExistTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
         List<String> expectedErrorMessages = List.of(
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
                         + "Tag <changeSet> does not contain required tag <comment>");
         List<String> actualErrorMessages = new ArrayList<>();
 

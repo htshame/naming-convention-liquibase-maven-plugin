@@ -29,7 +29,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>

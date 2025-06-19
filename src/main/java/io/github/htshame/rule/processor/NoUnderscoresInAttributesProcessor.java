@@ -3,9 +3,9 @@ package io.github.htshame.rule.processor;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.rule.RuleHelper;
+import io.github.htshame.util.RuleUtil;
+import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -31,8 +31,7 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
  * &lt;rule name="no-underscores-in-attributes"/&gt;
  * </code></pre>
  */
-
-public class NoUnderscoresInAttributesProcessor extends RuleHelper implements Rule {
+public class NoUnderscoresInAttributesProcessor implements Rule {
 
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String UNDERSCORE = "_";
@@ -60,12 +59,12 @@ public class NoUnderscoresInAttributesProcessor extends RuleHelper implements Ru
     public void validate(final Element changeSetElement,
                          final ExclusionParser exclusionParser,
                          final String changeLogFileName) throws ValidationException {
-        if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
+        if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
         List<String> errors = validateElement(changeSetElement, new ArrayList<>());
         if (!errors.isEmpty()) {
-            throw new ValidationException(composeErrorMessage(changeSetElement, getName(), errors));
+            throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
         }
     }
 

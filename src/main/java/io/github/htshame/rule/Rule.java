@@ -2,7 +2,7 @@ package io.github.htshame.rule;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.ExclusionParser;
+import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Element;
 
 /**

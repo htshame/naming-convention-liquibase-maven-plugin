@@ -1,11 +1,10 @@
 package io.github.htshame.validator;
 
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
+import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -25,8 +24,6 @@ import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
  * and contents of the changeLog directory.
  */
 public class ValidationManager {
-
-    private static final List<String> GLOBALLY_EXCLUDED_TAGS = List.of("comment");
 
     /**
      * Default constructor.
@@ -87,29 +84,7 @@ public class ValidationManager {
             validationErrors.add("[" + changeLogFile.getName() + "] Failed to parse: " + e.getMessage());
             return validationErrors;
         }
-
-        stripExcludedTagAttributes(document);
-
-
         return validationErrors;
-    }
-
-    /**
-     * Strip globally excluded tags from the validation set.
-     *
-     * @param document - changeLog document.
-     */
-    private static void stripExcludedTagAttributes(final Document document) {
-        for (String tag : GLOBALLY_EXCLUDED_TAGS) {
-            NodeList elements = document.getElementsByTagName(tag);
-            for (int i = 0; i < elements.getLength(); i++) {
-                Element elem = (Element) elements.item(i);
-                NamedNodeMap attributes = elem.getAttributes();
-                while (attributes.getLength() > 0) {
-                    attributes.removeNamedItem(attributes.item(0).getNodeName());
-                }
-            }
-        }
     }
 
     /**

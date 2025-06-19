@@ -1,7 +1,6 @@
-package io.github.htshame.rule.factory;
+package io.github.htshame.rule;
 
 import io.github.htshame.enums.RuleEnum;
-import io.github.htshame.rule.RuleFactory;
 import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrEndsWithProcessor;
 import io.github.htshame.rule.processor.AttrStartsWithProcessor;
@@ -12,9 +11,9 @@ import io.github.htshame.rule.processor.TagMustExistProcessor;
 import java.util.Map;
 
 /**
- * Rule processor factory.
+ * Rule processor registry.
  */
-public final class RuleProcessorFactory {
+public final class RuleProcessorRegistry {
 
     /**
      * Map of rule processors mapped to the corresponding {@link RuleEnum}.
@@ -28,7 +27,7 @@ public final class RuleProcessorFactory {
             RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, NoUnderscoresInAttributesProcessor::fromXml
     );
 
-    private RuleProcessorFactory() {
+    private RuleProcessorRegistry() {
     }
 
     /**

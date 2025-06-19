@@ -3,9 +3,9 @@ package io.github.htshame.rule.processor;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.rule.RuleHelper;
+import io.github.htshame.util.RuleUtil;
+import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -40,7 +40,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * contains the <code>comment</code> tag.
  */
-public class TagMustExistProcessor extends RuleHelper implements Rule {
+public class TagMustExistProcessor implements Rule {
 
     private final String requiredTag;
     private final Set<String> excludedTags;
@@ -99,7 +99,7 @@ public class TagMustExistProcessor extends RuleHelper implements Rule {
     public void validate(final Element changeSetElement,
                          final ExclusionParser exclusionParser,
                          final String changeLogFileName) throws ValidationException {
-        if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
+        if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
         validateElement(changeSetElement);
@@ -123,7 +123,7 @@ public class TagMustExistProcessor extends RuleHelper implements Rule {
                         "Tag <%s> does not contain required tag <%s>",
                         tagName,
                         requiredTag);
-                throw new ValidationException(composeErrorMessage(element, getName(), List.of(errorMessage)));
+                throw new ValidationException(RuleUtil.composeErrorMessage(element, getName(), List.of(errorMessage)));
             }
             return;
         }

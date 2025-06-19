@@ -3,7 +3,7 @@ package io.github.htshame.rule.processor;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.ExclusionParser;
+import io.github.htshame.util.parser.ExclusionParser;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

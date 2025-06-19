@@ -1,4 +1,4 @@
-package io.github.htshame.parser;
+package io.github.htshame.util.parser;
 
 import io.github.htshame.dto.ChangeSetExclusionDto;
 import io.github.htshame.enums.RuleEnum;
@@ -23,7 +23,7 @@ import java.util.Set;
  * <p>Example:</p>
  * <pre><code>
  * &lt;exclusions&gt;
- *     &lt;exclusion fileName="changelog_03.xml" rule="tag-must-exist"/&gt;
+ *     &lt;fileExclusion fileName="changelog_03.xml" rule="tag-must-exist"/&gt;
  * &lt;/exclusions&gt;
  * </code></pre>
  */

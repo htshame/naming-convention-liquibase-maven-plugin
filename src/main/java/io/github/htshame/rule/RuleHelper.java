@@ -6,15 +6,17 @@ import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.util.ChangeSetUtil;
 import org.w3c.dom.Element;
 
+import java.util.List;
+
 /**
- * Rule pre-processor.
+ * Rule helper.
  */
-public class RulePreProcessor {
+public class RuleHelper {
 
     /**
      * Default constructor.
      */
-    public RulePreProcessor() {
+    public RuleHelper() {
 
     }
 
@@ -37,5 +39,24 @@ public class RulePreProcessor {
                 changeSetAttributeDto.getId(),
                 changeSetAttributeDto.getAuthor(),
                 ruleName);
+    }
+
+    /**
+     * Compose error message.
+     *
+     * @param changeSetElement - changeSet element.
+     * @param ruleName         - rule name.
+     * @param errors           - list of errors.
+     * @return error message.
+     */
+    public String composeErrorMessage(final Element changeSetElement,
+                                      final RuleEnum ruleName,
+                                      final List<String> errors) {
+        ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(changeSetElement);
+        return String.format("ChangeSet: id=\"%s\", author=\"%s\". Rule [%s]\n%s",
+                changeSetAttributeDto.getId(),
+                changeSetAttributeDto.getAuthor(),
+                ruleName.getValue(),
+                String.join("\n", errors));
     }
 }

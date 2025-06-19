@@ -1,13 +1,11 @@
 package io.github.htshame.rule.processor;
 
-import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.rule.RulePreProcessor;
-import io.github.htshame.util.ChangeSetUtil;
+import io.github.htshame.rule.RuleHelper;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -37,25 +35,25 @@ import static io.github.htshame.util.RuleUtil.getText;
  * indeed starts with <code>idx_</code>.
  */
 
-public class AttrStartsWithProcessor extends RulePreProcessor implements Rule {
+public class AttrStartsWithProcessor extends RuleHelper implements Rule {
 
     private final String tag;
-    private final String attribute;
-    private final String prefix;
+    private final String targetAttr;
+    private final String requiredPrefix;
 
     /**
      * Constructor.
      *
      * @param tag       - rule.tag value.
-     * @param attribute - rule.targetAttr value.
-     * @param prefix    - rule.requiredPrefix value.
+     * @param targetAttr - rule.targetAttr value.
+     * @param requiredPrefix    - rule.requiredPrefix value.
      */
     public AttrStartsWithProcessor(final String tag,
-                                   final String attribute,
-                                   final String prefix) {
+                                   final String targetAttr,
+                                   final String requiredPrefix) {
         this.tag = tag;
-        this.attribute = attribute;
-        this.prefix = prefix;
+        this.targetAttr = targetAttr;
+        this.requiredPrefix = requiredPrefix;
     }
 
     /**
@@ -101,25 +99,25 @@ public class AttrStartsWithProcessor extends RulePreProcessor implements Rule {
 
         for (int i = 0; i < nodes.getLength(); i++) {
             Element element = (Element) nodes.item(i);
-            String attrValue = element.getAttribute(attribute);
-            if (element.hasAttribute(attribute) && !attrValue.startsWith(prefix)) {
-                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(changeSetElement);
-                String error = String.format(
-                        "ChangeSet: id=\"%s\", author=\"%s\". Rule: [%s]. <%s %s=\"%s\"> must start with \"%s\"",
-                        changeSetAttributeDto.getId(),
-                        changeSetAttributeDto.getAuthor(),
-                        getName().getValue(),
-                        tag,
-                        attribute,
-                        attrValue,
-                        prefix
-                );
-                errors.add(error);
+
+            boolean isTargetAttrPresent = element.hasAttribute(targetAttr);
+            if (isTargetAttrPresent) {
+                String attrValue = element.getAttribute(targetAttr);
+                if (!attrValue.startsWith(requiredPrefix)) {
+                    String error = String.format(
+                            "<%s %s=\"%s\"> must start with \"%s\"",
+                            tag,
+                            targetAttr,
+                            attrValue,
+                            requiredPrefix
+                    );
+                    errors.add(error);
+                }
             }
         }
 
         if (!errors.isEmpty()) {
-            throw new ValidationException(String.join("\n", errors));
+            throw new ValidationException(composeErrorMessage(changeSetElement, getName(), errors));
         }
     }
 

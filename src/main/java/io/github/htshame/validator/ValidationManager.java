@@ -1,4 +1,4 @@
-package io.github.htshame.processor;
+package io.github.htshame.validator;
 
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
@@ -12,7 +12,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,15 +24,14 @@ import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
  * exclusion XML file
  * and contents of the changeLog directory.
  */
-public class ValidationProcessor {
+public class ValidationManager {
 
-    private static final List<String> GLOBALLY_EXCLUDED_TAGS =
-            Arrays.asList("databaseChangeLog", "comment", "include");
+    private static final List<String> GLOBALLY_EXCLUDED_TAGS = List.of("comment");
 
     /**
      * Default constructor.
      */
-    public ValidationProcessor() {
+    public ValidationManager() {
 
     }
 

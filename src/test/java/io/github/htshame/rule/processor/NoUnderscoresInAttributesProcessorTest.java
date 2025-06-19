@@ -15,15 +15,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTest {
+public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH =
             "src/test/resources/io/github/htshame/rule/processor/no-underscores-in-attributes/";
@@ -72,15 +72,19 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTest {
         Element ruleElement = prepareRuleELement();
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
-        List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]. "
-                        + "Attribute indexName in element <createIndex> contains underscore in value: "
-                        + "[user_metadata_external_user_id_unique_idx].",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]. "
-                        + "Attribute indexName in element <createIndex> contains underscore in value: "
-                        + "[user_metadata_external_user_id_unique_idx].");
+        Set<String> expectedErrorMessages = Set.of(
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
+                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
+                        + "Attribute name in element <column> contains underscore in value: [user_data].",
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
+                        + "Attribute indexName in element <createIndex> contains underscore in value: [user_idx].\n"
+                        + "Attribute tableName in element <createIndex> contains underscore in value:"
+                        + " [user_metadata].\n"
+                        + "Attribute name in element <column> contains underscore in value: [external_user_id].\n"
+                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
+                        + "Attribute name in element <column> contains underscore in value: [user_data].");
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -118,15 +122,19 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTest {
         Element ruleElement = prepareRuleELement();
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
-        List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]. "
-                        + "Attribute indexName in element <createIndex> contains underscore in value: "
-                        + "[user_metadata_external_user_id_unique_idx].",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]. "
-                        + "Attribute indexName in element <createIndex> contains underscore in value: "
-                        + "[user_metadata_external_user_id_unique_idx].");
+        Set<String> expectedErrorMessages = Set.of(
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
+                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
+                        + "Attribute name in element <column> contains underscore in value: [user_data].",
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
+                        + "Attribute indexName in element <createIndex> contains underscore in value: [user_idx].\n"
+                        + "Attribute tableName in element <createIndex> contains underscore in value:"
+                        + " [user_metadata].\n"
+                        + "Attribute name in element <column> contains underscore in value: [external_user_id].\n"
+                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
+                        + "Attribute name in element <column> contains underscore in value: [user_data].");
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -164,11 +172,15 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTest {
         Element ruleElement = prepareRuleELement();
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
-        List<String> expectedErrorMessages = List.of(
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]. "
-                        + "Attribute indexName in element <createIndex> contains underscore in value: "
-                        + "[user_metadata_external_user_id_unique_idx].");
+        Set<String> expectedErrorMessages = Set.of(
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
+                        + "Attribute indexName in element <createIndex> contains underscore in value: [user_idx].\n"
+                        + "Attribute tableName in element <createIndex> contains underscore in value:"
+                        + " [user_metadata].\n"
+                        + "Attribute name in element <column> contains underscore in value: [external_user_id].\n"
+                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
+                        + "Attribute name in element <column> contains underscore in value: [user_data].");
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act

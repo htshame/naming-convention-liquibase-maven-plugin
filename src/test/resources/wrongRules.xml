@@ -1,7 +1,7 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/1.0.2/liquibase-naming-convention-1.0.2.xsd">
+        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/1.0.5/liquibase-naming-convention-1.0.5.xsd">
 
-    <rule name="tag-must-exist">
+    <rule name="tag-must-exist1">
         <requiredTag1>comment</requiredTag1>
         <excludedAncestorTags1>
             <tag1>databaseChangeLog</tag1>

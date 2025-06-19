@@ -7,6 +7,14 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 1.0.5
+
+- Fix issue with exclusion processing for `tag-must-be-present` rule
+- Improve logging
+- Strengthen XSD schema for the ruleSet file
+
+---
+
 ## Version 1.0.4
 
 - Fix issue with changeSet processing.
@@ -59,7 +67,8 @@ Initial implementation.
 
 ### Previous Releases
 
-- [1.0.3](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.4.md)
+- [1.0.5](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.5.md)
+- [1.0.4](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.4.md)
 - [1.0.3](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.3.md)
 - [1.0.2](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.2.md)
 - [1.0.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.1.md)

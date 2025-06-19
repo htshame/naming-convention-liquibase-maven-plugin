@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class NoHyphensInAttributesProcessorTest extends RuleProcessorTest {
+public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH =
             "src/test/resources/io/github/htshame/rule/processor/no-hyphens-in-attributes/";
@@ -73,11 +73,11 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]\n"
                         + "Attribute tableName in element <createIndex> contains hyphen in value: [user-metadata].",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]\n"
                         + "Attribute tableName in element <createIndex> contains hyphen in value: [user-metadata].");
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -117,11 +117,11 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]\n"
                         + "Attribute tableName in element <createIndex> contains hyphen in value: [user-metadata].",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]\n"
                         + "Attribute tableName in element <createIndex> contains hyphen in value: [user-metadata].");
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -161,8 +161,8 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
         List<String> expectedErrorMessages = List.of(
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
+                        + "Rule [" + RuleEnum.NO_HYPHENS_IN_ATTRIBUTES.getValue() + "]\n"
                         + "Attribute tableName in element <createIndex> contains hyphen in value: [user-metadata].");
         List<String> actualErrorMessages = new ArrayList<>();
 

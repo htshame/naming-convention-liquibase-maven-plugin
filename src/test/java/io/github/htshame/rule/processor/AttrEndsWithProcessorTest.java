@@ -23,7 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class AttrEndsWithProcessorTest extends RuleProcessorTest {
+public class AttrEndsWithProcessorTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH = "src/test/resources/io/github/htshame/rule/processor/attr-ends-with/";
     private static final String RULE_URL = BASE_FILE_PATH + "attr-ends-with-rule.xml";
@@ -72,12 +72,12 @@ public class AttrEndsWithProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_1\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_1\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]\n"
                         + "Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                         + "but found: [fk_user_activation_user_profile_id_user_profile_id]",
-                "ChangeSet: id=\"changelog_02_2\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_2\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]\n"
                         + "Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                         + "but found: [user_activation_user_profile_id_user_profile_id_FK]");
         List<String> actualErrorMessages = new ArrayList<>();
@@ -118,12 +118,12 @@ public class AttrEndsWithProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_1\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_1\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]\n"
                         + "Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                         + "but found: [fk_user_activation_user_profile_id_user_profile_id]",
-                "ChangeSet: id=\"changelog_02_2\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_2\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]\n"
                         + "Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                         + "but found: [user_activation_user_profile_id_user_profile_id_FK]");
         List<String> actualErrorMessages = new ArrayList<>();
@@ -164,8 +164,8 @@ public class AttrEndsWithProcessorTest extends RuleProcessorTest {
         NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
         List<String> expectedErrorMessages = List.of(
-                "ChangeSet: id=\"changelog_02_2\", author=\"test\"."
-                        + " Rule: [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]. "
+                "ChangeSet: id=\"changelog_02_2\", author=\"test\". "
+                        + "Rule [" + RuleEnum.ATTRIBUTE_ENDS_WITH.getValue() + "]\n"
                         + "Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                         + "but found: [user_activation_user_profile_id_user_profile_id_FK]");
         List<String> actualErrorMessages = new ArrayList<>();

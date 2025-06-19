@@ -1,15 +1,16 @@
 package io.github.htshame.rule.processor;
 
-import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.rule.RulePreProcessor;
-import io.github.htshame.util.ChangeSetUtil;
+import io.github.htshame.rule.RuleHelper;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.github.htshame.util.RuleUtil.getText;
 
@@ -39,7 +40,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * indeed ends with <code>_unique</code>.
  */
 
-public class AttrEndsWithConditionedProcessor extends RulePreProcessor implements Rule {
+public class AttrEndsWithConditionedProcessor extends RuleHelper implements Rule {
 
     private final String tag;
     private final String conditionAttr;
@@ -109,29 +110,32 @@ public class AttrEndsWithConditionedProcessor extends RulePreProcessor implement
             return;
         }
         NodeList elements = changeSetElement.getElementsByTagName(tag);
+        List<String> errors = new ArrayList<>();
+
         for (int i = 0; i < elements.getLength(); i++) {
             Element element = (Element) elements.item(i);
             if (!conditionValue.equals(element.getAttribute(conditionAttr))) {
                 continue;
             }
-            String actualValue = element.getAttribute(targetAttr);
-            if (actualValue.endsWith(requiredSuffix)) {
-                continue;
+            boolean isTargetAttrPresent = element.hasAttribute(targetAttr);
+            if (isTargetAttrPresent) {
+                String actualValue = element.getAttribute(targetAttr);
+                if (actualValue.endsWith(requiredSuffix)) {
+                    continue;
+                }
+                String errorMessage = String.format(
+                        "Tag <%s> with %s=\"%s\" must have %s ending with [%s], but found: [%s]",
+                        tag,
+                        conditionAttr,
+                        conditionValue,
+                        targetAttr,
+                        requiredSuffix,
+                        actualValue);
+                errors.add(errorMessage);
             }
-            ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(changeSetElement);
-            String errorMessage = String.format(
-                    "ChangeSet: id=\"%s\", author=\"%s\". Rule: [%s]. Tag <%s> with %s=\"%s\" must have "
-                            + "%s ending with [%s], but found: [%s]",
-                    changeSetAttributeDto.getId(),
-                    changeSetAttributeDto.getAuthor(),
-                    getName().getValue(),
-                    tag,
-                    conditionAttr,
-                    conditionValue,
-                    targetAttr,
-                    requiredSuffix,
-                    actualValue);
-            throw new ValidationException(errorMessage);
+        }
+        if (!errors.isEmpty()) {
+            throw new ValidationException(composeErrorMessage(changeSetElement, getName(), errors));
         }
     }
 }

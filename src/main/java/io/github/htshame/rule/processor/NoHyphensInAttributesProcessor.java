@@ -1,19 +1,18 @@
 package io.github.htshame.rule.processor;
 
-import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.rule.RulePreProcessor;
-import io.github.htshame.util.ChangeSetUtil;
+import io.github.htshame.rule.RuleHelper;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +30,7 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
  * Rule configuration:
  * {@code <rule name="no-hyphens-in-attributes"/>}
  */
-public class NoHyphensInAttributesProcessor extends RulePreProcessor implements Rule {
+public class NoHyphensInAttributesProcessor extends RuleHelper implements Rule {
 
     private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String HYPHEN = "-";
@@ -62,7 +61,10 @@ public class NoHyphensInAttributesProcessor extends RulePreProcessor implements 
         if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        validateElement(changeSetElement);
+        List<String> errors = validateElement(changeSetElement, new ArrayList<>());
+        if (!errors.isEmpty()) {
+            throw new ValidationException(composeErrorMessage(changeSetElement, getName(), errors));
+        }
     }
 
     /**
@@ -85,7 +87,7 @@ public class NoHyphensInAttributesProcessor extends RulePreProcessor implements 
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTags = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
-        if (excludedTags.item(0) != null) {
+        if (excludedTags.getLength() != 0) {
             NodeList excludedTagElements = ((Element) excludedTags.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
             for (int j = 0; j < excludedTagElements.getLength(); j++) {
@@ -100,10 +102,13 @@ public class NoHyphensInAttributesProcessor extends RulePreProcessor implements 
      * Validate element.
      *
      * @param element - element.
-     * @throws ValidationException - thrown if validation fails.
+     * @param errors  - list of errors.
+     * @return list of errors.
      */
-    private void validateElement(final Element element) throws ValidationException {
+    private List<String> validateElement(final Element element,
+                                         final List<String> errors) {
         NamedNodeMap attributes = element.getAttributes();
+
         for (int i = 0; i < attributes.getLength(); i++) {
             Attr attr = (Attr) attributes.item(i);
             String attrName = attr.getName();
@@ -113,17 +118,12 @@ public class NoHyphensInAttributesProcessor extends RulePreProcessor implements 
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
                     && attrValue.contains(HYPHEN)) {
-                ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(element);
                 String errorMessage = String.format(
-                        "ChangeSet: id=\"%s\", author=\"%s\". Rule: [%s]. Attribute %s in element <%s> contains "
-                                + "hyphen in value: [%s].",
-                        changeSetAttributeDto.getId(),
-                        changeSetAttributeDto.getAuthor(),
-                        getName().getValue(),
+                        "Attribute %s in element <%s> contains hyphen in value: [%s].",
                         attrName,
                         element.getTagName(),
                         attrValue);
-                throw new ValidationException(errorMessage);
+                errors.add(errorMessage);
             }
         }
 
@@ -131,8 +131,10 @@ public class NoHyphensInAttributesProcessor extends RulePreProcessor implements 
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child.getNodeType() == Node.ELEMENT_NODE) {
-                validateElement((Element) child);
+                validateElement((Element) child, errors);
             }
         }
+
+        return errors;
     }
 }

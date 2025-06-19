@@ -11,7 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
-public class RuleProcessorTest {
+public class RuleProcessorTestUtil {
 
     private final String ruleFilePath;
 
@@ -20,7 +20,7 @@ public class RuleProcessorTest {
      *
      * @param ruleFilePath - path to the rule file.
      */
-    public RuleProcessorTest(final String ruleFilePath) {
+    public RuleProcessorTestUtil(final String ruleFilePath) {
         this.ruleFilePath = ruleFilePath;
     }
 

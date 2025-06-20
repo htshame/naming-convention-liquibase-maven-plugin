@@ -171,6 +171,7 @@ To exclude the whole changeLog file or a single changeSet, use:
 ---
 
 ## Note: requires Java 11 or later
+### Supported changeLog format: XML
 
 ---
 

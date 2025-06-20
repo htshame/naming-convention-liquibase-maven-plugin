@@ -1,6 +1,11 @@
 package io.github.htshame.rule.processor;
 
+import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
+import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
+import io.github.htshame.exception.ChangeLogParseException;
+import io.github.htshame.validator.ValidatorTestUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -10,18 +15,23 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class RuleProcessorTestUtil {
 
     private final String ruleFilePath;
+    private final RuleEnum ruleName;
 
     /**
      * Constructor.
      *
      * @param ruleFilePath - path to the rule file.
+     * @param ruleName     - rule name.
      */
-    public RuleProcessorTestUtil(final String ruleFilePath) {
+    public RuleProcessorTestUtil(final String ruleFilePath,
+                                 final RuleEnum ruleName) {
         this.ruleFilePath = ruleFilePath;
+        this.ruleName = ruleName;
     }
 
     Element prepareRuleELement() throws ParserConfigurationException, IOException, SAXException {
@@ -30,5 +40,21 @@ public class RuleProcessorTestUtil {
                 .parse(new File(ruleFilePath));
         NodeList ruleNodes = ruleDocument.getElementsByTagName(RuleStructureEnum.RULE.getValue());
         return (Element) ruleNodes.item(0);
+    }
+
+    List<ChangeSetElement> parseChangeSetFile(final String filePath)
+            throws ChangeLogParseException {
+        File changeLogFile = new File(filePath);
+        return ValidatorTestUtil.getParser(ChangeLogFormatEnum.XML).parseChangeLog(changeLogFile);
+    }
+
+    String prepareTestErrorMessage(final String changeSetId,
+                                   final String changeSetAuthor,
+                                   final List<String> errors) {
+        return String.format("ChangeSet: id=\"%s\", author=\"%s\". Rule [%s]\n    %s",
+                changeSetId,
+                changeSetAuthor,
+                ruleName.getValue(),
+                String.join("\n    ", errors));
     }
 }

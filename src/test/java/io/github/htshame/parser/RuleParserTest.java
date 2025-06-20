@@ -8,6 +8,7 @@ import io.github.htshame.rule.processor.AttrStartsWithProcessor;
 import io.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
+import io.github.htshame.util.parser.RuleParser;
 import org.junit.Test;
 
 import java.io.File;
@@ -31,7 +32,6 @@ public class RuleParserTest {
     @Test
     public void testParseRulesSuccess() throws RuleParserException {
         // arrange
-        RuleParser ruleParser = new RuleParser();
         File ruleFile = new File("src/test/resources/rules.xml");
         Set<Class<? extends Rule>> ruleClassNames = Set.of(
                 AttrEndsWithConditionedProcessor.class,
@@ -43,7 +43,7 @@ public class RuleParserTest {
         );
 
         // act
-        List<Rule> actual = ruleParser.parseRules(ruleFile);
+        List<Rule> actual = RuleParser.parseRules(ruleFile);
 
         // assert
         assertEquals(RULE_SET_SIZE, actual.size());
@@ -59,10 +59,9 @@ public class RuleParserTest {
     @Test
     public void testParseRulesFailure() {
         // arrange
-        RuleParser ruleParser = new RuleParser();
         File ruleFile = new File("src/test/resources/wrongRules.xml");
 
         // act & assert
-        assertThrows(RuleParserException.class, () -> ruleParser.parseRules(ruleFile));
+        assertThrows(RuleParserException.class, () -> RuleParser.parseRules(ruleFile));
     }
 }

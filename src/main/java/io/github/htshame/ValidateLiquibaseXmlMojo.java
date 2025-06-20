@@ -1,12 +1,13 @@
 package io.github.htshame;
 
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogCollectorException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.RuleParserException;
-import io.github.htshame.parser.ChangeLogParser;
-import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.parser.RuleParser;
 import io.github.htshame.rule.Rule;
+import io.github.htshame.util.ChangeLogFilesCollector;
+import io.github.htshame.util.parser.ExclusionParser;
+import io.github.htshame.util.parser.RuleParser;
 import io.github.htshame.validator.ValidationManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -46,11 +47,16 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
     @Parameter(defaultValue = "true")
     private Boolean shouldFailBuild;
 
+    @Parameter(defaultValue = "xml")
+    private String changeLogFormat;
+
+    private final ValidationManager validationManager;
+
     /**
      * Default constructor.
      */
     public ValidateLiquibaseXmlMojo() {
-
+        this.validationManager = new ValidationManager();
     }
 
     /**
@@ -64,17 +70,18 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
         List<Rule> rules;
         ExclusionParser exclusionParser;
         List<File> changeLogFiles;
-
+        ChangeLogFormatEnum changeLogFormatEnum = ChangeLogFormatEnum.fromValue(changeLogFormat);
         try {
-            rules = new RuleParser().parseRules(pathToRulesFile);
+            rules = RuleParser.parseRules(pathToRulesFile);
             exclusionParser = ExclusionParser.parseExclusions(pathToExclusionsFile);
-            changeLogFiles = ChangeLogParser.collectChangeLogFiles(changeLogDirectory);
+            changeLogFiles = ChangeLogFilesCollector.collectChangeLogFiles(changeLogDirectory, changeLogFormatEnum);
         } catch (RuleParserException | ExclusionParserException | ChangeLogCollectorException e) {
             getLog().error("Error processing input parameters", e);
             throw new MojoExecutionException(e.getMessage());
         }
 
-        List<String> validationErrors = new ValidationManager().validate(changeLogFiles, rules, exclusionParser);
+        List<String> validationErrors =
+                validationManager.validate(changeLogFiles, rules, exclusionParser, changeLogFormatEnum);
 
         try {
             checkValidationResult(validationErrors);
@@ -108,6 +115,7 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
      * Validate incoming parameters.
      * - changeLog directory exists;
      * - XML rules file is present;
+     * - changeLog format is supported;
      *
      * @throws MojoExecutionException - if something's not found.
      */
@@ -120,6 +128,11 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
         }
         if (pathToExclusionsFile != null && !pathToExclusionsFile.exists()) {
             throw new MojoExecutionException(INVALID_PATH + pathToExclusionsFile);
+        }
+        try {
+            ChangeLogFormatEnum.fromValue(changeLogFormat);
+        } catch (IllegalArgumentException e) {
+            throw new MojoExecutionException("ChangeLog format [" + changeLogFormat + "] is not supported");
         }
     }
 

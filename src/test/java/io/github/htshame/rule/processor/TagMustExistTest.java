@@ -1,24 +1,23 @@
 package io.github.htshame.rule.processor;
 
+import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.ExclusionParser;
+import io.github.htshame.util.parser.ExclusionParser;
 import org.junit.Test;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -39,7 +38,7 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
      * Default constructor.
      */
     public TagMustExistTest() {
-        super(RULE_URL);
+        super(RULE_URL, RuleEnum.TAG_MUST_EXIST);
     }
 
     /**
@@ -51,7 +50,7 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         Element ruleElement = prepareRuleELement();
 
         // act
-        RuleEnum actual = TagMustExistProcessor.fromXml(ruleElement).getName();
+        RuleEnum actual = TagMustExistProcessor.instantiate(ruleElement).getName();
 
         // assert
         assertEquals(RuleEnum.TAG_MUST_EXIST, actual);
@@ -64,29 +63,29 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
     public void testValidateFailure() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException {
+            ExclusionParserException,
+            ChangeLogParseException {
         // arrange
-        Document document = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(new File(BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML));
+        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
-                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
-                        + "Tag <changeSet> does not contain required tag <comment>",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
-                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
-                        + "Tag <changeSet> does not contain required tag <comment>");
+                prepareTestErrorMessage(
+                        "changelog_02_3",
+                        "test1",
+                        List.of("Tag <changeSet> does not contain required tag <comment>")),
+                prepareTestErrorMessage(
+                        "changelog_02_4",
+                        "test1",
+                        List.of("Tag <changeSet> does not contain required tag <comment>")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (int i = 0; i < changeSetList.getLength(); i++) {
+        for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                Element changeSetElement = (Element) changeSetList.item(i);
-                TagMustExistProcessor.fromXml(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
                         TAG_MUST_EXIST_FAILURE_XML);
@@ -108,29 +107,29 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
     public void testValidateFailureWrongExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException {
+            ExclusionParserException,
+            ChangeLogParseException {
         // arrange
-        Document document = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(new File(BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML));
+        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
         List<String> expectedErrorMessages = Arrays.asList(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
-                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
-                        + "Tag <changeSet> does not contain required tag <comment>",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
-                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
-                        + "Tag <changeSet> does not contain required tag <comment>");
+                prepareTestErrorMessage(
+                        "changelog_02_3",
+                        "test1",
+                        List.of("Tag <changeSet> does not contain required tag <comment>")),
+                prepareTestErrorMessage(
+                        "changelog_02_4",
+                        "test1",
+                        List.of("Tag <changeSet> does not contain required tag <comment>")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (int i = 0; i < changeSetList.getLength(); i++) {
+        for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                Element changeSetElement = (Element) changeSetList.item(i);
-                TagMustExistProcessor.fromXml(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
                         TAG_MUST_EXIST_FAILURE_XML);
@@ -152,26 +151,25 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
     public void testValidateFailureWithExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException {
+            ExclusionParserException,
+            ChangeLogParseException {
         // arrange
-        Document document = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(new File(BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML));
+        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
-        List<String> expectedErrorMessages = List.of(
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
-                        + "Rule [" + RuleEnum.TAG_MUST_EXIST.getValue() + "]\n"
-                        + "Tag <changeSet> does not contain required tag <comment>");
+        List<String> expectedErrorMessages = Collections.singletonList(
+                prepareTestErrorMessage(
+                        "changelog_02_4",
+                        "test1",
+                        List.of("Tag <changeSet> does not contain required tag <comment>")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (int i = 0; i < changeSetList.getLength(); i++) {
+        for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                Element changeSetElement = (Element) changeSetList.item(i);
-                TagMustExistProcessor.fromXml(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
                         TAG_MUST_EXIST_FAILURE_XML);
@@ -193,22 +191,19 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
     public void testValidateSuccess() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException {
+            ExclusionParserException,
+            ChangeLogParseException {
         // arrange
-        Document document = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(new File(BASE_FILE_PATH + TAG_MUST_EXIST_SUCCESS_XML));
+        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+                BASE_FILE_PATH + TAG_MUST_EXIST_SUCCESS_XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
-        NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
 
         // act
-        for (int i = 0; i < changeSetList.getLength(); i++) {
+        for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                Element changeSetElement = (Element) changeSetList.item(i);
-
-                TagMustExistProcessor.fromXml(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
                         TAG_MUST_EXIST_SUCCESS_XML);

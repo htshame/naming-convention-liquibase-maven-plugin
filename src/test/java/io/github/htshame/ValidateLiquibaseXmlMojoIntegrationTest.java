@@ -1,6 +1,7 @@
 package io.github.htshame;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -12,20 +13,30 @@ import static org.junit.Assert.assertTrue;
 
 public class ValidateLiquibaseXmlMojoIntegrationTest {
 
+    private ValidateLiquibaseXmlMojo validateLiquibaseXmlMojo;
+
     /**
-     * Integration test for {@link ValidateLiquibaseXmlMojo#execute()}.
+     * Init.
      *
-     * @throws NoSuchFieldException - thrown if required field is missing.
+     * @throws NoSuchFieldException   - thrown if required field is missing.
      * @throws IllegalAccessException - thrown if files not found.
      */
+    @Before
+    public void init() throws NoSuchFieldException, IllegalAccessException {
+        validateLiquibaseXmlMojo = new ValidateLiquibaseXmlMojo();
+        setField("pathToRulesFile", new File("src/test/resources/rules.xml"));
+        setField("pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
+        setField("changeLogDirectory", new File("src/test/resources/db"));
+        setField("shouldFailBuild", true);
+        setField("changeLogFormat", "xml");
+    }
+
+    /**
+     * Integration test for {@link ValidateLiquibaseXmlMojo#execute()}.
+     */
     @Test
-    public void testExecute() throws NoSuchFieldException, IllegalAccessException {
+    public void testExecute() {
         // arrange
-        ValidateLiquibaseXmlMojo validateLiquibaseXmlMojo = new ValidateLiquibaseXmlMojo();
-        setField(validateLiquibaseXmlMojo, "pathToRulesFile", new File("src/test/resources/rules.xml"));
-        setField(validateLiquibaseXmlMojo, "pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
-        setField(validateLiquibaseXmlMojo, "changeLogDirectory", new File("src/test/resources/db"));
-        setField(validateLiquibaseXmlMojo, "shouldFailBuild", true);
         boolean isExceptionThrown = false;
 
         // act
@@ -42,17 +53,13 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
     /**
      * Integration test for {@link ValidateLiquibaseXmlMojo#execute()}. Should not fail the build.
      *
-     * @throws NoSuchFieldException - thrown if required field is missing.
+     * @throws NoSuchFieldException   - thrown if required field is missing.
      * @throws IllegalAccessException - thrown if files not found.
      */
     @Test
     public void testExecuteFailureShouldNotFailBuildFalse() throws NoSuchFieldException, IllegalAccessException {
         // arrange
-        ValidateLiquibaseXmlMojo validateLiquibaseXmlMojo = new ValidateLiquibaseXmlMojo();
-        setField(validateLiquibaseXmlMojo, "pathToRulesFile", new File("src/test/resources/rules.xml"));
-        setField(validateLiquibaseXmlMojo, "pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
-        setField(validateLiquibaseXmlMojo, "changeLogDirectory", new File("src/test/resources/db"));
-        setField(validateLiquibaseXmlMojo, "shouldFailBuild", false);
+        setField("shouldFailBuild", false);
         boolean isExceptionThrown = false;
 
         // act
@@ -65,8 +72,7 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
         assertFalse(isExceptionThrown);
     }
 
-    private void setField(final ValidateLiquibaseXmlMojo validateLiquibaseXmlMojo,
-                          final String fieldName,
+    private void setField(final String fieldName,
                           final Object value)
             throws NoSuchFieldException, IllegalAccessException {
         Field ruleSetPath = validateLiquibaseXmlMojo.getClass().getDeclaredField(fieldName);

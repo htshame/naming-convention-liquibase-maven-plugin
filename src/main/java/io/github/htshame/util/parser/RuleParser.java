@@ -1,11 +1,11 @@
-package io.github.htshame.parser;
+package io.github.htshame.util.parser;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.rule.Rule;
 import io.github.htshame.rule.RuleFactory;
-import io.github.htshame.rule.factory.RuleProcessorFactory;
+import io.github.htshame.rule.RuleProcessorRegistry;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -46,12 +46,12 @@ import java.util.List;
  * &lt;/rules&gt;
  * </code></pre>
  */
-public class RuleParser {
+public final class RuleParser {
 
     /**
-     * Default constructor.
+     * Private constructor.
      */
-    public RuleParser() {
+    private RuleParser() {
 
     }
 
@@ -62,7 +62,7 @@ public class RuleParser {
      * @return list of rules.
      * @throws RuleParserException - thrown if parsing fails.
      */
-    public List<Rule> parseRules(final File rulesetFile) throws RuleParserException {
+    public static List<Rule> parseRules(final File rulesetFile) throws RuleParserException {
         List<Rule> rules = new ArrayList<>();
         try {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
@@ -72,9 +72,9 @@ public class RuleParser {
                 RuleEnum ruleType =
                         RuleEnum.fromValue(ruleElement.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
 
-                RuleFactory ruleFactory = RuleProcessorFactory.getFactory(ruleType);
+                RuleFactory ruleFactory = RuleProcessorRegistry.getFactory(ruleType);
                 try {
-                    Rule rule = ruleFactory.fromXml(ruleElement);
+                    Rule rule = ruleFactory.instantiate(ruleElement);
                     rules.add(rule);
                 } catch (Exception e) {
                     throw new RuntimeException("Failed to instantiate rule for type: " + ruleType, e);

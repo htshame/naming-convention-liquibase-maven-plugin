@@ -1,8 +1,7 @@
 package io.github.htshame.util;
 
+import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.dto.ChangeSetAttributeDto;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * Utility class for getting changeSet's data.
@@ -26,22 +25,22 @@ public final class ChangeSetUtil {
      * @param element - element of the changeSet.
      * @return object with changeSet attributes.
      */
-    public static ChangeSetAttributeDto getAttributesFromAncestor(final Element element) {
-        if (CHANGE_SET_TAG_NAME.equals(element.getTagName())) {
+    public static ChangeSetAttributeDto getAttributesFromAncestor(final ChangeSetElement element) {
+        if (CHANGE_SET_TAG_NAME.equals(element.getName())) {
             return new ChangeSetAttributeDto(
                     getAttributeValue(element, ID_ATTR_NAME),
                     getAttributeValue(element, AUTHOR_ATTR_NAME));
         }
-        Node current = element.getParentNode();
-        while (current != null && current.getNodeType() == Node.ELEMENT_NODE) {
-            Element parentElement = (Element) current;
-            if (CHANGE_SET_TAG_NAME.equals(parentElement.getTagName())) {
-                return new ChangeSetAttributeDto(
-                        getAttributeValue(parentElement, ID_ATTR_NAME),
-                        getAttributeValue(parentElement, AUTHOR_ATTR_NAME));
-            }
-            current = current.getParentNode();
-        }
+//        ChangeSetElement current = element.getParent();
+//        while (current != null && current.getNodeType() == Node.ELEMENT_NODE) {
+//            Element parentElement = (Element) current;
+//            if (CHANGE_SET_TAG_NAME.equals(parentElement.getTagName())) {
+//                return new ChangeSetAttributeDto(
+//                        getAttributeValue(parentElement, ID_ATTR_NAME),
+//                        getAttributeValue(parentElement, AUTHOR_ATTR_NAME));
+//            }
+//            current = current.getParent();
+//        }
         return new ChangeSetAttributeDto("", "");
     }
 
@@ -52,8 +51,8 @@ public final class ChangeSetUtil {
      * @param attributeName - attribute name.
      * @return attribute value.
      */
-    private static String getAttributeValue(final Element element,
+    private static String getAttributeValue(final ChangeSetElement element,
                                             final String attributeName) {
-        return element.getAttributes().getNamedItem(attributeName).getNodeValue();
+        return element.getProperties().get(attributeName);
     }
 }

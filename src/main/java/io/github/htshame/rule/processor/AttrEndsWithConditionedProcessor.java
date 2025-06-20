@@ -1,13 +1,13 @@
 package io.github.htshame.rule.processor;
 
+import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.rule.RuleHelper;
+import io.github.htshame.util.RuleUtil;
+import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +39,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * indeed ends with <code>_unique</code>.
  */
-
-public class AttrEndsWithConditionedProcessor extends RuleHelper implements Rule {
+public class AttrEndsWithConditionedProcessor implements Rule {
 
     private final String tag;
     private final String conditionAttr;
@@ -85,7 +84,7 @@ public class AttrEndsWithConditionedProcessor extends RuleHelper implements Rule
      * @param element - element.
      * @return instance of {@link AttrEndsWithConditionedProcessor}.
      */
-    public static AttrEndsWithConditionedProcessor fromXml(final Element element) {
+    public static AttrEndsWithConditionedProcessor instantiate(final Element element) {
         return new AttrEndsWithConditionedProcessor(
                 getText(element, RuleStructureEnum.TAG.getValue()),
                 getText(element, RuleStructureEnum.CONDITION_ATTR.getValue()),
@@ -103,23 +102,22 @@ public class AttrEndsWithConditionedProcessor extends RuleHelper implements Rule
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final Element changeSetElement,
+    public void validate(final ChangeSetElement changeSetElement,
                          final ExclusionParser exclusionParser,
                          final String changeLogFileName) throws ValidationException {
-        if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
+        if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        NodeList elements = changeSetElement.getElementsByTagName(tag);
+        List<ChangeSetElement> elements = changeSetElement.findElementsByName(changeSetElement, tag);
         List<String> errors = new ArrayList<>();
 
-        for (int i = 0; i < elements.getLength(); i++) {
-            Element element = (Element) elements.item(i);
-            if (!conditionValue.equals(element.getAttribute(conditionAttr))) {
+        for (ChangeSetElement element : elements) {
+            if (!conditionValue.equals(element.getPropertyValue(conditionAttr))) {
                 continue;
             }
-            boolean isTargetAttrPresent = element.hasAttribute(targetAttr);
+            boolean isTargetAttrPresent = element.hasProperty(targetAttr);
             if (isTargetAttrPresent) {
-                String actualValue = element.getAttribute(targetAttr);
+                String actualValue = element.getPropertyValue(targetAttr);
                 if (actualValue.endsWith(requiredSuffix)) {
                     continue;
                 }
@@ -135,7 +133,7 @@ public class AttrEndsWithConditionedProcessor extends RuleHelper implements Rule
             }
         }
         if (!errors.isEmpty()) {
-            throw new ValidationException(composeErrorMessage(changeSetElement, getName(), errors));
+            throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
         }
     }
 }

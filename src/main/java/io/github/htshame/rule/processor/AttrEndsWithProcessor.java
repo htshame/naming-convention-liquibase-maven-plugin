@@ -1,13 +1,13 @@
 package io.github.htshame.rule.processor;
 
+import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.rule.RuleHelper;
+import io.github.htshame.util.RuleUtil;
+import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,8 +37,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * indeed ends with <code>_fk</code>.
  */
-
-public class AttrEndsWithProcessor extends RuleHelper implements Rule {
+public class AttrEndsWithProcessor implements Rule {
 
     private final String tag;
     private final String targetAttr;
@@ -75,7 +74,7 @@ public class AttrEndsWithProcessor extends RuleHelper implements Rule {
      * @param element - element.
      * @return instance of {@link AttrEndsWithProcessor}.
      */
-    public static AttrEndsWithProcessor fromXml(final Element element) {
+    public static AttrEndsWithProcessor instantiate(final Element element) {
         return new AttrEndsWithProcessor(
                 getText(element, RuleStructureEnum.TAG.getValue()),
                 getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
@@ -91,20 +90,19 @@ public class AttrEndsWithProcessor extends RuleHelper implements Rule {
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final Element changeSetElement,
+    public void validate(final ChangeSetElement changeSetElement,
                          final ExclusionParser exclusionParser,
                          final String changeLogFileName) throws ValidationException {
-        if (shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
+        if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        NodeList elements = changeSetElement.getElementsByTagName(tag);
+        List<ChangeSetElement> elements = changeSetElement.findElementsByName(changeSetElement, tag);
         List<String> errors = new ArrayList<>();
 
-        for (int i = 0; i < elements.getLength(); i++) {
-            Element element = (Element) elements.item(i);
-            boolean isTargetAttrPresent = element.hasAttribute(targetAttr);
+        for (ChangeSetElement element : elements) {
+            boolean isTargetAttrPresent = element.hasProperty(targetAttr);
             if (isTargetAttrPresent) {
-                String actualValue = element.getAttribute(targetAttr);
+                String actualValue = element.getPropertyValue(targetAttr);
                 if (!actualValue.endsWith(requiredSuffix)) {
                     String errorMessage = String.format(
                             "Tag <%s> must have %s ending with [%s], but found: [%s]",
@@ -118,7 +116,7 @@ public class AttrEndsWithProcessor extends RuleHelper implements Rule {
         }
 
         if (!errors.isEmpty()) {
-            throw new ValidationException(composeErrorMessage(changeSetElement, getName(), errors));
+            throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
         }
     }
 }

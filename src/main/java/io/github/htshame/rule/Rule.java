@@ -1,9 +1,9 @@
 package io.github.htshame.rule;
 
+import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.ExclusionParser;
-import org.w3c.dom.Element;
+import io.github.htshame.util.parser.ExclusionParser;
 
 /**
  * Interface for rule handling.
@@ -20,12 +20,12 @@ public interface Rule {
     /**
      * Validates the changeSet against the rule which implements {@link Rule}.
      *
-     * @param changeSetElement  - element containing changeSet.
+     * @param changeSetElement  - changeSet.
      * @param exclusionParser   - exclusion parser.
      * @param changeLogFileName - changeLog file name.
      * @throws ValidationException - thrown if validation fails.
      */
-    void validate(Element changeSetElement,
+    void validate(ChangeSetElement changeSetElement,
                   ExclusionParser exclusionParser,
                   String changeLogFileName) throws ValidationException;
 

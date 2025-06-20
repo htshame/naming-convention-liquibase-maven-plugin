@@ -4,7 +4,7 @@ import org.w3c.dom.Element;
 
 /**
  * Rule factory.
- * Enforces that all rule handlers implement {@link RuleFactory#fromXml} method.
+ * Enforces that all rule handlers implement {@link RuleFactory#instantiate} method.
  */
 @FunctionalInterface
 public interface RuleFactory {
@@ -12,9 +12,9 @@ public interface RuleFactory {
     /**
      * Populate rule with the contents from XML file.
      *
-     * @param element - element.
+     * @param element - changeSet element.
      * @return instance of {@link Rule}.
      */
-    Rule fromXml(Element element);
+    Rule instantiate(Element element);
 
 }

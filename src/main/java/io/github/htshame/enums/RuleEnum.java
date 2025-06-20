@@ -57,9 +57,9 @@ public enum RuleEnum {
      * @return enum.
      */
     public static RuleEnum fromValue(final String value) {
-        for (RuleEnum constant : RuleEnum.values()) {
-            if (constant.getValue().equals(value)) {
-                return constant;
+        for (RuleEnum ruleEnum : RuleEnum.values()) {
+            if (ruleEnum.getValue().equals(value)) {
+                return ruleEnum;
             }
         }
         throw new IllegalArgumentException("No enum constant found for value: " + value);

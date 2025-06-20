@@ -23,8 +23,7 @@ import java.util.List;
  *     &lt;rule type="tag-must-exist"&gt;
  *         &lt;requiredTag&gt;comment&lt;/requiredTag&gt;
  *         &lt;excludedTags&gt;
- *             &lt;tag&gt;databaseChangeLog&lt;/tag&gt;
- *             &lt;tag&gt;include&lt;/tag&gt;
+ *             &lt;tag&gt;rollback&lt;/tag&gt;
  *         &lt;/excludedTags&gt;
  *     &lt;/rule&gt;
  *

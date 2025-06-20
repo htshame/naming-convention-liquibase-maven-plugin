@@ -17,9 +17,9 @@ public enum RuleStructureEnum {
      */
     REQUIRED_TAG("requiredTag"),
     /**
-     * Represents 'excludedTags' tags.
+     * Represents 'requiredForChildTags' tags.
      */
-    EXCLUDED_TAGS("excludedTags"),
+    REQUIRED_FOR_CHILD_TAGS("requiredForChildTags"),
     /**
      * Represents 'excludedAttrs' tags.
      */

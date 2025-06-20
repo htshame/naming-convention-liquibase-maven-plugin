@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/2.0/liquibase-naming-convention-2.0.xsd">
+        xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/2.1/liquibase-naming-convention-2.1.xsd">
 
     <rule name="attr-ends-with-conditioned">
         <tag>createIndex</tag>

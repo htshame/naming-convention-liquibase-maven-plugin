@@ -1,4 +1,4 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/2.0/liquibase-naming-convention-2.0.xsd">
+            xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/2.1/liquibase-naming-convention-2.1.xsd">
     <changeSetExclusion fileName="tag-must-exist-failure.xml" changeSetId="changelog_02_3" changeSetAuthor="test1" rule="tag-must-exist"/>
 </exclusions>

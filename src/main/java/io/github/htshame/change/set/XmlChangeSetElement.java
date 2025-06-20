@@ -130,4 +130,18 @@ public class XmlChangeSetElement implements ChangeSetElement {
             traverse(child, name, result);
         }
     }
+
+    /**
+     * Get value.
+     *
+     * @return value.
+     */
+    @Override
+    public String getValue() {
+        Node firstChild = element.getFirstChild();
+        if (firstChild == null) {
+            return "";
+        }
+        return firstChild.getNodeValue();
+    }
 }

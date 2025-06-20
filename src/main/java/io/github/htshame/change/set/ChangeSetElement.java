@@ -32,6 +32,12 @@ public interface ChangeSetElement {
     String getPropertyValue(String name);
 
     /**
+     * Get value.
+     * @return value.
+     */
+    String getValue();
+
+    /**
      * Get child elements.
      *
      * @return list of child elements.

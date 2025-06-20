@@ -13,7 +13,7 @@ This plugin allows you to create a set of rules and enforce them.
 
 - If someone names the table 'customer-metadata' instead of 'customer_metadata' (or vice versa), the build will fail!
 
-- If someone does not write <comment> to the changeSet, the build will fail!
+- If someone does not write `<comment>` to the changeSet, the build will fail!
 
 - If someone... - well, you get the point!
 
@@ -24,7 +24,8 @@ This plugin allows you to create a set of rules and enforce them.
 1. Create <b>[rules.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/rules_example.xml)</b> (or name it differently) file and provide it in `<pathToRulesFile>`.
 2. Create <b>[exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml)</b> (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`.
 3. Provide the path to the directory with Liquibase XML changeLogs in `<changeLogDirectory>`.
-4. Put this into your pom.xml:
+4. Provide `false` in `<shouldFailBuild>` if you want to just see the warnings.
+5. Put this into your pom.xml:
     ```xml
     <plugin>
         <groupId>io.github.htshame</groupId>
@@ -49,8 +50,7 @@ This plugin allows you to create a set of rules and enforce them.
         </configuration>
     </plugin>
     ```
-
-5. Run your build.
+6. Run your build.
 
 ---
 
@@ -66,13 +66,12 @@ Example:
 <rule name="tag-must-exist">
     <requiredTag>comment</requiredTag>
     <excludedTags>
-        <tag>databaseChangeLog</tag>
-        <tag>include</tag>
+        <tag>rollback</tag>
     </excludedTags>
 </rule>
 ```
 
-Will check that `<comment>` tag is present inside every tag, excluding `<databaseChangeLog>` and `<include>` tags.
+Will check that `<comment>` tag is present inside every tag, excluding `<rollback>`tag.
 
 ### attr-starts-with
 
@@ -138,8 +137,7 @@ Example:
 </rule>
 ```
 
-Checks that `-` are not present in the changeLog at all, except for excluded attributes. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
-excluded from the check. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+Checks that `-` are not present in the changeSog at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ### no-underscores-in-attributes
 
@@ -154,8 +152,7 @@ Example:
 </rule>
 ```
 
-Checks that `_` are not present in the changeLog at all, except for excluded attributes. `<databaseChangeLog>`, `<comment>`, `<included>` tags are
-excluded from the check. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+Checks that `_` are not present in the changeLog at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ---
 
@@ -165,6 +162,7 @@ You can always add an exclusion to the set of rules. Create a separate `exclusio
 
 Example:
 
+To exclude the whole changeLog file or a single changeSet, use:
 ```xml
 <fileExclusion fileName="changelog_04.xml" rule="no-underscores-in-attributes"/>
 <changeSetExclusion fileName="changelog_04.xml" changeSetId="changelog_04-1" changeSetAuthor="test" rule="tag-must-exist"/>
@@ -173,6 +171,7 @@ Example:
 ---
 
 ## Note: requires Java 11 or later
+### Supported changeLog format: XML
 
 ---
 

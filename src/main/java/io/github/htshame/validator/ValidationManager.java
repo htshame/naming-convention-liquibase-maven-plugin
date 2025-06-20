@@ -1,21 +1,19 @@
 package io.github.htshame.validator;
 
+import io.github.htshame.change.log.ChangeLogParser;
+import io.github.htshame.change.log.XmlChangeLogParser;
+import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.rule.Rule;
 import io.github.htshame.util.parser.ExclusionParser;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 
 /**
  * This class is responsible for actual validation based on
@@ -24,6 +22,13 @@ import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
  * and contents of the changeLog directory.
  */
 public class ValidationManager {
+
+    static final EnumMap<ChangeLogFormatEnum, ChangeLogParser> CHANGELOG_PARSER =
+            new EnumMap<>(ChangeLogFormatEnum.class);
+
+    static {
+        CHANGELOG_PARSER.put(ChangeLogFormatEnum.XML, new XmlChangeLogParser());
+    }
 
     /**
      * Default constructor.
@@ -38,15 +43,18 @@ public class ValidationManager {
      * @param changeLogFiles  - changeLog files to validate.
      * @param rules           - set of rules to validate against.
      * @param exclusionParser - exclusions.
+     * @param changeLogFormat - changeLog format.
      * @return list of validation errors. Empty list if there are no errors.
      */
     public List<String> validate(final List<File> changeLogFiles,
                                  final List<Rule> rules,
-                                 final ExclusionParser exclusionParser) {
+                                 final ExclusionParser exclusionParser,
+                                 final ChangeLogFormatEnum changeLogFormat) {
         List<String> validationErrors = new ArrayList<>();
         for (File changeLogFile : changeLogFiles) {
             Set<Rule> rulesToValidateWith = excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
-            validationErrors.addAll(processValidation(changeLogFile, rulesToValidateWith, exclusionParser));
+            validationErrors.addAll(
+                    processValidation(changeLogFile, rulesToValidateWith, exclusionParser, changeLogFormat));
         }
         return validationErrors;
     }
@@ -57,23 +65,21 @@ public class ValidationManager {
      * @param changeLogFile   - changeLog file.
      * @param rules           - set of rules.
      * @param exclusionParser - exclusion parser.
+     * @param changeLogFormat - changeLog format.
      * @return list of validation errors. Empty list of there are no errors.
      */
     private List<String> processValidation(final File changeLogFile,
                                            final Set<Rule> rules,
-                                           final ExclusionParser exclusionParser) {
+                                           final ExclusionParser exclusionParser,
+                                           final ChangeLogFormatEnum changeLogFormat) {
         List<String> validationErrors = new ArrayList<>();
-        Document document;
         try {
-            DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            document = documentBuilder.parse(changeLogFile);
-            document.getDocumentElement().normalize();
+            List<ChangeSetElement> changeSetElements = CHANGELOG_PARSER.get(changeLogFormat)
+                    .parseChangeLog(changeLogFile);
 
             for (Rule rule : rules) {
-                NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
-                for (int i = 0; i < changeSetList.getLength(); i++) {
+                for (ChangeSetElement changeSetElement : changeSetElements) {
                     try {
-                        Element changeSetElement = (Element) changeSetList.item(i);
                         rule.validate(changeSetElement, exclusionParser, changeLogFile.getName());
                     } catch (ValidationException e) {
                         validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());

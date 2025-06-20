@@ -1,5 +1,6 @@
 package io.github.htshame.util;
 
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogCollectorException;
 
 import java.io.File;
@@ -23,16 +24,17 @@ public final class ChangeLogFilesCollector {
      * Collect XML files from the changeLog directory.
      *
      * @param changeLogFilesPath - path to changeLog files.
-     * @param fileExtension      - fileExtension.
+     * @param fileExtension      - file extension.
      * @return list of changeLog files.
      * @throws ChangeLogCollectorException - thrown in case collection fails.
      */
     public static List<File> collectChangeLogFiles(final File changeLogFilesPath,
-                                                   final String fileExtension) throws ChangeLogCollectorException {
+                                                   final ChangeLogFormatEnum fileExtension)
+            throws ChangeLogCollectorException {
         try (Stream<Path> paths = Files.walk(changeLogFilesPath.toPath())) {
             return paths
                     .filter(Files::isRegularFile)
-                    .filter(path -> path.toString().endsWith("." + fileExtension))
+                    .filter(path -> path.toString().endsWith("." + fileExtension.getValue()))
                     .map(Path::toFile)
                     .collect(Collectors.toList());
         } catch (IOException e) {

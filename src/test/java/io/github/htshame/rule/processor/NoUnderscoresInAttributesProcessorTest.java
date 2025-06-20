@@ -1,24 +1,23 @@
 package io.github.htshame.rule.processor;
 
+import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.util.parser.ExclusionParser;
 import org.junit.Test;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
-import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -38,7 +37,7 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
      * Default constructor.
      */
     public NoUnderscoresInAttributesProcessorTest() {
-        super(RULE_URL);
+        super(RULE_URL, RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES);
     }
 
     /**
@@ -50,7 +49,7 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
         Element ruleElement = prepareRuleELement();
 
         // act
-        RuleEnum actual = NoUnderscoresInAttributesProcessor.fromXml(ruleElement).getName();
+        RuleEnum actual = NoUnderscoresInAttributesProcessor.instantiate(ruleElement).getName();
 
         // assert
         assertEquals(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, actual);
@@ -63,35 +62,39 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
     public void testValidateFailure() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException {
+            ExclusionParserException,
+            ChangeLogParseException {
         // arrange
-        Document document = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(new File(BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML));
+        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
-        Set<String> expectedErrorMessages = Set.of(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
-                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
-                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
-                        + "Attribute name in element <column> contains underscore in value: [user_data].",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
-                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
-                        + "Attribute indexName in element <createIndex> contains underscore in value: [user_idx].\n"
-                        + "Attribute tableName in element <createIndex> contains underscore in value:"
-                        + " [user_metadata].\n"
-                        + "Attribute name in element <column> contains underscore in value: [external_user_id].\n"
-                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
-                        + "Attribute name in element <column> contains underscore in value: [user_data].");
+        List<String> expectedErrorMessages = Arrays.asList(
+                prepareTestErrorMessage(
+                        "changelog_02_3",
+                        "test",
+                        List.of(
+                                "Attribute tableName in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute name in element <column> contains underscore in value: [user_data].")),
+                prepareTestErrorMessage(
+                        "changelog_02_4",
+                        "test",
+                        List.of("Attribute indexName in element <createIndex> contains underscore in value: "
+                                        + "[user_idx].",
+                                "Attribute tableName in element <createIndex> contains underscore in value:"
+                                        + " [user_metadata].",
+                                "Attribute name in element <column> contains underscore in value: [external_user_id].",
+                                "Attribute tableName in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute name in element <column> contains underscore in value: [user_data].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (int i = 0; i < changeSetList.getLength(); i++) {
+        for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                Element changeSetElement = (Element) changeSetList.item(i);
-                NoUnderscoresInAttributesProcessor.fromXml(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
                         NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
@@ -113,35 +116,39 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
     public void testValidateFailureWrongExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException {
+            ExclusionParserException,
+            ChangeLogParseException {
         // arrange
-        Document document = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(new File(BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML));
+        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
-        Set<String> expectedErrorMessages = Set.of(
-                "ChangeSet: id=\"changelog_02_3\", author=\"test\". "
-                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
-                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
-                        + "Attribute name in element <column> contains underscore in value: [user_data].",
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
-                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
-                        + "Attribute indexName in element <createIndex> contains underscore in value: [user_idx].\n"
-                        + "Attribute tableName in element <createIndex> contains underscore in value:"
-                        + " [user_metadata].\n"
-                        + "Attribute name in element <column> contains underscore in value: [external_user_id].\n"
-                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
-                        + "Attribute name in element <column> contains underscore in value: [user_data].");
+        List<String> expectedErrorMessages = Arrays.asList(
+                prepareTestErrorMessage(
+                        "changelog_02_3",
+                        "test",
+                        List.of(
+                                "Attribute tableName in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute name in element <column> contains underscore in value: [user_data].")),
+                prepareTestErrorMessage(
+                        "changelog_02_4",
+                        "test",
+                        List.of("Attribute indexName in element <createIndex> contains underscore in value: "
+                                        + "[user_idx].",
+                                "Attribute tableName in element <createIndex> contains underscore in value:"
+                                        + " [user_metadata].",
+                                "Attribute name in element <column> contains underscore in value: [external_user_id].",
+                                "Attribute tableName in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute name in element <column> contains underscore in value: [user_data].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (int i = 0; i < changeSetList.getLength(); i++) {
+        for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                Element changeSetElement = (Element) changeSetList.item(i);
-                NoUnderscoresInAttributesProcessor.fromXml(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
                         NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
@@ -163,31 +170,32 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
     public void testValidateFailureWithExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException {
+            ExclusionParserException,
+            ChangeLogParseException {
         // arrange
-        Document document = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(new File(BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML));
+        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
-        Set<String> expectedErrorMessages = Set.of(
-                "ChangeSet: id=\"changelog_02_4\", author=\"test\". "
-                        + "Rule [" + RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES.getValue() + "]\n"
-                        + "Attribute indexName in element <createIndex> contains underscore in value: [user_idx].\n"
-                        + "Attribute tableName in element <createIndex> contains underscore in value:"
-                        + " [user_metadata].\n"
-                        + "Attribute name in element <column> contains underscore in value: [external_user_id].\n"
-                        + "Attribute tableName in element <createTable> contains underscore in value: [user_meta].\n"
-                        + "Attribute name in element <column> contains underscore in value: [user_data].");
+        List<String> expectedErrorMessages = Collections.singletonList(
+                prepareTestErrorMessage(
+                        "changelog_02_4",
+                        "test",
+                        List.of("Attribute indexName in element <createIndex> contains underscore in value: "
+                                        + "[user_idx].",
+                                "Attribute tableName in element <createIndex> contains underscore in value:"
+                                        + " [user_metadata].",
+                                "Attribute name in element <column> contains underscore in value: [external_user_id].",
+                                "Attribute tableName in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute name in element <column> contains underscore in value: [user_data].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (int i = 0; i < changeSetList.getLength(); i++) {
+        for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                Element changeSetElement = (Element) changeSetList.item(i);
-                NoUnderscoresInAttributesProcessor.fromXml(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
                         NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
@@ -209,22 +217,19 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
     public void testValidateSuccess() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException {
+            ExclusionParserException,
+            ChangeLogParseException {
         // arrange
-        Document document = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(new File(BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML));
+        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
-        NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
 
         // act
-        for (int i = 0; i < changeSetList.getLength(); i++) {
+        for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                Element changeSetElement = (Element) changeSetList.item(i);
-
-                NoUnderscoresInAttributesProcessor.fromXml(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
                         NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML);

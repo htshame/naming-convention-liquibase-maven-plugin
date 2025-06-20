@@ -1,5 +1,6 @@
 package io.github.htshame;
 
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogCollectorException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.RuleParserException;
@@ -69,17 +70,18 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
         List<Rule> rules;
         ExclusionParser exclusionParser;
         List<File> changeLogFiles;
-
+        ChangeLogFormatEnum changeLogFormatEnum = ChangeLogFormatEnum.fromValue(changeLogFormat);
         try {
             rules = RuleParser.parseRules(pathToRulesFile);
             exclusionParser = ExclusionParser.parseExclusions(pathToExclusionsFile);
-            changeLogFiles = ChangeLogFilesCollector.collectChangeLogFiles(changeLogDirectory, changeLogFormat);
+            changeLogFiles = ChangeLogFilesCollector.collectChangeLogFiles(changeLogDirectory, changeLogFormatEnum);
         } catch (RuleParserException | ExclusionParserException | ChangeLogCollectorException e) {
             getLog().error("Error processing input parameters", e);
             throw new MojoExecutionException(e.getMessage());
         }
 
-        List<String> validationErrors = validationManager.validate(changeLogFiles, rules, exclusionParser);
+        List<String> validationErrors =
+                validationManager.validate(changeLogFiles, rules, exclusionParser, changeLogFormatEnum);
 
         try {
             checkValidationResult(validationErrors);
@@ -113,6 +115,7 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
      * Validate incoming parameters.
      * - changeLog directory exists;
      * - XML rules file is present;
+     * - changeLog format is supported;
      *
      * @throws MojoExecutionException - if something's not found.
      */
@@ -125,6 +128,11 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
         }
         if (pathToExclusionsFile != null && !pathToExclusionsFile.exists()) {
             throw new MojoExecutionException(INVALID_PATH + pathToExclusionsFile);
+        }
+        try {
+            ChangeLogFormatEnum.fromValue(changeLogFormat);
+        } catch (IllegalArgumentException e) {
+            throw new MojoExecutionException("ChangeLog format [" + changeLogFormat + "] is not supported");
         }
     }
 

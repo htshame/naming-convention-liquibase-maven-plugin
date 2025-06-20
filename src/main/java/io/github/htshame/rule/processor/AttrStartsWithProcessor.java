@@ -1,5 +1,6 @@
 package io.github.htshame.rule.processor;
 
+import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
@@ -7,7 +8,6 @@ import io.github.htshame.rule.Rule;
 import io.github.htshame.util.RuleUtil;
 import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +71,7 @@ public class AttrStartsWithProcessor implements Rule {
      * @param element - element.
      * @return instance of {@link AttrStartsWithProcessor}.
      */
-    public static AttrStartsWithProcessor fromXml(final Element element) {
+    public static AttrStartsWithProcessor instantiate(final Element element) {
         return new AttrStartsWithProcessor(
                 getText(element, RuleStructureEnum.TAG.getValue()),
                 getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
@@ -87,21 +87,19 @@ public class AttrStartsWithProcessor implements Rule {
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final Element changeSetElement,
+    public void validate(final ChangeSetElement changeSetElement,
                          final ExclusionParser exclusionParser,
                          final String changeLogFileName) throws ValidationException {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        NodeList nodes = changeSetElement.getElementsByTagName(tag);
+        List<ChangeSetElement> nodes = changeSetElement.findElementsByName(changeSetElement, tag);
         List<String> errors = new ArrayList<>();
 
-        for (int i = 0; i < nodes.getLength(); i++) {
-            Element element = (Element) nodes.item(i);
-
-            boolean isTargetAttrPresent = element.hasAttribute(targetAttr);
+        for (ChangeSetElement element : nodes) {
+            boolean isTargetAttrPresent = element.hasProperty(targetAttr);
             if (isTargetAttrPresent) {
-                String attrValue = element.getAttribute(targetAttr);
+                String attrValue = element.getPropertyValue(targetAttr);
                 if (!attrValue.startsWith(requiredPrefix)) {
                     String error = String.format(
                             "<%s %s=\"%s\"> must start with \"%s\"",

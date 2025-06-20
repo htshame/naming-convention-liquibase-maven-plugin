@@ -74,7 +74,7 @@ public final class RuleParser {
 
                 RuleFactory ruleFactory = RuleProcessorRegistry.getFactory(ruleType);
                 try {
-                    Rule rule = ruleFactory.fromXml(ruleElement);
+                    Rule rule = ruleFactory.instantiate(ruleElement);
                     rules.add(rule);
                 } catch (Exception e) {
                     throw new RuntimeException("Failed to instantiate rule for type: " + ruleType, e);

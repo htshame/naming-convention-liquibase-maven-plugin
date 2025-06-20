@@ -8,7 +8,7 @@ import io.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
 
-import java.util.Map;
+import java.util.EnumMap;
 
 /**
  * Rule processor registry.
@@ -18,14 +18,16 @@ public final class RuleProcessorRegistry {
     /**
      * Map of rule processors mapped to the corresponding {@link RuleEnum}.
      */
-    private static final Map<RuleEnum, RuleFactory> RULE_MAP = Map.of(
-            RuleEnum.TAG_MUST_EXIST, TagMustExistProcessor::fromXml,
-            RuleEnum.ATTRIBUTE_STARTS_WITH, AttrStartsWithProcessor::fromXml,
-            RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, AttrEndsWithConditionedProcessor::fromXml,
-            RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesProcessor::fromXml,
-            RuleEnum.ATTRIBUTE_ENDS_WITH, AttrEndsWithProcessor::fromXml,
-            RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, NoUnderscoresInAttributesProcessor::fromXml
-    );
+    private static final EnumMap<RuleEnum, RuleFactory> RULE_MAP = new EnumMap<>(RuleEnum.class);
+
+    static {
+        RULE_MAP.put(RuleEnum.TAG_MUST_EXIST, TagMustExistProcessor::instantiate);
+        RULE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH, AttrStartsWithProcessor::instantiate);
+        RULE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, AttrEndsWithConditionedProcessor::instantiate);
+        RULE_MAP.put(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesProcessor::instantiate);
+        RULE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, AttrEndsWithProcessor::instantiate);
+        RULE_MAP.put(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, NoUnderscoresInAttributesProcessor::instantiate);
+    }
 
     private RuleProcessorRegistry() {
     }

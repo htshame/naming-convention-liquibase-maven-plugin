@@ -1,5 +1,6 @@
 package io.github.htshame.rule.processor;
 
+import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
@@ -7,14 +8,11 @@ import io.github.htshame.rule.Rule;
 import io.github.htshame.util.RuleUtil;
 import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static io.github.htshame.util.RuleUtil.getText;
 
 /**
  * Business logic for the <code>tag-must-exist</code> rule.
@@ -73,8 +71,8 @@ public class TagMustExistProcessor implements Rule {
      * @param element - element.
      * @return instance of {@link TagMustExistProcessor}.
      */
-    public static TagMustExistProcessor fromXml(final Element element) {
-        String requiredChild = getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
+    public static TagMustExistProcessor instantiate(final Element element) {
+        String requiredChild = RuleUtil.getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
         Set<String> excludedParents = new HashSet<>();
         NodeList excludedTags = element.getElementsByTagName(RuleStructureEnum.EXCLUDED_TAGS.getValue());
         if (excludedTags.getLength() != 0) {
@@ -96,7 +94,7 @@ public class TagMustExistProcessor implements Rule {
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final Element changeSetElement,
+    public void validate(final ChangeSetElement changeSetElement,
                          final ExclusionParser exclusionParser,
                          final String changeLogFileName) throws ValidationException {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
@@ -111,8 +109,8 @@ public class TagMustExistProcessor implements Rule {
      * @param element - element.
      * @throws ValidationException - thrown if validation fails.
      */
-    private void validateElement(final Element element) throws ValidationException {
-        String tagName = element.getTagName();
+    private void validateElement(final ChangeSetElement element) throws ValidationException {
+        String tagName = element.getName();
 
         boolean isExcluded = excludedTags.contains(tagName);
 
@@ -128,12 +126,11 @@ public class TagMustExistProcessor implements Rule {
             return;
         }
 
-        NodeList children = element.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
-            Node node = children.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                validateElement((Element) node);
-            }
+        List<ChangeSetElement> children = element.getChildren();
+        for (ChangeSetElement node : children) {
+//            if (node.getNodeType() == NodeType.ELEMENT) {
+            validateElement(node);
+//            }
         }
     }
 
@@ -143,12 +140,10 @@ public class TagMustExistProcessor implements Rule {
      * @param element - element.
      * @return <code>true</code> if contains. <code>false</code> - if not.
      */
-    private boolean hasRequiredChild(final Element element) {
-        NodeList children = element.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
-            Node child = children.item(i);
-            if (child.getNodeType() == Node.ELEMENT_NODE
-                    && ((Element) child).getTagName().equals(requiredTag)) {
+    private boolean hasRequiredChild(final ChangeSetElement element) {
+        List<ChangeSetElement> children = element.getChildren();
+        for (ChangeSetElement child : children) {
+            if (child.getName().equals(requiredTag)) {
                 return true;
             }
         }

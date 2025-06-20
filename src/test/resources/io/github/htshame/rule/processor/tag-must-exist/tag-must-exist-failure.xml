@@ -3,7 +3,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
 
-    <changeSet id="changelog_02_3" author="test">
+    <changeSet id="changelog_02_3" author="test1">
         <preConditions onFail="MARK_RAN">
             <not>
                 <indexExists indexName="user_metadata_external_user_id_unique_idx"/>
@@ -16,7 +16,7 @@
         </createIndex>
     </changeSet>
 
-    <changeSet id="changelog_02_4" author="test">
+    <changeSet id="changelog_02_4" author="test1">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="user-metadata"/>
         </preConditions>

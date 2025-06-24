@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.0</version>
+        <version>2.1</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -65,13 +65,13 @@ Example:
 ```xml
 <rule name="tag-must-exist">
     <requiredTag>comment</requiredTag>
-    <excludedTags>
+    <requiredForChildTags>
         <tag>rollback</tag>
-    </excludedTags>
+    </requiredForChildTags>
 </rule>
 ```
 
-Will check that `<comment>` tag is present inside every tag, excluding `<rollback>`tag.
+Will check that `<comment>` tag is present inside every changeSet, including child `<rollback>`tag.
 
 ### attr-starts-with
 

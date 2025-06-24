@@ -3,9 +3,9 @@
 
     <rule name="tag-must-exist">
         <requiredTag>comment</requiredTag>
-        <excludedTags>
+        <requiredForChildTags>
             <tag>rollback</tag>
-        </excludedTags>
+        </requiredForChildTags>
     </rule>
 
     <rule name="attr-starts-with">

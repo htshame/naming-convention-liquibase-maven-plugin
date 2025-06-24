@@ -39,6 +39,8 @@ import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
  * &lt;/changeSet&gt;
  * </code></pre>
  * contains the <code>comment</code> tag.
+ * <br/>
+ * This rule will also be applied to child tags, provided in <code>requiredForChildTags</code>.
  */
 public class TagMustExistProcessor implements Rule {
 
@@ -74,7 +76,7 @@ public class TagMustExistProcessor implements Rule {
      * @return instance of {@link TagMustExistProcessor}.
      */
     public static TagMustExistProcessor instantiate(final Element element) {
-        String requiredChild = RuleUtil.getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
+        String requiredTag = RuleUtil.getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
         Set<String> requiredForChildTags = new HashSet<>();
         NodeList requiredChildTags = element.getElementsByTagName(RuleStructureEnum.REQUIRED_FOR_CHILD_TAGS.getValue());
         if (requiredChildTags.getLength() != 0) {
@@ -84,7 +86,7 @@ public class TagMustExistProcessor implements Rule {
                 requiredForChildTags.add(excludedTagElements.item(j).getTextContent());
             }
         }
-        return new TagMustExistProcessor(requiredChild, requiredForChildTags);
+        return new TagMustExistProcessor(requiredTag, requiredForChildTags);
     }
 
     /**
@@ -130,7 +132,7 @@ public class TagMustExistProcessor implements Rule {
                         }
                         return false;
                     }).map(child -> String.format(
-                            "Tag <%s>. Required tag <%s> can not be empty",
+                            "Tag <%s>. Required child tag <%s> can not be empty",
                             tagName,
                             requiredTag))
                     .forEach(errors::add);

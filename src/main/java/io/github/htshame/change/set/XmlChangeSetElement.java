@@ -142,6 +142,6 @@ public class XmlChangeSetElement implements ChangeSetElement {
         if (firstChild == null) {
             return "";
         }
-        return firstChild.getNodeValue();
+        return firstChild.getNodeValue().trim();
     }
 }

@@ -7,6 +7,15 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 2.1
+
+- Rule `tag-must-exist`, tag `<excludedTags>`, which was used to exclude tags from the check was removed.
+- Rule `tag-must-exist`, tag `<requiredForChildTags>` was added. It's designed to enforce the rule on child tags. 
+- Improve logging.
+- Improve comments.
+
+---
+
 ## Version 2.0
 
 - Refactor rules to make them agnostic of changeLog format.
@@ -53,27 +62,9 @@ Default value is `true`. Build will not fail if set to `false`.
 
 ---
 
-## Version 1.0.1
-
-- Rule `attr-ends-with-conditioned` is implemented
-- Bugfixes
-
----
-
-## Version 1.0.0
-
-Initial implementation.
-
-- Rule `tag-must-exist` is implemented
-- Rule `attr-starts-with` is implemented
-- Rule `attr-ends-with` is implemented
-- Rule `no-hyphens-in-attributes` is implemented
-- Rule `no-underscores-in-attributes` is implemented
-
----
-
 ### Previous Releases
 
+- [2.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.1.md)
 - [2.0](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.0.md)
 - [1.0.5](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.5.md)
 - [1.0.4](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.4.md)

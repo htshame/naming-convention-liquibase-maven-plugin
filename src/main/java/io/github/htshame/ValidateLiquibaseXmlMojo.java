@@ -44,9 +44,24 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
     @Parameter(required = true)
     private File changeLogDirectory;
 
+    /**
+     * Flag that determines whether the build will be failed in case violations are found.
+     * <br/>
+     * If violations are found:
+     * <br/>
+     * - the build will fail if set to <code>true</code>;
+     * <br/>
+     * - the build will not fail if set to <code>false</code>;
+     * <br/>
+     * Default value is <code>true</code>.
+     */
     @Parameter(defaultValue = "true")
     private Boolean shouldFailBuild;
 
+    /**
+     * ChangeLog files format.
+     * Default value is <code>xml</code>.
+     */
     @Parameter(defaultValue = "xml")
     private String changeLogFormat;
 

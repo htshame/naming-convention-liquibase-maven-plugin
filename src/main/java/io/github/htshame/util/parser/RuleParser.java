@@ -22,9 +22,9 @@ import java.util.List;
  * &lt;rules&gt;
  *     &lt;rule type="tag-must-exist"&gt;
  *         &lt;requiredTag&gt;comment&lt;/requiredTag&gt;
- *         &lt;excludedTags&gt;
+ *         &lt;requiredForChildTag&gt;
  *             &lt;tag&gt;rollback&lt;/tag&gt;
- *         &lt;/excludedTags&gt;
+ *         &lt;/requiredForChildTag&gt;
  *     &lt;/rule&gt;
  *
  *     &lt;rule type="attr-starts-with"&gt;

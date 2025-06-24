@@ -86,8 +86,8 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Tag <changeSet>. Required tag <comment> can not be empty",
-                                "Tag <rollback>. Required tag <comment> can not be empty")));
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -140,8 +140,8 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Tag <changeSet>. Required tag <comment> can not be empty",
-                                "Tag <rollback>. Required tag <comment> can not be empty")));
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -188,8 +188,8 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Tag <changeSet>. Required tag <comment> can not be empty",
-                                "Tag <rollback>. Required tag <comment> can not be empty")));
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act

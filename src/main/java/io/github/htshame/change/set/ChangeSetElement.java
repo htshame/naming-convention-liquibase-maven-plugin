@@ -33,6 +33,7 @@ public interface ChangeSetElement {
 
     /**
      * Get value.
+     *
      * @return value.
      */
     String getValue();
@@ -62,7 +63,7 @@ public interface ChangeSetElement {
      * Find elements by name.
      *
      * @param changeSetElement - root object.
-     * @param name - element name.
+     * @param name             - element name.
      * @return list of elements with the provided name.
      */
     List<ChangeSetElement> findElementsByName(ChangeSetElement changeSetElement, String name);

@@ -27,8 +27,15 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
  * <p>Example:</p>
  * <p>Rule configuration:</p>
  * <pre><code>
- * &lt;rule name="no-underscores-in-attributes"/&gt;
+ * &lt;rule name="no-underscores-in-attributes"&gt;
+ *     &lt;excludedAttrs&gt;
+ *         &lt;attr&gt;defaultValue&lt;/attr&gt;
+ *         &lt;attr&gt;defaultValueComputed&lt;/attr&gt;
+ *     &lt;/excludedAttrs&gt;
+ * &lt;/rule&gt;
  * </code></pre>
+ * <p>This will verify that there are no underscores in attributes, excluding attributes specified in
+ * <code>excludedAttrs</code>.</p>
  */
 public class NoUnderscoresInAttributesProcessor implements Rule {
 
@@ -88,10 +95,10 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
         NodeList excludedTags = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
         if (excludedTags.getLength() != 0) {
-            NodeList excludedTagElements = ((Element) excludedTags.item(0))
+            NodeList excludedAttrElements = ((Element) excludedTags.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
-            for (int j = 0; j < excludedTagElements.getLength(); j++) {
-                excludedParents.add(excludedTagElements.item(j).getTextContent());
+            for (int j = 0; j < excludedAttrElements.getLength(); j++) {
+                excludedParents.add(excludedAttrElements.item(j).getTextContent());
             }
         }
         return new NoUnderscoresInAttributesProcessor(excludedParents);
@@ -126,9 +133,7 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
 
         List<ChangeSetElement> children = element.getChildren();
         for (ChangeSetElement child : children) {
-//            if (child.getNodeType() == NodeType.ELEMENT) {
-                validateElement(child, errors);
-//            }
+            validateElement(child, errors);
         }
 
         return errors;

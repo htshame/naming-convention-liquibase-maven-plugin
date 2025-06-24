@@ -108,17 +108,17 @@ public class AttrEndsWithConditionedProcessor implements Rule {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        List<ChangeSetElement> elements = changeSetElement.findElementsByName(changeSetElement, tag);
+        List<ChangeSetElement> targetTagElementList = changeSetElement.findElementsByName(changeSetElement, tag);
         List<String> errors = new ArrayList<>();
 
-        for (ChangeSetElement element : elements) {
-            if (!conditionValue.equals(element.getPropertyValue(conditionAttr))) {
+        for (ChangeSetElement targetTagElement : targetTagElementList) {
+            if (!conditionValue.equals(targetTagElement.getPropertyValue(conditionAttr))) {
                 continue;
             }
-            boolean isTargetAttrPresent = element.hasProperty(targetAttr);
+            boolean isTargetAttrPresent = targetTagElement.hasProperty(targetAttr);
             if (isTargetAttrPresent) {
-                String actualValue = element.getPropertyValue(targetAttr);
-                if (actualValue.endsWith(requiredSuffix)) {
+                String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
+                if (targetAttrActualValue.endsWith(requiredSuffix)) {
                     continue;
                 }
                 String errorMessage = String.format(
@@ -128,7 +128,7 @@ public class AttrEndsWithConditionedProcessor implements Rule {
                         conditionValue,
                         targetAttr,
                         requiredSuffix,
-                        actualValue);
+                        targetAttrActualValue);
                 errors.add(errorMessage);
             }
         }

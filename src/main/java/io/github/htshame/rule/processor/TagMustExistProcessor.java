@@ -10,9 +10,12 @@ import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 
 /**
  * Business logic for the <code>tag-must-exist</code> rule.
@@ -24,10 +27,9 @@ import java.util.Set;
  * <pre><code>
  * &lt;rule name="tag-must-exist"&gt;
  *     &lt;requiredTag&gt;comment&lt;/requiredTag&gt;
- *     &lt;excludedTags&gt;
- *         &lt;tag&gt;databaseChangeLog&lt;/tag&gt;
- *         &lt;tag&gt;include&lt;/tag&gt;
- *     &lt;/excludedTags&gt;
+ *     &lt;requiredForChildTags&gt;
+ *         &lt;tag&gt;rollback&lt;/tag&gt;
+ *     &lt;/requiredForChildTags&gt;
  * &lt;/rule&gt;
  * </code></pre>
  * <p>This will verify that the following <code>changeSet</code>:</p>
@@ -37,22 +39,24 @@ import java.util.Set;
  * &lt;/changeSet&gt;
  * </code></pre>
  * contains the <code>comment</code> tag.
+ * <br/>
+ * This rule will also be applied to child tags, provided in <code>requiredForChildTags</code>.
  */
 public class TagMustExistProcessor implements Rule {
 
     private final String requiredTag;
-    private final Set<String> excludedTags;
+    private final Set<String> requiredForChildTags;
 
     /**
      * Constructor.
      *
-     * @param requiredTag  - rule.requiredTag value.
-     * @param excludedTags - set of rule.excludedAncestorLog values.
+     * @param requiredTag          - rule.requiredTag value.
+     * @param requiredForChildTags - set of tags to search in for <code>requiredTag</code>.
      */
     public TagMustExistProcessor(final String requiredTag,
-                                 final Set<String> excludedTags) {
+                                 final Set<String> requiredForChildTags) {
         this.requiredTag = requiredTag;
-        this.excludedTags = excludedTags;
+        this.requiredForChildTags = requiredForChildTags;
     }
 
     /**
@@ -72,17 +76,17 @@ public class TagMustExistProcessor implements Rule {
      * @return instance of {@link TagMustExistProcessor}.
      */
     public static TagMustExistProcessor instantiate(final Element element) {
-        String requiredChild = RuleUtil.getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
-        Set<String> excludedParents = new HashSet<>();
-        NodeList excludedTags = element.getElementsByTagName(RuleStructureEnum.EXCLUDED_TAGS.getValue());
-        if (excludedTags.getLength() != 0) {
-            NodeList excludedTagElements = ((Element) excludedTags.item(0))
+        String requiredTag = RuleUtil.getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
+        Set<String> requiredForChildTags = new HashSet<>();
+        NodeList requiredChildTags = element.getElementsByTagName(RuleStructureEnum.REQUIRED_FOR_CHILD_TAGS.getValue());
+        if (requiredChildTags.getLength() != 0) {
+            NodeList excludedTagElements = ((Element) requiredChildTags.item(0))
                     .getElementsByTagName(RuleStructureEnum.TAG.getValue());
             for (int j = 0; j < excludedTagElements.getLength(); j++) {
-                excludedParents.add(excludedTagElements.item(j).getTextContent());
+                requiredForChildTags.add(excludedTagElements.item(j).getTextContent());
             }
         }
-        return new TagMustExistProcessor(requiredChild, excludedParents);
+        return new TagMustExistProcessor(requiredTag, requiredForChildTags);
     }
 
     /**
@@ -100,38 +104,51 @@ public class TagMustExistProcessor implements Rule {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        validateElement(changeSetElement);
+        List<String> errors = validateElement(changeSetElement, new ArrayList<>());
+        if (!errors.isEmpty()) {
+            throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
+        }
     }
 
     /**
      * Traverse the contents of the document.
      *
      * @param element - element.
-     * @throws ValidationException - thrown if validation fails.
+     * @param errors  - list of errors.
+     * @return list of errors.
      */
-    private void validateElement(final ChangeSetElement element) throws ValidationException {
+    private List<String> validateElement(final ChangeSetElement element,
+                                         final List<String> errors) {
         String tagName = element.getName();
 
-        boolean isExcluded = excludedTags.contains(tagName);
+        boolean isSearchInChildTagRequired = requiredForChildTags.contains(tagName);
 
-        if (!isExcluded) {
-            boolean hasRequiredChild = hasRequiredChild(element);
-            if (!hasRequiredChild) {
-                String errorMessage = String.format(
-                        "Tag <%s> does not contain required tag <%s>",
-                        tagName,
-                        requiredTag);
-                throw new ValidationException(RuleUtil.composeErrorMessage(element, getName(), List.of(errorMessage)));
-            }
-            return;
+        boolean hasRequiredChild = hasRequiredChild(element);
+        if (hasRequiredChild) {
+            element.getChildren().stream()
+                    .filter(child -> {
+                        if (requiredTag.equals(child.getName())) {
+                            return child.getValue() != null && child.getValue().isBlank();
+                        }
+                        return false;
+                    }).map(child -> String.format(
+                            "Tag <%s>. Required child tag <%s> can not be empty",
+                            tagName,
+                            requiredTag))
+                    .forEach(errors::add);
+        } else if (CHANGE_SET_TAG_NAME.equals(tagName) || isSearchInChildTagRequired) {
+            String errorMessage = String.format(
+                    "Tag <%s> does not contain required tag <%s>",
+                    tagName,
+                    requiredTag);
+            errors.add(errorMessage);
         }
 
         List<ChangeSetElement> children = element.getChildren();
         for (ChangeSetElement node : children) {
-//            if (node.getNodeType() == NodeType.ELEMENT) {
-            validateElement(node);
-//            }
+            validateElement(node, errors);
         }
+        return errors;
     }
 
     /**

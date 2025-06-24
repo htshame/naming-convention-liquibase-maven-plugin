@@ -93,19 +93,19 @@ public class AttrStartsWithProcessor implements Rule {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        List<ChangeSetElement> nodes = changeSetElement.findElementsByName(changeSetElement, tag);
+        List<ChangeSetElement> targetTagElementList = changeSetElement.findElementsByName(changeSetElement, tag);
         List<String> errors = new ArrayList<>();
 
-        for (ChangeSetElement element : nodes) {
-            boolean isTargetAttrPresent = element.hasProperty(targetAttr);
+        for (ChangeSetElement targetTagElement : targetTagElementList) {
+            boolean isTargetAttrPresent = targetTagElement.hasProperty(targetAttr);
             if (isTargetAttrPresent) {
-                String attrValue = element.getPropertyValue(targetAttr);
-                if (!attrValue.startsWith(requiredPrefix)) {
+                String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
+                if (!targetAttrActualValue.startsWith(requiredPrefix)) {
                     String error = String.format(
                             "<%s %s=\"%s\"> must start with \"%s\"",
                             tag,
                             targetAttr,
-                            attrValue,
+                            targetAttrActualValue,
                             requiredPrefix
                     );
                     errors.add(error);

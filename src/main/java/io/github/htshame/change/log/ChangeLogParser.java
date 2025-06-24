@@ -16,7 +16,7 @@ public interface ChangeLogParser {
      *
      * @param changeLogFile - changeLog file.
      * @return list of changeSets.
-     * @throws ChangeLogParseException - thrown in parsing fails.
+     * @throws ChangeLogParseException - thrown if parsing fails.
      */
     List<ChangeSetElement> parseChangeLog(File changeLogFile) throws ChangeLogParseException;
 }

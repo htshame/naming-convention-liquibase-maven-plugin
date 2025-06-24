@@ -96,20 +96,20 @@ public class AttrEndsWithProcessor implements Rule {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        List<ChangeSetElement> elements = changeSetElement.findElementsByName(changeSetElement, tag);
+        List<ChangeSetElement> targetTagElementList = changeSetElement.findElementsByName(changeSetElement, tag);
         List<String> errors = new ArrayList<>();
 
-        for (ChangeSetElement element : elements) {
-            boolean isTargetAttrPresent = element.hasProperty(targetAttr);
+        for (ChangeSetElement targetTagElement : targetTagElementList) {
+            boolean isTargetAttrPresent = targetTagElement.hasProperty(targetAttr);
             if (isTargetAttrPresent) {
-                String actualValue = element.getPropertyValue(targetAttr);
-                if (!actualValue.endsWith(requiredSuffix)) {
+                String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
+                if (!targetAttrActualValue.endsWith(requiredSuffix)) {
                     String errorMessage = String.format(
                             "Tag <%s> must have %s ending with [%s], but found: [%s]",
                             tag,
                             targetAttr,
                             requiredSuffix,
-                            actualValue);
+                            targetAttrActualValue);
                     errors.add(errorMessage);
                 }
             }

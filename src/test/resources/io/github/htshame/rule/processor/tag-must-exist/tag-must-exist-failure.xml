@@ -21,6 +21,21 @@
             <tableExists tableName="user-metadata"/>
         </preConditions>
         <dropTable tableName="user-metadata"/>
+        <rollback>
+            <dropTable tableName="te"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="changelog_02_5" author="test1">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="user-metadata"/>
+        </preConditions>
+        <dropTable tableName="user-metadata"/>
+        <comment></comment>
+        <rollback>
+            <comment></comment>
+            <dropTable tableName="te"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>

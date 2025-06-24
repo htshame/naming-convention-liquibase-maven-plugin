@@ -45,7 +45,7 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
         } catch (MojoExecutionException ae) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Validation failed: 14 violation(s) found.", ae.getMessage());
+            assertEquals("Validation failed: 15 violation(s) found.", ae.getMessage());
         }
         assertTrue(isExceptionThrown);
     }

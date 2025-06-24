@@ -1,5 +1,5 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.0/liquibase-naming-convention-2.0.xsd">
+            xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.1/liquibase-naming-convention-2.1.xsd">
 
     <fileExclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
     <fileExclusion fileName="changelog_04.xml" rule="no-underscores-in-attributes"/>

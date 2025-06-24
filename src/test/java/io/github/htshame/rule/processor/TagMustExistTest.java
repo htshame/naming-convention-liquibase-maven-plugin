@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -32,6 +31,7 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong.xml";
     private static final String TAG_MUST_EXIST_FAILURE_XML = "tag-must-exist-failure.xml";
     private static final String TAG_MUST_EXIST_SUCCESS_XML = "tag-must-exist-success.xml";
+    private static final int EXPECTED_NUMBER_OF_ERRORS = 3;
 
 
     /**
@@ -79,7 +79,15 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test1",
-                        List.of("Tag <changeSet> does not contain required tag <comment>")));
+                        List.of(
+                                "Tag <changeSet> does not contain required tag <comment>",
+                                "Tag <rollback> does not contain required tag <comment>")),
+                prepareTestErrorMessage(
+                        "changelog_02_5",
+                        "test1",
+                        List.of(
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -96,8 +104,10 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         }
 
         // assert
-        assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertEquals(EXPECTED_NUMBER_OF_ERRORS, exceptionCount);
+        for (int i = 0; i < expectedErrorMessages.size(); i++) {
+            assertEquals(expectedErrorMessages.get(i), actualErrorMessages.get(i));
+        }
     }
 
     /**
@@ -123,7 +133,15 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test1",
-                        List.of("Tag <changeSet> does not contain required tag <comment>")));
+                        List.of(
+                                "Tag <changeSet> does not contain required tag <comment>",
+                                "Tag <rollback> does not contain required tag <comment>")),
+                prepareTestErrorMessage(
+                        "changelog_02_5",
+                        "test1",
+                        List.of(
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -140,7 +158,7 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         }
 
         // assert
-        assertEquals(2, exceptionCount);
+        assertEquals(EXPECTED_NUMBER_OF_ERRORS, exceptionCount);
         assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
     }
 
@@ -159,11 +177,19 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
-        List<String> expectedErrorMessages = Collections.singletonList(
+        List<String> expectedErrorMessages = List.of(
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test1",
-                        List.of("Tag <changeSet> does not contain required tag <comment>")));
+                        List.of(
+                                "Tag <changeSet> does not contain required tag <comment>",
+                                "Tag <rollback> does not contain required tag <comment>")),
+                prepareTestErrorMessage(
+                        "changelog_02_5",
+                        "test1",
+                        List.of(
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -180,7 +206,7 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         }
 
         // assert
-        assertEquals(1, exceptionCount);
+        assertEquals(2, exceptionCount);
         assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
     }
 

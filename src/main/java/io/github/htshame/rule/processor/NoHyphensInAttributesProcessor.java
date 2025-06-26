@@ -136,6 +136,10 @@ public class NoHyphensInAttributesProcessor implements Rule {
 
         List<ChangeSetElement> children = element.getChildren();
         for (ChangeSetElement child : children) {
+            boolean isElementExcluded = isExcludedByAncestorTag(child);
+            if (isElementExcluded) {
+                continue;
+            }
             validateElement(child, errors);
         }
 

@@ -9,9 +9,13 @@ import io.github.htshame.dto.ChangeSetAttributeDto;
 public final class ChangeSetUtil {
 
     /**
-     * ChangeSet tag name.
+     * ChangeSet name.
      */
     public static final String CHANGE_SET_TAG_NAME = "changeSet";
+    /**
+     * Database changeLog name.
+     */
+    public static final String DATABASE_CHANGELOG_NAME = "databaseChangeLog";
     private static final String ID_ATTR_NAME = "id";
     private static final String AUTHOR_ATTR_NAME = "author";
 

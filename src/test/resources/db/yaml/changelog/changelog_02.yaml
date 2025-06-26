@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - preConditions:
+      onFail: HALT
+      onError: HALT
+
+  -  changeSet:
+       id:  changelog_02_1
+       author:  test
+       comment: the_Comment
+       changes:
+         -  addForeignKeyConstraint:
+              baseColumnNames:  user_id
+              baseTableName:  car
+              constraintName:  fk_person_car
+              referencedColumnNames:  id
+              referencedTableName:  user_data
+
+  - changeSet:
+      id: changelog_02_2
+      author: test
+      comment: the-Comment
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: car
+            constraintName: person_car_fk
+            referencedColumnNames: id
+            referencedTableName: user_data

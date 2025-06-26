@@ -45,12 +45,12 @@ public interface ChangeSetElement {
      */
     List<ChangeSetElement> getChildren();
 
-    /**
-     * Get parent element.
-     *
-     * @return parent element.
-     */
-    ChangeSetElement getParent();
+//    /**
+//     * Get parent element.
+//     *
+//     * @return parent element.
+//     */
+//    ChangeSetElement getParent();
 
     /**
      * Get properties.

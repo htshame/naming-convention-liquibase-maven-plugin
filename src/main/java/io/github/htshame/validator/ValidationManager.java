@@ -2,6 +2,7 @@ package io.github.htshame.validator;
 
 import io.github.htshame.change.log.ChangeLogParser;
 import io.github.htshame.change.log.XmlChangeLogParser;
+import io.github.htshame.change.log.YamlChangeLogParser;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ValidationException;
@@ -28,6 +29,8 @@ public class ValidationManager {
 
     static {
         CHANGELOG_PARSER.put(ChangeLogFormatEnum.XML, new XmlChangeLogParser());
+        CHANGELOG_PARSER.put(ChangeLogFormatEnum.YAML, new YamlChangeLogParser());
+        CHANGELOG_PARSER.put(ChangeLogFormatEnum.YML, new YamlChangeLogParser());
     }
 
     /**

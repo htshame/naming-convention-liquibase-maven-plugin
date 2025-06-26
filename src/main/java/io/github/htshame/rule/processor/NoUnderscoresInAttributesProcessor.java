@@ -133,6 +133,10 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
 
         List<ChangeSetElement> children = element.getChildren();
         for (ChangeSetElement child : children) {
+            boolean isExcluded = isExcludedByAncestorTag(child);
+            if (isExcluded) {
+                continue;
+            }
             validateElement(child, errors);
         }
 

@@ -74,12 +74,12 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Attribute tableName in element <createIndex> "
+                        List.of("Attribute [tableName] in element <createIndex> "
                                 + "contains hyphen in value: [user-metadata].")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute tableName in element <createIndex> "
+                        List.of("Attribute [tableName] in element <createIndex> "
                                 + "contains hyphen in value: [user-metadata].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -120,12 +120,12 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Attribute tableName in element <createIndex> contains hyphen in value:"
+                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
                                 + " [user-metadata].")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute tableName in element <createIndex> contains hyphen in value:"
+                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
                                 + " [user-metadata].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -166,7 +166,7 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute tableName in element <createIndex>"
+                        List.of("Attribute [tableName] in element <createIndex>"
                                 + " contains hyphen in value: [user-metadata].")));
         List<String> actualErrorMessages = new ArrayList<>();
 

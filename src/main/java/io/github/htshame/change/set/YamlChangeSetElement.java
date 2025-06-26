@@ -1,6 +1,7 @@
 package io.github.htshame.change.set;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,6 +33,13 @@ public class YamlChangeSetElement implements ChangeSetElement {
      */
     @Override
     public String getName() {
+        if (yamlJsonNode instanceof ObjectNode) {
+            ObjectNode obj = (ObjectNode) yamlJsonNode;
+            Iterator<Map.Entry<String, JsonNode>> it = obj.properties().iterator();
+            if (it.hasNext()) {
+                return it.next().getKey();
+            }
+        }
         return yamlJsonNode.textValue();
     }
 

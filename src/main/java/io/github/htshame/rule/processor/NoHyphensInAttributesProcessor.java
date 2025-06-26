@@ -126,7 +126,7 @@ public class NoHyphensInAttributesProcessor implements Rule {
                     && !excludedAttrs.contains(attrName)
                     && attrValue.contains(HYPHEN)) {
                 String errorMessage = String.format(
-                        "Attribute %s in element <%s> contains hyphen in value: [%s].",
+                        "Attribute [%s] in element <%s> contains hyphen in value: [%s].",
                         attrName,
                         element.getName(),
                         attrValue);

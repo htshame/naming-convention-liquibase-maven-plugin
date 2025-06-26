@@ -77,17 +77,6 @@ public class XmlChangeSetElement implements ChangeSetElement {
         }
         return children;
     }
-//
-//    /**
-//     * Get parent element.
-//     *
-//     * @return parent element.
-//     */
-//    @Override
-//    public ChangeSetElement getParent() {
-//        Node parent = element.getParentNode();
-//        return (parent instanceof Element) ? new XmlChangeSetElement((Element) parent) : null;
-//    }
 
     /**
      * Get properties.

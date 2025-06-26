@@ -35,16 +35,6 @@ public final class ChangeSetUtil {
                     getAttributeValue(element, ID_ATTR_NAME),
                     getAttributeValue(element, AUTHOR_ATTR_NAME));
         }
-//        ChangeSetElement current = element.getParent();
-//        while (current != null && current.getNodeType() == Node.ELEMENT_NODE) {
-//            Element parentElement = (Element) current;
-//            if (CHANGE_SET_TAG_NAME.equals(parentElement.getTagName())) {
-//                return new ChangeSetAttributeDto(
-//                        getAttributeValue(parentElement, ID_ATTR_NAME),
-//                        getAttributeValue(parentElement, AUTHOR_ATTR_NAME));
-//            }
-//            current = current.getParent();
-//        }
         return new ChangeSetAttributeDto("", "");
     }
 

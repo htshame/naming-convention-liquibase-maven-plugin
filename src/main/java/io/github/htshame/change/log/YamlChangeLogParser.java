@@ -15,28 +15,40 @@ import java.util.List;
 import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 import static io.github.htshame.util.ChangeSetUtil.DATABASE_CHANGELOG_NAME;
 
+/**
+ * YAML changeLog parser.
+ */
 public class YamlChangeLogParser implements ChangeLogParser {
 
+    /**
+     * Default constructor.
+     */
     public YamlChangeLogParser() {
 
     }
 
+    /**
+     * Parse changeLog.
+     *
+     * @param changeLogFile - changeLog file.
+     * @return list of changeSets.
+     * @throws ChangeLogParseException - thrown if parsing fails.
+     */
     @Override
     public List<ChangeSetElement> parseChangeLog(final File changeLogFile) throws ChangeLogParseException {
         try {
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            JsonNode root = mapper.readTree(changeLogFile);
-
-            JsonNode listNode = root.get(DATABASE_CHANGELOG_NAME);
+            JsonNode listNode = new ObjectMapper(new YAMLFactory())
+                    .readTree(changeLogFile)
+                    .get(DATABASE_CHANGELOG_NAME);
 
             List<ChangeSetElement> changeSetElements = new ArrayList<>();
-            if (listNode != null && listNode.isArray()) {
-                for (JsonNode itemNode : listNode) {
-                    JsonNode myCustomNameTagNode = itemNode.get(CHANGE_SET_TAG_NAME);
-                    if (myCustomNameTagNode != null) {
-                        changeSetElements.add(
-                                new YamlChangeSetElement(myCustomNameTagNode, myCustomNameTagNode.textValue()));
-                    }
+            if (listNode == null || !listNode.isArray()) {
+                return changeSetElements;
+            }
+            for (JsonNode itemNode : listNode) {
+                JsonNode myCustomNameTagNode = itemNode.get(CHANGE_SET_TAG_NAME);
+                if (myCustomNameTagNode != null) {
+                    changeSetElements.add(new YamlChangeSetElement(myCustomNameTagNode));
                 }
             }
             return changeSetElements;

@@ -42,14 +42,6 @@ public final class RuleUtil {
      */
     public static boolean isExcludedByAncestorTag(final ChangeSetElement element) {
         return EXCLUDED_TAG.contains(element.getName());
-//        ChangeSetElement current = element;
-//        while (current != null) {
-//            if (EXCLUDED_TAG.contains(current.getName())) {
-//                return true;
-//            }
-//            current = current.getParent();
-//        }
-//        return false;
     }
 
     /**

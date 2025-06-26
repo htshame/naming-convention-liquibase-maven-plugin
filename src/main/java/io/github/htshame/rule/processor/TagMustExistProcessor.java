@@ -160,7 +160,7 @@ public class TagMustExistProcessor implements Rule {
     private boolean hasRequiredChild(final ChangeSetElement element) {
         List<ChangeSetElement> children = element.getChildren();
         for (ChangeSetElement child : children) {
-            if (child.getName().equals(requiredTag)) {
+            if (requiredTag.equals(child.getName())) {
                 return true;
             }
         }

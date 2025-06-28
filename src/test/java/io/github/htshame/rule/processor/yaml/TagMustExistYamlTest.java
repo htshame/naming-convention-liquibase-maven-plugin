@@ -22,7 +22,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class TagMustExistYamlTest extends RuleProcessorTestUtil {
 
@@ -79,19 +78,19 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test1",
-                        List.of("Tag <changeSet> does not contain required tag <comment>")),
+                        List.of("Key [changeSet]. Required nested property [comment] is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test1",
                         List.of(
-                                "Tag <changeSet> does not contain required tag <comment>",
-                                "Tag <rollback> does not contain required tag <comment>")),
+                                "Key [changeSet]. Required nested property [comment] is missing or empty",
+                                "Key [rollback]. Required nested property [comment] is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Tag <changeSet>. Required child tag <comment> can not be empty",
-                                "Tag <rollback>. Required child tag <comment> can not be empty")));
+                                "Key [changeSet]. Required nested property [comment] is missing or empty",
+                                "Key [rollback]. Required nested property [comment] is missing or empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -100,7 +99,8 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML);
+                        TAG_MUST_EXIST_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -134,19 +134,19 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test1",
-                        List.of("Tag <changeSet> does not contain required tag <comment>")),
+                        List.of("Key [changeSet]. Required nested property [comment] is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test1",
                         List.of(
-                                "Tag <changeSet> does not contain required tag <comment>",
-                                "Tag <rollback> does not contain required tag <comment>")),
+                                "Key [changeSet]. Required nested property [comment] is missing or empty",
+                                "Key [rollback]. Required nested property [comment] is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Tag <changeSet>. Required child tag <comment> can not be empty",
-                                "Tag <rollback>. Required child tag <comment> can not be empty")));
+                                "Key [changeSet]. Required nested property [comment] is missing or empty",
+                                "Key [rollback]. Required nested property [comment] is missing or empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -155,7 +155,8 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML);
+                        TAG_MUST_EXIST_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -164,7 +165,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(EXPECTED_NUMBER_OF_ERRORS, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -188,14 +189,14 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                         "changelog_02_4",
                         "test1",
                         List.of(
-                                "Tag <changeSet> does not contain required tag <comment>",
-                                "Tag <rollback> does not contain required tag <comment>")),
+                                "Key [changeSet]. Required nested property [comment] is missing or empty",
+                                "Key [rollback]. Required nested property [comment] is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Tag <changeSet>. Required child tag <comment> can not be empty",
-                                "Tag <rollback>. Required child tag <comment> can not be empty")));
+                                "Key [changeSet]. Required nested property [comment] is missing or empty",
+                                "Key [rollback]. Required nested property [comment] is missing or empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -204,7 +205,8 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML);
+                        TAG_MUST_EXIST_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -213,7 +215,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -239,7 +241,8 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_SUCCESS_XML);
+                        TAG_MUST_EXIST_SUCCESS_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

@@ -22,7 +22,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestUtil {
 
@@ -32,8 +31,8 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_yaml.xml";
     private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_yaml.xml";
-    private static final String ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML = "attr-ends-with-conditioned-failure.yaml";
-    private static final String ATTR_ENDS_WITH_CONDITIONED_SUCCESS_XML = "attr-ends-with-conditioned-success.yaml";
+    private static final String ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE = "attr-ends-with-conditioned-failure.yaml";
+    private static final String ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE = "attr-ends-with-conditioned-success.yaml";
 
     /**
      * Default constructor.
@@ -67,7 +66,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -76,13 +75,13 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique],"
-                                + " but found: [user_metadata_external_user_id_unique_idx]")),
+                        List.of("Key [createIndex] with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
-                                + "but found: [user_metadata_external_user_id_unique_idx1]")));
+                        List.of("Key [createIndex] with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx1]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
 
@@ -92,7 +91,8 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML);
+                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -101,7 +101,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -115,7 +115,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -124,13 +124,13 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
-                                + "but found: [user_metadata_external_user_id_unique_idx]")),
+                        List.of("Key [createIndex] with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
-                                + "but found: [user_metadata_external_user_id_unique_idx1]")));
+                        List.of("Key [createIndex] with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx1]")));
 
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -140,7 +140,8 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML);
+                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -149,7 +150,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -162,7 +163,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -171,8 +172,8 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique],"
-                                + " but found: [user_metadata_external_user_id_unique_idx1]")));
+                        List.of("Key [createIndex] with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx1]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -181,7 +182,8 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML);
+                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -190,7 +192,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -204,7 +206,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_SUCCESS_XML,
+                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         boolean isExceptionThrown = false;
@@ -217,7 +219,8 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_SUCCESS_XML);
+                        ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

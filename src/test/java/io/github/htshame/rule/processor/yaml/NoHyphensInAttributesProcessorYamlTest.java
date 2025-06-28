@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUtil {
 
@@ -78,13 +77,13 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> "
-                                + "contains hyphen in value: [user-metadata].")),
+                        List.of("Property [tableName] of key [createIndex] contains hyphen in value: "
+                                + "[user-metadata]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> "
-                                + "contains hyphen in value: [user-metadata].")));
+                        List.of("Property [tableName] of key [createIndex] contains hyphen in value: "
+                                + "[user-metadata]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -93,7 +92,8 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -102,7 +102,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -125,13 +125,13 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
-                                + " [user-metadata].")),
+                        List.of("Property [tableName] of key [createIndex] contains hyphen in value: "
+                                + "[user-metadata]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
-                                + " [user-metadata].")));
+                        List.of("Property [tableName] of key [createIndex] contains hyphen in value: "
+                                + "[user-metadata]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -140,7 +140,8 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -149,7 +150,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -172,8 +173,8 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex>"
-                                + " contains hyphen in value: [user-metadata].")));
+                        List.of("Property [tableName] of key [createIndex] contains hyphen in value: "
+                                + "[user-metadata]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -182,7 +183,8 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -191,7 +193,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -216,7 +218,8 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

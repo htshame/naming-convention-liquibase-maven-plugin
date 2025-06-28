@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
 
@@ -78,13 +77,13 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("<createIndex indexName=\"user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")),
+                        List.of("Key [createIndex]. Property indexName: "
+                                + "user_metadata_external_user_id_unique_idx must start with [idx_]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")));
+                        List.of("Key [createIndex]. Property indexName: "
+                                + "1id_user_metadata_external_user_id_unique_idx must start with [idx_]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -93,7 +92,8 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE_XML);
+                        ATTR_STARTS_WITH_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -102,7 +102,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -125,13 +125,13 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("<createIndex indexName=\"user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")),
+                        List.of("Key [createIndex]. Property indexName: "
+                                + "user_metadata_external_user_id_unique_idx must start with [idx_]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")));
+                        List.of("Key [createIndex]. Property indexName: "
+                                + "1id_user_metadata_external_user_id_unique_idx must start with [idx_]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -140,7 +140,8 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE_XML);
+                        ATTR_STARTS_WITH_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -149,7 +150,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -172,8 +173,8 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")));
+                        List.of("Key [createIndex]. Property indexName: "
+                                + "1id_user_metadata_external_user_id_unique_idx must start with [idx_]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -182,7 +183,8 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE_XML);
+                        ATTR_STARTS_WITH_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -191,7 +193,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -217,7 +219,8 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_SUCCESS_XML);
+                        ATTR_STARTS_WITH_SUCCESS_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

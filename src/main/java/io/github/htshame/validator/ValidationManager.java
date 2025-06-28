@@ -83,7 +83,7 @@ public class ValidationManager {
             for (Rule rule : rules) {
                 for (ChangeSetElement changeSetElement : changeSetElements) {
                     try {
-                        rule.validate(changeSetElement, exclusionParser, changeLogFile.getName());
+                        rule.validate(changeSetElement, exclusionParser, changeLogFile.getName(), changeLogFormat);
                     } catch (ValidationException e) {
                         validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
                     }

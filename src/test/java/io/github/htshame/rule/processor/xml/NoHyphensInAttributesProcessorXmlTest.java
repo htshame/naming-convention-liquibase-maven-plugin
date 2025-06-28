@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil {
 
@@ -33,8 +32,8 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
     private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
-    private static final String NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML = "no-hyphens-in-attributes-failure.xml";
-    private static final String NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML = "no-hyphens-in-attributes-success.xml";
+    private static final String NO_HYPHENS_IN_ATTRIBUTES_FAILURE_FILE = "no-hyphens-in-attributes-failure.xml";
+    private static final String NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_FILE = "no-hyphens-in-attributes-success.xml";
 
     /**
      * Default constructor.
@@ -69,7 +68,7 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -78,13 +77,13 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> "
-                                + "contains hyphen in value: [user-metadata].")),
+                        List.of("Attribute [tableName] of tag <createIndex> contains hyphen in "
+                                + "value: [user-metadata]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> "
-                                + "contains hyphen in value: [user-metadata].")));
+                        List.of("Attribute [tableName] of tag <createIndex> contains hyphen in "
+                                + "value: [user-metadata]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -93,7 +92,8 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -102,7 +102,7 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -116,7 +116,7 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -125,13 +125,13 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
-                                + " [user-metadata].")),
+                        List.of("Attribute [tableName] of tag <createIndex> contains hyphen in "
+                                + "value: [user-metadata]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
-                                + " [user-metadata].")));
+                        List.of("Attribute [tableName] of tag <createIndex> contains hyphen in "
+                                + "value: [user-metadata]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -140,7 +140,8 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -149,7 +150,7 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -163,7 +164,7 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -172,8 +173,8 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex>"
-                                + " contains hyphen in value: [user-metadata].")));
+                        List.of("Attribute [tableName] of tag <createIndex> contains hyphen in "
+                                + "value: [user-metadata]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -182,7 +183,8 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -191,7 +193,7 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -204,7 +206,7 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML,
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_FILE,
                 ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -216,7 +218,8 @@ public class NoHyphensInAttributesProcessorXmlTest extends RuleProcessorTestUtil
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

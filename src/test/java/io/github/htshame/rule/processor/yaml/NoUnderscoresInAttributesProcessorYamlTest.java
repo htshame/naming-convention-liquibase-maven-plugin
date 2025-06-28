@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTestUtil {
 
@@ -79,21 +78,17 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
+                                "Property [tableName] of key [createTable] contains underscore in value: [user_meta]",
+                                "Property [name] of key [column] contains underscore in value: [user_data]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute [indexName] in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute [name] in element <column> contains underscore in value:"
-                                        + " [external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                        List.of("Property [tableName] of key [createIndex] contains underscore in value: "
+                                        + "[user_metadata]",
+                                "Property [indexName] of key [createIndex] contains underscore in value: [user_idx]",
+                                "Property [name] of key [column] contains underscore in value: [external_user_id]",
+                                "Property [tableName] of key [createTable] contains underscore in value: [user_meta]",
+                                "Property [name] of key [column] contains underscore in value: [user_data]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -102,7 +97,8 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -111,7 +107,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -135,21 +131,17 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
+                                "Property [tableName] of key [createTable] contains underscore in value: [user_meta]",
+                                "Property [name] of key [column] contains underscore in value: [user_data]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains underscore in value: "
-                                        + "[user_metadata].",
-                                "Attribute [indexName] in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute [name] in element <column> contains underscore in value: "
-                                        + "[external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                        List.of("Property [tableName] of key [createIndex] contains underscore in value: "
+                                        + "[user_metadata]",
+                                "Property [indexName] of key [createIndex] contains underscore in value: [user_idx]",
+                                "Property [name] of key [column] contains underscore in value: [external_user_id]",
+                                "Property [tableName] of key [createTable] contains underscore in value: [user_meta]",
+                                "Property [name] of key [column] contains underscore in value: [user_data]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -158,7 +150,8 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -167,7 +160,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -190,15 +183,12 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute [indexName] in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute [name] in element <column> contains underscore in value: "
-                                        + "[external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                        List.of("Property [tableName] of key [createIndex] contains underscore in value: "
+                                        + "[user_metadata]",
+                                "Property [indexName] of key [createIndex] contains underscore in value: [user_idx]",
+                                "Property [name] of key [column] contains underscore in value: [external_user_id]",
+                                "Property [tableName] of key [createTable] contains underscore in value: [user_meta]",
+                                "Property [name] of key [column] contains underscore in value: [user_data]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -207,7 +197,8 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -216,7 +207,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -242,7 +233,8 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

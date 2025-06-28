@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
 
@@ -77,12 +76,12 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_1",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Key [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
                                 + "but found: [fk_user_activation_user_profile_id_user_profile_id]")),
                 prepareTestErrorMessage(
                         "changelog_02_2",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Key [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
                                 + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -92,7 +91,8 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_FAILURE_XML);
+                        ATTR_ENDS_WITH_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -101,7 +101,7 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -124,12 +124,12 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_1",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Key [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
                                 + "but found: [fk_user_activation_user_profile_id_user_profile_id]")),
                 prepareTestErrorMessage(
                         "changelog_02_2",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Key [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
                                 + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -139,7 +139,8 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_FAILURE_XML);
+                        ATTR_ENDS_WITH_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -148,7 +149,7 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -171,7 +172,7 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_2",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Key [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
                                 + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -181,7 +182,8 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_FAILURE_XML);
+                        ATTR_ENDS_WITH_FAILURE_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -190,7 +192,7 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -216,7 +218,8 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_SUCCESS_XML);
+                        ATTR_ENDS_WITH_SUCCESS_XML,
+                        ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

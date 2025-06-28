@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
@@ -32,8 +31,8 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
     private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
-    private static final String ATTR_ENDS_WITH_FAILURE_XML = "attr-ends-with-failure.xml";
-    private static final String ATTR_ENDS_WITH_SUCCESS_XML = "attr-ends-with-success.xml";
+    private static final String ATTR_ENDS_WITH_FAILURE_FILE = "attr-ends-with-failure.xml";
+    private static final String ATTR_ENDS_WITH_SUCCESS_FILE = "attr-ends-with-success.xml";
 
     /**
      * Default constructor.
@@ -68,7 +67,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -77,12 +76,12 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_1",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
                                 + "but found: [fk_user_activation_user_profile_id_user_profile_id]")),
                 prepareTestErrorMessage(
                         "changelog_02_2",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
                                 + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -92,7 +91,8 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_FAILURE_XML);
+                        ATTR_ENDS_WITH_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -101,7 +101,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -115,7 +115,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -124,12 +124,12 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_1",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
                                 + "but found: [fk_user_activation_user_profile_id_user_profile_id]")),
                 prepareTestErrorMessage(
                         "changelog_02_2",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
                                 + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -139,7 +139,8 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_FAILURE_XML);
+                        ATTR_ENDS_WITH_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -148,7 +149,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -162,7 +163,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -171,7 +172,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_2",
                         "test",
-                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
                                 + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -181,7 +182,8 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_FAILURE_XML);
+                        ATTR_ENDS_WITH_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -190,7 +192,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -204,7 +206,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_SUCCESS_XML,
+                BASE_FILE_PATH + ATTR_ENDS_WITH_SUCCESS_FILE,
                 ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -216,7 +218,8 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_SUCCESS_XML);
+                        ATTR_ENDS_WITH_SUCCESS_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

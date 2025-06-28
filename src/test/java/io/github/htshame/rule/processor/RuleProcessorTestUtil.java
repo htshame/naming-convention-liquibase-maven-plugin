@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class RuleProcessorTestUtil {
 
     private final String ruleFilePath;
@@ -50,12 +52,19 @@ public class RuleProcessorTestUtil {
     }
 
     protected String prepareTestErrorMessage(final String changeSetId,
-                                   final String changeSetAuthor,
-                                   final List<String> errors) {
+                                             final String changeSetAuthor,
+                                             final List<String> errors) {
         return String.format("ChangeSet: id=\"%s\", author=\"%s\". Rule [%s]\n    %s",
                 changeSetId,
                 changeSetAuthor,
                 ruleName.getValue(),
                 String.join("\n    ", errors));
+    }
+
+    protected void assertErrors(final List<String> expectedErrorMessages,
+                                final List<String> actualErrorMessages) {
+        for (int i = 0; i < expectedErrorMessages.size(); i++) {
+            assertEquals(expectedErrorMessages.get(i), actualErrorMessages.get(i));
+        }
     }
 }

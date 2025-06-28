@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTestUtil {
 
@@ -33,8 +32,8 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
     private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML = "no-underscores-in-attributes-failure.xml";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML = "no-underscores-in-attributes-success.xml";
+    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_FILE = "no-underscores-in-attributes-failure.xml";
+    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_FILE = "no-underscores-in-attributes-success.xml";
 
     /**
      * Default constructor.
@@ -69,7 +68,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML,
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -79,21 +78,17 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
+                                "Attribute [tableName] of tag <createTable> contains underscore in value: [user_meta]",
+                                "Attribute [name] of tag <column> contains underscore in value: [user_data]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [indexName] in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute [tableName] in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute [name] in element <column> contains underscore in value:"
-                                        + " [external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                        List.of("Attribute [indexName] of tag <createIndex> contains underscore in value: [user_idx]",
+                                "Attribute [tableName] of tag <createIndex> contains underscore "
+                                        + "in value: [user_metadata]",
+                                "Attribute [name] of tag <column> contains underscore in value: [external_user_id]",
+                                "Attribute [tableName] of tag <createTable> contains underscore in value: [user_meta]",
+                                "Attribute [name] of tag <column> contains underscore in value: [user_data]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -102,7 +97,8 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -111,7 +107,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -125,7 +121,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML,
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -135,21 +131,17 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
+                                "Attribute [tableName] of tag <createTable> contains underscore in value: [user_meta]",
+                                "Attribute [name] of tag <column> contains underscore in value: [user_data]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [indexName] in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute [tableName] in element <createIndex> contains underscore in value: "
-                                        + "[user_metadata].",
-                                "Attribute [name] in element <column> contains underscore in value: "
-                                        + "[external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                        List.of("Attribute [indexName] of tag <createIndex> contains underscore in value: [user_idx]",
+                                "Attribute [tableName] of tag <createIndex> contains underscore "
+                                        + "in value: [user_metadata]",
+                                "Attribute [name] of tag <column> contains underscore in value: [external_user_id]",
+                                "Attribute [tableName] of tag <createTable> contains underscore in value: [user_meta]",
+                                "Attribute [name] of tag <column> contains underscore in value: [user_data]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -158,7 +150,8 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -167,7 +160,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -181,7 +174,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML,
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -190,15 +183,12 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [indexName] in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute [tableName] in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute [name] in element <column> contains underscore in value: "
-                                        + "[external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                        List.of("Attribute [indexName] of tag <createIndex> contains underscore in value: [user_idx]",
+                                "Attribute [tableName] of tag <createIndex> contains underscore "
+                                        + "in value: [user_metadata]",
+                                "Attribute [name] of tag <column> contains underscore in value: [external_user_id]",
+                                "Attribute [tableName] of tag <createTable> contains underscore in value: [user_meta]",
+                                "Attribute [name] of tag <column> contains underscore in value: [user_data]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -207,7 +197,8 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -216,7 +207,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -230,7 +221,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML,
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_FILE,
                 ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -242,7 +233,8 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

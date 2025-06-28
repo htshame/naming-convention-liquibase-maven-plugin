@@ -23,7 +23,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
@@ -33,8 +32,8 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
     private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
-    private static final String ATTR_STARTS_WITH_FAILURE_XML = "attr-starts-with-failure.xml";
-    private static final String ATTR_STARTS_WITH_SUCCESS_XML = "attr-starts-with-success.xml";
+    private static final String ATTR_STARTS_WITH_FAILURE_FILE = "attr-starts-with-failure.xml";
+    private static final String ATTR_STARTS_WITH_SUCCESS_FILE = "attr-starts-with-success.xml";
 
     /**
      * Default constructor.
@@ -69,7 +68,7 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -79,12 +78,12 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                         "changelog_02_3",
                         "test",
                         List.of("<createIndex indexName=\"user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")),
+                                + "must start with [idx_]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
                         List.of("<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")));
+                                + "must start with [idx_]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -93,7 +92,8 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE_XML);
+                        ATTR_STARTS_WITH_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -102,7 +102,7 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -116,7 +116,7 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -126,12 +126,12 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                         "changelog_02_3",
                         "test",
                         List.of("<createIndex indexName=\"user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")),
+                                + "must start with [idx_]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
                         List.of("<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")));
+                                + "must start with [idx_]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -140,7 +140,8 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE_XML);
+                        ATTR_STARTS_WITH_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -149,7 +150,7 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -163,7 +164,7 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -173,7 +174,7 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                         "changelog_02_4",
                         "test",
                         List.of("<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
-                                + "must start with \"idx_\"")));
+                                + "must start with [idx_]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -182,7 +183,8 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE_XML);
+                        ATTR_STARTS_WITH_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -191,7 +193,7 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -205,7 +207,7 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_SUCCESS_XML,
+                BASE_FILE_PATH + ATTR_STARTS_WITH_SUCCESS_FILE,
                 ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -217,7 +219,8 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_SUCCESS_XML);
+                        ATTR_STARTS_WITH_SUCCESS_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

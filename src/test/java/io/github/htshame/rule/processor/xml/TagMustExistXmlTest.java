@@ -22,7 +22,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class TagMustExistXmlTest extends RuleProcessorTestUtil {
 
@@ -32,8 +31,8 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
     private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
-    private static final String TAG_MUST_EXIST_FAILURE_XML = "tag-must-exist-failure.xml";
-    private static final String TAG_MUST_EXIST_SUCCESS_XML = "tag-must-exist-success.xml";
+    private static final String TAG_MUST_EXIST_FAILURE_FILE = "tag-must-exist-failure.xml";
+    private static final String TAG_MUST_EXIST_SUCCESS_FILE = "tag-must-exist-success.xml";
     private static final int EXPECTED_NUMBER_OF_ERRORS = 3;
 
 
@@ -70,7 +69,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML,
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -79,19 +78,19 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test1",
-                        List.of("Tag <changeSet> does not contain required tag <comment>")),
+                        List.of("Tag <changeSet>. Required nested tag <comment> is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test1",
                         List.of(
-                                "Tag <changeSet> does not contain required tag <comment>",
-                                "Tag <rollback> does not contain required tag <comment>")),
+                                "Tag <changeSet>. Required nested tag <comment> is missing or empty",
+                                "Tag <rollback>. Required nested tag <comment> is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Tag <changeSet>. Required child tag <comment> can not be empty",
-                                "Tag <rollback>. Required child tag <comment> can not be empty")));
+                                "Tag <changeSet>. Required nested tag <comment> is missing or empty",
+                                "Tag <rollback>. Required nested tag <comment> is missing or empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -100,7 +99,8 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML);
+                        TAG_MUST_EXIST_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -125,7 +125,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML,
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -134,19 +134,19 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test1",
-                        List.of("Tag <changeSet> does not contain required tag <comment>")),
+                        List.of("Tag <changeSet>. Required nested tag <comment> is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test1",
                         List.of(
-                                "Tag <changeSet> does not contain required tag <comment>",
-                                "Tag <rollback> does not contain required tag <comment>")),
+                                "Tag <changeSet>. Required nested tag <comment> is missing or empty",
+                                "Tag <rollback>. Required nested tag <comment> is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Tag <changeSet>. Required child tag <comment> can not be empty",
-                                "Tag <rollback>. Required child tag <comment> can not be empty")));
+                                "Tag <changeSet>. Required nested tag <comment> is missing or empty",
+                                "Tag <rollback>. Required nested tag <comment> is missing or empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -155,7 +155,8 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML);
+                        TAG_MUST_EXIST_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -164,7 +165,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(EXPECTED_NUMBER_OF_ERRORS, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -178,7 +179,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML,
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -188,14 +189,14 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                         "changelog_02_4",
                         "test1",
                         List.of(
-                                "Tag <changeSet> does not contain required tag <comment>",
-                                "Tag <rollback> does not contain required tag <comment>")),
+                                "Tag <changeSet>. Required nested tag <comment> is missing or empty",
+                                "Tag <rollback>. Required nested tag <comment> is missing or empty")),
                 prepareTestErrorMessage(
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Tag <changeSet>. Required child tag <comment> can not be empty",
-                                "Tag <rollback>. Required child tag <comment> can not be empty")));
+                                "Tag <changeSet>. Required nested tag <comment> is missing or empty",
+                                "Tag <rollback>. Required nested tag <comment> is missing or empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -204,7 +205,8 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML);
+                        TAG_MUST_EXIST_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -213,7 +215,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -227,7 +229,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_SUCCESS_XML,
+                BASE_FILE_PATH + TAG_MUST_EXIST_SUCCESS_FILE,
                 ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -239,7 +241,8 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_SUCCESS_XML);
+                        TAG_MUST_EXIST_SUCCESS_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

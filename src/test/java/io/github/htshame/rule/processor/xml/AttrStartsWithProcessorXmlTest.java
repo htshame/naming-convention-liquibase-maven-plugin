@@ -78,14 +78,12 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Element [createIndex] with "
-                                + "indexName=\"user_metadata_external_user_id_unique_idx\" "
+                        List.of("<createIndex indexName=\"user_metadata_external_user_id_unique_idx\"> "
                                 + "must start with \"idx_\"")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Element [createIndex] with "
-                                + "indexName=\"1id_user_metadata_external_user_id_unique_idx\" "
+                        List.of("<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
                                 + "must start with \"idx_\"")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -127,14 +125,12 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Element [createIndex] with "
-                                + "indexName=\"user_metadata_external_user_id_unique_idx\" "
+                        List.of("<createIndex indexName=\"user_metadata_external_user_id_unique_idx\"> "
                                 + "must start with \"idx_\"")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Element [createIndex] with "
-                                + "indexName=\"1id_user_metadata_external_user_id_unique_idx\" "
+                        List.of("<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
                                 + "must start with \"idx_\"")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -176,8 +172,7 @@ public class AttrStartsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Element [createIndex] with "
-                                + "indexName=\"1id_user_metadata_external_user_id_unique_idx\" "
+                        List.of("<createIndex indexName=\"1id_user_metadata_external_user_id_unique_idx\"> "
                                 + "must start with \"idx_\"")));
         List<String> actualErrorMessages = new ArrayList<>();
 

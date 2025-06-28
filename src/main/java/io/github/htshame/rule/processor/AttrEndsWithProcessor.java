@@ -105,7 +105,7 @@ public class AttrEndsWithProcessor implements Rule {
                 String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
                 if (!targetAttrActualValue.endsWith(requiredSuffix)) {
                     String errorMessage = String.format(
-                            "Element [%s] must have [%s] ending with [%s], but found: [%s]",
+                            "Tag <%s> must have %s ending with [%s], but found: [%s]",
                             tag,
                             targetAttr,
                             requiredSuffix,

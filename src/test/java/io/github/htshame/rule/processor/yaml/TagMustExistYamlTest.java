@@ -79,19 +79,19 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test1",
-                        List.of("Element [changeSet] does not contain required element [comment]")),
+                        List.of("Tag <changeSet> does not contain required tag <comment>")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test1",
                         List.of(
-                                "Element [changeSet] does not contain required element [comment]",
-                                "Element [rollback] does not contain required element [comment]")),
+                                "Tag <changeSet> does not contain required tag <comment>",
+                                "Tag <rollback> does not contain required tag <comment>")),
                 prepareTestErrorMessage(
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Element [changeSet]. Required child element [comment] can not be empty",
-                                "Element [rollback]. Required child element [comment] can not be empty")));
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -134,19 +134,19 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test1",
-                        List.of("Element [changeSet] does not contain required element [comment]")),
+                        List.of("Tag <changeSet> does not contain required tag <comment>")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test1",
                         List.of(
-                                "Element [changeSet] does not contain required element [comment]",
-                                "Element [rollback] does not contain required element [comment]")),
+                                "Tag <changeSet> does not contain required tag <comment>",
+                                "Tag <rollback> does not contain required tag <comment>")),
                 prepareTestErrorMessage(
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Element [changeSet]. Required child element [comment] can not be empty",
-                                "Element [rollback]. Required child element [comment] can not be empty")));
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -188,14 +188,14 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                         "changelog_02_4",
                         "test1",
                         List.of(
-                                "Element [changeSet] does not contain required element [comment]",
-                                "Element [rollback] does not contain required element [comment]")),
+                                "Tag <changeSet> does not contain required tag <comment>",
+                                "Tag <rollback> does not contain required tag <comment>")),
                 prepareTestErrorMessage(
                         "changelog_02_5",
                         "test1",
                         List.of(
-                                "Element [changeSet]. Required child element [comment] can not be empty",
-                                "Element [rollback]. Required child element [comment] can not be empty")));
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act

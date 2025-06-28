@@ -102,7 +102,7 @@ public class AttrStartsWithProcessor implements Rule {
                 String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
                 if (!targetAttrActualValue.startsWith(requiredPrefix)) {
                     String error = String.format(
-                            "Element [%s] with %s=\"%s\" must start with \"%s\"",
+                            "<%s %s=\"%s\"> must start with \"%s\"",
                             tag,
                             targetAttr,
                             targetAttrActualValue,

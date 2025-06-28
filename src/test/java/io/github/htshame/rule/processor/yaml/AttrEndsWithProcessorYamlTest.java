@@ -77,12 +77,12 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_1",
                         "test",
-                        List.of("Element [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                                 + "but found: [fk_user_activation_user_profile_id_user_profile_id]")),
                 prepareTestErrorMessage(
                         "changelog_02_2",
                         "test",
-                        List.of("Element [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                                 + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -124,12 +124,12 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_1",
                         "test",
-                        List.of("Element [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                                 + "but found: [fk_user_activation_user_profile_id_user_profile_id]")),
                 prepareTestErrorMessage(
                         "changelog_02_2",
                         "test",
-                        List.of("Element [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                                 + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -171,7 +171,7 @@ public class AttrEndsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_2",
                         "test",
-                        List.of("Element [addForeignKeyConstraint] must have [constraintName] ending with [_fk], "
+                        List.of("Tag <addForeignKeyConstraint> must have constraintName ending with [_fk], "
                                 + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 

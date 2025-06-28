@@ -122,7 +122,7 @@ public class AttrEndsWithConditionedProcessor implements Rule {
                     continue;
                 }
                 String errorMessage = String.format(
-                        "Element [%s] with %s=\"%s\" must have [%s] ending with [%s], but found: [%s]",
+                        "Tag <%s> with %s=\"%s\" must have %s ending with [%s], but found: [%s]",
                         tag,
                         conditionAttr,
                         conditionValue,

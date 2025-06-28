@@ -128,7 +128,7 @@ public class TagMustExistProcessor implements Rule {
         if (hasRequiredChild) {
             if (isErrorPresent(element)) {
                 String error = String.format(
-                        "Element [%s]. Required child element [%s] can not be empty",
+                        "Tag <%s>. Required child tag <%s> can not be empty",
                         tagName,
                         requiredTag);
                 errors.add(error);
@@ -136,7 +136,7 @@ public class TagMustExistProcessor implements Rule {
 
         } else if (CHANGE_SET_TAG_NAME.equals(tagName) || isSearchInChildTagRequired) {
             String errorMessage = String.format(
-                    "Element [%s] does not contain required element [%s]",
+                    "Tag <%s> does not contain required tag <%s>",
                     tagName,
                     requiredTag);
             errors.add(errorMessage);

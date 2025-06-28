@@ -7,6 +7,13 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 2.2
+
+- Add support for YAML/YML changeLog format
+- Improve logging.
+
+---
+
 ## Version 2.1
 
 - Rule `tag-must-exist`, tag `<excludedTags>`, which was used to exclude tags from the check was removed.
@@ -39,31 +46,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 1.0.3
-
-- Resolved issue causing exclusion rules to be ignored.
-
----
-
-## Version 1.0.2
-
-- It is now possible to add excluded attributes to `no-hyphens-in-attributes` rule.
-- It is now possible to add excluded attributes to `no-underscore-in-attributes` rule.
-- Rule `tag-must-exist`: ```excludedAncestorTags``` setting was renamed to ```excludedTags```.
-- Rule `attr-ends-with-conditioned`: ```conditionAttribute``` setting was renamed to ```conditionAttr```.
-- Rule `attr-ends-with-conditioned`, `attr-ends-with`, `attr-starts-with`: ```targetAttribute``` setting was renamed to
-  ```targetAttr```.
-- Added plugin configuration: 
-```xml
-<shouldFailBuild>true</shouldFailBuild>
-```
-Default value is `true`. Build will not fail if set to `false`. 
-- Bugfixes
-
----
-
 ### Previous Releases
 
+- [2.2](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.2.md)
 - [2.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.1.md)
 - [2.0](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.0.md)
 - [1.0.5](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/1.0.5.md)

@@ -199,3 +199,9 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+
+   THIRD-PARTY DEPENDENCIES
+
+This project includes the following third-party libraries licensed under the Apache License 2.0:
+- SnakeYAML (https://bitbucket.org/snakeyaml/snakeyaml/src/master/)

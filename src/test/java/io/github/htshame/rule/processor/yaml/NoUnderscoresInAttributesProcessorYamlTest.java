@@ -79,21 +79,21 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                "Attribute [tableName] in element [createTable] contains underscore in value: "
                                         + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
+                                "Attribute [name] in element [column] contains underscore in value: [user_data].")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains underscore in value:"
+                        List.of("Attribute [tableName] in element [createIndex] contains underscore in value:"
                                         + " [user_metadata].",
-                                "Attribute [indexName] in element <createIndex> contains underscore in value: "
+                                "Attribute [indexName] in element [createIndex] contains underscore in value: "
                                         + "[user_idx].",
-                                "Attribute [name] in element <column> contains underscore in value:"
+                                "Attribute [name] in element [column] contains underscore in value:"
                                         + " [external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                "Attribute [tableName] in element [createTable] contains underscore in value: "
                                         + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                                "Attribute [name] in element [column] contains underscore in value: [user_data].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -135,21 +135,21 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                "Attribute [tableName] in element [createTable] contains underscore in value: "
                                         + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
+                                "Attribute [name] in element [column] contains underscore in value: [user_data].")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains underscore in value: "
+                        List.of("Attribute [tableName] in element [createIndex] contains underscore in value: "
                                         + "[user_metadata].",
-                                "Attribute [indexName] in element <createIndex> contains underscore in value: "
+                                "Attribute [indexName] in element [createIndex] contains underscore in value: "
                                         + "[user_idx].",
-                                "Attribute [name] in element <column> contains underscore in value: "
+                                "Attribute [name] in element [column] contains underscore in value: "
                                         + "[external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                "Attribute [tableName] in element [createTable] contains underscore in value: "
                                         + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                                "Attribute [name] in element [column] contains underscore in value: [user_data].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -190,15 +190,15 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains underscore in value:"
+                        List.of("Attribute [tableName] in element [createIndex] contains underscore in value:"
                                         + " [user_metadata].",
-                                "Attribute [indexName] in element <createIndex> contains underscore in value: "
+                                "Attribute [indexName] in element [createIndex] contains underscore in value: "
                                         + "[user_idx].",
-                                "Attribute [name] in element <column> contains underscore in value: "
+                                "Attribute [name] in element [column] contains underscore in value: "
                                         + "[external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                "Attribute [tableName] in element [createTable] contains underscore in value: "
                                         + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                                "Attribute [name] in element [column] contains underscore in value: [user_data].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act

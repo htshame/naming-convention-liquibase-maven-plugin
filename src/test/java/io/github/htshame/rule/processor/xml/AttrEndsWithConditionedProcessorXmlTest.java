@@ -76,12 +76,14 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique],"
+                        List.of("Element [createIndex] with unique=\"true\" must have [indexName]"
+                                + " ending with [_unique],"
                                 + " but found: [user_metadata_external_user_id_unique_idx]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
+                        List.of("Element [createIndex] with unique=\"true\" must have [indexName]"
+                                + " ending with [_unique], "
                                 + "but found: [user_metadata_external_user_id_unique_idx1]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -124,12 +126,14 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
+                        List.of("Element [createIndex] with unique=\"true\" must have [indexName]"
+                                + " ending with [_unique], "
                                 + "but found: [user_metadata_external_user_id_unique_idx]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
+                        List.of("Element [createIndex] with unique=\"true\" must have [indexName]"
+                                + " ending with [_unique], "
                                 + "but found: [user_metadata_external_user_id_unique_idx1]")));
 
         List<String> actualErrorMessages = new ArrayList<>();
@@ -171,7 +175,8 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique],"
+                        List.of("Element [createIndex] with unique=\"true\" must have [indexName]"
+                                + " ending with [_unique],"
                                 + " but found: [user_metadata_external_user_id_unique_idx1]")));
         List<String> actualErrorMessages = new ArrayList<>();
 

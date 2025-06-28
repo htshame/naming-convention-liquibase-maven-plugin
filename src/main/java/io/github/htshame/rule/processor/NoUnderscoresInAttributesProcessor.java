@@ -122,7 +122,7 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
                     && !excludedAttrs.contains(attrName)
                     && (attrValue.isBlank() || attrValue.contains(UNDERSCORE))) {
                 String errorMessage = String.format(
-                        "Attribute [%s] in element <%s> contains underscore in value: [%s].",
+                        "Attribute [%s] in element [%s] contains underscore in value: [%s].",
                         attrName,
                         element.getName(),
                         attrValue);

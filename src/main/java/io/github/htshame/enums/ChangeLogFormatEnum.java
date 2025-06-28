@@ -8,7 +8,15 @@ public enum ChangeLogFormatEnum {
     /**
      * XML format extension.
      */
-    XML("xml");
+    XML("xml"),
+    /**
+     * YAML format extension.
+     */
+    YAML("yaml"),
+    /**
+     * YML format extension.
+     */
+    YML("yml");
 
     private final String format;
 

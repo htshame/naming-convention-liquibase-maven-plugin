@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: changelog_02_1
+      author: test
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          - indexExists:
+              indexName: fk_user_activation_user_profile_id_user_profile_id
+        tableExists:
+          tableName: user_activation
+        columnExists:
+          tableName: user_activation
+          columnName: user_profile_id
+        tableExists_2:
+          tableName: user_profile
+        columnExists_2:
+          tableName: user_profile
+          columnName: id
+      comment: Comment
+      addForeignKeyConstraint:
+        baseTableName: user_activation
+        baseColumnNames: user_profile_id
+        constraintName: fk_user_activation_user_profile_id_user_profile_id
+        referencedTableName: user_profile
+        referencedColumnNames: id
+
+  - changeSet:
+      id: changelog_02_2
+      author: test
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          - indexExists:
+              indexName: fk_user_activation_user_profile_id_user_profile_id
+        tableExists:
+          tableName: user_activation
+        columnExists:
+          tableName: user_activation
+          columnName: user_profile_id
+        tableExists_2:
+          tableName: user_profile
+        columnExists_2:
+          tableName: user_profile
+          columnName: id
+      comment: Comment
+      addForeignKeyConstraint:
+        baseTableName: user_activation
+        baseColumnNames: user_profile_id
+        constraintName: user_activation_user_profile_id_user_profile_id_FK
+        referencedTableName: user_profile
+        referencedColumnNames: id

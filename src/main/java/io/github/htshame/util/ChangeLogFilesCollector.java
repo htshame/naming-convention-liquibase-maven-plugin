@@ -34,7 +34,7 @@ public final class ChangeLogFilesCollector {
         try (Stream<Path> paths = Files.walk(changeLogFilesPath.toPath())) {
             return paths
                     .filter(Files::isRegularFile)
-                    .filter(path -> path.toString().endsWith("." + fileExtension.getValue()))
+                    .filter(path -> path.toString().toLowerCase().endsWith("." + fileExtension.getValue()))
                     .map(Path::toFile)
                     .collect(Collectors.toList());
         } catch (IOException e) {

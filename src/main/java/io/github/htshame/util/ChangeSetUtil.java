@@ -9,9 +9,13 @@ import io.github.htshame.dto.ChangeSetAttributeDto;
 public final class ChangeSetUtil {
 
     /**
-     * ChangeSet tag name.
+     * ChangeSet name.
      */
     public static final String CHANGE_SET_TAG_NAME = "changeSet";
+    /**
+     * Database changeLog name.
+     */
+    public static final String DATABASE_CHANGELOG_NAME = "databaseChangeLog";
     private static final String ID_ATTR_NAME = "id";
     private static final String AUTHOR_ATTR_NAME = "author";
 
@@ -31,16 +35,6 @@ public final class ChangeSetUtil {
                     getAttributeValue(element, ID_ATTR_NAME),
                     getAttributeValue(element, AUTHOR_ATTR_NAME));
         }
-//        ChangeSetElement current = element.getParent();
-//        while (current != null && current.getNodeType() == Node.ELEMENT_NODE) {
-//            Element parentElement = (Element) current;
-//            if (CHANGE_SET_TAG_NAME.equals(parentElement.getTagName())) {
-//                return new ChangeSetAttributeDto(
-//                        getAttributeValue(parentElement, ID_ATTR_NAME),
-//                        getAttributeValue(parentElement, AUTHOR_ATTR_NAME));
-//            }
-//            current = current.getParent();
-//        }
         return new ChangeSetAttributeDto("", "");
     }
 

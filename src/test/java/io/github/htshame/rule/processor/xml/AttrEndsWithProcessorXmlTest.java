@@ -1,10 +1,13 @@
-package io.github.htshame.rule.processor;
+package io.github.htshame.rule.processor.xml;
 
 import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.rule.processor.AttrEndsWithProcessor;
+import io.github.htshame.rule.processor.RuleProcessorTestUtil;
 import io.github.htshame.util.parser.ExclusionParser;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -20,24 +23,22 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUtil {
+public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
-    private static final String BASE_FILE_PATH =
-            "src/test/resources/io/github/htshame/rule/processor/no-underscores-in-attributes/";
-    private static final String RULE_URL = BASE_FILE_PATH + "no-underscores-in-attributes-rule.xml";
+    private static final String BASE_FILE_PATH = "src/test/resources/io/github/htshame/rule/processor/attr-ends-with/";
+    private static final String RULE_URL = BASE_FILE_PATH + "attr-ends-with-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions.xml";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML = "no-underscores-in-attributes-failure.xml";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML = "no-underscores-in-attributes-success.xml";
+    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
+    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
+    private static final String ATTR_ENDS_WITH_FAILURE_FILE = "attr-ends-with-failure.xml";
+    private static final String ATTR_ENDS_WITH_SUCCESS_FILE = "attr-ends-with-success.xml";
 
     /**
      * Default constructor.
      */
-    public NoUnderscoresInAttributesProcessorTest() {
-        super(RULE_URL, RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES);
+    public AttrEndsWithProcessorXmlTest() {
+        super(RULE_URL, RuleEnum.ATTRIBUTE_ENDS_WITH);
     }
 
     /**
@@ -49,10 +50,10 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
         Element ruleElement = prepareRuleELement();
 
         // act
-        RuleEnum actual = NoUnderscoresInAttributesProcessor.instantiate(ruleElement).getName();
+        RuleEnum actual = AttrEndsWithProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, actual);
+        assertEquals(RuleEnum.ATTRIBUTE_ENDS_WITH, actual);
     }
 
     /**
@@ -66,38 +67,32 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_FILE,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
-                        "changelog_02_3",
+                        "changelog_02_1",
                         "test",
-                        List.of(
-                                "Attribute tableName in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute name in element <column> contains underscore in value: [user_data].")),
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
+                                + "but found: [fk_user_activation_user_profile_id_user_profile_id]")),
                 prepareTestErrorMessage(
-                        "changelog_02_4",
+                        "changelog_02_2",
                         "test",
-                        List.of("Attribute indexName in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute tableName in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute name in element <column> contains underscore in value: [external_user_id].",
-                                "Attribute tableName in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute name in element <column> contains underscore in value: [user_data].")));
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
+                                + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        ATTR_ENDS_WITH_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -106,7 +101,7 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -120,38 +115,32 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_FILE,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
-                        "changelog_02_3",
+                        "changelog_02_1",
                         "test",
-                        List.of(
-                                "Attribute tableName in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute name in element <column> contains underscore in value: [user_data].")),
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
+                                + "but found: [fk_user_activation_user_profile_id_user_profile_id]")),
                 prepareTestErrorMessage(
-                        "changelog_02_4",
+                        "changelog_02_2",
                         "test",
-                        List.of("Attribute indexName in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute tableName in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute name in element <column> contains underscore in value: [external_user_id].",
-                                "Attribute tableName in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute name in element <column> contains underscore in value: [user_data].")));
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
+                                + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        ATTR_ENDS_WITH_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -160,7 +149,7 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -174,31 +163,27 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_FILE,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
         List<String> expectedErrorMessages = Collections.singletonList(
                 prepareTestErrorMessage(
-                        "changelog_02_4",
+                        "changelog_02_2",
                         "test",
-                        List.of("Attribute indexName in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute tableName in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute name in element <column> contains underscore in value: [external_user_id].",
-                                "Attribute tableName in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute name in element <column> contains underscore in value: [user_data].")));
+                        List.of("Tag <addForeignKeyConstraint> must have [constraintName] ending with [_fk], "
+                                + "but found: [user_activation_user_profile_id_user_profile_id_FK]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        ATTR_ENDS_WITH_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -207,7 +192,7 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -221,18 +206,20 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_SUCCESS_FILE,
+                ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML);
+                        ATTR_ENDS_WITH_SUCCESS_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

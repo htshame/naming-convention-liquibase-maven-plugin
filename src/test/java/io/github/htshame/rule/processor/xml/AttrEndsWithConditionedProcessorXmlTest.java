@@ -1,10 +1,13 @@
-package io.github.htshame.rule.processor;
+package io.github.htshame.rule.processor.xml;
 
 import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
+import io.github.htshame.rule.processor.RuleProcessorTestUtil;
 import io.github.htshame.util.parser.ExclusionParser;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -19,23 +22,22 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
-public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil {
+public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH =
             "src/test/resources/io/github/htshame/rule/processor/attr-ends-with-conditioned/";
     private static final String RULE_URL = BASE_FILE_PATH + "attr-ends-with-conditioned-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions.xml";
-    private static final String ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML = "attr-ends-with-conditioned-failure.xml";
-    private static final String ATTR_ENDS_WITH_CONDITIONED_SUCCESS_XML = "attr-ends-with-conditioned-success.xml";
+    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
+    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
+    private static final String ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE = "attr-ends-with-conditioned-failure.xml";
+    private static final String ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE = "attr-ends-with-conditioned-success.xml";
 
     /**
      * Default constructor.
      */
-    public AttrEndsWithConditionedProcessorTest() {
+    public AttrEndsWithConditionedProcessorXmlTest() {
         super(RULE_URL, RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED);
     }
 
@@ -64,7 +66,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
@@ -72,13 +75,13 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique],"
-                                + " but found: [user_metadata_external_user_id_unique_idx]")),
+                        List.of("Tag <createIndex> with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
-                                + "but found: [user_metadata_external_user_id_unique_idx1]")));
+                        List.of("Tag <createIndex> with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx1]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
 
@@ -88,7 +91,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML);
+                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -97,7 +101,7 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -111,7 +115,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
@@ -119,13 +124,13 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
-                                + "but found: [user_metadata_external_user_id_unique_idx]")),
+                        List.of("Tag <createIndex> with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique], "
-                                + "but found: [user_metadata_external_user_id_unique_idx1]")));
+                        List.of("Tag <createIndex> with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx1]")));
 
         List<String> actualErrorMessages = new ArrayList<>();
 
@@ -135,7 +140,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML);
+                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -144,7 +150,7 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
 
         // assert
         assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -157,7 +163,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
@@ -165,8 +172,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex> with unique=\"true\" must have indexName ending with [_unique],"
-                                + " but found: [user_metadata_external_user_id_unique_idx1]")));
+                        List.of("Tag <createIndex> with unique=\"true\" must have [indexName] ending with "
+                                + "[_unique], but found: [user_metadata_external_user_id_unique_idx1]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -175,7 +182,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_XML);
+                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -184,7 +192,7 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
 
         // assert
         assertEquals(1, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertErrors(expectedErrorMessages, actualErrorMessages);
     }
 
     /**
@@ -198,8 +206,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_SUCCESS_XML);
-        int exceptionCount = 0;
+                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE,
+                ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
@@ -210,7 +218,8 @@ public class AttrEndsWithConditionedProcessorTest extends RuleProcessorTestUtil 
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_SUCCESS_XML);
+                        ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE,
+                        ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

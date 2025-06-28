@@ -1,6 +1,7 @@
 package io.github.htshame.rule.processor;
 
 import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
@@ -11,12 +12,13 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 
 /**
@@ -39,7 +41,6 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
  */
 public class NoUnderscoresInAttributesProcessor implements Rule {
 
-    private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String UNDERSCORE = "_";
 
     private final Set<String> excludedAttrs;
@@ -59,16 +60,18 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
      * @param changeSetElement  - changeSet element.
      * @param exclusionParser   - exclusion parser.
      * @param changeLogFileName - changeLog file name.
+     * @param changeLogFormat   - changeLog format.
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
     public void validate(final ChangeSetElement changeSetElement,
                          final ExclusionParser exclusionParser,
-                         final String changeLogFileName) throws ValidationException {
+                         final String changeLogFileName,
+                         final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        List<String> errors = validateElement(changeSetElement, new ArrayList<>());
+        List<String> errors = validateElement(changeSetElement, changeLogFormat, new ArrayList<>());
         if (!errors.isEmpty()) {
             throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
         }
@@ -107,23 +110,24 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
     /**
      * Validate element.
      *
-     * @param element - element.
-     * @param errors  - list of errors.
+     * @param element         - element.
+     * @param changeLogFormat - changeLog format.
+     * @param errors          - list of errors.
      * @return list of errors.
      */
     private List<String> validateElement(final ChangeSetElement element,
+                                         final ChangeLogFormatEnum changeLogFormat,
                                          final List<String> errors) {
         Map<String, String> attributes = element.getProperties();
         for (Map.Entry<String, String> attr : attributes.entrySet()) {
             String attrName = attr.getKey();
-            String attrValue = attr.getValue();
+            String attrValue = attr.getValue() != null ? attr.getValue() : "";
 
             if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
-                    && attrValue.contains(UNDERSCORE)) {
-                String errorMessage = String.format(
-                        "Attribute %s in element <%s> contains underscore in value: [%s].",
+                    && (attrValue.isBlank() || attrValue.contains(UNDERSCORE))) {
+                String errorMessage = String.format(getMessage(getName(), changeLogFormat),
                         attrName,
                         element.getName(),
                         attrValue);
@@ -133,7 +137,11 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
 
         List<ChangeSetElement> children = element.getChildren();
         for (ChangeSetElement child : children) {
-            validateElement(child, errors);
+            boolean isExcluded = isExcludedByAncestorTag(child);
+            if (isExcluded) {
+                continue;
+            }
+            validateElement(child, changeLogFormat, errors);
         }
 
         return errors;

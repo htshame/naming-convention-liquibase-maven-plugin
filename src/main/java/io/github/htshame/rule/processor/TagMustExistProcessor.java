@@ -1,6 +1,7 @@
 package io.github.htshame.rule.processor;
 
 import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
@@ -13,9 +14,11 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
+import static io.github.htshame.util.ErrorMessageUtil.getMessage;
 
 /**
  * Business logic for the <code>tag-must-exist</code> rule.
@@ -95,16 +98,18 @@ public class TagMustExistProcessor implements Rule {
      * @param changeSetElement  - changeSet element.
      * @param exclusionParser   - exclusion parser.
      * @param changeLogFileName - changeLog file name.
+     * @param changeLogFormat   - changeLog format.
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
     public void validate(final ChangeSetElement changeSetElement,
                          final ExclusionParser exclusionParser,
-                         final String changeLogFileName) throws ValidationException {
+                         final String changeLogFileName,
+                         final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        List<String> errors = validateElement(changeSetElement, new ArrayList<>());
+        List<String> errors = validateElement(changeSetElement, changeLogFormat, new ArrayList<>());
         if (!errors.isEmpty()) {
             throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
         }
@@ -113,11 +118,13 @@ public class TagMustExistProcessor implements Rule {
     /**
      * Traverse the contents of the document.
      *
-     * @param element - element.
-     * @param errors  - list of errors.
+     * @param element         - element.
+     * @param changeLogFormat - changeLog format.
+     * @param errors          - list of errors.
      * @return list of errors.
      */
     private List<String> validateElement(final ChangeSetElement element,
+                                         final ChangeLogFormatEnum changeLogFormat,
                                          final List<String> errors) {
         String tagName = element.getName();
 
@@ -125,20 +132,16 @@ public class TagMustExistProcessor implements Rule {
 
         boolean hasRequiredChild = hasRequiredChild(element);
         if (hasRequiredChild) {
-            element.getChildren().stream()
-                    .filter(child -> {
-                        if (requiredTag.equals(child.getName())) {
-                            return child.getValue() != null && child.getValue().isBlank();
-                        }
-                        return false;
-                    }).map(child -> String.format(
-                            "Tag <%s>. Required child tag <%s> can not be empty",
-                            tagName,
-                            requiredTag))
-                    .forEach(errors::add);
+            if (isErrorPresent(element)) {
+                String error = String.format(
+                        getMessage(getName(), changeLogFormat),
+                        tagName,
+                        requiredTag);
+                errors.add(error);
+            }
         } else if (CHANGE_SET_TAG_NAME.equals(tagName) || isSearchInChildTagRequired) {
             String errorMessage = String.format(
-                    "Tag <%s> does not contain required tag <%s>",
+                    getMessage(getName(), changeLogFormat),
                     tagName,
                     requiredTag);
             errors.add(errorMessage);
@@ -146,9 +149,36 @@ public class TagMustExistProcessor implements Rule {
 
         List<ChangeSetElement> children = element.getChildren();
         for (ChangeSetElement node : children) {
-            validateElement(node, errors);
+            validateElement(node, changeLogFormat, errors);
         }
         return errors;
+    }
+
+    /**
+     * Check if the error is actually present.
+     *
+     * @param element - changeSet element.
+     * @return <code>true</code> if present, <code>false</code> - if not.
+     */
+    private boolean isErrorPresent(final ChangeSetElement element) {
+        for (ChangeSetElement child : element.getChildren()) {
+            if (requiredTag.equals(child.getName())) {
+                String value = child.getValue();
+                if (value == null || value.isBlank()) {
+                    return true;
+                }
+            }
+        }
+
+        for (Map.Entry<String, String> entry : element.getProperties().entrySet()) {
+            if (requiredTag.equals(entry.getKey())) {
+                String value = entry.getValue();
+                if (value == null || value.isBlank()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -160,8 +190,16 @@ public class TagMustExistProcessor implements Rule {
     private boolean hasRequiredChild(final ChangeSetElement element) {
         List<ChangeSetElement> children = element.getChildren();
         for (ChangeSetElement child : children) {
-            if (child.getName().equals(requiredTag)) {
+            if (requiredTag.equals(child.getName())) {
                 return true;
+            }
+        }
+        Map<String, String> properties = element.getProperties();
+        if (properties != null) {
+            for (Map.Entry<String, String> property : properties.entrySet()) {
+                if (requiredTag.equals(property.getKey())) {
+                    return true;
+                }
             }
         }
         return false;

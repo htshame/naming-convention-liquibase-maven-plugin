@@ -31,8 +31,8 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
     private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_yaml.xml";
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_yaml.xml";
-    private static final String TAG_MUST_EXIST_FAILURE_XML = "tag-must-exist-failure.yaml";
-    private static final String TAG_MUST_EXIST_SUCCESS_XML = "tag-must-exist-success.yaml";
+    private static final String TAG_MUST_EXIST_FAILURE = "tag-must-exist-failure.yaml";
+    private static final String TAG_MUST_EXIST_SUCCESS = "tag-must-exist-success.yaml";
     private static final int EXPECTED_NUMBER_OF_ERRORS = 3;
 
 
@@ -69,7 +69,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML,
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -99,7 +99,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML,
+                        TAG_MUST_EXIST_FAILURE,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -125,7 +125,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML,
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -155,7 +155,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML,
+                        TAG_MUST_EXIST_FAILURE,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -179,7 +179,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML,
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -205,7 +205,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML,
+                        TAG_MUST_EXIST_FAILURE,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -229,7 +229,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_SUCCESS_XML,
+                BASE_FILE_PATH + TAG_MUST_EXIST_SUCCESS,
                 ChangeLogFormatEnum.YAML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -241,7 +241,7 @@ public class TagMustExistYamlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_SUCCESS_XML,
+                        TAG_MUST_EXIST_SUCCESS,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

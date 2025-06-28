@@ -84,7 +84,6 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                                 + "[_unique], but found: [user_metadata_external_user_id_unique_idx1]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
-
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
@@ -208,7 +207,6 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE,
                 ChangeLogFormatEnum.YAML);
-        int exceptionCount = 0;
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));

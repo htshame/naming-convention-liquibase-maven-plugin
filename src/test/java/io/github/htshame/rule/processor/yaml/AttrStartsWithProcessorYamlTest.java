@@ -32,8 +32,8 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_yaml.xml";
     private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_yaml.xml";
-    private static final String ATTR_STARTS_WITH_FAILURE_XML = "attr-starts-with-failure.yaml";
-    private static final String ATTR_STARTS_WITH_SUCCESS_XML = "attr-starts-with-success.yaml";
+    private static final String ATTR_STARTS_WITH_FAILURE = "attr-starts-with-failure.yaml";
+    private static final String ATTR_STARTS_WITH_SUCCESS = "attr-starts-with-success.yaml";
 
     /**
      * Default constructor.
@@ -68,7 +68,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -92,7 +92,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE_XML,
+                        ATTR_STARTS_WITH_FAILURE,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -116,7 +116,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -140,7 +140,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE_XML,
+                        ATTR_STARTS_WITH_FAILURE,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -164,7 +164,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE_XML,
+                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -183,7 +183,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE_XML,
+                        ATTR_STARTS_WITH_FAILURE,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -207,7 +207,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_SUCCESS_XML,
+                BASE_FILE_PATH + ATTR_STARTS_WITH_SUCCESS,
                 ChangeLogFormatEnum.YAML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -219,7 +219,7 @@ public class AttrStartsWithProcessorYamlTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_SUCCESS_XML,
+                        ATTR_STARTS_WITH_SUCCESS,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

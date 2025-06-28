@@ -32,8 +32,8 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
     private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_yaml.xml";
     private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_yaml.xml";
-    private static final String NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML = "no-hyphens-in-attributes-failure.yaml";
-    private static final String NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML = "no-hyphens-in-attributes-success.yaml";
+    private static final String NO_HYPHENS_IN_ATTRIBUTES_FAILURE = "no-hyphens-in-attributes-failure.yaml";
+    private static final String NO_HYPHENS_IN_ATTRIBUTES_SUCCESS = "no-hyphens-in-attributes-success.yaml";
 
     /**
      * Default constructor.
@@ -68,7 +68,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -92,7 +92,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -116,7 +116,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -140,7 +140,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -164,7 +164,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -183,7 +183,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -206,7 +206,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML,
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_SUCCESS,
                 ChangeLogFormatEnum.YAML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -218,7 +218,7 @@ public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML,
+                        NO_HYPHENS_IN_ATTRIBUTES_SUCCESS,
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

@@ -22,7 +22,7 @@ import java.util.List;
  * <code>validate-liquibase-xml</code> processor.
  */
 @Mojo(name = "validate-liquibase-xml", defaultPhase = LifecyclePhase.COMPILE)
-public class ValidateLiquibaseMojo extends AbstractMojo {
+public class ValidateChangeLogMojo extends AbstractMojo {
 
     private static final String INVALID_PATH = "Invalid path: ";
 
@@ -70,7 +70,7 @@ public class ValidateLiquibaseMojo extends AbstractMojo {
     /**
      * Default constructor.
      */
-    public ValidateLiquibaseMojo() {
+    public ValidateChangeLogMojo() {
         this.validationManager = new ValidationManager();
     }
 

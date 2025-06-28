@@ -80,7 +80,7 @@ public final class RuleParser {
                 }
             }
         } catch (Exception e) {
-            throw new RuleParserException("Error parsing ruleset", e);
+            throw new RuleParserException("Error parsing ruleset XML file", e);
         }
         return rules;
     }

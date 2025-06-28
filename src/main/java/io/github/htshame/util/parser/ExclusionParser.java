@@ -88,7 +88,7 @@ public final class ExclusionParser {
             }
             return config;
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            throw new ExclusionParserException("Error parsing exclusion XML exclusionsFile");
+            throw new ExclusionParserException("Error parsing exclusion XML file");
         }
     }
 

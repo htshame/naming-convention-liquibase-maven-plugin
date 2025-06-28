@@ -39,10 +39,6 @@ public final class RuleProcessorRegistry {
      * @return corresponding processor.
      */
     public static RuleFactory getFactory(final RuleEnum ruleEnum) {
-        RuleFactory factory = RULE_MAP.get(ruleEnum);
-        if (factory == null) {
-            throw new IllegalArgumentException("No factory registered for rule: " + ruleEnum);
-        }
-        return factory;
+        return RULE_MAP.get(ruleEnum);
     }
 }

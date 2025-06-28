@@ -127,24 +127,15 @@ public class TagMustExistProcessor implements Rule {
                                          final ChangeLogFormatEnum changeLogFormat,
                                          final List<String> errors) {
         String tagName = element.getName();
-
         boolean isSearchInChildTagRequired = requiredForChildTags.contains(tagName);
-
         boolean hasRequiredChild = hasRequiredChild(element);
-        if (hasRequiredChild) {
-            if (isErrorPresent(element)) {
-                String error = String.format(
-                        getMessage(getName(), changeLogFormat),
-                        tagName,
-                        requiredTag);
-                errors.add(error);
-            }
-        } else if (CHANGE_SET_TAG_NAME.equals(tagName) || isSearchInChildTagRequired) {
-            String errorMessage = String.format(
+
+        if (shouldAddError(hasRequiredChild, element, tagName, isSearchInChildTagRequired)) {
+            String error = String.format(
                     getMessage(getName(), changeLogFormat),
                     tagName,
                     requiredTag);
-            errors.add(errorMessage);
+            errors.add(error);
         }
 
         List<ChangeSetElement> children = element.getChildren();
@@ -155,12 +146,29 @@ public class TagMustExistProcessor implements Rule {
     }
 
     /**
-     * Check if the error is actually present.
+     * Should add the error.
+     *
+     * @param hasRequiredChild           - has required child flag.
+     * @param element                    - changeSet element.
+     * @param tagName                    - tag name.
+     * @param isSearchInChildTagRequired - is search in child tag required.
+     * @return <code>true</code> if error should be added, <code>false</code> - if not.
+     */
+    private boolean shouldAddError(final boolean hasRequiredChild,
+                                   final ChangeSetElement element,
+                                   final String tagName,
+                                   final boolean isSearchInChildTagRequired) {
+        return (hasRequiredChild && isErrorPresentInTheChildElement(element))
+                || (!hasRequiredChild && (CHANGE_SET_TAG_NAME.equals(tagName) || isSearchInChildTagRequired));
+    }
+
+    /**
+     * Check if the error is present in the child element.
      *
      * @param element - changeSet element.
      * @return <code>true</code> if present, <code>false</code> - if not.
      */
-    private boolean isErrorPresent(final ChangeSetElement element) {
+    private boolean isErrorPresentInTheChildElement(final ChangeSetElement element) {
         for (ChangeSetElement child : element.getChildren()) {
             if (requiredTag.equals(child.getName())) {
                 String value = child.getValue();

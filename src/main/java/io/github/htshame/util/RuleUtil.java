@@ -17,6 +17,12 @@ public final class RuleUtil {
 
     private static final List<String> EXCLUDED_TAG = Arrays.asList("preConditions", "loadData");
 
+    /**
+     * Excluded attributes.
+     */
+    public static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList(
+            "id", "author", "comment", "remark");
+
     private RuleUtil() {
 
     }
@@ -41,14 +47,7 @@ public final class RuleUtil {
      * @return <code>true</code> if excluded. <code>false</code> - if not.
      */
     public static boolean isExcludedByAncestorTag(final ChangeSetElement element) {
-        ChangeSetElement current = element;
-        while (current != null) {
-            if (EXCLUDED_TAG.contains(current.getName())) {
-                return true;
-            }
-            current = current.getParent();
-        }
-        return false;
+        return EXCLUDED_TAG.contains(element.getName());
     }
 
     /**

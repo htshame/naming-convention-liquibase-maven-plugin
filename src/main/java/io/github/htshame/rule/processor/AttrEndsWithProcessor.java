@@ -1,6 +1,7 @@
 package io.github.htshame.rule.processor;
 
 import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
@@ -12,6 +13,7 @@ import org.w3c.dom.Element;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.htshame.util.ErrorMessageUtil.getMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
 /**
@@ -87,12 +89,14 @@ public class AttrEndsWithProcessor implements Rule {
      * @param changeSetElement  - changeSet element.
      * @param exclusionParser   - exclusion parser.
      * @param changeLogFileName - changeLog file name.
+     * @param changeLogFormat   - changeLog format.
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
     public void validate(final ChangeSetElement changeSetElement,
                          final ExclusionParser exclusionParser,
-                         final String changeLogFileName) throws ValidationException {
+                         final String changeLogFileName,
+                         final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
@@ -104,8 +108,7 @@ public class AttrEndsWithProcessor implements Rule {
             if (isTargetAttrPresent) {
                 String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
                 if (!targetAttrActualValue.endsWith(requiredSuffix)) {
-                    String errorMessage = String.format(
-                            "Tag <%s> must have %s ending with [%s], but found: [%s]",
+                    String errorMessage = String.format(getMessage(getName(), changeLogFormat),
                             tag,
                             targetAttr,
                             requiredSuffix,

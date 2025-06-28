@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ValidateLiquibaseXmlMojoIntegrationTest {
+public class ValidateLiquibaseYamlMojoIntegrationTest {
 
     private ValidateLiquibaseXmlMojo validateLiquibaseXmlMojo;
 
@@ -26,9 +26,9 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
         validateLiquibaseXmlMojo = new ValidateLiquibaseXmlMojo();
         setField("pathToRulesFile", new File("src/test/resources/rules.xml"));
         setField("pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
-        setField("changeLogDirectory", new File("src/test/resources/db/xml"));
+        setField("changeLogDirectory", new File("src/test/resources/db/yaml"));
         setField("shouldFailBuild", true);
-        setField("changeLogFormat", "xml");
+        setField("changeLogFormat", "yaml");
     }
 
     /**
@@ -45,7 +45,7 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
         } catch (MojoExecutionException ae) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Validation failed: 15 violation(s) found.", ae.getMessage());
+            assertEquals("Validation failed: 9 violation(s) found.", ae.getMessage());
         }
         assertTrue(isExceptionThrown);
     }

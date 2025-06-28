@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+
 public class RuleProcessorTestUtil {
 
     private final String ruleFilePath;
@@ -34,7 +36,7 @@ public class RuleProcessorTestUtil {
         this.ruleName = ruleName;
     }
 
-    Element prepareRuleELement() throws ParserConfigurationException, IOException, SAXException {
+    protected Element prepareRuleELement() throws ParserConfigurationException, IOException, SAXException {
         Document ruleDocument = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File(ruleFilePath));
@@ -42,19 +44,27 @@ public class RuleProcessorTestUtil {
         return (Element) ruleNodes.item(0);
     }
 
-    List<ChangeSetElement> parseChangeSetFile(final String filePath)
+    protected List<ChangeSetElement> parseChangeSetFile(final String filePath,
+                                                        final ChangeLogFormatEnum format)
             throws ChangeLogParseException {
         File changeLogFile = new File(filePath);
-        return ValidatorTestUtil.getParser(ChangeLogFormatEnum.XML).parseChangeLog(changeLogFile);
+        return ValidatorTestUtil.getParser(format).parseChangeLog(changeLogFile);
     }
 
-    String prepareTestErrorMessage(final String changeSetId,
-                                   final String changeSetAuthor,
-                                   final List<String> errors) {
+    protected String prepareTestErrorMessage(final String changeSetId,
+                                             final String changeSetAuthor,
+                                             final List<String> errors) {
         return String.format("ChangeSet: id=\"%s\", author=\"%s\". Rule [%s]\n    %s",
                 changeSetId,
                 changeSetAuthor,
                 ruleName.getValue(),
                 String.join("\n    ", errors));
+    }
+
+    protected void assertErrors(final List<String> expectedErrorMessages,
+                                final List<String> actualErrorMessages) {
+        for (int i = 0; i < expectedErrorMessages.size(); i++) {
+            assertEquals(expectedErrorMessages.get(i), actualErrorMessages.get(i));
+        }
     }
 }

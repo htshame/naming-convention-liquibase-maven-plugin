@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: changelog_02_3
+      author: test1
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          - indexExists:
+              indexName: user_metadata_external_user_id_unique_idx
+        tableExists:
+          tableName: user-metadata
+        columnExists:
+          tableName: user-metadata
+          columnName: external_user_id
+      createIndex:
+        tableName: user-metadata
+        indexName: idx_user_metadata_external_user_id_unique
+        unique: true
+        columns:
+          - column:
+              name: external_user_id
+
+  - changeSet:
+      id: changelog_02_4
+      author: test1
+      preConditions:
+        onFail: MARK_RAN
+        tableExists:
+          tableName: user-metadata
+      dropTable:
+        tableName: user-metadata
+      rollback:
+        dropTable:
+          tableName: te
+
+  - changeSet:
+      id: changelog_02_5
+      author: test1
+      preConditions:
+        onFail: MARK_RAN
+        tableExists:
+          tableName: user-metadata
+      dropTable:
+        tableName: user-metadata
+      comment: ""
+      rollback:
+        comment: ""
+        dropTable:
+          tableName: te

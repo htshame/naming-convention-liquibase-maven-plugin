@@ -85,7 +85,7 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
         List<Rule> rules;
         ExclusionParser exclusionParser;
         List<File> changeLogFiles;
-        ChangeLogFormatEnum changeLogFormatEnum = ChangeLogFormatEnum.fromValue(changeLogFormat);
+        ChangeLogFormatEnum changeLogFormatEnum = ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());
         try {
             rules = RuleParser.parseRules(pathToRulesFile);
             exclusionParser = ExclusionParser.parseExclusions(pathToExclusionsFile);
@@ -145,7 +145,7 @@ public class ValidateLiquibaseXmlMojo extends AbstractMojo {
             throw new MojoExecutionException(INVALID_PATH + pathToExclusionsFile);
         }
         try {
-            ChangeLogFormatEnum.fromValue(changeLogFormat);
+            ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());
         } catch (IllegalArgumentException e) {
             throw new MojoExecutionException("ChangeLog format [" + changeLogFormat + "] is not supported");
         }

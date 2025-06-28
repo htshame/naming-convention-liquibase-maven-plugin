@@ -17,6 +17,12 @@ public final class RuleUtil {
 
     private static final List<String> EXCLUDED_TAG = Arrays.asList("preConditions", "loadData");
 
+    /**
+     * Excluded attributes.
+     */
+    public static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList(
+            "id", "author", "comment", "remark");
+
     private RuleUtil() {
 
     }

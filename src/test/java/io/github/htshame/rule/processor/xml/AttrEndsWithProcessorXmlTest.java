@@ -1,10 +1,13 @@
-package io.github.htshame.rule.processor;
+package io.github.htshame.rule.processor.xml;
 
 import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.rule.processor.AttrEndsWithProcessor;
+import io.github.htshame.rule.processor.RuleProcessorTestUtil;
 import io.github.htshame.util.parser.ExclusionParser;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -22,20 +25,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class AttrEndsWithProcessorTest extends RuleProcessorTestUtil {
+public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH = "src/test/resources/io/github/htshame/rule/processor/attr-ends-with/";
     private static final String RULE_URL = BASE_FILE_PATH + "attr-ends-with-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions.xml";
+    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
+    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
     private static final String ATTR_ENDS_WITH_FAILURE_XML = "attr-ends-with-failure.xml";
     private static final String ATTR_ENDS_WITH_SUCCESS_XML = "attr-ends-with-success.xml";
 
     /**
      * Default constructor.
      */
-    public AttrEndsWithProcessorTest() {
+    public AttrEndsWithProcessorXmlTest() {
         super(RULE_URL, RuleEnum.ATTRIBUTE_ENDS_WITH);
     }
 
@@ -65,7 +68,8 @@ public class AttrEndsWithProcessorTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_XML,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
@@ -111,7 +115,8 @@ public class AttrEndsWithProcessorTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_XML,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
@@ -157,7 +162,8 @@ public class AttrEndsWithProcessorTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_XML,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
@@ -198,7 +204,8 @@ public class AttrEndsWithProcessorTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_SUCCESS_XML);
+                BASE_FILE_PATH + ATTR_ENDS_WITH_SUCCESS_XML,
+                ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));

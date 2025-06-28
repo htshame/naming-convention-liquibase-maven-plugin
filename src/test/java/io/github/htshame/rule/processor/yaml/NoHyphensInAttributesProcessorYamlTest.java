@@ -1,10 +1,13 @@
-package io.github.htshame.rule.processor;
+package io.github.htshame.rule.processor.yaml;
 
 import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
+import io.github.htshame.rule.processor.RuleProcessorTestUtil;
 import io.github.htshame.util.parser.ExclusionParser;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -15,30 +18,29 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class TagMustExistTest extends RuleProcessorTestUtil {
+public class NoHyphensInAttributesProcessorYamlTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH =
-            "src/test/resources/io/github/htshame/rule/processor/tag-must-exist/";
-    private static final String RULE_URL = BASE_FILE_PATH + "tag-must-exist-rule.xml";
+            "src/test/resources/io/github/htshame/rule/processor/no-hyphens-in-attributes/";
+    private static final String RULE_URL = BASE_FILE_PATH + "no-hyphens-in-attributes-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong.xml";
-    private static final String TAG_MUST_EXIST_FAILURE_XML = "tag-must-exist-failure.xml";
-    private static final String TAG_MUST_EXIST_SUCCESS_XML = "tag-must-exist-success.xml";
-    private static final int EXPECTED_NUMBER_OF_ERRORS = 3;
-
+    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_yaml.xml";
+    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_yaml.xml";
+    private static final String NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML = "no-hyphens-in-attributes-failure.yaml";
+    private static final String NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML = "no-hyphens-in-attributes-success.yaml";
 
     /**
      * Default constructor.
      */
-    public TagMustExistTest() {
-        super(RULE_URL, RuleEnum.TAG_MUST_EXIST);
+    public NoHyphensInAttributesProcessorYamlTest() {
+        super(RULE_URL, RuleEnum.NO_HYPHENS_IN_ATTRIBUTES);
     }
 
     /**
@@ -50,10 +52,10 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         Element ruleElement = prepareRuleELement();
 
         // act
-        RuleEnum actual = TagMustExistProcessor.instantiate(ruleElement).getName();
+        RuleEnum actual = NoHyphensInAttributesProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.TAG_MUST_EXIST, actual);
+        assertEquals(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, actual);
     }
 
     /**
@@ -67,36 +69,31 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML);
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
-                        "test1",
-                        List.of("Tag <changeSet> does not contain required tag <comment>")),
+                        "test",
+                        List.of("Attribute [tableName] in element <createIndex> "
+                                + "contains hyphen in value: [user-metadata].")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
-                        "test1",
-                        List.of(
-                                "Tag <changeSet> does not contain required tag <comment>",
-                                "Tag <rollback> does not contain required tag <comment>")),
-                prepareTestErrorMessage(
-                        "changelog_02_5",
-                        "test1",
-                        List.of(
-                                "Tag <changeSet>. Required child tag <comment> can not be empty",
-                                "Tag <rollback>. Required child tag <comment> can not be empty")));
+                        "test",
+                        List.of("Attribute [tableName] in element <createIndex> "
+                                + "contains hyphen in value: [user-metadata].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                TagMustExistProcessor.instantiate(ruleElement).validate(
+                NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -104,10 +101,8 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         }
 
         // assert
-        assertEquals(EXPECTED_NUMBER_OF_ERRORS, exceptionCount);
-        for (int i = 0; i < expectedErrorMessages.size(); i++) {
-            assertEquals(expectedErrorMessages.get(i), actualErrorMessages.get(i));
-        }
+        assertEquals(2, exceptionCount);
+        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
     }
 
     /**
@@ -121,36 +116,31 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML);
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
-                        "test1",
-                        List.of("Tag <changeSet> does not contain required tag <comment>")),
+                        "test",
+                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
+                                + " [user-metadata].")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
-                        "test1",
-                        List.of(
-                                "Tag <changeSet> does not contain required tag <comment>",
-                                "Tag <rollback> does not contain required tag <comment>")),
-                prepareTestErrorMessage(
-                        "changelog_02_5",
-                        "test1",
-                        List.of(
-                                "Tag <changeSet>. Required child tag <comment> can not be empty",
-                                "Tag <rollback>. Required child tag <comment> can not be empty")));
+                        "test",
+                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
+                                + " [user-metadata].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                TagMustExistProcessor.instantiate(ruleElement).validate(
+                NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -158,7 +148,7 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         }
 
         // assert
-        assertEquals(EXPECTED_NUMBER_OF_ERRORS, exceptionCount);
+        assertEquals(2, exceptionCount);
         assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
     }
 
@@ -173,32 +163,26 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML);
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML,
+                ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
-        List<String> expectedErrorMessages = List.of(
+        List<String> expectedErrorMessages = Collections.singletonList(
                 prepareTestErrorMessage(
                         "changelog_02_4",
-                        "test1",
-                        List.of(
-                                "Tag <changeSet> does not contain required tag <comment>",
-                                "Tag <rollback> does not contain required tag <comment>")),
-                prepareTestErrorMessage(
-                        "changelog_02_5",
-                        "test1",
-                        List.of(
-                                "Tag <changeSet>. Required child tag <comment> can not be empty",
-                                "Tag <rollback>. Required child tag <comment> can not be empty")));
+                        "test",
+                        List.of("Attribute [tableName] in element <createIndex>"
+                                + " contains hyphen in value: [user-metadata].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                TagMustExistProcessor.instantiate(ruleElement).validate(
+                NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -206,7 +190,7 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         }
 
         // assert
-        assertEquals(2, exceptionCount);
+        assertEquals(1, exceptionCount);
         assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
     }
 
@@ -217,11 +201,11 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
     public void testValidateSuccess() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException,
-            ChangeLogParseException {
+            ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_SUCCESS_XML);
+                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML,
+                ChangeLogFormatEnum.YAML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
@@ -229,10 +213,10 @@ public class TagMustExistTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                TagMustExistProcessor.instantiate(ruleElement).validate(
+                NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_SUCCESS_XML);
+                        NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
@@ -125,17 +126,14 @@ public class TagMustExistProcessor implements Rule {
 
         boolean hasRequiredChild = hasRequiredChild(element);
         if (hasRequiredChild) {
-            element.getChildren().stream()
-                    .filter(child -> {
-                        if (requiredTag.equals(child.getName())) {
-                            return child.getValue() != null && child.getValue().isBlank();
-                        }
-                        return false;
-                    }).map(child -> String.format(
-                            "Tag <%s>. Required child tag <%s> can not be empty",
-                            tagName,
-                            requiredTag))
-                    .forEach(errors::add);
+            if (isErrorPresent(element)) {
+                String error = String.format(
+                        "Tag <%s>. Required child tag <%s> can not be empty",
+                        tagName,
+                        requiredTag);
+                errors.add(error);
+            }
+
         } else if (CHANGE_SET_TAG_NAME.equals(tagName) || isSearchInChildTagRequired) {
             String errorMessage = String.format(
                     "Tag <%s> does not contain required tag <%s>",
@@ -152,6 +150,33 @@ public class TagMustExistProcessor implements Rule {
     }
 
     /**
+     * Check if the error is actually present.
+     *
+     * @param element - changeSet element.
+     * @return <code>true</code> if present, <code>false</code> - if not.
+     */
+    private boolean isErrorPresent(final ChangeSetElement element) {
+        for (ChangeSetElement child : element.getChildren()) {
+            if (requiredTag.equals(child.getName())) {
+                String value = child.getValue();
+                if (value == null || value.isBlank()) {
+                    return true;
+                }
+            }
+        }
+
+        for (Map.Entry<String, String> entry : element.getProperties().entrySet()) {
+            if (requiredTag.equals(entry.getKey())) {
+                String value = entry.getValue();
+                if (value == null || value.isBlank()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks that element contains the requiredTag.
      *
      * @param element - element.
@@ -162,6 +187,14 @@ public class TagMustExistProcessor implements Rule {
         for (ChangeSetElement child : children) {
             if (requiredTag.equals(child.getName())) {
                 return true;
+            }
+        }
+        Map<String, String> properties = element.getProperties();
+        if (properties != null) {
+            for (Map.Entry<String, String> property : properties.entrySet()) {
+                if (requiredTag.equals(property.getKey())) {
+                    return true;
+                }
             }
         }
         return false;

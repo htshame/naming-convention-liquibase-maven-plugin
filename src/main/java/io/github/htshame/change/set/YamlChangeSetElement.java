@@ -1,160 +1,78 @@
 package io.github.htshame.change.set;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * YAML changeSet representation.
  */
 public class YamlChangeSetElement implements ChangeSetElement {
 
-    private final JsonNode yamlJsonNode;
+    private final String name;
+    private final Map<String, String> properties;
+    private final List<ChangeSetElement> children;
+    private final String value;
 
     /**
      * Constructor.
      *
-     * @param yamlNode - yaml node.
+     * @param name       - element name.
+     * @param properties - element properties.
+     * @param children   - children.
+     * @param value      - value.
      */
-    public YamlChangeSetElement(final JsonNode yamlNode) {
-        this.yamlJsonNode = yamlNode;
+    public YamlChangeSetElement(final String name,
+                                final Map<String, String> properties,
+                                final List<ChangeSetElement> children,
+                                final String value) {
+        this.name = name;
+        this.properties = properties != null ? properties : new LinkedHashMap<>();
+        this.children = children != null ? children : new ArrayList<>();
+        this.value = value;
     }
 
-    /**
-     * Get element name.
-     *
-     * @return element name.
-     */
     @Override
     public String getName() {
-        if (yamlJsonNode instanceof ObjectNode) {
-            ObjectNode obj = (ObjectNode) yamlJsonNode;
-            Iterator<Map.Entry<String, JsonNode>> it = obj.properties().iterator();
-            if (it.hasNext()) {
-                return it.next().getKey();
-            }
-        }
-        return yamlJsonNode.textValue();
+        return name;
     }
 
-    /**
-     * Whether element has a provided property.
-     *
-     * @param name - property name.
-     * @return <code>true</code> if contains, <code>false</code> - if not.
-     */
     @Override
-    public boolean hasProperty(final String name) {
-        return yamlJsonNode.has(name);
+    public boolean hasProperty(final String propertyName) {
+        return properties.containsKey(propertyName);
     }
 
-    /**
-     * Whether element has a provided property.
-     *
-     * @param name - property name.
-     * @return <code>true</code> if contains, <code>false</code> - if not.
-     */
     @Override
-    public String getPropertyValue(final String name) {
-        JsonNode prop = yamlJsonNode.get(name);
-        return (prop != null && prop.isValueNode()) ? prop.asText() : null;
+    public String getPropertyValue(final String propertyName) {
+        return properties.get(propertyName);
     }
 
-    /**
-     * Get child elements.
-     *
-     * @return list of child elements.
-     */
+    @Override
+    public String getValue() {
+        return value;
+    }
+
     @Override
     public List<ChangeSetElement> getChildren() {
-        List<ChangeSetElement> children = new ArrayList<>();
-
-        if (yamlJsonNode.isObject()) {
-            Set<Map.Entry<String, JsonNode>> fields = yamlJsonNode.properties();
-            for (Map.Entry<String, JsonNode> entry : fields) {
-                JsonNode value = entry.getValue();
-
-                if (value.isObject() || value.isArray()) {
-                    children.add(new YamlChangeSetElement(value));
-                }
-            }
-        } else if (yamlJsonNode.isArray()) {
-            for (JsonNode item : yamlJsonNode) {
-                if (item.isObject()) {
-                    Iterator<String> fieldNames = item.fieldNames();
-                    if (fieldNames.hasNext()) {
-                        String childName = fieldNames.next();
-                        JsonNode childValue = item.get(childName);
-                        children.add(new YamlChangeSetElement(childValue));
-                    }
-                }
-            }
-        }
-
         return children;
     }
 
-    /**
-     * Get properties.
-     *
-     * @return property-value map.
-     */
     @Override
     public Map<String, String> getProperties() {
-        Map<String, String> result = new LinkedHashMap<>();
-        if (!yamlJsonNode.isObject()) {
-            return result;
-        }
-        for (Map.Entry<String, JsonNode> entry : yamlJsonNode.properties()) {
-            if (entry.getValue().isValueNode()) {
-                result.put(entry.getKey(), entry.getValue().asText());
-            }
-        }
-        return result;
+        return properties;
     }
 
-    /**
-     * Get value.
-     *
-     * @return value.
-     */
     @Override
-    public String getValue() {
-        if (yamlJsonNode.isValueNode()) {
-            return yamlJsonNode.asText();
-        }
-        return "";
-    }
-
-    /**
-     * Find elements by name.
-     *
-     * @param changeSetElement - root object.
-     * @param name             - element name.
-     * @return list of elements with the provided name.
-     */
-    @Override
-    public List<ChangeSetElement> findElementsByName(final ChangeSetElement changeSetElement,
-                                                     final String name) {
+    public List<ChangeSetElement> findElementsByName(final ChangeSetElement root,
+                                                     final String searchName) {
         List<ChangeSetElement> result = new ArrayList<>();
-        traverse(changeSetElement, name, result);
+        if (root.getName().equals(searchName)) {
+            result.add(root);
+        }
+        for (ChangeSetElement child : root.getChildren()) {
+            result.addAll(findElementsByName(child, searchName));
+        }
         return result;
-    }
-
-    private void traverse(final ChangeSetElement element,
-                          final String name,
-                          final List<ChangeSetElement> result) {
-        if (name.equals(element.getName())) {
-            result.add(element);
-        }
-        for (ChangeSetElement child : element.getChildren()) {
-            traverse(child, name, result);
-        }
     }
 }

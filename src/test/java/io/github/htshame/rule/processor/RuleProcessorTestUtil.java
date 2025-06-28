@@ -34,7 +34,7 @@ public class RuleProcessorTestUtil {
         this.ruleName = ruleName;
     }
 
-    Element prepareRuleELement() throws ParserConfigurationException, IOException, SAXException {
+    protected Element prepareRuleELement() throws ParserConfigurationException, IOException, SAXException {
         Document ruleDocument = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File(ruleFilePath));
@@ -42,13 +42,14 @@ public class RuleProcessorTestUtil {
         return (Element) ruleNodes.item(0);
     }
 
-    List<ChangeSetElement> parseChangeSetFile(final String filePath)
+    protected List<ChangeSetElement> parseChangeSetFile(final String filePath,
+                                                        final ChangeLogFormatEnum format)
             throws ChangeLogParseException {
         File changeLogFile = new File(filePath);
-        return ValidatorTestUtil.getParser(ChangeLogFormatEnum.XML).parseChangeLog(changeLogFile);
+        return ValidatorTestUtil.getParser(format).parseChangeLog(changeLogFile);
     }
 
-    String prepareTestErrorMessage(final String changeSetId,
+    protected String prepareTestErrorMessage(final String changeSetId,
                                    final String changeSetAuthor,
                                    final List<String> errors) {
         return String.format("ChangeSet: id=\"%s\", author=\"%s\". Rule [%s]\n    %s",

@@ -1,10 +1,13 @@
-package io.github.htshame.rule.processor;
+package io.github.htshame.rule.processor.xml;
 
 import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
+import io.github.htshame.rule.processor.RuleProcessorTestUtil;
 import io.github.htshame.util.parser.ExclusionParser;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -22,22 +25,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
+public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH =
-            "src/test/resources/io/github/htshame/rule/processor/no-hyphens-in-attributes/";
-    private static final String RULE_URL = BASE_FILE_PATH + "no-hyphens-in-attributes-rule.xml";
+            "src/test/resources/io/github/htshame/rule/processor/no-underscores-in-attributes/";
+    private static final String RULE_URL = BASE_FILE_PATH + "no-underscores-in-attributes-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions.xml";
-    private static final String NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML = "no-hyphens-in-attributes-failure.xml";
-    private static final String NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML = "no-hyphens-in-attributes-success.xml";
+    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
+    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
+    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML = "no-underscores-in-attributes-failure.xml";
+    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML = "no-underscores-in-attributes-success.xml";
 
     /**
      * Default constructor.
      */
-    public NoHyphensInAttributesProcessorTest() {
-        super(RULE_URL, RuleEnum.NO_HYPHENS_IN_ATTRIBUTES);
+    public NoUnderscoresInAttributesProcessorXmlTest() {
+        super(RULE_URL, RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES);
     }
 
     /**
@@ -49,10 +52,10 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
         Element ruleElement = prepareRuleELement();
 
         // act
-        RuleEnum actual = NoHyphensInAttributesProcessor.instantiate(ruleElement).getName();
+        RuleEnum actual = NoUnderscoresInAttributesProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, actual);
+        assertEquals(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, actual);
     }
 
     /**
@@ -66,7 +69,8 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
@@ -74,22 +78,31 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> "
-                                + "contains hyphen in value: [user-metadata].")),
+                        List.of(
+                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> "
-                                + "contains hyphen in value: [user-metadata].")));
+                        List.of("Attribute [indexName] in element <createIndex> contains underscore in value: "
+                                        + "[user_idx].",
+                                "Attribute [tableName] in element <createIndex> contains underscore in value:"
+                                        + " [user_metadata].",
+                                "Attribute [name] in element <column> contains underscore in value:"
+                                        + " [external_user_id].",
+                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -112,7 +125,8 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
@@ -120,22 +134,31 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_3",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
-                                + " [user-metadata].")),
+                        List.of(
+                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex> contains hyphen in value:"
-                                + " [user-metadata].")));
+                        List.of("Attribute [indexName] in element <createIndex> contains underscore in value: "
+                                        + "[user_idx].",
+                                "Attribute [tableName] in element <createIndex> contains underscore in value: "
+                                        + "[user_metadata].",
+                                "Attribute [name] in element <column> contains underscore in value: "
+                                        + "[external_user_id].",
+                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -158,7 +181,8 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML,
+                ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
@@ -166,17 +190,24 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Attribute [tableName] in element <createIndex>"
-                                + " contains hyphen in value: [user-metadata].")));
+                        List.of("Attribute [indexName] in element <createIndex> contains underscore in value: "
+                                        + "[user_idx].",
+                                "Attribute [tableName] in element <createIndex> contains underscore in value:"
+                                        + " [user_metadata].",
+                                "Attribute [name] in element <column> contains underscore in value: "
+                                        + "[external_user_id].",
+                                "Attribute [tableName] in element <createTable> contains underscore in value: "
+                                        + "[user_meta].",
+                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -195,21 +226,23 @@ public class NoHyphensInAttributesProcessorTest extends RuleProcessorTestUtil {
     public void testValidateSuccess() throws ParserConfigurationException,
             IOException,
             SAXException,
-            ExclusionParserException, ChangeLogParseException {
+            ExclusionParserException,
+            ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML);
+                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML,
+                ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_SUCCESS_XML);
+                        NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

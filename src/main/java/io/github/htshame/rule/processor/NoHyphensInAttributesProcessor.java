@@ -11,12 +11,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 
 /**
@@ -40,7 +40,6 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
  */
 public class NoHyphensInAttributesProcessor implements Rule {
 
-    private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String HYPHEN = "-";
 
     private final Set<String> excludedAttrs;
@@ -119,12 +118,12 @@ public class NoHyphensInAttributesProcessor implements Rule {
 
         for (Map.Entry<String, String> attr : attributes.entrySet()) {
             String attrName = attr.getKey();
-            String attrValue = attr.getValue();
+            String attrValue = attr.getValue() != null ? attr.getValue() : "";
 
             if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
-                    && attrValue.contains(HYPHEN)) {
+                    && (attrValue.isBlank() || attrValue.contains(HYPHEN))) {
                 String errorMessage = String.format(
                         "Attribute [%s] in element <%s> contains hyphen in value: [%s].",
                         attrName,

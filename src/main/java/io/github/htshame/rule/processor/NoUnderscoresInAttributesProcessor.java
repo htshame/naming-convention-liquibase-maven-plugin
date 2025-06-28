@@ -11,12 +11,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 
 /**
@@ -39,7 +39,6 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
  */
 public class NoUnderscoresInAttributesProcessor implements Rule {
 
-    private static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList("id", "author");
     private static final String UNDERSCORE = "_";
 
     private final Set<String> excludedAttrs;
@@ -116,12 +115,12 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
         Map<String, String> attributes = element.getProperties();
         for (Map.Entry<String, String> attr : attributes.entrySet()) {
             String attrName = attr.getKey();
-            String attrValue = attr.getValue();
+            String attrValue = attr.getValue() != null ? attr.getValue() : "";
 
             if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
-                    && attrValue.contains(UNDERSCORE)) {
+                    && (attrValue.isBlank() || attrValue.contains(UNDERSCORE))) {
                 String errorMessage = String.format(
                         "Attribute [%s] in element <%s> contains underscore in value: [%s].",
                         attrName,

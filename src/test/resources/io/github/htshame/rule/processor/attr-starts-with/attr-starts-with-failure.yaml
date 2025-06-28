@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: changelog_02_3
+      author: test
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          - indexExists:
+              indexName: user_metadata_external_user_id_unique_idx
+        tableExists:
+          tableName: user-metadata
+        columnExists:
+          tableName: user-metadata
+          columnName: external_user_id
+      comment: Comment
+      createIndex:
+        tableName: user-metadata
+        indexName: user_metadata_external_user_id_unique_idx
+        unique: true
+        columns:
+          - column:
+              name: external_user_id
+
+  - changeSet:
+      id: changelog_02_4
+      author: test
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          - indexExists:
+              indexName: user_metadata_external_user_id_unique_idx
+        tableExists:
+          tableName: user-metadata
+        columnExists:
+          tableName: user-metadata
+          columnName: external_user_id
+      comment: Comment
+      createIndex:
+        tableName: user-metadata
+        indexName: 1id_user_metadata_external_user_id_unique_idx
+        unique: true
+        columns:
+          - column:
+              name: external_user_id

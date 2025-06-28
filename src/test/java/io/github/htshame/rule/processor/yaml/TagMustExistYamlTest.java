@@ -1,10 +1,13 @@
-package io.github.htshame.rule.processor;
+package io.github.htshame.rule.processor.yaml;
 
 import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.rule.processor.RuleProcessorTestUtil;
+import io.github.htshame.rule.processor.TagMustExistProcessor;
 import io.github.htshame.util.parser.ExclusionParser;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -15,29 +18,30 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUtil {
+public class TagMustExistYamlTest extends RuleProcessorTestUtil {
 
     private static final String BASE_FILE_PATH =
-            "src/test/resources/io/github/htshame/rule/processor/no-underscores-in-attributes/";
-    private static final String RULE_URL = BASE_FILE_PATH + "no-underscores-in-attributes-rule.xml";
+            "src/test/resources/io/github/htshame/rule/processor/tag-must-exist/";
+    private static final String RULE_URL = BASE_FILE_PATH + "tag-must-exist-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions.xml";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML = "no-underscores-in-attributes-failure.xml";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML = "no-underscores-in-attributes-success.xml";
+    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_yaml.xml";
+    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_yaml.xml";
+    private static final String TAG_MUST_EXIST_FAILURE_XML = "tag-must-exist-failure.yaml";
+    private static final String TAG_MUST_EXIST_SUCCESS_XML = "tag-must-exist-success.yaml";
+    private static final int EXPECTED_NUMBER_OF_ERRORS = 3;
+
 
     /**
      * Default constructor.
      */
-    public NoUnderscoresInAttributesProcessorTest() {
-        super(RULE_URL, RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES);
+    public TagMustExistYamlTest() {
+        super(RULE_URL, RuleEnum.TAG_MUST_EXIST);
     }
 
     /**
@@ -49,10 +53,10 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
         Element ruleElement = prepareRuleELement();
 
         // act
-        RuleEnum actual = NoUnderscoresInAttributesProcessor.instantiate(ruleElement).getName();
+        RuleEnum actual = TagMustExistProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, actual);
+        assertEquals(RuleEnum.TAG_MUST_EXIST, actual);
     }
 
     /**
@@ -66,38 +70,37 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML,
+                ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
-                        "test",
-                        List.of(
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
+                        "test1",
+                        List.of("Tag <changeSet> does not contain required tag <comment>")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
-                        "test",
-                        List.of("Attribute [indexName] in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute [tableName] in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute [name] in element <column> contains underscore in value: [external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                        "test1",
+                        List.of(
+                                "Tag <changeSet> does not contain required tag <comment>",
+                                "Tag <rollback> does not contain required tag <comment>")),
+                prepareTestErrorMessage(
+                        "changelog_02_5",
+                        "test1",
+                        List.of(
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        TAG_MUST_EXIST_FAILURE_XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -105,8 +108,10 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
         }
 
         // assert
-        assertEquals(2, exceptionCount);
-        assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
+        assertEquals(EXPECTED_NUMBER_OF_ERRORS, exceptionCount);
+        for (int i = 0; i < expectedErrorMessages.size(); i++) {
+            assertEquals(expectedErrorMessages.get(i), actualErrorMessages.get(i));
+        }
     }
 
     /**
@@ -120,38 +125,37 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML,
+                ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
-                        "test",
-                        List.of(
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")),
+                        "test1",
+                        List.of("Tag <changeSet> does not contain required tag <comment>")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
-                        "test",
-                        List.of("Attribute [indexName] in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute [tableName] in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute [name] in element <column> contains underscore in value: [external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                        "test1",
+                        List.of(
+                                "Tag <changeSet> does not contain required tag <comment>",
+                                "Tag <rollback> does not contain required tag <comment>")),
+                prepareTestErrorMessage(
+                        "changelog_02_5",
+                        "test1",
+                        List.of(
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        TAG_MUST_EXIST_FAILURE_XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -159,7 +163,7 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
         }
 
         // assert
-        assertEquals(2, exceptionCount);
+        assertEquals(EXPECTED_NUMBER_OF_ERRORS, exceptionCount);
         assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
     }
 
@@ -174,31 +178,33 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_XML,
+                ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
-        List<String> expectedErrorMessages = Collections.singletonList(
+        List<String> expectedErrorMessages = List.of(
                 prepareTestErrorMessage(
                         "changelog_02_4",
-                        "test",
-                        List.of("Attribute [indexName] in element <createIndex> contains underscore in value: "
-                                        + "[user_idx].",
-                                "Attribute [tableName] in element <createIndex> contains underscore in value:"
-                                        + " [user_metadata].",
-                                "Attribute [name] in element <column> contains underscore in value: [external_user_id].",
-                                "Attribute [tableName] in element <createTable> contains underscore in value: "
-                                        + "[user_meta].",
-                                "Attribute [name] in element <column> contains underscore in value: [user_data].")));
+                        "test1",
+                        List.of(
+                                "Tag <changeSet> does not contain required tag <comment>",
+                                "Tag <rollback> does not contain required tag <comment>")),
+                prepareTestErrorMessage(
+                        "changelog_02_5",
+                        "test1",
+                        List.of(
+                                "Tag <changeSet>. Required child tag <comment> can not be empty",
+                                "Tag <rollback>. Required child tag <comment> can not be empty")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE_XML);
+                        TAG_MUST_EXIST_FAILURE_XML);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -206,7 +212,7 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
         }
 
         // assert
-        assertEquals(1, exceptionCount);
+        assertEquals(2, exceptionCount);
         assertTrue(expectedErrorMessages.containsAll(actualErrorMessages));
     }
 
@@ -221,18 +227,19 @@ public class NoUnderscoresInAttributesProcessorTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML);
+                BASE_FILE_PATH + TAG_MUST_EXIST_SUCCESS_XML,
+                ChangeLogFormatEnum.YAML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS_XML);
+                        TAG_MUST_EXIST_SUCCESS_XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

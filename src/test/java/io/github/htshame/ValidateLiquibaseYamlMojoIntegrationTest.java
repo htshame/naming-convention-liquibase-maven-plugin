@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ValidateLiquibaseYamlMojoIntegrationTest {
 
-    private ValidateLiquibaseXmlMojo validateLiquibaseXmlMojo;
+    private ValidateLiquibaseMojo validateLiquibaseMojo;
 
     /**
      * Init.
@@ -23,7 +23,7 @@ public class ValidateLiquibaseYamlMojoIntegrationTest {
      */
     @Before
     public void init() throws NoSuchFieldException, IllegalAccessException {
-        validateLiquibaseXmlMojo = new ValidateLiquibaseXmlMojo();
+        validateLiquibaseMojo = new ValidateLiquibaseMojo();
         setField("pathToRulesFile", new File("src/test/resources/rules.xml"));
         setField("pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
         setField("changeLogDirectory", new File("src/test/resources/db/yaml"));
@@ -32,7 +32,7 @@ public class ValidateLiquibaseYamlMojoIntegrationTest {
     }
 
     /**
-     * Integration test for {@link ValidateLiquibaseXmlMojo#execute()}.
+     * Integration test for {@link ValidateLiquibaseMojo#execute()}.
      */
     @Test
     public void testExecute() {
@@ -41,7 +41,7 @@ public class ValidateLiquibaseYamlMojoIntegrationTest {
 
         // act
         try {
-            validateLiquibaseXmlMojo.execute();
+            validateLiquibaseMojo.execute();
         } catch (MojoExecutionException ae) {
             // assert
             isExceptionThrown = true;
@@ -51,7 +51,7 @@ public class ValidateLiquibaseYamlMojoIntegrationTest {
     }
 
     /**
-     * Integration test for {@link ValidateLiquibaseXmlMojo#execute()}. Should not fail the build.
+     * Integration test for {@link ValidateLiquibaseMojo#execute()}. Should not fail the build.
      *
      * @throws NoSuchFieldException   - thrown if required field is missing.
      * @throws IllegalAccessException - thrown if files not found.
@@ -64,7 +64,7 @@ public class ValidateLiquibaseYamlMojoIntegrationTest {
 
         // act
         try {
-            validateLiquibaseXmlMojo.execute();
+            validateLiquibaseMojo.execute();
         } catch (MojoExecutionException e) {
             isExceptionThrown = true;
         }
@@ -75,8 +75,8 @@ public class ValidateLiquibaseYamlMojoIntegrationTest {
     private void setField(final String fieldName,
                           final Object value)
             throws NoSuchFieldException, IllegalAccessException {
-        Field ruleSetPath = validateLiquibaseXmlMojo.getClass().getDeclaredField(fieldName);
+        Field ruleSetPath = validateLiquibaseMojo.getClass().getDeclaredField(fieldName);
         ruleSetPath.setAccessible(true);
-        ruleSetPath.set(validateLiquibaseXmlMojo, value);
+        ruleSetPath.set(validateLiquibaseMojo, value);
     }
 }

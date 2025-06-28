@@ -121,12 +121,12 @@ public class NoUnderscoresInAttributesProcessor implements Rule {
         Map<String, String> attributes = element.getProperties();
         for (Map.Entry<String, String> attr : attributes.entrySet()) {
             String attrName = attr.getKey();
-            String attrValue = attr.getValue() != null ? attr.getValue() : "";
+            String attrValue = attr.getValue();
 
             if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
-                    && (attrValue.isBlank() || attrValue.contains(UNDERSCORE))) {
+                    && attrValue.contains(UNDERSCORE)) {
                 String errorMessage = String.format(getMessage(getName(), changeLogFormat),
                         attrName,
                         element.getName(),

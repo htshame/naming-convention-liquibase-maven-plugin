@@ -1,3 +1,3 @@
-title: naming-convention-liquibase-maven-plugin v2.1
-description: "A lightweight Maven plugin for validating XML Liquibase changeLog files against a customizable set of structural and content rules.<br>Enables teams to enforce Liquibase changeLog standards across codebases with zero runtime dependencies and minimal configuration overhead."
+title: naming-convention-liquibase-maven-plugin v2.2
+description: "A lightweight Maven plugin for validating XML and YAML/YML Liquibase changeLog files against a customizable set of structural and content rules.<br>Enables teams to enforce Liquibase changeLog standards across codebases with zero runtime dependencies and minimal configuration overhead."
 theme: jekyll-theme-slate

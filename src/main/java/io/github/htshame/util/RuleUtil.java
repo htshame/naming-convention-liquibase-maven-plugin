@@ -3,7 +3,7 @@ package io.github.htshame.util;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
-import io.github.htshame.util.parser.ExclusionParser;
+import io.github.htshame.parser.ExclusionParser;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 

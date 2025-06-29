@@ -1,6 +1,11 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.1/liquibase-naming-convention-2.1.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.3/liquibase-naming-convention-2.3.xsd">
 
+    <!--
+    Checks that 'comment' tag exists in every changeSet.
+    Because 'rollback' tag is provided in non-mandatory 'requiredForChildTags' tag, this rule will also check that
+    'comment' tag is present inside child 'rollback' tag.
+    -->
     <rule name="tag-must-exist">
         <requiredTag>comment</requiredTag>
         <requiredForChildTags>
@@ -8,12 +13,22 @@
         </requiredForChildTags>
     </rule>
 
+    <!--
+    Checks that specified attribute starts with specified value.
+    Will check that each `indexName` attribute of each `<createIndex>` tag starts with `idx_`.
+    -->
     <rule name="attr-starts-with">
         <tag>createIndex</tag>
         <targetAttr>indexName</targetAttr>
         <requiredPrefix>idx_</requiredPrefix>
     </rule>
 
+    <!--
+    Checks that specified attribute ends with specified value if the certain attribute is present and has
+    certain value.
+    Will check that each `indexName` attribute of each `<createIndex>` tag ends with `_unique` if
+    attribute `unique="true"` is present.
+    -->
     <rule name="attr-ends-with-conditioned">
         <tag>createIndex</tag>
         <conditionAttr>unique</conditionAttr>
@@ -22,12 +37,21 @@
         <requiredSuffix>_unique</requiredSuffix>
     </rule>
 
+    <!--
+    Checks that specified attribute ends with specified value.
+    Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `__fk`.
+    -->
     <rule name="attr-ends-with">
         <tag>addForeignKeyConstraint</tag>
         <targetAttr>constraintName</targetAttr>
         <requiredSuffix>_fk</requiredSuffix>
     </rule>
 
+    <!--
+    Checks that hyphens '-' are not present in the changeSet at all.
+    Will check that hyphens '-' are not present in the changeSet at all, except for excluded attributes.
+    Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+    -->
     <rule name="no-hyphens-in-attributes">
         <excludedAttrs>
             <attr>defaultValue</attr>
@@ -35,7 +59,36 @@
         </excludedAttrs>
     </rule>
 
+    <!--
+    Checks that underscores are not present in the changeSet at all.
+    Will check that underscores `_` are not present in the changeSet at all, except for excluded attributes.
+    Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+    -->
     <rule name="no-underscores-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
+    </rule>
+
+    <!--
+    Checks that uppercase characters are not present in the changeSet attributes at all.
+    Will check that uppercase characters are not present in the changeSet attributes at all,
+    except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+    -->
+    <rule name="no-uppercase-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
+    </rule>
+
+    <!--
+    Checks that lowercase characters are not present in the changeSet attributes at all.
+    Will check that lowercase characters are not present in the changeSet attributes at all,
+    except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+    -->
+    <rule name="no-lowercase-in-attributes">
         <excludedAttrs>
             <attr>defaultValue</attr>
             <attr>defaultValueComputed</attr>

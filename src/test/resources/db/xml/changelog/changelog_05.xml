@@ -7,4 +7,9 @@
         <comment>test_test</comment>
     </changeSet>
 
+    <changeSet id="changelog_05-1" author="test">
+        <comment>test_test</comment>
+        <dropTable tableName="camelCaseAndStuff"/>
+    </changeSet>
+
 </databaseChangeLog>

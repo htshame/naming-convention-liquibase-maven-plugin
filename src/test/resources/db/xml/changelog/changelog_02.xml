@@ -9,7 +9,7 @@
                 <tableExists tableName="user-metadata"/>
             </not>
         </preConditions>
-        <comment>Create user_metadata table. Should fail because pk_user-metadata contains '-'</comment>
+        <comment>Create user_metadata table</comment>
         <createTable tableName="user">
             <column name="id" autoIncrement="true" type="integer">
                 <constraints primaryKey="true" primaryKeyName="pk_user-metadata"/>
@@ -40,7 +40,7 @@
             </not>
         </preConditions>
         <comment>
-            Add foreign key fk-user_metadata_user_profile-id_user_profile_id. Should fail because fk contains '-'
+            Add foreign key fk-user_metadata_user_profile-id_user_profile_id
         </comment>
         <addForeignKeyConstraint baseTableName="user-metadata" baseColumnNames="user_profile_id"
                                  constraintName="fk-user_metadata_user_profile-id_user_profile_id"
@@ -56,15 +56,13 @@
             <columnExists tableName="user-metadata" columnName="external_user_id"/>
         </preConditions>
         <comment>
-            Add unique index user_metadata_external_user_id_unique_idx.
-            Should fail because unique index does not end with '_unique'
+            Add unique index user_metadata_external_user_id_unique_idx
         </comment>
         <createIndex tableName="user-metadata" indexName="user_metadata_external_user_id_unique_idx" unique="true">
             <column name="external_user_id"/>
         </createIndex>
     </changeSet>
 
-    <!-- should fail because it does not contain <comment> -->
     <changeSet id="changelog_02-4" author="test">
 
     </changeSet>

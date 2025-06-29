@@ -4,7 +4,7 @@
 
     <groupId>io.github.htshame</groupId>
     <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-    <version>2.2</version>
+    <version>2.3</version>
     <packaging>maven-plugin</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -65,7 +65,7 @@
         <org.sonatype.central.central-publishing-maven-plugin>0.7.0</org.sonatype.central.central-publishing-maven-plugin>
         <!-- plugin versions -->
 
-        <test.coverage.min.threshold>0.72</test.coverage.min.threshold>
+        <test.coverage.min.threshold>0.78</test.coverage.min.threshold>
     </properties>
 
     <dependencies>

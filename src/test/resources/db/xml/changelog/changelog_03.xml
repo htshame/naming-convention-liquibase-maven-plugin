@@ -3,7 +3,6 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
 
-    <!-- should NOT fail because this 'comment must be present' rule is excluded in the exclusions.xml file -->
     <changeSet id="changelog_03-1" author="test">
         <preConditions onFail="MARK_RAN">
             <not>

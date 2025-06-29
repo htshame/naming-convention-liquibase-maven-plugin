@@ -1,4 +1,4 @@
-package io.github.htshame.util.parser;
+package io.github.htshame.parser;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
@@ -80,7 +80,7 @@ public final class RuleParser {
                 }
             }
         } catch (Exception e) {
-            throw new RuleParserException("Error parsing ruleset", e);
+            throw new RuleParserException("Error parsing ruleset XML file", e);
         }
         return rules;
     }

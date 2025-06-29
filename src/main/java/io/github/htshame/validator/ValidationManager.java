@@ -6,8 +6,8 @@ import io.github.htshame.change.log.YamlChangeLogParser;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.util.parser.ExclusionParser;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,8 +18,7 @@ import java.util.Set;
 
 /**
  * This class is responsible for actual validation based on
- * provided rules XML file,
- * exclusion XML file
+ * provided rules XML file, exclusion XML file
  * and contents of the changeLog directory.
  */
 public class ValidationManager {

@@ -1,4 +1,4 @@
-package io.github.htshame.util.parser;
+package io.github.htshame.parser;
 
 import io.github.htshame.dto.ChangeSetExclusionDto;
 import io.github.htshame.enums.RuleEnum;
@@ -8,11 +8,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -57,22 +57,25 @@ public final class ExclusionParser {
         try {
             ExclusionParser config = new ExclusionParser();
 
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(exclusionsFile);
+            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(exclusionsFile);
 
-            NodeList fileExclusions = doc.getElementsByTagName(ExclusionEnum.FILE_EXCLUSION_TAG.getValue());
+            NodeList fileExclusions = document.getElementsByTagName(ExclusionEnum.FILE_EXCLUSION_TAG.getValue());
             for (int i = 0; i < fileExclusions.getLength(); i++) {
                 Element exclusion = (Element) fileExclusions.item(i);
                 String fileName = exclusion.getAttribute(ExclusionEnum.FILE_NAME_ATTR.getValue()).trim();
                 String rule = exclusion.getAttribute(ExclusionEnum.RULE_ATTR.getValue()).trim();
+                RuleEnum ruleEnum = RuleEnum.fromValue(rule);
 
-                config.fileRuleExclusions
-                        .computeIfAbsent(fileName, k -> new HashSet<>())
-                        .add(RuleEnum.fromValue(rule));
+                Set<RuleEnum> rules = config.fileRuleExclusions.computeIfAbsent(fileName, k -> new HashSet<>());
+                if (RuleEnum.ALL_RULES.equals(ruleEnum)) {
+                    rules.addAll(Arrays.asList(RuleEnum.values()));
+                } else {
+                    rules.add(ruleEnum);
+                }
             }
 
-            NodeList changeSetExclusions = doc.getElementsByTagName(ExclusionEnum.CHANGESET_EXCLUSION_TAG.getValue());
+            NodeList changeSetExclusions =
+                    document.getElementsByTagName(ExclusionEnum.CHANGESET_EXCLUSION_TAG.getValue());
             for (int i = 0; i < changeSetExclusions.getLength(); i++) {
                 Element exclusion = (Element) changeSetExclusions.item(i);
                 String fileName = exclusion.getAttribute(ExclusionEnum.FILE_NAME_ATTR.getValue()).trim();
@@ -88,7 +91,7 @@ public final class ExclusionParser {
             }
             return config;
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            throw new ExclusionParserException("Error parsing exclusion XML exclusionsFile");
+            throw new ExclusionParserException("Error parsing exclusion XML file");
         }
     }
 

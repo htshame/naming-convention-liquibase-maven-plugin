@@ -28,7 +28,19 @@ public enum RuleEnum {
     /**
      * Represents 'tag-must-exist' rule.
      */
-    TAG_MUST_EXIST("tag-must-exist");
+    TAG_MUST_EXIST("tag-must-exist"),
+    /**
+     * Represents 'no-uppercase-in-attributes' rule.
+     */
+    NO_UPPERCASE_IN_ATTRIBUTES("no-uppercase-in-attributes"),
+    /**
+     * Represents 'no-lowercase-in-attributes' rule.
+     */
+    NO_LOWERCASE_IN_ATTRIBUTES("no-lowercase-in-attributes"),
+    /**
+     * Represents '*' - all rules.
+     */
+    ALL_RULES("*");
 
     private final String rule;
 

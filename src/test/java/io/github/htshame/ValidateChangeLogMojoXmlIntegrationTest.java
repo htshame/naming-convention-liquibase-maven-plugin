@@ -11,9 +11,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ValidateLiquibaseXmlMojoIntegrationTest {
+public class ValidateChangeLogMojoXmlIntegrationTest {
 
-    private ValidateLiquibaseXmlMojo validateLiquibaseXmlMojo;
+    private ValidateChangeLogMojo validateChangeLogMojo;
 
     /**
      * Init.
@@ -23,7 +23,7 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
      */
     @Before
     public void init() throws NoSuchFieldException, IllegalAccessException {
-        validateLiquibaseXmlMojo = new ValidateLiquibaseXmlMojo();
+        validateChangeLogMojo = new ValidateChangeLogMojo();
         setField("pathToRulesFile", new File("src/test/resources/rules.xml"));
         setField("pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
         setField("changeLogDirectory", new File("src/test/resources/db/xml"));
@@ -32,7 +32,7 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
     }
 
     /**
-     * Integration test for {@link ValidateLiquibaseXmlMojo#execute()}.
+     * Integration test for {@link ValidateChangeLogMojo#execute()}.
      */
     @Test
     public void testExecute() {
@@ -41,17 +41,17 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
 
         // act
         try {
-            validateLiquibaseXmlMojo.execute();
+            validateChangeLogMojo.execute();
         } catch (MojoExecutionException ae) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Validation failed: 15 violation(s) found.", ae.getMessage());
+            assertEquals("Validation failed: 21 violation(s) found.", ae.getMessage());
         }
         assertTrue(isExceptionThrown);
     }
 
     /**
-     * Integration test for {@link ValidateLiquibaseXmlMojo#execute()}. Should not fail the build.
+     * Integration test for {@link ValidateChangeLogMojo#execute()}. Should not fail the build.
      *
      * @throws NoSuchFieldException   - thrown if required field is missing.
      * @throws IllegalAccessException - thrown if files not found.
@@ -64,7 +64,7 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
 
         // act
         try {
-            validateLiquibaseXmlMojo.execute();
+            validateChangeLogMojo.execute();
         } catch (MojoExecutionException e) {
             isExceptionThrown = true;
         }
@@ -75,8 +75,8 @@ public class ValidateLiquibaseXmlMojoIntegrationTest {
     private void setField(final String fieldName,
                           final Object value)
             throws NoSuchFieldException, IllegalAccessException {
-        Field ruleSetPath = validateLiquibaseXmlMojo.getClass().getDeclaredField(fieldName);
+        Field ruleSetPath = validateChangeLogMojo.getClass().getDeclaredField(fieldName);
         ruleSetPath.setAccessible(true);
-        ruleSetPath.set(validateLiquibaseXmlMojo, value);
+        ruleSetPath.set(validateChangeLogMojo, value);
     }
 }

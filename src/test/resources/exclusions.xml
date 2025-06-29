@@ -1,7 +1,15 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/2.1/liquibase-naming-convention-2.1.xsd">
+            xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/2.3/liquibase-naming-convention-2.3.xsd">
 
     <fileExclusion fileName="changelog_03.xml" rule="tag-must-exist"/>
     <fileExclusion fileName="changelog_04.xml" rule="no-underscores-in-attributes"/>
+    <fileExclusion fileName="changelog_01.xml" rule="no-lowercase-in-attributes"/>
+    <fileExclusion fileName="changelog_02.xml" rule="no-lowercase-in-attributes"/>
+    <fileExclusion fileName="changelog_03.xml" rule="no-lowercase-in-attributes"/>
+    <fileExclusion fileName="changelog_04.xml" rule="no-lowercase-in-attributes"/>
+    <fileExclusion fileName="changelog_05.xml" rule="no-lowercase-in-attributes"/>
+    <fileExclusion fileName="changelog_01.yaml" rule="no-lowercase-in-attributes"/>
+    <fileExclusion fileName="changelog_02.yaml" rule="no-lowercase-in-attributes"/>
+    <fileExclusion fileName="changelog_03.yaml" rule="*"/>
     <changeSetExclusion fileName="changelog_04.xml" changeSetId="changelog_04-1" changeSetAuthor="test" rule="tag-must-exist"/>
 </exclusions>

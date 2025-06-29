@@ -1,5 +1,5 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/2.1/liquibase-naming-convention-2.1.xsd">
+            xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/2.3/liquibase-naming-convention-2.3.xsd">
     <changeSetExclusion fileName="attr-ends-with-failure.xml" changeSetId="changelog_02_1" changeSetAuthor="test" rule="no-hyphens-in-attributes"/>
     <changeSetExclusion fileName="attr-ends-with-failure.xml" changeSetId="changelog_02_1" changeSetAuthor="test" rule="no-hyphens-in-attributes"/>
 </exclusions>

@@ -11,7 +11,9 @@ and [Semantic Versioning](https://semver.org/).
 
 - Add `no-uppercase-in-attributes` rule
 - Add `no-lowercase-in-attributes` rule
+- Add `*` exclusion to exclude all rules
 - Improve XSD schema
+- Improve logging
 
 ---
 

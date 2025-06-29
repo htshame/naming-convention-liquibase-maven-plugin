@@ -127,6 +127,8 @@ is present.
 
 ### no-hyphens-in-attributes
 
+Checks that hyphens are not present in the changeSet at all.
+
 Example:
 
 ```xml
@@ -138,9 +140,11 @@ Example:
 </rule>
 ```
 
-Checks that `-` are not present in the changeSog at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+Will check that hyphens `-` are not present in the changeSet at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ### no-underscores-in-attributes
+
+Checks that underscores are not present in the changeSet at all.
 
 Example:
 
@@ -153,11 +157,13 @@ Example:
 </rule>
 ```
 
-Checks that `_` are not present in the changeLog at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+Will check that underscores `_` are not present in the changeSet at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ---
 
 ### no-uppercase-in-attributes
+
+Checks that uppercase characters are not present in the changeSet attributes at all.
 
 Example:
 
@@ -170,11 +176,13 @@ Example:
 </rule>
 ```
 
-Checks that uppercase characters are not present in the changeLog at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+Will check that uppercase characters are not present in the changeSet attributes at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ---
 
 ### no-lowercase-in-attributes
+
+Checks that lowercase characters are not present in the changeSet attributes at all.
 
 Example:
 
@@ -187,7 +195,7 @@ Example:
 </rule>
 ```
 
-Checks that lowercase characters are not present in the changeLog at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+Will check that lowercase characters are not present in the changeSet attributes at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ---
 
@@ -197,10 +205,15 @@ You can always add an exclusion to the set of rules. Create a separate `exclusio
 
 Example:
 
-To exclude the whole changeLog file or a single changeSet, use:
+To exclude single or all checks the whole changeLog file or a single changeSet, use:
 ```xml
-<fileExclusion fileName="changelog_04.xml" rule="no-underscores-in-attributes"/>
-<changeSetExclusion fileName="changelog_04.xml" changeSetId="changelog_04-1" changeSetAuthor="test" rule="tag-must-exist"/>
+<fileExclusion fileName="changelog_01.xml" 
+               rule="no-underscores-in-attributes"/>
+<fileExclusion fileName="changelog_02.xml" 
+               rule="*"/>
+<changeSetExclusion fileName="changelog_03.xml" 
+                    changeSetId="changelog_04-1" changeSetAuthor="test" 
+                    rule="tag-must-exist"/>
 ```
 
 ---

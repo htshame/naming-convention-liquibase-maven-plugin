@@ -36,7 +36,11 @@ public enum RuleEnum {
     /**
      * Represents 'no-lower-in-attributes' rule.
      */
-    NO_LOWERCASE_IN_ATTRIBUTES("no-lowercase-in-attributes");
+    NO_LOWERCASE_IN_ATTRIBUTES("no-lowercase-in-attributes"),
+    /**
+     * Represents '*' - all rules.
+     */
+    ALL_RULES("*");
 
     private final String rule;
 

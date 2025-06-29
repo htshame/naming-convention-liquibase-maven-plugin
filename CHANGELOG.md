@@ -7,6 +7,14 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 2.3
+
+- Add `no-uppercase-in-attributes` rule
+- Add `no-lowercase-in-attributes` rule
+- Improve XSD schema
+
+---
+
 ## Version 2.2
 
 - Add support for YAML/YML changeLog format
@@ -38,16 +46,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 1.0.4
-
-- Fix issue with changeSet processing.
-- Improve logging.
-- Add the ability to exclude separate changeSet.
-
----
-
 ### Previous Releases
 
+- [2.3](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.3.md)
 - [2.2](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.2.md)
 - [2.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.1.md)
 - [2.0](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.0.md)

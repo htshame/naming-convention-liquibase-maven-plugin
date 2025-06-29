@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.2</version>
+        <version>2.3</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -154,6 +154,40 @@ Example:
 ```
 
 Checks that `_` are not present in the changeLog at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+
+---
+
+### no-uppercase-in-attributes
+
+Example:
+
+```xml
+<rule name="no-uppercase-in-attributes">
+    <excludedAttrs>
+        <attr>defaultValue</attr>
+        <attr>defaultValueComputed</attr>
+    </excludedAttrs>
+</rule>
+```
+
+Checks that uppercase characters are not present in the changeLog at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+
+---
+
+### no-lowercase-in-attributes
+
+Example:
+
+```xml
+<rule name="no-lowercase-in-attributes">
+    <excludedAttrs>
+        <attr>defaultValue</attr>
+        <attr>defaultValueComputed</attr>
+    </excludedAttrs>
+</rule>
+```
+
+Checks that lowercase characters are not present in the changeLog at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ---
 

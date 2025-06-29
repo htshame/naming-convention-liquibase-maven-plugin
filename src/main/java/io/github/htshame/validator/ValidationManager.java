@@ -18,8 +18,7 @@ import java.util.Set;
 
 /**
  * This class is responsible for actual validation based on
- * provided rules XML file,
- * exclusion XML file
+ * provided rules XML file, exclusion XML file
  * and contents of the changeLog directory.
  */
 public class ValidationManager {

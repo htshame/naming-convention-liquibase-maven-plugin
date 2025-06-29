@@ -19,9 +19,9 @@ import java.io.File;
 import java.util.List;
 
 /**
- * <code>validate-liquibase-xml</code> processor.
+ * <code>validate-liquibase-changeLog</code> processor.
  */
-@Mojo(name = "validate-liquibase-xml", defaultPhase = LifecyclePhase.COMPILE)
+@Mojo(name = "validate-liquibase-changeLog", defaultPhase = LifecyclePhase.COMPILE)
 public class ValidateChangeLogMojo extends AbstractMojo {
 
     private static final String INVALID_PATH = "Invalid path: ";
@@ -60,6 +60,13 @@ public class ValidateChangeLogMojo extends AbstractMojo {
 
     /**
      * ChangeLog files format.
+     * <p>
+     * Supported formats:
+     * <br/>
+     * - xml
+     * <br/>
+     * - yaml/yml
+     * <p>
      * Default value is <code>xml</code>.
      */
     @Parameter(defaultValue = "xml")
@@ -90,8 +97,21 @@ public class ValidateChangeLogMojo extends AbstractMojo {
             rules = RuleParser.parseRules(pathToRulesFile);
             exclusionParser = ExclusionParser.parseExclusions(pathToExclusionsFile);
             changeLogFiles = ChangeLogFilesCollector.collectChangeLogFiles(changeLogDirectory, changeLogFormatEnum);
-        } catch (RuleParserException | ExclusionParserException | ChangeLogCollectorException e) {
-            getLog().error("Error processing input parameters", e);
+        } catch (RuleParserException e) {
+            getLog().error("Error parsing rules file. Double-check the path to rules XML file "
+                    + "provided in <pathToRulesFile>. The sample file: "
+                    + "https://htshame.github.io"
+                    + "/naming-convention-liquibase-maven-plugin/schema/example/rules_example.xml", e);
+            throw new MojoExecutionException(e.getMessage());
+        } catch (ExclusionParserException e) {
+            getLog().error("Error parsing exclusions file. Double-check the path to exclusions XML file "
+                    + "provided in <pathToExclusionsFile>. The sample file: "
+                    + "https://htshame.github.io"
+                    + "/naming-convention-liquibase-maven-plugin/schema/example/exclusions_example.xml", e);
+            throw new MojoExecutionException(e.getMessage());
+        } catch (ChangeLogCollectorException e) {
+            getLog().error("Error changeLog files. Double-check the changeLog directory "
+                    + "provided in <changeLogDirectory> and changeLog format provided in <changeLogFormat>", e);
             throw new MojoExecutionException(e.getMessage());
         }
 
@@ -100,13 +120,14 @@ public class ValidateChangeLogMojo extends AbstractMojo {
 
         try {
             checkValidationResult(validationErrors);
-            getLog().info("All ChangeLog files passed validation.");
+            getLog().info("All ChangeLog files passed validation");
         } catch (MojoExecutionException e) {
+            getLog().warn("Failing the build because <shouldFailBuild> is not provided or set to ''true'");
             if (Boolean.TRUE.equals(shouldFailBuild)) {
                 throw e;
             }
             getLog().warn(e.getMessage()
-                    + " Build will not fail because <shouldFailBuild>false</shouldFailBuild>.");
+                    + " Build will not fail because <shouldFailBuild>false</shouldFailBuild>");
         }
     }
 
@@ -128,8 +149,13 @@ public class ValidateChangeLogMojo extends AbstractMojo {
 
     /**
      * Validate incoming parameters.
+     * <p>
      * - changeLog directory exists;
+     * <br/>
      * - XML rules file is present;
+     * <br/>
+     * - XML exclusions file exists if provided;
+     * <br/>
      * - changeLog format is supported;
      *
      * @throws MojoExecutionException - if something's not found.

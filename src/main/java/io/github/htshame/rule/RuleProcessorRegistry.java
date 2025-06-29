@@ -34,6 +34,7 @@ public final class RuleProcessorRegistry {
     }
 
     private RuleProcessorRegistry() {
+
     }
 
     /**

@@ -4,6 +4,7 @@ import org.w3c.dom.Element;
 
 /**
  * Rule factory.
+ * <p>
  * Enforces that all rule handlers implement {@link RuleFactory#instantiate} method.
  */
 @FunctionalInterface

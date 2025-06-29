@@ -36,7 +36,7 @@ This plugin allows you to create a set of rules and enforce them.
                 <id>validate-changeLog</id>
                 <phase>compile</phase>
                 <goals>
-                    <goal>validate-liquibase-xml</goal>
+                    <goal>validate-liquibase-changeLog</goal>
                 </goals>
             </execution>
         </executions>

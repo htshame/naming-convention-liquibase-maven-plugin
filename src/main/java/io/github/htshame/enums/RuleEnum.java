@@ -34,7 +34,7 @@ public enum RuleEnum {
      */
     NO_UPPERCASE_IN_ATTRIBUTES("no-uppercase-in-attributes"),
     /**
-     * Represents 'no-lower-in-attributes' rule.
+     * Represents 'no-lowercase-in-attributes' rule.
      */
     NO_LOWERCASE_IN_ATTRIBUTES("no-lowercase-in-attributes"),
     /**

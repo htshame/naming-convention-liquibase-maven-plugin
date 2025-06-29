@@ -38,7 +38,7 @@
                 <indexExists indexName="idx_user_profile_email_unique"/>
             </not>
         </preConditions>
-        <comment>Create idx_user_profile_email_unique constraint. Should not fail.</comment>
+        <comment>Create idx_user_profile_email_unique constraint</comment>
         <createIndex tableName="user_profile" indexName="idx_user_profile_email_unique" unique="true">
             <column name="email"/>
         </createIndex>

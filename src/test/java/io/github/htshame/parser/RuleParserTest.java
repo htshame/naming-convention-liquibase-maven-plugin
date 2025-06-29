@@ -6,7 +6,9 @@ import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrEndsWithProcessor;
 import io.github.htshame.rule.processor.AttrStartsWithProcessor;
 import io.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
+import io.github.htshame.rule.processor.NoLowercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
+import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
 import io.github.htshame.util.parser.RuleParser;
 import org.junit.Test;
@@ -22,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 
 public class RuleParserTest {
 
-    private static final int RULE_SET_SIZE = 6;
+    private static final int RULE_SET_SIZE = 8;
 
     /**
      * Test successful case of rules.xml parsing.
@@ -39,7 +41,9 @@ public class RuleParserTest {
                 AttrStartsWithProcessor.class,
                 NoHyphensInAttributesProcessor.class,
                 NoUnderscoresInAttributesProcessor.class,
-                TagMustExistProcessor.class
+                TagMustExistProcessor.class,
+                NoUppercaseInAttributesProcessor.class,
+                NoLowercaseInAttributesProcessor.class
         );
 
         // act

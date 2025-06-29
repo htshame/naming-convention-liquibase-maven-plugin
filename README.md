@@ -229,7 +229,7 @@ To exclude single or all checks the whole changeLog file or a single changeSet, 
 ---
 
 ## Note: requires Java 11 or later
-### Supported changeLog format: XML, YAML/YML
+### Supported changeLog formats: XML, YAML/YML
 
 ---
 

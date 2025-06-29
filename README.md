@@ -74,6 +74,8 @@ Example:
 
 Will check that `<comment>` tag is present inside every changeSet, including child `<rollback>`tag.
 
+---
+
 ### attr-starts-with
 
 Checks that specified attribute starts with specified value.
@@ -90,6 +92,8 @@ Example:
 
 Will check that each `indexName` attribute of each `<createIndex>` tag starts with `idx_`.
 
+---
+
 ### attr-ends-with
 
 Checks that specified attribute ends with specified value.
@@ -105,6 +109,8 @@ Example:
 ```
 
 Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `__fk`.
+
+---
 
 ### attr-ends-with-conditioned
 
@@ -125,6 +131,8 @@ Example:
 Will check that each `indexName` attribute of each `<createIndex>` tag ends with `_unique` if attribute `unique="true"`
 is present.
 
+---
+
 ### no-hyphens-in-attributes
 
 Checks that hyphens are not present in the changeSet at all.
@@ -141,6 +149,8 @@ Example:
 ```
 
 Will check that hyphens `-` are not present in the changeSet at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+
+---
 
 ### no-underscores-in-attributes
 

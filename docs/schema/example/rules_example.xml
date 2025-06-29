@@ -41,4 +41,18 @@
             <attr>defaultValueComputed</attr>
         </excludedAttrs>
     </rule>
+
+    <rule name="no-uppercase-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
+    </rule>
+
+    <rule name="no-lowercase-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
+    </rule>
 </rules>

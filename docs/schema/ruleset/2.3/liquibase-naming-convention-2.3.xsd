@@ -2,7 +2,7 @@
 <xs:schema
         xmlns:xs="http://www.w3.org/2001/XMLSchema"
         elementFormDefault="qualified"
-        version="2.1">
+        version="1.0">
 
     <xs:simpleType name="RuleType">
         <xs:restriction base="xs:string">
@@ -69,7 +69,7 @@
                             </xs:element>
                         </xs:sequence>
 
-                        <xs:attribute name="name" type="xs:string" use="required"/>
+                        <xs:attribute name="name" type="RuleType" use="required"/>
                     </xs:complexType>
                 </xs:element>
             </xs:sequence>

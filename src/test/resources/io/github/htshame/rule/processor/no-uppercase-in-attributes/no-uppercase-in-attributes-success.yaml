@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: changelog_02_1
+      author: test
+      comment: Comment
+      createIndex:
+        tableName: user_metadata
+        indexName: idx_user_metadata
+
+  - changeSet:
+      id: changelog_02_2
+      author: test
+      comment: Comment
+      createIndex:
+        tableName: user_metadata
+        indexName: user-metadata-idx

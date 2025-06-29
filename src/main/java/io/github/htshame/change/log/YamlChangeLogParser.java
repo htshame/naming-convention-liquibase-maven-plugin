@@ -20,6 +20,8 @@ import static io.github.htshame.util.ChangeSetUtil.DATABASE_CHANGELOG_NAME;
  */
 public class YamlChangeLogParser implements ChangeLogParser {
 
+    private static final String PLACEHOLDER_ELEMENT = "item";
+
     /**
      * Default constructor.
      */
@@ -53,20 +55,19 @@ public class YamlChangeLogParser implements ChangeLogParser {
 
             List<ChangeSetElement> changeSetElements = new ArrayList<>();
 
-            for (Object entry : changeLogEntries) {
-                if (!(entry instanceof Map<?, ?>)) {
+            for (Object changeLogEntry : changeLogEntries) {
+                if (!(changeLogEntry instanceof Map<?, ?>)) {
                     continue;
                 }
-                Map<?, ?> entryMap = (Map<?, ?>) entry;
+                Map<?, ?> entryMap = (Map<?, ?>) changeLogEntry;
 
-                for (Map.Entry<?, ?> changeSetWrapper : entryMap.entrySet()) {
-                    String key = changeSetWrapper.getKey().toString();
+                for (Map.Entry<?, ?> changeSetEntry : entryMap.entrySet()) {
+                    String key = changeSetEntry.getKey().toString();
                     if (!CHANGE_SET_TAG_NAME.equals(key)) {
                         continue;
                     }
 
-                    Object changeSetBody = changeSetWrapper.getValue();
-                    ChangeSetElement element = buildElement(CHANGE_SET_TAG_NAME, changeSetBody);
+                    ChangeSetElement element = buildChangeSetElement(CHANGE_SET_TAG_NAME, changeSetEntry.getValue());
                     changeSetElements.add(element);
                 }
             }
@@ -77,8 +78,8 @@ public class YamlChangeLogParser implements ChangeLogParser {
         }
     }
 
-    private ChangeSetElement buildElement(final String name,
-                                          final Object node) {
+    private ChangeSetElement buildChangeSetElement(final String name,
+                                                   final Object node) {
         if (node instanceof Map<?, ?>) {
             Map<?, ?> map = (Map<?, ?>) node;
             Map<String, String> properties = new LinkedHashMap<>();
@@ -86,12 +87,12 @@ public class YamlChangeLogParser implements ChangeLogParser {
 
             for (Map.Entry<?, ?> entry : map.entrySet()) {
                 String key = entry.getKey().toString();
-                Object val = entry.getValue();
+                Object value = entry.getValue();
 
-                if (val instanceof Map || val instanceof List) {
-                    children.add(buildElement(key, val));
+                if (value instanceof Map || value instanceof List) {
+                    children.add(buildChangeSetElement(key, value));
                 } else {
-                    properties.put(key, val != null ? val.toString() : null);
+                    properties.put(key, value != null ? value.toString() : null);
                 }
             }
 
@@ -106,14 +107,14 @@ public class YamlChangeLogParser implements ChangeLogParser {
                     Map<?, ?> itemMap = (Map<?, ?>) item;
                     String childName = itemMap.keySet().iterator().next().toString();
                     Object childVal = itemMap.values().iterator().next();
-                    children.add(buildElement(childName, childVal));
+                    children.add(buildChangeSetElement(childName, childVal));
                 } else {
-                    children.add(buildElement("item", item));
+                    children.add(buildChangeSetElement(PLACEHOLDER_ELEMENT, item));
                 }
             }
             return new YamlChangeSetElement(name, null, children, null);
-        } else {
-            return new YamlChangeSetElement(name, null, null, node != null ? node.toString() : null);
         }
+        return new YamlChangeSetElement(name, null, null, node != null ? node.toString() : null);
+
     }
 }

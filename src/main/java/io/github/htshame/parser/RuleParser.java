@@ -1,4 +1,4 @@
-package io.github.htshame.util.parser;
+package io.github.htshame.parser;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;

@@ -66,12 +66,30 @@ public final class ErrorMessageUtil {
                 ChangeLogFormatEnum.YAML,
                 "Key [%s]. Required nested property [%s] is missing or empty");
 
+        EnumMap<ChangeLogFormatEnum, String> noUppercaseInAttrsMap = new EnumMap<>(ChangeLogFormatEnum.class);
+        noUppercaseInAttrsMap.put(
+                ChangeLogFormatEnum.XML,
+                "Attribute [%s] of tag <%s> contains uppercase characters in value: [%s]");
+        noUppercaseInAttrsMap.put(
+                ChangeLogFormatEnum.YAML,
+                "Property [%s] of key [%s] contains uppercase characters in value: [%s]");
+
+        EnumMap<ChangeLogFormatEnum, String> noLowercaseInAttrsMap = new EnumMap<>(ChangeLogFormatEnum.class);
+        noLowercaseInAttrsMap.put(
+                ChangeLogFormatEnum.XML,
+                "Attribute [%s] of tag <%s> contains lowercase characters in value: [%s]");
+        noLowercaseInAttrsMap.put(
+                ChangeLogFormatEnum.YAML,
+                "Property [%s] of key [%s] contains lowercase characters in value: [%s]");
+
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, attrEndsWithMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH, attrStartsWithMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, noHyphensInAttributesMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, noUnderscoresInAttributesMap);
         RULE_MESSAGE_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
+        RULE_MESSAGE_MAP.put(RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, noUppercaseInAttrsMap);
+        RULE_MESSAGE_MAP.put(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, noLowercaseInAttrsMap);
     }
 
     /**

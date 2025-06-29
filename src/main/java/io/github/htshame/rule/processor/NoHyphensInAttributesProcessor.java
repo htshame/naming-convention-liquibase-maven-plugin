@@ -5,9 +5,9 @@ import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
 import io.github.htshame.util.RuleUtil;
-import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -24,7 +24,7 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 /**
  * Business logic for <code>no-hyphens-in-attributes</code> rule.
  * <p>
- * Checks that the contents of changeLog file do not contain hyphens.
+ * Checks that the changeSet attributes do not contain hyphens.
  * <p>
  * E.g.:
  * <p>

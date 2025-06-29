@@ -4,10 +4,10 @@ import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogCollectorException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.RuleParserException;
+import io.github.htshame.parser.ExclusionParser;
+import io.github.htshame.parser.RuleParser;
 import io.github.htshame.rule.Rule;
 import io.github.htshame.util.ChangeLogFilesCollector;
-import io.github.htshame.util.parser.ExclusionParser;
-import io.github.htshame.util.parser.RuleParser;
 import io.github.htshame.validator.ValidationManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -19,9 +19,9 @@ import java.io.File;
 import java.util.List;
 
 /**
- * <code>validate-liquibase-xml</code> processor.
+ * <code>validate-liquibase-changeLog</code> processor.
  */
-@Mojo(name = "validate-liquibase-xml", defaultPhase = LifecyclePhase.COMPILE)
+@Mojo(name = "validate-liquibase-changeLog", defaultPhase = LifecyclePhase.COMPILE)
 public class ValidateChangeLogMojo extends AbstractMojo {
 
     private static final String INVALID_PATH = "Invalid path: ";
@@ -46,13 +46,13 @@ public class ValidateChangeLogMojo extends AbstractMojo {
 
     /**
      * Flag that determines whether the build will be failed in case violations are found.
-     * <br/>
+     * <br>
      * If violations are found:
-     * <br/>
+     * <br>
      * - the build will fail if set to <code>true</code>;
-     * <br/>
+     * <br>
      * - the build will not fail if set to <code>false</code>;
-     * <br/>
+     * <br>
      * Default value is <code>true</code>.
      */
     @Parameter(defaultValue = "true")
@@ -60,6 +60,13 @@ public class ValidateChangeLogMojo extends AbstractMojo {
 
     /**
      * ChangeLog files format.
+     * <p>
+     * Supported formats:
+     * <br>
+     * - xml
+     * <br>
+     * - yaml/yml
+     * <p>
      * Default value is <code>xml</code>.
      */
     @Parameter(defaultValue = "xml")
@@ -90,8 +97,21 @@ public class ValidateChangeLogMojo extends AbstractMojo {
             rules = RuleParser.parseRules(pathToRulesFile);
             exclusionParser = ExclusionParser.parseExclusions(pathToExclusionsFile);
             changeLogFiles = ChangeLogFilesCollector.collectChangeLogFiles(changeLogDirectory, changeLogFormatEnum);
-        } catch (RuleParserException | ExclusionParserException | ChangeLogCollectorException e) {
-            getLog().error("Error processing input parameters", e);
+        } catch (RuleParserException e) {
+            getLog().error("Error parsing rules file. Double-check the path to rules XML file "
+                    + "provided in <pathToRulesFile>. The sample file: "
+                    + "https://htshame.github.io"
+                    + "/naming-convention-liquibase-maven-plugin/schema/example/rules_example.xml", e);
+            throw new MojoExecutionException(e.getMessage());
+        } catch (ExclusionParserException e) {
+            getLog().error("Error parsing exclusions file. Double-check the path to exclusions XML file "
+                    + "provided in <pathToExclusionsFile>. The sample file: "
+                    + "https://htshame.github.io"
+                    + "/naming-convention-liquibase-maven-plugin/schema/example/exclusions_example.xml", e);
+            throw new MojoExecutionException(e.getMessage());
+        } catch (ChangeLogCollectorException e) {
+            getLog().error("Error changeLog files. Double-check the changeLog directory "
+                    + "provided in <changeLogDirectory> and changeLog format provided in <changeLogFormat>", e);
             throw new MojoExecutionException(e.getMessage());
         }
 
@@ -100,13 +120,14 @@ public class ValidateChangeLogMojo extends AbstractMojo {
 
         try {
             checkValidationResult(validationErrors);
-            getLog().info("All ChangeLog files passed validation.");
+            getLog().info("All ChangeLog files passed validation");
         } catch (MojoExecutionException e) {
+            getLog().warn("Failing the build because <shouldFailBuild> is not provided or set to ''true'");
             if (Boolean.TRUE.equals(shouldFailBuild)) {
                 throw e;
             }
             getLog().warn(e.getMessage()
-                    + " Build will not fail because <shouldFailBuild>false</shouldFailBuild>.");
+                    + " Build will not fail because <shouldFailBuild>false</shouldFailBuild>");
         }
     }
 
@@ -128,8 +149,13 @@ public class ValidateChangeLogMojo extends AbstractMojo {
 
     /**
      * Validate incoming parameters.
+     * <p>
      * - changeLog directory exists;
+     * <br>
      * - XML rules file is present;
+     * <br>
+     * - XML exclusions file exists if provided;
+     * <br>
      * - changeLog format is supported;
      *
      * @throws MojoExecutionException - if something's not found.

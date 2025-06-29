@@ -5,9 +5,9 @@ import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
 import io.github.htshame.util.RuleUtil;
-import io.github.htshame.util.parser.ExclusionParser;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -42,7 +42,7 @@ import static io.github.htshame.util.ErrorMessageUtil.getMessage;
  * &lt;/changeSet&gt;
  * </code></pre>
  * contains the <code>comment</code> tag.
- * <br/>
+ * <br>
  * This rule will also be applied to child tags, provided in <code>requiredForChildTags</code>.
  */
 public class TagMustExistProcessor implements Rule {

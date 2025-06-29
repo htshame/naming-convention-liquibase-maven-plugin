@@ -14,6 +14,7 @@ and [Semantic Versioning](https://semver.org/).
 - Add `*` exclusion to exclude all rules
 - Improve XSD schema
 - Improve logging
+- Change mojo name from XML-specific `validate-liquibase-xml` to more generic `validate-liquibase-changeLog`
 
 ---
 

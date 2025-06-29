@@ -42,7 +42,7 @@ import static io.github.htshame.util.ErrorMessageUtil.getMessage;
  * &lt;/changeSet&gt;
  * </code></pre>
  * contains the <code>comment</code> tag.
- * <br/>
+ * <br>
  * This rule will also be applied to child tags, provided in <code>requiredForChildTags</code>.
  */
 public class TagMustExistProcessor implements Rule {

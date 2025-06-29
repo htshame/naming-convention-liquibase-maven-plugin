@@ -46,13 +46,13 @@ public class ValidateChangeLogMojo extends AbstractMojo {
 
     /**
      * Flag that determines whether the build will be failed in case violations are found.
-     * <br/>
+     * <br>
      * If violations are found:
-     * <br/>
+     * <br>
      * - the build will fail if set to <code>true</code>;
-     * <br/>
+     * <br>
      * - the build will not fail if set to <code>false</code>;
-     * <br/>
+     * <br>
      * Default value is <code>true</code>.
      */
     @Parameter(defaultValue = "true")
@@ -62,9 +62,9 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * ChangeLog files format.
      * <p>
      * Supported formats:
-     * <br/>
+     * <br>
      * - xml
-     * <br/>
+     * <br>
      * - yaml/yml
      * <p>
      * Default value is <code>xml</code>.
@@ -151,11 +151,11 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * Validate incoming parameters.
      * <p>
      * - changeLog directory exists;
-     * <br/>
+     * <br>
      * - XML rules file is present;
-     * <br/>
+     * <br>
      * - XML exclusions file exists if provided;
-     * <br/>
+     * <br>
      * - changeLog format is supported;
      *
      * @throws MojoExecutionException - if something's not found.

@@ -87,27 +87,30 @@ public class JsonChangeSetElement implements ChangeSetElement {
     public List<ChangeSetElement> getChildren() {
         List<ChangeSetElement> children = new ArrayList<>();
 
-        if (node.isObject()) {
-            for (Map.Entry<String, JsonNode> entry : node.properties()) {
-                String childName = entry.getKey();
-                JsonNode childNode = entry.getValue();
+        if (!node.isObject()) {
+            return children;
+        }
 
-                if (childNode.isArray()) {
-                    // Merge array elements into a single object node
-                    ObjectNode merged = JsonNodeFactory.instance.objectNode();
+        for (Map.Entry<String, JsonNode> entry : node.properties()) {
+            String childName = entry.getKey();
+            JsonNode childNode = entry.getValue();
 
-                    for (JsonNode arrayElement : childNode) {
-                        if (arrayElement.isObject()) {
-                            arrayElement.fields().forEachRemaining(field -> {
-                                merged.set(field.getKey(), field.getValue());
-                            });
-                        }
+            if (childNode.isArray()) {
+                ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
+                for (JsonNode childElement : childNode) {
+                    if (!childElement.isObject()) {
+                        continue;
                     }
+                    ObjectNode childObjectNode = (ObjectNode) childElement;
 
-                    children.add(new JsonChangeSetElement(childName, merged));
-                } else {
-                    children.add(new JsonChangeSetElement(childName, childNode));
+                    childObjectNode.fieldNames().forEachRemaining(fieldName -> {
+                        JsonNode fieldValue = childObjectNode.get(fieldName);
+                        objectNode.set(fieldName, fieldValue);
+                    });
                 }
+                children.add(new JsonChangeSetElement(childName, objectNode));
+            } else {
+                children.add(new JsonChangeSetElement(childName, childNode));
             }
         }
 
@@ -136,7 +139,7 @@ public class JsonChangeSetElement implements ChangeSetElement {
     /**
      * Find property by name.
      *
-     * @param root - root object.
+     * @param root         - root object.
      * @param propertyName - property name.
      * @return list of properties with the provided name.
      */

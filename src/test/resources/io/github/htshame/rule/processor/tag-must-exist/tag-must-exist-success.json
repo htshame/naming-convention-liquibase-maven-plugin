@@ -1,0 +1,52 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "1",
+        "author": "Alex",
+        "comment": "Create person collection",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "json_table",
+              "columns": [
+                {
+                  "column": {
+                    "name": "stringValue",
+                    "type": "varchar(100)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "numericValue",
+                    "type": "int"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "booleanValue",
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "nullExample",
+                    "type": "varchar(100)"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "rollback": [
+          {
+            "comment": "the comment",
+            "dropTable": {
+              "tableName": "te"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -10,7 +10,7 @@
     <name>${project.groupId}:${project.artifactId}</name>
 
     <description>
-        A lightweight Maven plugin for validating XML and YAML/YML Liquibase changeLog files against
+        A lightweight Maven plugin for validating XML, YAML/YML, JSON Liquibase changeLog files against
         a customizable set of structural and content rules.
         Enables teams to enforce Liquibase changeLog standards across codebases
         with zero runtime dependencies and minimal configuration overhead.
@@ -51,6 +51,7 @@
         <jackson-dataformat-yaml.version>2.19.1</jackson-dataformat-yaml.version>
         <junit.version>4.13.2</junit.version>
         <org.snakeyaml.version>2.4</org.snakeyaml.version>
+        <com.fasterxml.jackson.core.jackson-databind.version>2.19.1</com.fasterxml.jackson.core.jackson-databind.version>
         <!-- dependencies versions -->
 
         <!-- plugin versions -->
@@ -73,6 +74,12 @@
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>${org.snakeyaml.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${com.fasterxml.jackson.core.jackson-databind.version}</version>
         </dependency>
 
         <dependency>

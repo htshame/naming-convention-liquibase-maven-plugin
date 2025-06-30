@@ -1,6 +1,8 @@
 package io.github.htshame.change.set;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -87,17 +89,24 @@ public class JsonChangeSetElement implements ChangeSetElement {
 
         if (node.isObject()) {
             for (Map.Entry<String, JsonNode> entry : node.properties()) {
-                children.add(new JsonChangeSetElement(entry.getKey(), entry.getValue()));
-            }
-        } else if (node.isArray()) {
-            for (JsonNode arrayElement : node) {
-                if (arrayElement.isObject()) {
-                    for (Map.Entry<String, JsonNode> entry : arrayElement.properties()) {
-                        children.add(new JsonChangeSetElement(entry.getKey(), entry.getValue()));
+                String childName = entry.getKey();
+                JsonNode childNode = entry.getValue();
+
+                if (childNode.isArray()) {
+                    // Merge array elements into a single object node
+                    ObjectNode merged = JsonNodeFactory.instance.objectNode();
+
+                    for (JsonNode arrayElement : childNode) {
+                        if (arrayElement.isObject()) {
+                            arrayElement.fields().forEachRemaining(field -> {
+                                merged.set(field.getKey(), field.getValue());
+                            });
+                        }
                     }
+
+                    children.add(new JsonChangeSetElement(childName, merged));
                 } else {
-                    // fallback: preserve current behavior for non-object array elements
-                    children.add(new JsonChangeSetElement(name, arrayElement));
+                    children.add(new JsonChangeSetElement(childName, childNode));
                 }
             }
         }

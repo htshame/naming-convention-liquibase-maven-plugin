@@ -124,7 +124,7 @@ public class ValidateChangeLogMojo extends AbstractMojo {
             checkValidationResult(validationErrors);
             getLog().info("All ChangeLog files passed validation");
         } catch (MojoExecutionException e) {
-            getLog().warn("Failing the build because <shouldFailBuild> is not provided or set to ''true'");
+            getLog().warn("Failing the build because <shouldFailBuild> is not provided or set to 'true'");
             if (Boolean.TRUE.equals(shouldFailBuild)) {
                 throw e;
             }

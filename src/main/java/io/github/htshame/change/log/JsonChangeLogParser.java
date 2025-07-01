@@ -56,7 +56,9 @@ public class JsonChangeLogParser implements ChangeLogParser {
                 }
 
                 for (Map.Entry<String, JsonNode> field : entryNode.properties()) {
-                    changeSets.add(new JsonChangeSetElement(field.getKey(), field.getValue()));
+                    if (CHANGE_SET_TAG_NAME.equals(field.getKey())) {
+                        changeSets.add(new JsonChangeSetElement(field.getKey(), field.getValue()));
+                    }
                 }
             }
 

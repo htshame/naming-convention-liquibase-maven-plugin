@@ -2,36 +2,36 @@
   "databaseChangeLog": [
     {
       "changeSet": {
-        "id": "1",
-        "author": "Alex",
-        "comment": "Create person collection",
+        "id": "changeSet_01",
+        "author": "test",
+        "comment": "comment changeSet_01",
         "changes": [
           {
             "createTable": {
-              "tableName": "json_table",
+              "tableName": "user_metadata",
               "columns": [
                 {
                   "column": {
-                    "name": "stringValue",
-                    "type": "varchar(100)"
+                    "name": "first_name",
+                    "type": "varchar(255)"
                   }
                 },
                 {
                   "column": {
-                    "name": "numericValue",
-                    "type": "int"
+                    "name": "last_name",
+                    "type": "varchar(255)"
                   }
                 },
                 {
                   "column": {
-                    "name": "booleanValue",
+                    "name": "is_deleted",
                     "type": "boolean"
                   }
                 },
                 {
                   "column": {
-                    "name": "nullExample",
-                    "type": "varchar(100)"
+                    "name": "user_meta_id",
+                    "type": "integer"
                   }
                 }
               ]

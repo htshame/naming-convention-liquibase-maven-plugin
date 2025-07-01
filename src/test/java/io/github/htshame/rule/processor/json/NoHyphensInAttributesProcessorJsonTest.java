@@ -30,10 +30,13 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
             "src/test/resources/io/github/htshame/rule/processor/no-hyphens-in-attributes/";
     private static final String RULE_URL = BASE_FILE_PATH + "no-hyphens-in-attributes-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_json.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_json.xml";
-    private static final String NO_HYPHENS_IN_ATTRIBUTES_FAILURE = "no-hyphens-in-attributes-failure.json";
-    private static final String NO_HYPHENS_IN_ATTRIBUTES_SUCCESS = "no-hyphens-in-attributes-success.json";
+
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.JSON;
+    private static final String BASE_URL_PATH_FORMATTED = BASE_FILE_PATH + "/" + CHANGELOG_FORMAT + "/";
+    private static final String EXCLUSION_WRONG_URL = BASE_URL_PATH_FORMATTED + "exclusions_wrong_json.xml";
+    private static final String EXCLUSION_URL = BASE_URL_PATH_FORMATTED + "exclusions_json.xml";
+    private static final String CHANGELOG_FAILURE_FILE = "no-hyphens-in-attributes-failure.json";
+    private static final String CHANGELOG_SUCCESS_FILE = "no-hyphens-in-attributes-success.json";
 
     /**
      * Default constructor.
@@ -68,7 +71,7 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -92,7 +95,7 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -116,7 +119,7 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -140,7 +143,7 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -164,7 +167,7 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -183,7 +186,7 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_FAILURE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -206,7 +209,7 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_HYPHENS_IN_ATTRIBUTES_SUCCESS,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_SUCCESS_FILE,
                 ChangeLogFormatEnum.JSON);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -218,7 +221,7 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
                 NoHyphensInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_HYPHENS_IN_ATTRIBUTES_SUCCESS,
+                        CHANGELOG_SUCCESS_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

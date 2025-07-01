@@ -30,10 +30,13 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
             "src/test/resources/io/github/htshame/rule/processor/no-lowercase-in-attributes/";
     private static final String RULE_URL = BASE_FILE_PATH + "no-lowercase-in-attributes-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
-    private static final String NO_LOWERCASE_IN_ATTRIBUTES_FAILURE_FILE = "no-lowercase-in-attributes-failure.xml";
-    private static final String NO_LOWERCASE_IN_ATTRIBUTES_SUCCESS_FILE = "no-lowercase-in-attributes-success.xml";
+
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.XML;
+    private static final String BASE_URL_PATH_FORMATTED = BASE_FILE_PATH + "/" + CHANGELOG_FORMAT + "/";
+    private static final String EXCLUSION_WRONG_URL = BASE_URL_PATH_FORMATTED + "exclusions_wrong_xml.xml";
+    private static final String EXCLUSION_URL = BASE_URL_PATH_FORMATTED + "exclusions_xml.xml";
+    private static final String CHANGELOG_FAILURE_FILE = "no-lowercase-in-attributes-failure.xml";
+    private static final String CHANGELOG_SUCCESS_FILE = "no-lowercase-in-attributes-success.xml";
 
     /**
      * Default constructor.
@@ -68,7 +71,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_LOWERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -84,7 +87,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
                         "changelog_02_2",
                         "test",
                         List.of("Attribute [indexName] of tag <createIndex> contains lowercase characters in value:"
-                                + " [user-metadata-IDX]",
+                                        + " [user-metadata-IDX]",
                                 "Attribute [tableName] of tag <createIndex> contains lowercase characters in value:"
                                         + " [user_metadata]")));
         List<String> actualErrorMessages = new ArrayList<>();
@@ -95,7 +98,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
                 NoLowercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_LOWERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -119,7 +122,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_LOWERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -146,7 +149,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
                 NoLowercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_LOWERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -170,7 +173,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_LOWERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -191,7 +194,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
                 NoLowercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_LOWERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -215,7 +218,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_LOWERCASE_IN_ATTRIBUTES_SUCCESS_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_SUCCESS_FILE,
                 ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -227,7 +230,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
                 NoLowercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_LOWERCASE_IN_ATTRIBUTES_SUCCESS_FILE,
+                        CHANGELOG_SUCCESS_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

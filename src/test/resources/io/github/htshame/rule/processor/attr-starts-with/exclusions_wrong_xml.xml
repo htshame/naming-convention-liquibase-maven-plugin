@@ -1,5 +1,0 @@
-<exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/2.3/liquibase-naming-convention-2.3.xsd">
-    <changeSetExclusion fileName="attr-starts-with-failure.xml" changeSetId="changelog_02_3" changeSetAuthor="test" rule="tag-must-exist"/>
-    <changeSetExclusion fileName="attr-starts-with-failure.xml" changeSetId="changelog_02_3" changeSetAuthor="test" rule="tag-must-exist"/>
-</exclusions>

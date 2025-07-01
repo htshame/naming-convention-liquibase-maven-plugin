@@ -29,10 +29,13 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
     private static final String BASE_FILE_PATH = "src/test/resources/io/github/htshame/rule/processor/attr-ends-with/";
     private static final String RULE_URL = BASE_FILE_PATH + "attr-ends-with-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
-    private static final String ATTR_ENDS_WITH_FAILURE_FILE = "attr-ends-with-failure.xml";
-    private static final String ATTR_ENDS_WITH_SUCCESS_FILE = "attr-ends-with-success.xml";
+
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.XML;
+    private static final String BASE_URL_PATH_FORMATTED = BASE_FILE_PATH + "/" + CHANGELOG_FORMAT + "/";
+    private static final String EXCLUSION_WRONG_URL = BASE_URL_PATH_FORMATTED + "exclusions_wrong_xml.xml";
+    private static final String EXCLUSION_URL = BASE_URL_PATH_FORMATTED + "exclusions_xml.xml";
+    private static final String CHANGELOG_FAILURE_FILE_FILE = "attr-ends-with-failure.xml";
+    private static final String CHANGELOG_SUCCESS_FILE_FILE = "attr-ends-with-success.xml";
 
     /**
      * Default constructor.
@@ -67,7 +70,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -91,7 +94,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -115,7 +118,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -139,7 +142,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -163,7 +166,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -182,7 +185,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -206,7 +209,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_SUCCESS_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_SUCCESS_FILE_FILE,
                 ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -218,7 +221,7 @@ public class AttrEndsWithProcessorXmlTest extends RuleProcessorTestUtil {
                 AttrEndsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_SUCCESS_FILE,
+                        CHANGELOG_SUCCESS_FILE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

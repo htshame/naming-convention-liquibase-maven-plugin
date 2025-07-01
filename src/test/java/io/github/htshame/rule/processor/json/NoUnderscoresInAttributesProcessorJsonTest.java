@@ -30,10 +30,13 @@ public class NoUnderscoresInAttributesProcessorJsonTest extends RuleProcessorTes
             "src/test/resources/io/github/htshame/rule/processor/no-underscores-in-attributes/";
     private static final String RULE_URL = BASE_FILE_PATH + "no-underscores-in-attributes-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_json.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_json.xml";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE = "no-underscores-in-attributes-failure.json";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS = "no-underscores-in-attributes-success.json";
+
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.JSON;
+    private static final String BASE_URL_PATH_FORMATTED = BASE_FILE_PATH + "/" + CHANGELOG_FORMAT + "/";
+    private static final String EXCLUSION_WRONG_URL = BASE_URL_PATH_FORMATTED + "exclusions_wrong_json.xml";
+    private static final String EXCLUSION_URL = BASE_URL_PATH_FORMATTED + "exclusions_json.xml";
+    private static final String CHANGELOG_FAILURE_FILE = "no-underscores-in-attributes-failure.json";
+    private static final String CHANGELOG_SUCCESS_FILE = "no-underscores-in-attributes-success.json";
 
     /**
      * Default constructor.
@@ -68,7 +71,7 @@ public class NoUnderscoresInAttributesProcessorJsonTest extends RuleProcessorTes
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -100,7 +103,7 @@ public class NoUnderscoresInAttributesProcessorJsonTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -124,7 +127,7 @@ public class NoUnderscoresInAttributesProcessorJsonTest extends RuleProcessorTes
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -156,7 +159,7 @@ public class NoUnderscoresInAttributesProcessorJsonTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -180,7 +183,7 @@ public class NoUnderscoresInAttributesProcessorJsonTest extends RuleProcessorTes
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -205,7 +208,7 @@ public class NoUnderscoresInAttributesProcessorJsonTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -229,7 +232,7 @@ public class NoUnderscoresInAttributesProcessorJsonTest extends RuleProcessorTes
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_SUCCESS_FILE,
                 ChangeLogFormatEnum.JSON);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -241,7 +244,7 @@ public class NoUnderscoresInAttributesProcessorJsonTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS,
+                        CHANGELOG_SUCCESS_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

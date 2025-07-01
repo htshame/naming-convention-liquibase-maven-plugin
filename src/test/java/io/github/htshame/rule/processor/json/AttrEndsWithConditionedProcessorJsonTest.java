@@ -30,10 +30,13 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
             "src/test/resources/io/github/htshame/rule/processor/attr-ends-with-conditioned/";
     private static final String RULE_URL = BASE_FILE_PATH + "attr-ends-with-conditioned-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_json.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_json.xml";
-    private static final String ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE = "attr-ends-with-conditioned-failure.json";
-    private static final String ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE = "attr-ends-with-conditioned-success.json";
+
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.JSON;
+    private static final String BASE_URL_PATH_FORMATTED = BASE_FILE_PATH + "/" + CHANGELOG_FORMAT + "/";
+    private static final String EXCLUSION_WRONG_URL = BASE_URL_PATH_FORMATTED + "exclusions_wrong_json.xml";
+    private static final String EXCLUSION_URL = BASE_URL_PATH_FORMATTED + "exclusions_json.xml";
+    private static final String CHANGELOG_FAILURE_FILE = "attr-ends-with-conditioned-failure.json";
+    private static final String CHANGELOG_SUCCESS_FILE = "attr-ends-with-conditioned-success.json";
 
     /**
      * Default constructor.
@@ -67,7 +70,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -91,7 +94,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -115,7 +118,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -140,7 +143,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -163,7 +166,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -182,7 +185,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -206,7 +209,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_SUCCESS_FILE,
                 ChangeLogFormatEnum.JSON);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -218,7 +221,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE,
+                        CHANGELOG_SUCCESS_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

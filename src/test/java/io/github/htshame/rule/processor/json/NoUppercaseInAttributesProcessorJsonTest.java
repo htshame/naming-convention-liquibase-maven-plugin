@@ -30,10 +30,13 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
             "src/test/resources/io/github/htshame/rule/processor/no-uppercase-in-attributes/";
     private static final String RULE_URL = BASE_FILE_PATH + "no-uppercase-in-attributes-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_json.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_json.xml";
-    private static final String NO_UPPERCASE_IN_ATTRIBUTES_FAILURE_FILE = "no-uppercase-in-attributes-failure.json";
-    private static final String NO_UPPERCASE_IN_ATTRIBUTES_SUCCESS_FILE = "no-uppercase-in-attributes-success.json";
+
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.JSON;
+    private static final String BASE_URL_PATH_FORMATTED = BASE_FILE_PATH + "/" + CHANGELOG_FORMAT + "/";
+    private static final String EXCLUSION_WRONG_URL = BASE_URL_PATH_FORMATTED + "exclusions_wrong_json.xml";
+    private static final String EXCLUSION_URL = BASE_URL_PATH_FORMATTED + "exclusions_json.xml";
+    private static final String CHANGELOG_FAILURE_FILE = "no-uppercase-in-attributes-failure.json";
+    private static final String CHANGELOG_SUCCESS_FILE = "no-uppercase-in-attributes-success.json";
 
     /**
      * Default constructor.
@@ -68,7 +71,7 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UPPERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -95,7 +98,7 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
                 NoUppercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UPPERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -119,7 +122,7 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UPPERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -146,7 +149,7 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
                 NoUppercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UPPERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -170,7 +173,7 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UPPERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -189,7 +192,7 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
                 NoUppercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UPPERCASE_IN_ATTRIBUTES_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -213,7 +216,7 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UPPERCASE_IN_ATTRIBUTES_SUCCESS_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_SUCCESS_FILE,
                 ChangeLogFormatEnum.JSON);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -225,7 +228,7 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
                 NoUppercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UPPERCASE_IN_ATTRIBUTES_SUCCESS_FILE,
+                        CHANGELOG_SUCCESS_FILE,
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

@@ -29,10 +29,13 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
             "src/test/resources/io/github/htshame/rule/processor/tag-must-exist/";
     private static final String RULE_URL = BASE_FILE_PATH + "tag-must-exist-rule.xml";
     private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_xml.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_xml.xml";
-    private static final String TAG_MUST_EXIST_FAILURE_FILE = "tag-must-exist-failure.xml";
-    private static final String TAG_MUST_EXIST_SUCCESS_FILE = "tag-must-exist-success.xml";
+
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.XML;
+    private static final String BASE_URL_PATH_FORMATTED = BASE_FILE_PATH + "/" + CHANGELOG_FORMAT + "/";
+    private static final String EXCLUSION_URL = BASE_URL_PATH_FORMATTED + "exclusions_xml.xml";
+    private static final String EXCLUSION_WRONG_URL = BASE_URL_PATH_FORMATTED + "exclusions_wrong_xml.xml";
+    private static final String CHANGELOG_FAILURE_FILE_FILE = "tag-must-exist-failure.xml";
+    private static final String CHANGELOG_SUCCESS_FILE_FILE = "tag-must-exist-success.xml";
     private static final int EXPECTED_NUMBER_OF_ERRORS = 3;
 
 
@@ -69,7 +72,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -99,7 +102,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -125,7 +128,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -155,7 +158,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -179,7 +182,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_FAILURE_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE_FILE,
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
@@ -205,7 +208,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_FAILURE_FILE,
+                        CHANGELOG_FAILURE_FILE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -229,7 +232,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + TAG_MUST_EXIST_SUCCESS_FILE,
+                BASE_URL_PATH_FORMATTED + CHANGELOG_SUCCESS_FILE_FILE,
                 ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
@@ -241,7 +244,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
                 TagMustExistProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        TAG_MUST_EXIST_SUCCESS_FILE,
+                        CHANGELOG_SUCCESS_FILE_FILE,
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

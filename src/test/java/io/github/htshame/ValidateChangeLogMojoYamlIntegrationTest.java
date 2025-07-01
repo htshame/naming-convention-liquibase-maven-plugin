@@ -42,10 +42,10 @@ public class ValidateChangeLogMojoYamlIntegrationTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Validation failed: 10 violation(s) found.", ae.getMessage());
+            assertEquals("Validation failed: 10 violation(s) found.", e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }

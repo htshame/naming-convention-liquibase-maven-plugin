@@ -42,10 +42,10 @@ public class ValidateChangeLogMojoXmlIntegrationTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Validation failed: 21 violation(s) found.", ae.getMessage());
+            assertEquals("Validation failed: 21 violation(s) found.", e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }

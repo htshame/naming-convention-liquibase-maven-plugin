@@ -7,6 +7,13 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 2.4
+
+- Add support for JSON changeLogs
+- Add `latest` XSD schema
+
+---
+
 ## Version 2.3
 
 - Add `no-uppercase-in-attributes` rule
@@ -41,16 +48,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 1.0.5
-
-- Fix issue with exclusion processing for `tag-must-be-present` rule
-- Improve logging
-- Strengthen XSD schema for the ruleSet file
-
----
-
 ### Previous Releases
 
+- [2.4](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.4.md)
 - [2.3](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.3.md)
 - [2.2](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.2.md)
 - [2.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.1.md)

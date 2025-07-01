@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.4</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -229,7 +229,7 @@ To exclude single or all checks the whole changeLog file or a single changeSet, 
 ---
 
 ## Note: requires Java 11 or later
-### Supported changeLog formats: XML, YAML/YML
+### Supported changeLog formats: XML, YAML/YML, JSON
 
 ---
 

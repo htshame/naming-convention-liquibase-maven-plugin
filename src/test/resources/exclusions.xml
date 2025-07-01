@@ -10,6 +10,7 @@
     <fileExclusion fileName="changelog_05.xml" rule="no-lowercase-in-attributes"/>
     <fileExclusion fileName="changelog_01.yaml" rule="no-lowercase-in-attributes"/>
     <fileExclusion fileName="changelog_02.yaml" rule="no-lowercase-in-attributes"/>
+    <fileExclusion fileName="changelog_01.json" rule="no-lowercase-in-attributes"/>
     <fileExclusion fileName="changelog_03.yaml" rule="*"/>
     <changeSetExclusion fileName="changelog_04.xml" changeSetId="changelog_04-1" changeSetAuthor="test" rule="tag-must-exist"/>
 </exclusions>

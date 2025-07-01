@@ -25,6 +25,12 @@ public final class ErrorMessageUtil {
         attrEndsWithConditionedMap.put(
                 ChangeLogFormatEnum.YAML,
                 "Key [%s] with %s=\"%s\" must have [%s] ending with [%s], but found: [%s]");
+        attrEndsWithConditionedMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key [%s] with %s=\"%s\" must have [%s] ending with [%s], but found: [%s]");
+        attrEndsWithConditionedMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object [%s] with %s=\"%s\" must have property [%s] ending with [%s], but found: [%s]");
 
         EnumMap<ChangeLogFormatEnum, String> attrEndsWithMap = new EnumMap<>(ChangeLogFormatEnum.class);
         attrEndsWithMap.put(
@@ -33,6 +39,12 @@ public final class ErrorMessageUtil {
         attrEndsWithMap.put(
                 ChangeLogFormatEnum.YAML,
                 "Key [%s] must have [%s] ending with [%s], but found: [%s]");
+        attrEndsWithMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key [%s] must have [%s] ending with [%s], but found: [%s]");
+        attrEndsWithMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object [%s] must have property [%s] ending with [%s], but found: [%s]");
 
         EnumMap<ChangeLogFormatEnum, String> attrStartsWithMap = new EnumMap<>(ChangeLogFormatEnum.class);
         attrStartsWithMap.put(
@@ -41,6 +53,12 @@ public final class ErrorMessageUtil {
         attrStartsWithMap.put(
                 ChangeLogFormatEnum.YAML,
                 "Key [%s]. Property %s: %s must start with [%s]");
+        attrStartsWithMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key [%s]. Property %s: %s must start with [%s]");
+        attrStartsWithMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object [%s]. Property %s: %s must start with [%s]");
 
         EnumMap<ChangeLogFormatEnum, String> noHyphensInAttributesMap = new EnumMap<>(ChangeLogFormatEnum.class);
         noHyphensInAttributesMap.put(
@@ -49,6 +67,12 @@ public final class ErrorMessageUtil {
         noHyphensInAttributesMap.put(
                 ChangeLogFormatEnum.YAML,
                 "Property [%s] of key [%s] contains hyphen in value: [%s]");
+        noHyphensInAttributesMap.put(
+                ChangeLogFormatEnum.YML,
+                "Property [%s] of key [%s] contains hyphen in value: [%s]");
+        noHyphensInAttributesMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Property [%s] of object [%s] contains hyphen in value: [%s]");
 
         EnumMap<ChangeLogFormatEnum, String> noUnderscoresInAttributesMap = new EnumMap<>(ChangeLogFormatEnum.class);
         noUnderscoresInAttributesMap.put(
@@ -57,6 +81,12 @@ public final class ErrorMessageUtil {
         noUnderscoresInAttributesMap.put(
                 ChangeLogFormatEnum.YAML,
                 "Property [%s] of key [%s] contains underscore in value: [%s]");
+        noUnderscoresInAttributesMap.put(
+                ChangeLogFormatEnum.YML,
+                "Property [%s] of key [%s] contains underscore in value: [%s]");
+        noUnderscoresInAttributesMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Property [%s] of object [%s] contains underscore in value: [%s]");
 
         EnumMap<ChangeLogFormatEnum, String> tagMustExistMap = new EnumMap<>(ChangeLogFormatEnum.class);
         tagMustExistMap.put(
@@ -65,6 +95,12 @@ public final class ErrorMessageUtil {
         tagMustExistMap.put(
                 ChangeLogFormatEnum.YAML,
                 "Key [%s]. Required nested property [%s] is missing or empty");
+        tagMustExistMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key [%s]. Required nested property [%s] is missing or empty");
+        tagMustExistMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object [%s]. Required nested property [%s] is missing or empty");
 
         EnumMap<ChangeLogFormatEnum, String> noUppercaseInAttrsMap = new EnumMap<>(ChangeLogFormatEnum.class);
         noUppercaseInAttrsMap.put(
@@ -73,6 +109,12 @@ public final class ErrorMessageUtil {
         noUppercaseInAttrsMap.put(
                 ChangeLogFormatEnum.YAML,
                 "Property [%s] of key [%s] contains uppercase characters in value: [%s]");
+        noUppercaseInAttrsMap.put(
+                ChangeLogFormatEnum.YML,
+                "Property [%s] of key [%s] contains uppercase characters in value: [%s]");
+        noUppercaseInAttrsMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Property [%s] of object [%s] contains uppercase characters in value: [%s]");
 
         EnumMap<ChangeLogFormatEnum, String> noLowercaseInAttrsMap = new EnumMap<>(ChangeLogFormatEnum.class);
         noLowercaseInAttrsMap.put(
@@ -81,6 +123,12 @@ public final class ErrorMessageUtil {
         noLowercaseInAttrsMap.put(
                 ChangeLogFormatEnum.YAML,
                 "Property [%s] of key [%s] contains lowercase characters in value: [%s]");
+        noLowercaseInAttrsMap.put(
+                ChangeLogFormatEnum.YML,
+                "Property [%s] of key [%s] contains lowercase characters in value: [%s]");
+        noLowercaseInAttrsMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Property [%s] of object [%s] contains lowercase characters in value: [%s]");
 
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, attrEndsWithMap);

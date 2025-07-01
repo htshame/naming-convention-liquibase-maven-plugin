@@ -1,0 +1,114 @@
+{
+  "databaseChangeLog": [
+    {
+      "preConditions": [
+        {
+          "dbms": {
+            "type": "postgresql"
+          }
+        }
+      ]
+    },
+    {
+      "changeSet": {
+        "id": "changelog_01_1",
+        "author": "test",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "user_metadata",
+              "columns": [
+                {
+                  "column": {
+                    "name": "id",
+                    "type": "bigint",
+                    "autoIncrement": true,
+                    "constraints": {
+                      "primaryKey": true,
+                      "nullable": false
+                    }
+                  }
+                },
+                {
+                  "column": {
+                    "name": "first_name",
+                    "type": "varchar(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "last_name",
+                    "type": "varchar(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "email",
+                    "type": "varchar(255)",
+                    "constraints": {
+                      "nullable": false
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "createIndex": {
+              "columns": [
+                {
+                  "column": {
+                    "name": "email"
+                  }
+                }
+              ],
+              "indexName": "email_idx",
+              "tableName": "user_metadata",
+              "tablespace": "The Space",
+              "unique": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "changelog_01_2",
+        "author": "test",
+        "changes": [
+          {
+            "addColumn": {
+              "tableName": "user_metadata",
+              "columns": [
+                {
+                  "column": {
+                    "name": "user_meta_id",
+                    "type": "integer"
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "changelog_01_3",
+        "author": "test",
+        "changes": [
+          {
+            "addForeignKeyConstraint": {
+              "baseColumnNames": "user_meta_id",
+              "baseTableCatalogName": "the-meta",
+              "baseTableName": "user_metadata",
+              "constraintName": "meta_user_id_fk",
+              "referencedColumnNames": "id",
+              "referencedTableName": "the-meta"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+    "databaseChangeLog": [
+        {
+            "changeSet": {
+                "id": "changelog_02_1",
+                "author": "test",
+                "comment": "Comment",
+                "changes": [
+                    {
+                        "createIndex": {
+                            "tableName": "USER_METADATA",
+                            "indexName": "IDX_user_metadata"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "changeSet": {
+                "id": "changelog_02_2",
+                "author": "test",
+                "comment": "Comment",
+                "changes": [
+                    {
+                        "createIndex": {
+                            "tableName": "user_metadata",
+                            "indexName": "user-metadata-IDX"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

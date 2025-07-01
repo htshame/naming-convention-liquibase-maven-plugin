@@ -66,6 +66,8 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * - xml
      * <br>
      * - yaml/yml
+     * <br>
+     * - json
      * <p>
      * Default value is <code>xml</code>.
      */

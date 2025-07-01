@@ -46,6 +46,7 @@
         <excludedAttrs>
             <attr>defaultValue</attr>
             <attr>defaultValueComputed</attr>
+            <attr>tablespace</attr>
         </excludedAttrs>
     </rule>
 

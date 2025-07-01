@@ -1,0 +1,52 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "changeSet_01",
+        "author": "test",
+        "comment": "comment changeSet_01",
+        "changes": [
+          {
+            "createTable": {
+              "tableName": "user_metadata",
+              "columns": [
+                {
+                  "column": {
+                    "name": "first_name",
+                    "type": "varchar(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "last_name",
+                    "type": "varchar(255)"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "is_deleted",
+                    "type": "boolean"
+                  }
+                },
+                {
+                  "column": {
+                    "name": "user_meta_id",
+                    "type": "integer"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "rollback": [
+          {
+            "comment": "the comment",
+            "dropTable": {
+              "tableName": "te"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

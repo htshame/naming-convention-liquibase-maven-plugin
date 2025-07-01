@@ -16,7 +16,11 @@ public enum ChangeLogFormatEnum {
     /**
      * YML format extension.
      */
-    YML("yml");
+    YML("yml"),
+    /**
+     * JSON format extension.
+     */
+    JSON("json");
 
     private final String format;
 

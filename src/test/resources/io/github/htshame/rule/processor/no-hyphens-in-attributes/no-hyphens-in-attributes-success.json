@@ -1,0 +1,60 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "changelog_02_3",
+        "author": "test",
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN"
+          },
+          {
+            "not": {
+              "indexExists": {
+                "indexName": "user_metadata_external_user_id_unique_idx"
+              }
+            }
+          },
+          {
+            "tableExists": {
+              "tableName": "user_metadata"
+            }
+          },
+          {
+            "columnExists": {
+              "tableName": "user_metadata",
+              "columnName": "external_user_id"
+            }
+          }
+        ],
+        "comment": "Comment - comment",
+        "changes": [
+          {
+            "createIndex": {
+              "tableName": "user_metadata",
+              "indexName": "user_metadata_external_user_id_unique_idx",
+              "unique": true,
+              "columns": [
+                {
+                  "name": "external_user_id"
+                }
+              ]
+            }
+          },
+          {
+            "createTable": {
+              "tableName": "user_meta",
+              "columns": [
+                {
+                  "name": "creation_date",
+                  "type": "DATETIME",
+                  "defaultValue": "1970-01-01 00:00:00"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

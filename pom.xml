@@ -4,13 +4,13 @@
 
     <groupId>io.github.htshame</groupId>
     <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-    <version>2.3</version>
+    <version>2.4</version>
     <packaging>maven-plugin</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
 
     <description>
-        A lightweight Maven plugin for validating XML and YAML/YML Liquibase changeLog files against
+        A lightweight Maven plugin for validating XML, YAML/YML, JSON Liquibase changeLog files against
         a customizable set of structural and content rules.
         Enables teams to enforce Liquibase changeLog standards across codebases
         with zero runtime dependencies and minimal configuration overhead.
@@ -51,6 +51,7 @@
         <jackson-dataformat-yaml.version>2.19.1</jackson-dataformat-yaml.version>
         <junit.version>4.13.2</junit.version>
         <org.snakeyaml.version>2.4</org.snakeyaml.version>
+        <jackson-databind.version>2.19.1</jackson-databind.version>
         <!-- dependencies versions -->
 
         <!-- plugin versions -->
@@ -65,7 +66,7 @@
         <org.sonatype.central.central-publishing-maven-plugin>0.7.0</org.sonatype.central.central-publishing-maven-plugin>
         <!-- plugin versions -->
 
-        <test.coverage.min.threshold>0.78</test.coverage.min.threshold>
+        <test.coverage.min.threshold>0.79</test.coverage.min.threshold>
     </properties>
 
     <dependencies>
@@ -73,6 +74,12 @@
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>${org.snakeyaml.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
         </dependency>
 
         <dependency>

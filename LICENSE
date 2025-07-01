@@ -205,3 +205,4 @@
 
 This project includes the following third-party libraries licensed under the Apache License 2.0:
 - SnakeYAML (https://bitbucket.org/snakeyaml/snakeyaml/src/master/)
+- jackson-databind (https://github.com/FasterXML/jackson-databind)

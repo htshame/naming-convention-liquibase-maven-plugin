@@ -4,29 +4,29 @@
       "changeSet": {
         "id": "changelog_02_3",
         "author": "test",
-        "preConditions": {
-          "onFail": "MARK_RAN",
-          "nestedPreConditions": [
-            {
-              "not": {
-                "indexExists": {
-                  "indexName": "user_metadata_external_user_id_unique_idx"
-                }
-              }
-            },
-            {
-              "tableExists": {
-                "tableName": "user-metadata"
-              }
-            },
-            {
-              "columnExists": {
-                "tableName": "user-metadata",
-                "columnName": "external_user_id"
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN"
+          },
+          {
+            "not": {
+              "indexExists": {
+                "indexName": "user_metadata_external_user_id_unique_idx"
               }
             }
-          ]
-        },
+          },
+          {
+            "tableExists": {
+              "tableName": "user-metadata"
+            }
+          },
+          {
+            "columnExists": {
+              "tableName": "user-metadata",
+              "columnName": "external_user_id"
+            }
+          }
+        ],
         "comment": "Comment",
         "changes": [
           {

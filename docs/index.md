@@ -108,7 +108,7 @@ Example:
 </rule>
 ```
 
-Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `__fk`.
+Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `_fk`.
 
 ---
 
@@ -217,12 +217,12 @@ Example:
 
 To exclude single or all checks the whole changeLog file or a single changeSet, use:
 ```xml
-<fileExclusion fileName="changelog_01.xml" 
+<fileExclusion fileName="changelog_01.xml"
                rule="no-underscores-in-attributes"/>
-<fileExclusion fileName="changelog_02.xml" 
+<fileExclusion fileName="changelog_02.xml"
                rule="*"/>
-<changeSetExclusion fileName="changelog_03.xml" 
-                    changeSetId="changelog_04-1" changeSetAuthor="test" 
+<changeSetExclusion fileName="changelog_03.xml"
+                    changeSetId="changelog_04-1" changeSetAuthor="test"
                     rule="tag-must-exist"/>
 ```
 

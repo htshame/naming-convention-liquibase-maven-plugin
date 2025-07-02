@@ -23,18 +23,32 @@ public class RuleProcessorTestUtil {
 
     private final String ruleFilePath;
     private final RuleEnum ruleName;
+    private final String changelogFailureFile;
+    private final String changelogSuccessFile;
+    private final String exclusionEmptyUrl;
+    private final String baseUrlPathFormatted;
+    private final String exclusionWrongUrl;
+    private final String exclusionUrl;
 
     /**
      * Constructor.
      *
-     * @param ruleFilePath - path to the rule file.
-     * @param ruleName     - rule name.
+     * @param ruleName        - rule name.
+     * @param changeLogFormat - changeLog format.
      */
-    public RuleProcessorTestUtil(final String ruleFilePath,
-                                 final RuleEnum ruleName) {
-        this.ruleFilePath = ruleFilePath;
+    public RuleProcessorTestUtil(final RuleEnum ruleName,
+                                 final ChangeLogFormatEnum changeLogFormat) {
         this.ruleName = ruleName;
+        this.changelogFailureFile = ruleName.getValue() + "-failure." + changeLogFormat.getValue();
+        this.changelogSuccessFile = ruleName.getValue() + "-success." + changeLogFormat.getValue();
+        String baseFilePath = "src/test/resources/io/github/htshame/rule/processor/" + ruleName.getValue() + "/";
+        this.ruleFilePath = baseFilePath + ruleName.getValue() + "-rule.xml";
+        this.baseUrlPathFormatted = baseFilePath + "/" + changeLogFormat.getValue() + "/";
+        this.exclusionWrongUrl = baseUrlPathFormatted + "exclusions_wrong_" + changeLogFormat.getValue() + ".xml";
+        this.exclusionUrl = baseUrlPathFormatted + "exclusions_" + changeLogFormat.getValue() + ".xml";
+        this.exclusionEmptyUrl = baseFilePath + "exclusions_empty.xml";
     }
+
 
     protected Element prepareRuleELement() throws ParserConfigurationException, IOException, SAXException {
         Document ruleDocument = DocumentBuilderFactory.newInstance()
@@ -66,5 +80,29 @@ public class RuleProcessorTestUtil {
         for (int i = 0; i < expectedErrorMessages.size(); i++) {
             assertEquals(expectedErrorMessages.get(i), actualErrorMessages.get(i));
         }
+    }
+
+    public String getChangelogFailureFile() {
+        return changelogFailureFile;
+    }
+
+    public String getChangelogSuccessFile() {
+        return changelogSuccessFile;
+    }
+
+    public String getExclusionEmptyUrl() {
+        return exclusionEmptyUrl;
+    }
+
+    public String getBaseUrlPathFormatted() {
+        return baseUrlPathFormatted;
+    }
+
+    public String getExclusionWrongUrl() {
+        return exclusionWrongUrl;
+    }
+
+    public String getExclusionUrl() {
+        return exclusionUrl;
     }
 }

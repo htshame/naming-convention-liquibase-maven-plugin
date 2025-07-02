@@ -26,23 +26,14 @@ import static org.junit.Assert.assertFalse;
 
 public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUtil {
 
-    private static final String BASE_FILE_PATH =
-            "src/test/resources/io/github/htshame/rule/processor/no-lowercase-in-attributes/";
-    private static final String RULE_URL = BASE_FILE_PATH + "no-lowercase-in-attributes-rule.xml";
-    private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-
+    private static final RuleEnum RULE_ENUM = RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES;
     private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.XML;
-    private static final String BASE_URL_PATH_FORMATTED = BASE_FILE_PATH + "/" + CHANGELOG_FORMAT + "/";
-    private static final String EXCLUSION_WRONG_URL = BASE_URL_PATH_FORMATTED + "exclusions_wrong_xml.xml";
-    private static final String EXCLUSION_URL = BASE_URL_PATH_FORMATTED + "exclusions_xml.xml";
-    private static final String CHANGELOG_FAILURE_FILE = "no-lowercase-in-attributes-failure.xml";
-    private static final String CHANGELOG_SUCCESS_FILE = "no-lowercase-in-attributes-success.xml";
 
     /**
      * Default constructor.
      */
     public NoLowercaseInAttributesProcessorXmlTest() {
-        super(RULE_URL, RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES);
+        super(RULE_ENUM, CHANGELOG_FORMAT);
     }
 
     /**
@@ -57,7 +48,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
         RuleEnum actual = NoLowercaseInAttributesProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, actual);
+        assertEquals(RULE_ENUM, actual);
     }
 
     /**
@@ -71,11 +62,11 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_1",
@@ -98,7 +89,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
                 NoLowercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        CHANGELOG_FAILURE_FILE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -122,11 +113,11 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionWrongUrl()));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_1",
@@ -149,7 +140,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
                 NoLowercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        CHANGELOG_FAILURE_FILE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -173,11 +164,11 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_URL_PATH_FORMATTED + CHANGELOG_FAILURE_FILE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.XML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
         List<String> expectedErrorMessages = Collections.singletonList(
                 prepareTestErrorMessage(
                         "changelog_02_2",
@@ -194,7 +185,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
                 NoLowercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        CHANGELOG_FAILURE_FILE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -218,11 +209,11 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_URL_PATH_FORMATTED + CHANGELOG_SUCCESS_FILE,
+                getBaseUrlPathFormatted() + getChangelogSuccessFile(),
                 ChangeLogFormatEnum.XML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
@@ -230,7 +221,7 @@ public class NoLowercaseInAttributesProcessorXmlTest extends RuleProcessorTestUt
                 NoLowercaseInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        CHANGELOG_SUCCESS_FILE,
+                        getChangelogSuccessFile(),
                         ChangeLogFormatEnum.XML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

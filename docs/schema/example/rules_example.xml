@@ -39,7 +39,7 @@
 
     <!--
     Checks that specified attribute ends with specified value.
-    Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `__fk`.
+    Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `_fk`.
     -->
     <rule name="attr-ends-with">
         <tag>addForeignKeyConstraint</tag>

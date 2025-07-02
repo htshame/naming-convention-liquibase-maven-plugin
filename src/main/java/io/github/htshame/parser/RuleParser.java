@@ -76,11 +76,11 @@ public final class RuleParser {
                     Rule rule = ruleFactory.instantiate(ruleElement);
                     rules.add(rule);
                 } catch (Exception e) {
-                    throw new RuntimeException("Failed to instantiate rule for type: " + ruleType, e);
+                    throw new RuleParserException("Failed to instantiate rule for type: " + ruleType, e);
                 }
             }
         } catch (Exception e) {
-            throw new RuleParserException("Error parsing ruleset XML file", e);
+            throw new RuleParserException("Error parsing ruleset XML file. Message: " + e.getMessage(), e);
         }
         return rules;
     }

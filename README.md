@@ -108,7 +108,7 @@ Example:
 </rule>
 ```
 
-Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `__fk`.
+Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `_fk`.
 
 ---
 

@@ -46,10 +46,11 @@ public class ValidateChangeLogMojoFailureTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Error parsing ruleset XML file", ae.getMessage());
+            assertEquals("Error parsing ruleset XML file. Message: Content is not allowed in prolog.",
+                    e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }
@@ -72,10 +73,10 @@ public class ValidateChangeLogMojoFailureTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Error parsing exclusion XML file", ae.getMessage());
+            assertEquals("Error parsing exclusion XML file", e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }
@@ -98,10 +99,10 @@ public class ValidateChangeLogMojoFailureTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Validation failed: 1 violation(s) found.", ae.getMessage());
+            assertEquals("Validation failed: 1 violation(s) found.", e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }
@@ -124,10 +125,10 @@ public class ValidateChangeLogMojoFailureTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("ChangeLog format [xml1] is not supported", ae.getMessage());
+            assertEquals("ChangeLog format [xml1] is not supported", e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }
@@ -150,10 +151,10 @@ public class ValidateChangeLogMojoFailureTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Invalid path: " + changeLogPath, ae.getMessage());
+            assertEquals("Invalid path: " + changeLogPath, e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }
@@ -176,10 +177,10 @@ public class ValidateChangeLogMojoFailureTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Invalid path: " + wrongRulePath, ae.getMessage());
+            assertEquals("Invalid path: " + wrongRulePath, e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }
@@ -202,10 +203,10 @@ public class ValidateChangeLogMojoFailureTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Invalid path: " + wrongExclusionPath, ae.getMessage());
+            assertEquals("Invalid path: " + wrongExclusionPath, e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }
@@ -230,7 +231,7 @@ public class ValidateChangeLogMojoFailureTest {
         // act
         try {
             validateChangeLogMojo.execute();
-        } catch (MojoExecutionException ae) {
+        } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
         }

@@ -222,7 +222,7 @@ Example:
 </rule>
 ```
 
-Will check that required attribute exists in the specified tag.
+Will check that required attribute `remarks` exists in the specified tag `createTable`.
 
 ---
 

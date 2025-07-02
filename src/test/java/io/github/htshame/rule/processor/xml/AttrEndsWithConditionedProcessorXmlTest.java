@@ -61,7 +61,7 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.XML);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
@@ -86,7 +86,7 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.XML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -110,7 +110,7 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.XML);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionWrongUrl()));
@@ -135,7 +135,7 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.XML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -158,7 +158,7 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.XML);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
@@ -177,7 +177,7 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.XML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -201,7 +201,7 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogSuccessFile(),
-                ChangeLogFormatEnum.XML);
+                CHANGELOG_FORMAT);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
@@ -213,7 +213,7 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
                         changeSetElement,
                         exclusionParser,
                         getChangelogSuccessFile(),
-                        ChangeLogFormatEnum.XML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

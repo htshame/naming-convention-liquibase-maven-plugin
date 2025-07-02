@@ -1,0 +1,4 @@
+<exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/2.5/liquibase-naming-convention-2.5.xsd">
+    <changeSetExclusion fileName="attr-must-exist-in-tag-failure.json" changeSetId="changelog_01_1" changeSetAuthor="test" rule="attr-must-exist-in-tag"/>
+</exclusions>

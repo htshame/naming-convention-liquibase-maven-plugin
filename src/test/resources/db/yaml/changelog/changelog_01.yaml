@@ -10,6 +10,7 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: user_data
+            remarks: The remark
             columns:
               - column:
                   name: id

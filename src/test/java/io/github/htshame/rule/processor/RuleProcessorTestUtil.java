@@ -43,7 +43,7 @@ public class RuleProcessorTestUtil {
         this.changelogSuccessFile = ruleName.getValue() + "-success." + changeLogFormat.getValue();
         String baseFilePath = "src/test/resources/io/github/htshame/rule/processor/" + ruleName.getValue() + "/";
         this.ruleFilePath = baseFilePath + ruleName.getValue() + "-rule.xml";
-        this.baseUrlPathFormatted = baseFilePath + "/" + changeLogFormat.getValue() + "/";
+        this.baseUrlPathFormatted = baseFilePath + changeLogFormat.getValue() + "/";
         this.exclusionWrongUrl = baseUrlPathFormatted + "exclusions_wrong_" + changeLogFormat.getValue() + ".xml";
         this.exclusionUrl = baseUrlPathFormatted + "exclusions_" + changeLogFormat.getValue() + ".xml";
         this.exclusionEmptyUrl = baseFilePath + "exclusions_empty.xml";

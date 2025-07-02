@@ -101,8 +101,8 @@ public class NoHyphensInAttributesProcessor implements Rule {
         if (excludedAttrs.getLength() != 0) {
             NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
-            for (int j = 0; j < excludedAttrElements.getLength(); j++) {
-                excludedParents.add(excludedAttrElements.item(j).getTextContent());
+            for (int i = 0; i < excludedAttrElements.getLength(); i++) {
+                excludedParents.add(excludedAttrElements.item(i).getTextContent());
             }
         }
 

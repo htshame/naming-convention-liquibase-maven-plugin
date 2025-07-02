@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - preConditions:
+      onFail: HALT
+      onError: HALT
+
+  - changeSet:
+      id: changeSet_01_1
+      author: test
+      comment: the comment
+      changes:
+        - createTable:
+            tableName: user_data
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last-name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: external_key
+                  type: integer
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP
+
+  - changeSet:
+      id: changelog_01_2
+      author: test
+      comment:
+      changes:
+        - createIndex:
+            tableName: user_data
+            indexName: first_name_idx
+            unique: true
+            columns:
+              - column:
+                  name: first_name

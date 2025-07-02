@@ -1,0 +1,37 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="changelog_02_3" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="user_activation_user_profile_id_user_profile_id_fk"/>
+            </not>
+            <tableExists tableName="user_activation"/>
+            <columnExists tableName="user_activation" columnName="user_profile_id"/>
+            <tableExists tableName="user_profile"/>
+            <columnExists tableName="user_profile" columnName="id"/>
+        </preConditions>
+        <comment>
+            Comment
+        </comment>
+        <createTable tableName="user_profile" remarks="the remark">
+            <column name="id" autoIncrement="true" type="integer">
+                <constraints primaryKey="true" primaryKeyName="pk_user_profile"/>
+            </column>
+            <column name="email" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

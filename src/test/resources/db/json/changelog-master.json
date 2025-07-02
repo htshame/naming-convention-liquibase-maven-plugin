@@ -5,6 +5,12 @@
         "file": "changelog/changelog_01.json",
         "relativeToChangelogFile": true
       }
+    },
+    {
+      "include": {
+        "file": "changelog/changelog_02.json",
+        "relativeToChangelogFile": true
+      }
     }
   ]
 }

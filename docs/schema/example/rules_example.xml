@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.3/liquibase-naming-convention-2.3.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.5/liquibase-naming-convention-2.5.xsd">
 
     <!--
     Checks that 'comment' tag exists in every changeSet.
@@ -93,5 +93,15 @@
             <attr>defaultValue</attr>
             <attr>defaultValueComputed</attr>
         </excludedAttrs>
+    </rule>
+
+    <!--
+    Checks that specified tag contains required attribute.
+    Example:
+    Tag <createTable> must exist attribute 'remarks'.
+    -->
+    <rule name="attr-must-exist-in-tag">
+        <tag>createTable</tag>
+        <requiredAttr>remarks</requiredAttr>
     </rule>
 </rules>

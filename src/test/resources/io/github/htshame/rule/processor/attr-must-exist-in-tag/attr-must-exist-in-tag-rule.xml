@@ -1,0 +1,9 @@
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/2.5/liquibase-naming-convention-2.5.xsd">
+
+    <rule name="attr-must-exist-in-tag">
+        <tag>createTable</tag>
+        <requiredAttr>remarks</requiredAttr>
+    </rule>
+</rules>
+

@@ -130,6 +130,20 @@ public final class ErrorMessageUtil {
                 ChangeLogFormatEnum.JSON,
                 "Property [%s] of object [%s] contains lowercase characters in value: [%s]");
 
+        EnumMap<ChangeLogFormatEnum, String> attrMustExistInTagMap = new EnumMap<>(ChangeLogFormatEnum.class);
+        attrMustExistInTagMap.put(
+                ChangeLogFormatEnum.XML,
+                "Tag <%s>. Attribute [%s] is missing or empty");
+        attrMustExistInTagMap.put(
+                ChangeLogFormatEnum.YAML,
+                "Key <%s>. Property [%s] is missing or empty");
+        attrMustExistInTagMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key <%s>. Property [%s] is missing or empty");
+        attrMustExistInTagMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object <%s>. Property [%s] is missing or empty");
+
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, attrEndsWithMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH, attrStartsWithMap);
@@ -138,6 +152,7 @@ public final class ErrorMessageUtil {
         RULE_MESSAGE_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, noUppercaseInAttrsMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, noLowercaseInAttrsMap);
+        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, attrMustExistInTagMap);
     }
 
     /**

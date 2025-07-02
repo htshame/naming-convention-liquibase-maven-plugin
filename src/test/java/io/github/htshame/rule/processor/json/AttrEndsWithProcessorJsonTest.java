@@ -63,7 +63,7 @@ public class AttrEndsWithProcessorJsonTest extends RuleProcessorTestUtil {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.JSON);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
@@ -89,7 +89,7 @@ public class AttrEndsWithProcessorJsonTest extends RuleProcessorTestUtil {
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.JSON);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -113,7 +113,7 @@ public class AttrEndsWithProcessorJsonTest extends RuleProcessorTestUtil {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.JSON);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionWrongUrl()));
@@ -139,7 +139,7 @@ public class AttrEndsWithProcessorJsonTest extends RuleProcessorTestUtil {
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.JSON);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -163,7 +163,7 @@ public class AttrEndsWithProcessorJsonTest extends RuleProcessorTestUtil {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.JSON);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
@@ -183,7 +183,7 @@ public class AttrEndsWithProcessorJsonTest extends RuleProcessorTestUtil {
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.JSON);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -207,7 +207,7 @@ public class AttrEndsWithProcessorJsonTest extends RuleProcessorTestUtil {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogSuccessFile(),
-                ChangeLogFormatEnum.JSON);
+                CHANGELOG_FORMAT);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
@@ -219,7 +219,7 @@ public class AttrEndsWithProcessorJsonTest extends RuleProcessorTestUtil {
                         changeSetElement,
                         exclusionParser,
                         getChangelogSuccessFile(),
-                        ChangeLogFormatEnum.JSON);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

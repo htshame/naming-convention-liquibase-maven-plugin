@@ -10,7 +10,7 @@
             </not>
         </preConditions>
         <comment>Create - user_profile table.</comment>
-        <createTable tableName="user_profile">
+        <createTable tableName="user_profile" remarks="the remark">
             <column name="id" autoIncrement="true" type="integer">
                 <constraints primaryKey="true" primaryKeyName="pk_user_profile"/>
             </column>

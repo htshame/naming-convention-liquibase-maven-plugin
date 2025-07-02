@@ -38,6 +38,10 @@ public enum RuleEnum {
      */
     NO_LOWERCASE_IN_ATTRIBUTES("no-lowercase-in-attributes"),
     /**
+     * Represents 'attr-must-exist-in-tag' rule.
+     */
+    ATTRIBUTE_MUST_EXIST_IN_TAG("attr-must-exist-in-tag"),
+    /**
      * Represents '*' - all rules.
      */
     ALL_RULES("*");

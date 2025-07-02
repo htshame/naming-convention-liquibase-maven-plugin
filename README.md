@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.4</version>
+        <version>2.5</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -206,6 +206,23 @@ Example:
 ```
 
 Will check that lowercase characters are not present in the changeSet attributes at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+
+---
+
+### attr-must-exist-in-tag
+
+Checks that required attribute exists in tag.
+
+Example:
+
+```xml
+<rule name="attr-must-exist-in-tag">
+    <tag>createTable</tag>
+    <requiredAttr>remarks</requiredAttr>
+</rule>
+```
+
+Will check that required attribute exists in the specified tag.
 
 ---
 

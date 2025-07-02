@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: changelog_02_3
+      author: test
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          - indexExists:
+              indexName: user_activation_user_profile_id_user_profile_id_fk
+        tableExists:
+          tableName: user_activation
+        columnExists:
+          tableName: user_activation
+          columnName: user_profile_id
+        tableExists_2:
+          tableName: user_profile
+        columnExists_2:
+          tableName: user_profile
+          columnName: id
+      comment: Comment
+      changes:
+        - createTable:
+            tableName: user_data
+            remarks: The remark
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last-name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: external_key
+                  type: integer
+              - column:
+                  name: created_date_time
+                  type: TIMESTAMP

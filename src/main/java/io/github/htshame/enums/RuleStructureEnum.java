@@ -51,7 +51,11 @@ public enum RuleStructureEnum {
     /**
      * Represents 'requiredSuffix' tag.
      */
-    REQUIRED_SUFFIX("requiredSuffix");
+    REQUIRED_SUFFIX("requiredSuffix"),
+    /**
+     * Represents 'requiredAttr' tag.
+     */
+    REQUIRED_ATTR("requiredAttr");
 
     private final String value;
 

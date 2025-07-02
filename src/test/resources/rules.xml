@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/2.3/liquibase-naming-convention-2.3.xsd">
+        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/2.5/liquibase-naming-convention-2.5.xsd">
 
     <rule name="tag-must-exist">
         <requiredTag>comment</requiredTag>
@@ -55,6 +55,11 @@
             <attr>defaultValue</attr>
             <attr>defaultValueComputed</attr>
         </excludedAttrs>
+    </rule>
+
+    <rule name="attr-must-exist-in-tag">
+        <tag>createTable</tag>
+        <requiredAttr>remarks</requiredAttr>
     </rule>
 </rules>
 

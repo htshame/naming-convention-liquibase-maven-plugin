@@ -25,20 +25,14 @@ import static org.junit.Assert.assertFalse;
 
 public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestUtil {
 
-    private static final String BASE_FILE_PATH =
-            "src/test/resources/io/github/htshame/rule/processor/attr-ends-with-conditioned/";
-    private static final String RULE_URL = BASE_FILE_PATH + "attr-ends-with-conditioned-rule.xml";
-    private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_yaml.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_yaml.xml";
-    private static final String ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE = "attr-ends-with-conditioned-failure.yaml";
-    private static final String ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE = "attr-ends-with-conditioned-success.yaml";
+    private static final RuleEnum RULE_ENUM = RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED;
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.YAML;
 
     /**
      * Default constructor.
      */
     public AttrEndsWithConditionedProcessorYamlTest() {
-        super(RULE_URL, RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED);
+        super(RULE_ENUM, CHANGELOG_FORMAT);
     }
 
     /**
@@ -66,11 +60,11 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
@@ -90,7 +84,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -114,11 +108,11 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionWrongUrl()));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
@@ -139,7 +133,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -162,11 +156,11 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
             ExclusionParserException, ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
         List<String> expectedErrorMessages = List.of(
                 prepareTestErrorMessage(
                         "changelog_02_4",
@@ -181,7 +175,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_FAILURE_FILE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -205,11 +199,11 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE,
+                getBaseUrlPathFormatted() + getChangelogSuccessFile(),
                 ChangeLogFormatEnum.YAML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
@@ -217,7 +211,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                 AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_ENDS_WITH_CONDITIONED_SUCCESS_FILE,
+                        getChangelogSuccessFile(),
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

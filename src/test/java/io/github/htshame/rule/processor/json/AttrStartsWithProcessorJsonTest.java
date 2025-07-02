@@ -26,20 +26,14 @@ import static org.junit.Assert.assertFalse;
 
 public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
 
-    private static final String BASE_FILE_PATH =
-            "src/test/resources/io/github/htshame/rule/processor/attr-starts-with/";
-    private static final String RULE_URL = BASE_FILE_PATH + "attr-starts-with-rule.xml";
-    private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_json.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_json.xml";
-    private static final String ATTR_STARTS_WITH_FAILURE = "attr-starts-with-failure.json";
-    private static final String ATTR_STARTS_WITH_SUCCESS = "attr-starts-with-success.json";
+    private static final RuleEnum RULE_ENUM = RuleEnum.ATTRIBUTE_STARTS_WITH;
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.JSON;
 
     /**
      * Default constructor.
      */
     public AttrStartsWithProcessorJsonTest() {
-        super(RULE_URL, RuleEnum.ATTRIBUTE_STARTS_WITH);
+        super(RULE_ENUM, CHANGELOG_FORMAT);
     }
 
     /**
@@ -68,11 +62,11 @@ public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
@@ -92,7 +86,7 @@ public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -116,11 +110,11 @@ public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionWrongUrl()));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
@@ -140,7 +134,7 @@ public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -164,11 +158,11 @@ public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_FAILURE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.JSON);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
         List<String> expectedErrorMessages = Collections.singletonList(
                 prepareTestErrorMessage(
                         "changelog_02_4",
@@ -183,7 +177,7 @@ public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_FAILURE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -207,11 +201,11 @@ public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + ATTR_STARTS_WITH_SUCCESS,
+                getBaseUrlPathFormatted() + getChangelogSuccessFile(),
                 ChangeLogFormatEnum.JSON);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
@@ -219,7 +213,7 @@ public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
                 AttrStartsWithProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        ATTR_STARTS_WITH_SUCCESS,
+                        getChangelogSuccessFile(),
                         ChangeLogFormatEnum.JSON);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

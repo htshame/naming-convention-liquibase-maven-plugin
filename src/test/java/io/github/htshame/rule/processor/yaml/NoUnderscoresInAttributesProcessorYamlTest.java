@@ -26,20 +26,14 @@ import static org.junit.Assert.assertFalse;
 
 public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTestUtil {
 
-    private static final String BASE_FILE_PATH =
-            "src/test/resources/io/github/htshame/rule/processor/no-underscores-in-attributes/";
-    private static final String RULE_URL = BASE_FILE_PATH + "no-underscores-in-attributes-rule.xml";
-    private static final String EXCLUSION_EMPTY_URL = BASE_FILE_PATH + "exclusions_empty.xml";
-    private static final String EXCLUSION_WRONG_URL = BASE_FILE_PATH + "exclusions_wrong_yaml.xml";
-    private static final String EXCLUSION_URL = BASE_FILE_PATH + "exclusions_yaml.xml";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE = "no-underscores-in-attributes-failure.yaml";
-    private static final String NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS = "no-underscores-in-attributes-success.yaml";
+    private static final RuleEnum RULE_ENUM = RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES;
+    private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.YAML;
 
     /**
      * Default constructor.
      */
     public NoUnderscoresInAttributesProcessorYamlTest() {
-        super(RULE_URL, RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES);
+        super(RULE_ENUM, CHANGELOG_FORMAT);
     }
 
     /**
@@ -68,11 +62,11 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_EMPTY_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
@@ -97,7 +91,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -121,11 +115,11 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_WRONG_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionWrongUrl()));
         List<String> expectedErrorMessages = Arrays.asList(
                 prepareTestErrorMessage(
                         "changelog_02_3",
@@ -150,7 +144,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -174,11 +168,11 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 ChangeLogFormatEnum.YAML);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
         List<String> expectedErrorMessages = Collections.singletonList(
                 prepareTestErrorMessage(
                         "changelog_02_4",
@@ -197,7 +191,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_FAILURE,
+                        getChangelogFailureFile(),
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 exceptionCount++;
@@ -221,11 +215,11 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
             ChangeLogParseException {
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
-                BASE_FILE_PATH + NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS,
+                getBaseUrlPathFormatted() + getChangelogSuccessFile(),
                 ChangeLogFormatEnum.YAML);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
-        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(EXCLUSION_URL));
+        ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
 
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
@@ -233,7 +227,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
                         changeSetElement,
                         exclusionParser,
-                        NO_UNDERSCORES_IN_ATTRIBUTES_SUCCESS,
+                        getChangelogSuccessFile(),
                         ChangeLogFormatEnum.YAML);
             } catch (ValidationException e) {
                 isExceptionThrown = true;

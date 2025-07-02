@@ -7,6 +7,13 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 2.5
+
+- Implement `attr-must-exist-in-tag` rule
+- Improve logging
+
+---
+
 ## Version 2.4
 
 - Add support for JSON changeLogs
@@ -41,15 +48,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 2.0
-
-- Refactor rules to make them agnostic of changeLog format.
-- Improve logging.
-
----
-
 ### Previous Releases
 
+- [2.5](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.5.md)
 - [2.4](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.4.md)
 - [2.3](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.3.md)
 - [2.2](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.2.md)

@@ -61,7 +61,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.YAML);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
@@ -85,7 +85,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.YAML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -109,7 +109,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.YAML);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionWrongUrl()));
@@ -134,7 +134,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.YAML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -157,7 +157,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.YAML);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
@@ -176,7 +176,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.YAML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -200,7 +200,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogSuccessFile(),
-                ChangeLogFormatEnum.YAML);
+                CHANGELOG_FORMAT);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
@@ -212,7 +212,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
                         changeSetElement,
                         exclusionParser,
                         getChangelogSuccessFile(),
-                        ChangeLogFormatEnum.YAML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

@@ -63,7 +63,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.XML);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
@@ -92,7 +92,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.XML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -116,7 +116,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.XML);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionWrongUrl()));
@@ -145,7 +145,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.XML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -169,7 +169,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
-                ChangeLogFormatEnum.XML);
+                CHANGELOG_FORMAT);
         int exceptionCount = 0;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
@@ -192,7 +192,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.XML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 exceptionCount++;
                 actualErrorMessages.add(e.getMessage());
@@ -216,7 +216,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
         // arrange
         List<ChangeSetElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogSuccessFile(),
-                ChangeLogFormatEnum.XML);
+                CHANGELOG_FORMAT);
         boolean isExceptionThrown = false;
         Element ruleElement = prepareRuleELement();
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
@@ -228,7 +228,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
-                        ChangeLogFormatEnum.XML);
+                        CHANGELOG_FORMAT);
             } catch (ValidationException e) {
                 isExceptionThrown = true;
             }

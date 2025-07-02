@@ -45,7 +45,7 @@ public class ValidateChangeLogMojoYamlIntegrationTest {
         } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Validation failed: 10 violation(s) found.", e.getMessage());
+            assertEquals("Validation failed: 20 violation(s) found.", e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }

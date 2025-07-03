@@ -57,6 +57,18 @@ This plugin allows you to create a set of rules and enforce them.
 
 ## Available rules:
 
+- [tag-must-exist](#tag-must-exist)
+- [attr-starts-with](#attr-starts-with)
+- [attr-ends-with](#attr-ends-with)
+- [attr-ends-with-conditioned](#attr-ends-with-conditioned)
+- [no-hyphens-in-attributes](#no-hyphens-in-attributes)
+- [no-underscores-in-attributes](#no-underscores-in-attributes)
+- [no-uppercase-in-attributes](#no-uppercase-in-attributes)
+- [no-lowercase-in-attributes](#no-lowercase-in-attributes)
+- [attr-must-exist-in-tag](#attr-must-exist-in-tag)
+
+---
+
 ### tag-must-exist
 
 Checks that specified tag exists in every changeSet.

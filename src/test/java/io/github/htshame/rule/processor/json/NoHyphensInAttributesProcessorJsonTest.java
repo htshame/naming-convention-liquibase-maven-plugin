@@ -48,7 +48,7 @@ public class NoHyphensInAttributesProcessorJsonTest extends RuleProcessorTestUti
         RuleEnum actual = NoHyphensInAttributesProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, actual);
+        assertEquals(RULE_ENUM, actual);
     }
 
     /**

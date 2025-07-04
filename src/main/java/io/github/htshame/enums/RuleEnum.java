@@ -10,6 +10,10 @@ public enum RuleEnum {
      */
     ATTRIBUTE_STARTS_WITH("attr-starts-with"),
     /**
+     * Represents 'attr-starts-with-conditioned' rule.
+     */
+    ATTRIBUTE_STARTS_WITH_CONDITIONED("attr-starts-with-conditioned"),
+    /**
      * Represents 'attr-ends-with' rule.
      */
     ATTRIBUTE_ENDS_WITH("attr-ends-with"),

@@ -48,7 +48,7 @@ public class NoUppercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
         RuleEnum actual = NoUppercaseInAttributesProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, actual);
+        assertEquals(RULE_ENUM, actual);
     }
 
     /**

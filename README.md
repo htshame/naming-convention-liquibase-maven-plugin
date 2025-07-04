@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.5</version>
+        <version>2.6</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -59,6 +59,7 @@ This plugin allows you to create a set of rules and enforce them.
 
 - [tag-must-exist](#tag-must-exist)
 - [attr-starts-with](#attr-starts-with)
+- [attr-starts-with-conditioned](#attr-starts-with-conditioned)
 - [attr-ends-with](#attr-ends-with)
 - [attr-ends-with-conditioned](#attr-ends-with-conditioned)
 - [no-hyphens-in-attributes](#no-hyphens-in-attributes)
@@ -103,6 +104,27 @@ Example:
 ```
 
 Will check that each `indexName` attribute of each `<createIndex>` tag starts with `idx_`.
+
+---
+
+### attr-starts-with-conditioned
+
+Checks that specified attribute starts with specified value if the certain attribute is present and has certain value.
+
+Example:
+
+```xml
+<rule name="attr-starts-with-conditioned">
+    <tag>createIndex</tag>
+    <conditionAttr>unique</conditionAttr>
+    <conditionValue>true</conditionValue>
+    <targetAttr>indexName</targetAttr>
+    <requiredPrefix>idx_unique_</requiredPrefix>
+</rule>
+```
+
+Will check that each `indexName` attribute of each `<createIndex>` tag starts with `idx_unique_` if attribute `unique="true"`
+is present.
 
 ---
 

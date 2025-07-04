@@ -12,8 +12,10 @@ import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
 /**
@@ -63,11 +65,16 @@ public class AttrEndsWithConditionedProcessor implements Rule {
                                             final String conditionValue,
                                             final String targetAttr,
                                             final String requiredSuffix) {
-        this.tag = tag;
-        this.conditionAttr = conditionAttr;
-        this.conditionValue = conditionValue;
-        this.targetAttr = targetAttr;
-        this.requiredSuffix = requiredSuffix;
+        this.tag = Objects.requireNonNull(
+                tag, validationErrorMessage(getName(), RuleStructureEnum.TAG));
+        this.conditionAttr = Objects.requireNonNull(
+                conditionAttr, validationErrorMessage(getName(), RuleStructureEnum.CONDITION_ATTR));
+        this.conditionValue = Objects.requireNonNull(
+                conditionValue, validationErrorMessage(getName(), RuleStructureEnum.CONDITION_VALUE));
+        this.targetAttr = Objects.requireNonNull(
+                targetAttr, validationErrorMessage(getName(), RuleStructureEnum.TARGET_ATTR));
+        this.requiredSuffix = Objects.requireNonNull(
+                requiredSuffix, validationErrorMessage(getName(), RuleStructureEnum.REQUIRED_SUFFIX));
     }
 
     /**

@@ -48,7 +48,7 @@ public class AttrEndsWithProcessorJsonTest extends RuleProcessorTestUtil {
         RuleEnum actual = AttrEndsWithProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.ATTRIBUTE_ENDS_WITH, actual);
+        assertEquals(RULE_ENUM, actual);
     }
 
     /**

@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.5/liquibase-naming-convention-2.5.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.6/liquibase-naming-convention-2.6.xsd">
 
     <!--
     Checks that 'comment' tag exists in every changeSet.
@@ -24,6 +24,30 @@
     </rule>
 
     <!--
+    Checks that specified attribute starts with specified value if the certain attribute is present and has
+    certain value.
+    Will check that each `indexName` attribute of each `<createIndex>` tag starts with `idx_unique_` if
+    attribute `unique="true"` is present.
+    -->
+    <rule name="attr-starts-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttr>unique</conditionAttr>
+        <conditionValue>true</conditionValue>
+        <targetAttr>indexName</targetAttr>
+        <requiredPrefix>idx_unique_</requiredPrefix>
+    </rule>
+
+    <!--
+    Checks that specified attribute ends with specified value.
+    Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `_fk`.
+    -->
+    <rule name="attr-ends-with">
+        <tag>addForeignKeyConstraint</tag>
+        <targetAttr>constraintName</targetAttr>
+        <requiredSuffix>_fk</requiredSuffix>
+    </rule>
+
+    <!--
     Checks that specified attribute ends with specified value if the certain attribute is present and has
     certain value.
     Will check that each `indexName` attribute of each `<createIndex>` tag ends with `_unique` if
@@ -35,16 +59,6 @@
         <conditionValue>true</conditionValue>
         <targetAttr>indexName</targetAttr>
         <requiredSuffix>_unique</requiredSuffix>
-    </rule>
-
-    <!--
-    Checks that specified attribute ends with specified value.
-    Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `_fk`.
-    -->
-    <rule name="attr-ends-with">
-        <tag>addForeignKeyConstraint</tag>
-        <targetAttr>constraintName</targetAttr>
-        <requiredSuffix>_fk</requiredSuffix>
     </rule>
 
     <!--

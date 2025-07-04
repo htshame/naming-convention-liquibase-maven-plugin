@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/2.5/liquibase-naming-convention-2.5.xsd">
+        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/2.6/liquibase-naming-convention-2.6.xsd">
 
     <rule name="tag-must-exist1">
         <requiredTag1>comment</requiredTag1>

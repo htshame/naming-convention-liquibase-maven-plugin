@@ -14,8 +14,10 @@ import org.w3c.dom.NodeList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 
 /**
  * Business logic for the <code>attr-must-exist-in-tag</code> rule.
@@ -46,8 +48,10 @@ public class AttrMustExistInTagProcessor implements Rule {
      */
     public AttrMustExistInTagProcessor(final String tag,
                                        final String requiredAttribute) {
-        this.tag = tag;
-        this.requiredAttribute = requiredAttribute;
+        this.tag = Objects.requireNonNull(
+                tag, validationErrorMessage(getName(), RuleStructureEnum.TAG));
+        this.requiredAttribute = Objects.requireNonNull(
+                requiredAttribute, validationErrorMessage(getName(), RuleStructureEnum.REQUIRED_ATTR));
     }
 
     /**

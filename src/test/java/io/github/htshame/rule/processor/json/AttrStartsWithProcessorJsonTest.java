@@ -48,7 +48,7 @@ public class AttrStartsWithProcessorJsonTest extends RuleProcessorTestUtil {
         RuleEnum actual = AttrStartsWithProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.ATTRIBUTE_STARTS_WITH, actual);
+        assertEquals(RULE_ENUM, actual);
     }
 
     /**

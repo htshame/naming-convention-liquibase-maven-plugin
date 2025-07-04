@@ -48,7 +48,7 @@ public class AttrMustExistInTagProcessorJsonTest extends RuleProcessorTestUtil {
         RuleEnum actual = AttrMustExistInTagProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, actual);
+        assertEquals(RULE_ENUM, actual);
     }
 
     /**

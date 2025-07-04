@@ -45,7 +45,7 @@ public class ValidateChangeLogMojoJsonIntegrationTest {
         } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Validation failed: 23 violation(s) found.", e.getMessage());
+            assertEquals("Validation failed: 25 violation(s) found.", e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }

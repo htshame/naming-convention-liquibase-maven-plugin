@@ -48,7 +48,7 @@ public class NoLowercaseInAttributesProcessorJsonTest extends RuleProcessorTestU
         RuleEnum actual = NoLowercaseInAttributesProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, actual);
+        assertEquals(RULE_ENUM, actual);
     }
 
     /**

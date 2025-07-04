@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 
 /**
  * Business logic for the <code>tag-must-exist</code> rule.
@@ -58,7 +60,8 @@ public class TagMustExistProcessor implements Rule {
      */
     public TagMustExistProcessor(final String requiredTag,
                                  final Set<String> requiredForChildTags) {
-        this.requiredTag = requiredTag;
+        this.requiredTag = Objects.requireNonNull(
+                requiredTag, validationErrorMessage(getName(), RuleStructureEnum.REQUIRED_TAG));
         this.requiredForChildTags = requiredForChildTags;
     }
 

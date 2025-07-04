@@ -47,7 +47,7 @@ public class AttrEndsWithConditionedProcessorYamlTest extends RuleProcessorTestU
         RuleEnum actual = AttrEndsWithConditionedProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, actual);
+        assertEquals(RULE_ENUM, actual);
     }
 
     /**

@@ -12,8 +12,10 @@ import org.w3c.dom.Element;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
 /**
@@ -52,9 +54,12 @@ public class AttrStartsWithProcessor implements Rule {
     public AttrStartsWithProcessor(final String tag,
                                    final String targetAttr,
                                    final String requiredPrefix) {
-        this.tag = tag;
-        this.targetAttr = targetAttr;
-        this.requiredPrefix = requiredPrefix;
+        this.tag = Objects.requireNonNull(
+                tag, validationErrorMessage(getName(), RuleStructureEnum.TAG));
+        this.targetAttr = Objects.requireNonNull(
+                targetAttr, validationErrorMessage(getName(), RuleStructureEnum.TARGET_ATTR));
+        this.requiredPrefix = Objects.requireNonNull(
+                requiredPrefix, validationErrorMessage(getName(), RuleStructureEnum.REQUIRED_PREFIX));
     }
 
     /**

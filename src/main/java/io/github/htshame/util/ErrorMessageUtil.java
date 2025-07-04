@@ -2,6 +2,7 @@ package io.github.htshame.util;
 
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.enums.RuleStructureEnum;
 
 import java.util.EnumMap;
 
@@ -31,6 +32,20 @@ public final class ErrorMessageUtil {
         attrEndsWithConditionedMap.put(
                 ChangeLogFormatEnum.JSON,
                 "Object [%s] with %s=\"%s\" must have property [%s] ending with [%s], but found: [%s]");
+
+        EnumMap<ChangeLogFormatEnum, String> attrStartsWithConditionedMap = new EnumMap<>(ChangeLogFormatEnum.class);
+        attrStartsWithConditionedMap.put(
+                ChangeLogFormatEnum.XML,
+                "Tag <%s> with %s=\"%s\" must have [%s] starting with [%s], but found: [%s]");
+        attrStartsWithConditionedMap.put(
+                ChangeLogFormatEnum.YAML,
+                "Key [%s] with %s=\"%s\" must have [%s] starting with [%s], but found: [%s]");
+        attrStartsWithConditionedMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key [%s] with %s=\"%s\" must have [%s] starting with [%s], but found: [%s]");
+        attrStartsWithConditionedMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object [%s] with %s=\"%s\" must have property [%s] starting with [%s], but found: [%s]");
 
         EnumMap<ChangeLogFormatEnum, String> attrEndsWithMap = new EnumMap<>(ChangeLogFormatEnum.class);
         attrEndsWithMap.put(
@@ -147,6 +162,7 @@ public final class ErrorMessageUtil {
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, attrEndsWithMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH, attrStartsWithMap);
+        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH_CONDITIONED, attrStartsWithConditionedMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, noHyphensInAttributesMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, noUnderscoresInAttributesMap);
         RULE_MESSAGE_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
@@ -165,5 +181,17 @@ public final class ErrorMessageUtil {
     public static String getMessage(final RuleEnum ruleEnum,
                                     final ChangeLogFormatEnum changeLogFormatEnum) {
         return RULE_MESSAGE_MAP.get(ruleEnum).get(changeLogFormatEnum);
+    }
+
+    /**
+     * Compose validation error message.
+     *
+     * @param rule          - rule name.
+     * @param ruleStructure - rule tag.
+     * @return error message.
+     */
+    public static String validationErrorMessage(final RuleEnum rule,
+                                                final RuleStructureEnum ruleStructure) {
+        return String.format("Rule '%s'. <%s> must not be null", rule.getValue(), ruleStructure.getValue());
     }
 }

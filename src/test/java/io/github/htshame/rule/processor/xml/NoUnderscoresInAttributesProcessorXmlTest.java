@@ -48,7 +48,7 @@ public class NoUnderscoresInAttributesProcessorXmlTest extends RuleProcessorTest
         RuleEnum actual = NoUnderscoresInAttributesProcessor.instantiate(ruleElement).getName();
 
         // assert
-        assertEquals(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, actual);
+        assertEquals(RULE_ENUM, actual);
     }
 
     /**

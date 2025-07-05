@@ -78,7 +78,6 @@ public class AttrEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUt
                                 + "[_unique], but found: [user_metadata_external_user_id_unique_idx1]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
-
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {

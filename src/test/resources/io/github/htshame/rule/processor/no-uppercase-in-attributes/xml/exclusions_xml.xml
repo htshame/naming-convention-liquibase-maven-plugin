@@ -1,4 +1,4 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/2.6/liquibase-naming-convention-2.6.xsd">
+            xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/2.7/liquibase-naming-convention-2.7.xsd">
     <changeSetExclusion fileName="no-uppercase-in-attributes-failure.xml" changeSetId="changelog_02_1" changeSetAuthor="test" rule="no-uppercase-in-attributes"/>
 </exclusions>

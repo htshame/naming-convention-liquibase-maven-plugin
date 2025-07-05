@@ -14,6 +14,10 @@ public enum RuleEnum {
      */
     ATTRIBUTE_STARTS_WITH_CONDITIONED("attr-starts-with-conditioned"),
     /**
+     * Represents 'attr-not-starts-with-conditioned' rule.
+     */
+    ATTRIBUTE_NOT_STARTS_WITH_CONDITIONED("attr-not-starts-with-conditioned"),
+    /**
      * Represents 'attr-ends-with' rule.
      */
     ATTRIBUTE_ENDS_WITH("attr-ends-with"),
@@ -21,6 +25,10 @@ public enum RuleEnum {
      * Represents 'attr-ends-with-conditioned' rule.
      */
     ATTRIBUTE_ENDS_WITH_CONDITIONED("attr-ends-with-conditioned"),
+    /**
+     * Represents 'attr-not-ends-with-conditioned' rule.
+     */
+    ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED("attr-not-ends-with-conditioned"),
     /**
      * Represents 'no-hyphens-in-attributes' rule.
      */

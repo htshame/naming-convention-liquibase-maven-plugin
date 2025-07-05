@@ -4,6 +4,8 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrEndsWithProcessor;
 import io.github.htshame.rule.processor.AttrMustExistInTagProcessor;
+import io.github.htshame.rule.processor.AttrNotEndsWithConditionedProcessor;
+import io.github.htshame.rule.processor.AttrNotStartsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrStartsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrStartsWithProcessor;
 import io.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
@@ -28,9 +30,12 @@ public final class RuleProcessorRegistry {
         RULE_MAP.put(RuleEnum.TAG_MUST_EXIST, TagMustExistProcessor::instantiate);
         RULE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH, AttrStartsWithProcessor::instantiate);
         RULE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH_CONDITIONED, AttrStartsWithConditionedProcessor::instantiate);
+        RULE_MAP.put(
+                RuleEnum.ATTRIBUTE_NOT_STARTS_WITH_CONDITIONED, AttrNotStartsWithConditionedProcessor::instantiate);
         RULE_MAP.put(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesProcessor::instantiate);
         RULE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, AttrEndsWithProcessor::instantiate);
         RULE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, AttrEndsWithConditionedProcessor::instantiate);
+        RULE_MAP.put(RuleEnum.ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED, AttrNotEndsWithConditionedProcessor::instantiate);
         RULE_MAP.put(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, NoUnderscoresInAttributesProcessor::instantiate);
         RULE_MAP.put(RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, NoUppercaseInAttributesProcessor::instantiate);
         RULE_MAP.put(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, NoLowercaseInAttributesProcessor::instantiate);

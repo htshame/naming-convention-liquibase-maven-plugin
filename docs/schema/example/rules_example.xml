@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.6/liquibase-naming-convention-2.6.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.7/liquibase-naming-convention-2.7.xsd">
 
     <!--
     Checks that 'comment' tag exists in every changeSet.
@@ -38,6 +38,20 @@
     </rule>
 
     <!--
+    Checks that specified attribute does not start with specified value if the certain attribute is present and has
+    certain value.
+    Will check that each `indexName` attribute of each `<createIndex>` tag does not start with `idx_unique_`
+    if attribute `unique="true"` is present.
+    -->
+    <rule name="attr-not-starts-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttr>unique</conditionAttr>
+        <conditionValue>true</conditionValue>
+        <targetAttr>indexName</targetAttr>
+        <forbiddenPrefix>idx_unique_</forbiddenPrefix>
+    </rule>
+
+    <!--
     Checks that specified attribute ends with specified value.
     Will check that each `constraintName` attribute of each `<addForeignKeyConstraint>` tag ends with `_fk`.
     -->
@@ -59,6 +73,20 @@
         <conditionValue>true</conditionValue>
         <targetAttr>indexName</targetAttr>
         <requiredSuffix>_unique</requiredSuffix>
+    </rule>
+
+    <!--
+    Checks that specified attribute does not end with specified value if the certain attribute is present
+    and has certain value.
+    Will check that each `indexName` attribute of each `<createIndex>` tag does not end with `_unique`
+    if attribute `unique="true"` is present.
+    -->
+    <rule name="attr-not-ends-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttr>unique</conditionAttr>
+        <conditionValue>true</conditionValue>
+        <targetAttr>indexName</targetAttr>
+        <forbiddenSuffix>_unique</forbiddenSuffix>
     </rule>
 
     <!--

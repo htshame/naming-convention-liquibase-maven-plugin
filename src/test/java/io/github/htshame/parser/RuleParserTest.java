@@ -5,6 +5,8 @@ import io.github.htshame.rule.Rule;
 import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrEndsWithProcessor;
 import io.github.htshame.rule.processor.AttrMustExistInTagProcessor;
+import io.github.htshame.rule.processor.AttrNotEndsWithConditionedProcessor;
+import io.github.htshame.rule.processor.AttrNotStartsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrStartsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrStartsWithProcessor;
 import io.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
@@ -25,7 +27,7 @@ import static org.junit.Assert.assertTrue;
 
 public class RuleParserTest {
 
-    private static final int RULE_SET_SIZE = 10;
+    private static final int RULE_SET_SIZE = 12;
 
     /**
      * Test successful case of rules.xml parsing.
@@ -38,8 +40,10 @@ public class RuleParserTest {
         File ruleFile = new File("src/test/resources/rules.xml");
         Set<Class<? extends Rule>> ruleClassNames = Set.of(
                 AttrEndsWithConditionedProcessor.class,
+                AttrNotEndsWithConditionedProcessor.class,
                 AttrEndsWithProcessor.class,
                 AttrStartsWithConditionedProcessor.class,
+                AttrNotStartsWithConditionedProcessor.class,
                 AttrStartsWithProcessor.class,
                 NoHyphensInAttributesProcessor.class,
                 NoUnderscoresInAttributesProcessor.class,

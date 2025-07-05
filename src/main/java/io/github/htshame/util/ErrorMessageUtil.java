@@ -33,6 +33,20 @@ public final class ErrorMessageUtil {
                 ChangeLogFormatEnum.JSON,
                 "Object [%s] with %s=\"%s\" must have property [%s] ending with [%s], but found: [%s]");
 
+        EnumMap<ChangeLogFormatEnum, String> attrNotEndsWithConditionedMap = new EnumMap<>(ChangeLogFormatEnum.class);
+        attrNotEndsWithConditionedMap.put(
+                ChangeLogFormatEnum.XML,
+                "Tag <%s> with %s=\"%s\" must not have [%s] ending with [%s], but found: [%s]");
+        attrNotEndsWithConditionedMap.put(
+                ChangeLogFormatEnum.YAML,
+                "Key [%s] with %s=\"%s\" must not have [%s] ending with [%s], but found: [%s]");
+        attrNotEndsWithConditionedMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key [%s] with %s=\"%s\" must not have [%s] ending with [%s], but found: [%s]");
+        attrNotEndsWithConditionedMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object [%s] with %s=\"%s\" must not have property [%s] ending with [%s], but found: [%s]");
+
         EnumMap<ChangeLogFormatEnum, String> attrStartsWithConditionedMap = new EnumMap<>(ChangeLogFormatEnum.class);
         attrStartsWithConditionedMap.put(
                 ChangeLogFormatEnum.XML,
@@ -46,6 +60,20 @@ public final class ErrorMessageUtil {
         attrStartsWithConditionedMap.put(
                 ChangeLogFormatEnum.JSON,
                 "Object [%s] with %s=\"%s\" must have property [%s] starting with [%s], but found: [%s]");
+
+        EnumMap<ChangeLogFormatEnum, String> attrNotStartsWithConditionedMap = new EnumMap<>(ChangeLogFormatEnum.class);
+        attrNotStartsWithConditionedMap.put(
+                ChangeLogFormatEnum.XML,
+                "Tag <%s> with %s=\"%s\" must not have [%s] starting with [%s], but found: [%s]");
+        attrNotStartsWithConditionedMap.put(
+                ChangeLogFormatEnum.YAML,
+                "Key [%s] with %s=\"%s\" must not have [%s] starting with [%s], but found: [%s]");
+        attrNotStartsWithConditionedMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key [%s] with %s=\"%s\" must not have [%s] starting with [%s], but found: [%s]");
+        attrNotStartsWithConditionedMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object [%s] with %s=\"%s\" must not have property [%s] starting with [%s], but found: [%s]");
 
         EnumMap<ChangeLogFormatEnum, String> attrEndsWithMap = new EnumMap<>(ChangeLogFormatEnum.class);
         attrEndsWithMap.put(
@@ -159,15 +187,17 @@ public final class ErrorMessageUtil {
                 ChangeLogFormatEnum.JSON,
                 "Object <%s>. Property [%s] is missing or empty");
 
-        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, attrEndsWithMap);
+        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
+        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED, attrNotEndsWithConditionedMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH, attrStartsWithMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH_CONDITIONED, attrStartsWithConditionedMap);
+        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_NOT_STARTS_WITH_CONDITIONED, attrNotStartsWithConditionedMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, noHyphensInAttributesMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, noUnderscoresInAttributesMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, noUppercaseInAttrsMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, noLowercaseInAttrsMap);
+        RULE_MESSAGE_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, attrMustExistInTagMap);
     }
 

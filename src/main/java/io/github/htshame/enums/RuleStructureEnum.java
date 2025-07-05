@@ -41,6 +41,10 @@ public enum RuleStructureEnum {
      */
     REQUIRED_PREFIX("requiredPrefix"),
     /**
+     * Represents 'forbiddenPrefix' tag.
+     */
+    FORBIDDEN_PREFIX("forbiddenPrefix"),
+    /**
      * Represents 'conditionAttr' tag.
      */
     CONDITION_ATTR("conditionAttr"),
@@ -52,6 +56,10 @@ public enum RuleStructureEnum {
      * Represents 'requiredSuffix' tag.
      */
     REQUIRED_SUFFIX("requiredSuffix"),
+    /**
+     * Represents 'forbiddenSuffix' tag.
+     */
+    FORBIDDEN_SUFFIX("forbiddenSuffix"),
     /**
      * Represents 'requiredAttr' tag.
      */

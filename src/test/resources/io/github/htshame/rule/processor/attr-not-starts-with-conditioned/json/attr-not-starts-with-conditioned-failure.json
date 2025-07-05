@@ -1,0 +1,92 @@
+{
+  "databaseChangeLog": [
+    {
+      "changeSet": {
+        "id": "changelog_02_3",
+        "author": "test",
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN"
+          },
+          {
+            "not": {
+              "indexExists": {
+                "indexName": "idx_unique_user_metadata_external_user_id"
+              }
+            }
+          },
+          {
+            "tableExists": {
+              "tableName": "user-metadata"
+            }
+          },
+          {
+            "columnExists": {
+              "tableName": "user-metadata",
+              "columnName": "external_user_id"
+            }
+          }
+        ],
+        "comment": "Comment",
+        "changes": [
+          {
+            "createIndex": {
+              "tableName": "user-metadata",
+              "indexName": "idx_unique_user_metadata_external_user_id",
+              "unique": true,
+              "columns": [
+                {
+                  "name": "external_user_id"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "changelog_02_4",
+        "author": "test",
+        "preConditions": [
+          {
+            "onFail": "MARK_RAN"
+          },
+          {
+            "not": {
+              "indexExists": {
+                "indexName": "unique_idx_user_metadata_external_user_id"
+              }
+            }
+          },
+          {
+            "tableExists": {
+              "tableName": "user-metadata"
+            }
+          },
+          {
+            "columnExists": {
+              "tableName": "user-metadata",
+              "columnName": "external_user_id"
+            }
+          }
+        ],
+        "comment": "Comment",
+        "changes": [
+          {
+            "createIndex": {
+              "tableName": "user-metadata",
+              "indexName": "idx_unique_user_metadata_external_user_id",
+              "unique": true,
+              "columns": [
+                {
+                  "name": "external_user_id"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

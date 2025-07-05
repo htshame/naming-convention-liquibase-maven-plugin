@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/2.6/liquibase-naming-convention-2.6.xsd">
+        xsi:noNamespaceSchemaLocation="../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
 
     <rule name="tag-must-exist">
         <requiredTag>comment</requiredTag>
@@ -68,6 +68,22 @@
     <rule name="attr-must-exist-in-tag">
         <tag>createTable</tag>
         <requiredAttr>remarks</requiredAttr>
+    </rule>
+
+    <rule name="attr-not-starts-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttr>unique</conditionAttr>
+        <conditionValue>true</conditionValue>
+        <targetAttr>indexName</targetAttr>
+        <forbiddenPrefix>idx_unique_</forbiddenPrefix>
+    </rule>
+
+    <rule name="attr-not-ends-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttr>unique</conditionAttr>
+        <conditionValue>true</conditionValue>
+        <targetAttr>indexName</targetAttr>
+        <forbiddenSuffix>_unique</forbiddenSuffix>
     </rule>
 </rules>
 

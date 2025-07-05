@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.6</version>
+        <version>2.7</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -60,8 +60,10 @@ This plugin allows you to create a set of rules and enforce them.
 - [tag-must-exist](#tag-must-exist)
 - [attr-starts-with](#attr-starts-with)
 - [attr-starts-with-conditioned](#attr-starts-with-conditioned)
+- [attr-not-starts-with-conditioned](#attr-not-starts-with-conditioned)
 - [attr-ends-with](#attr-ends-with)
 - [attr-ends-with-conditioned](#attr-ends-with-conditioned)
+- [attr-not-ends-with-conditioned](#attr-not-ends-with-conditioned)
 - [no-hyphens-in-attributes](#no-hyphens-in-attributes)
 - [no-underscores-in-attributes](#no-underscores-in-attributes)
 - [no-uppercase-in-attributes](#no-uppercase-in-attributes)
@@ -128,6 +130,27 @@ is present.
 
 ---
 
+### attr-not-starts-with-conditioned
+
+Checks that specified attribute does not start with specified value if the certain attribute is present and has certain value.
+
+Example:
+
+```xml
+<rule name="attr-not-starts-with-conditioned">
+    <tag>createIndex</tag>
+    <conditionAttr>unique</conditionAttr>
+    <conditionValue>true</conditionValue>
+    <targetAttr>indexName</targetAttr>
+    <forbiddenPrefix>idx_unique_</forbiddenPrefix>
+</rule>
+```
+
+Will check that each `indexName` attribute of each `<createIndex>` tag does not start with `idx_unique_` if attribute `unique="true"`
+is present.
+
+---
+
 ### attr-ends-with
 
 Checks that specified attribute ends with specified value.
@@ -163,6 +186,27 @@ Example:
 ```
 
 Will check that each `indexName` attribute of each `<createIndex>` tag ends with `_unique` if attribute `unique="true"`
+is present.
+
+---
+
+### attr-not-ends-with-conditioned
+
+Checks that specified attribute does not end with specified value if the certain attribute is present and has certain value.
+
+Example:
+
+```xml
+<rule name="attr-not-ends-with-conditioned">
+    <tag>createIndex</tag>
+    <conditionAttr>unique</conditionAttr>
+    <conditionValue>true</conditionValue>
+    <targetAttr>indexName</targetAttr>
+    <forbiddenSuffix>_unique</forbiddenSuffix>
+</rule>
+```
+
+Will check that each `indexName` attribute of each `<createIndex>` tag does not end with `_unique` if attribute `unique="true"`
 is present.
 
 ---

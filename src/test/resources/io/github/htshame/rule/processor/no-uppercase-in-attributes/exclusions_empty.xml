@@ -1,4 +1,4 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/2.7/liquibase-naming-convention-2.7.xsd">
+            xsi:noNamespaceSchemaLocation="../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
 
 </exclusions>

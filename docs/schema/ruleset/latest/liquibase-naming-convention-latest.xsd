@@ -10,8 +10,10 @@
             <xs:enumeration value="no-hyphens-in-attributes"/>
             <xs:enumeration value="attr-starts-with"/>
             <xs:enumeration value="attr-starts-with-conditioned"/>
+            <xs:enumeration value="attr-not-starts-with-conditioned"/>
             <xs:enumeration value="attr-ends-with"/>
             <xs:enumeration value="attr-ends-with-conditioned"/>
+            <xs:enumeration value="attr-not-ends-with-conditioned"/>
             <xs:enumeration value="no-underscores-in-attributes"/>
             <xs:enumeration value="no-uppercase-in-attributes"/>
             <xs:enumeration value="no-lowercase-in-attributes"/>
@@ -25,8 +27,10 @@
             <xs:enumeration value="no-hyphens-in-attributes"/>
             <xs:enumeration value="attr-starts-with"/>
             <xs:enumeration value="attr-starts-with-conditioned"/>
+            <xs:enumeration value="attr-not-starts-with-conditioned"/>
             <xs:enumeration value="attr-ends-with"/>
             <xs:enumeration value="attr-ends-with-conditioned"/>
+            <xs:enumeration value="attr-not-ends-with-conditioned"/>
             <xs:enumeration value="no-underscores-in-attributes"/>
             <xs:enumeration value="no-uppercase-in-attributes"/>
             <xs:enumeration value="no-lowercase-in-attributes"/>
@@ -67,7 +71,9 @@
                             <xs:element name="conditionValue" type="xs:string" minOccurs="0"/>
                             <xs:element name="targetAttr" type="xs:string" minOccurs="0"/>
                             <xs:element name="requiredPrefix" type="xs:string" minOccurs="0"/>
+                            <xs:element name="forbiddenPrefix" type="xs:string" minOccurs="0"/>
                             <xs:element name="requiredSuffix" type="xs:string" minOccurs="0"/>
+                            <xs:element name="forbiddenSuffix" type="xs:string" minOccurs="0"/>
                             <xs:element name="requiredTag" type="xs:string" minOccurs="0"/>
                             <xs:element name="requiredAttr" type="xs:string" minOccurs="0"/>
                             <xs:element name="requiredForChildTags" minOccurs="0">

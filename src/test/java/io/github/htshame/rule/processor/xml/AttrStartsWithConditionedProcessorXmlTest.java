@@ -78,7 +78,6 @@ public class AttrStartsWithConditionedProcessorXmlTest extends RuleProcessorTest
                                 + "with [idx_unique_], but found: [user_metadata_external_user_id_unique_idx1]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
-
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {

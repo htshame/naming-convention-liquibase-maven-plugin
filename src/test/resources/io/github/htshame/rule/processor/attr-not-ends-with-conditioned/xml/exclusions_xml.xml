@@ -1,0 +1,4 @@
+<exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
+    <changeSetExclusion fileName="attr-not-ends-with-conditioned-failure.xml" changeSetId="changelog_02_3" changeSetAuthor="test" rule="attr-not-ends-with-conditioned"/>
+</exclusions>

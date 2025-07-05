@@ -7,6 +7,13 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 2.7
+
+- Implement `attr-not-starts-with-conditioned` rule
+- Implement `attr-not-ends-with-conditioned` rule
+
+---
+
 ## Version 2.6
 
 - Implement `attr-starts-with-conditioned` rule
@@ -39,15 +46,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 2.2
-
-- Add support for YAML/YML changeLog format
-- Improve logging.
-
----
-
 ### Previous Releases
 
+- [2.7](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.7.md)
 - [2.6](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.6.md)
 - [2.5](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.5.md)
 - [2.4](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.4.md)

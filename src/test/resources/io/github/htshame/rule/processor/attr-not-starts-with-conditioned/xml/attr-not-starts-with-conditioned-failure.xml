@@ -1,0 +1,37 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="changelog_02_3" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_unique_user_metadata_external_user_id"/>
+            </not>
+            <tableExists tableName="user-metadata"/>
+            <columnExists tableName="user-metadata" columnName="external_user_id"/>
+        </preConditions>
+        <comment>
+            Comment
+        </comment>
+        <createIndex tableName="user-metadata" indexName="idx_unique_user_metadata_external_user_id" unique="true">
+            <column name="external_user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="changelog_02_4" author="test">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <indexExists indexName="idx_unique_1user_metadata_external_user_id"/>
+            </not>
+            <tableExists tableName="user-metadata"/>
+            <columnExists tableName="user-metadata" columnName="external_user_id"/>
+        </preConditions>
+        <comment>
+            Comment
+        </comment>
+        <createIndex tableName="user-metadata" indexName="idx_unique_1user_metadata_external_user_id" unique="true">
+            <column name="external_user_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

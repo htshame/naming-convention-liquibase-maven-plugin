@@ -1,7 +1,7 @@
 package io.github.htshame.parser;
 
 import io.github.htshame.exception.RuleParserException;
-import io.github.htshame.rule.Rule;
+import io.github.htshame.rule.ChangeSetRule;
 import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrEndsWithProcessor;
 import io.github.htshame.rule.processor.AttrMustExistInTagProcessor;
@@ -25,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
-public class RuleParserTest {
+public class ChangeSetRuleParserTest {
 
     private static final int RULE_SET_SIZE = 12;
 
@@ -38,7 +38,7 @@ public class RuleParserTest {
     public void testParseRulesSuccess() throws RuleParserException {
         // arrange
         File ruleFile = new File("src/test/resources/rules.xml");
-        Set<Class<? extends Rule>> ruleClassNames = Set.of(
+        Set<Class<? extends ChangeSetRule>> ruleClassNames = Set.of(
                 AttrEndsWithConditionedProcessor.class,
                 AttrNotEndsWithConditionedProcessor.class,
                 AttrEndsWithProcessor.class,
@@ -54,12 +54,12 @@ public class RuleParserTest {
         );
 
         // act
-        List<Rule> actual = RuleParser.parseRules(ruleFile);
+        List<ChangeSetRule> actual = RuleParser.parseRules(ruleFile);
 
         // assert
         assertEquals(RULE_SET_SIZE, actual.size());
-        Set<Class<? extends Rule>> actualClasses = actual.stream()
-                .map(Rule::getClass)
+        Set<Class<? extends ChangeSetRule>> actualClasses = actual.stream()
+                .map(ChangeSetRule::getClass)
                 .collect(Collectors.toSet());
         assertTrue(ruleClassNames.containsAll(actualClasses));
     }

@@ -24,22 +24,33 @@ public final class RuleProcessorRegistry {
     /**
      * Map of rule processors mapped to the corresponding {@link RuleEnum}.
      */
-    private static final EnumMap<RuleEnum, RuleFactory> RULE_MAP = new EnumMap<>(RuleEnum.class);
+    private static final EnumMap<RuleEnum, RuleFactory> CHANGE_SET_RULE = new EnumMap<>(RuleEnum.class);
 
     static {
-        RULE_MAP.put(RuleEnum.TAG_MUST_EXIST, TagMustExistProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH, AttrStartsWithProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH_CONDITIONED, AttrStartsWithConditionedProcessor::instantiate);
-        RULE_MAP.put(
+        CHANGE_SET_RULE.put(
+                RuleEnum.TAG_MUST_EXIST, TagMustExistProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.ATTRIBUTE_STARTS_WITH, AttrStartsWithProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.ATTRIBUTE_STARTS_WITH_CONDITIONED, AttrStartsWithConditionedProcessor::instantiate);
+        CHANGE_SET_RULE.put(
                 RuleEnum.ATTRIBUTE_NOT_STARTS_WITH_CONDITIONED, AttrNotStartsWithConditionedProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, AttrEndsWithProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, AttrEndsWithConditionedProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED, AttrNotEndsWithConditionedProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, NoUnderscoresInAttributesProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, NoUppercaseInAttributesProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, NoLowercaseInAttributesProcessor::instantiate);
-        RULE_MAP.put(RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, AttrMustExistInTagProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.ATTRIBUTE_ENDS_WITH, AttrEndsWithProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, AttrEndsWithConditionedProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED, AttrNotEndsWithConditionedProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, NoUnderscoresInAttributesProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, NoUppercaseInAttributesProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, NoLowercaseInAttributesProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, AttrMustExistInTagProcessor::instantiate);
     }
 
     private RuleProcessorRegistry() {
@@ -53,6 +64,6 @@ public final class RuleProcessorRegistry {
      * @return corresponding processor.
      */
     public static RuleFactory getFactory(final RuleEnum ruleEnum) {
-        return RULE_MAP.get(ruleEnum);
+        return CHANGE_SET_RULE.get(ruleEnum);
     }
 }

@@ -6,7 +6,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.Rule;
+import io.github.htshame.rule.ChangeSetRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -40,7 +40,7 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
  * <p>This will verify that there are no hyphens in attributes, excluding attributes specified in
  * <code>excludedAttrs</code>.</p>
  */
-public class NoHyphensInAttributesProcessor implements Rule {
+public class NoHyphensInAttributesProcessor implements ChangeSetRule {
 
     private static final String HYPHEN = "-";
 

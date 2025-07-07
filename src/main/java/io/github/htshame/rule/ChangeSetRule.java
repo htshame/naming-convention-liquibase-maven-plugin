@@ -9,7 +9,7 @@ import io.github.htshame.parser.ExclusionParser;
 /**
  * Interface for rule handling.
  */
-public interface Rule {
+public interface ChangeSetRule {
 
     /**
      * Get rule name.
@@ -19,7 +19,7 @@ public interface Rule {
     RuleEnum getName();
 
     /**
-     * Validates the changeSet against the rule which implements {@link Rule}.
+     * Validates the changeSet against the rule which implements {@link ChangeSetRule}.
      *
      * @param changeSetElement  - changeSet.
      * @param exclusionParser   - exclusion parser.

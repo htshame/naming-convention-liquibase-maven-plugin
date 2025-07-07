@@ -6,7 +6,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.Rule;
+import io.github.htshame.rule.ChangeSetRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 
@@ -38,7 +38,7 @@ import static io.github.htshame.util.RuleUtil.getText;
  * </code></pre>
  * indeed starts with <code>idx_</code>.
  */
-public class AttrStartsWithProcessor implements Rule {
+public class AttrStartsWithProcessor implements ChangeSetRule {
 
     private final String tag;
     private final String targetAttr;

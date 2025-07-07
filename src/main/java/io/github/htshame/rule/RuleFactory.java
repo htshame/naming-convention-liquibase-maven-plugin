@@ -14,8 +14,8 @@ public interface RuleFactory {
      * Populate rule with the contents from XML file.
      *
      * @param element - changeSet element.
-     * @return instance of {@link Rule}.
+     * @return instance of {@link ChangeSetRule}.
      */
-    Rule instantiate(Element element);
+    ChangeSetRule instantiate(Element element);
 
 }

@@ -63,7 +63,19 @@ public enum RuleStructureEnum {
     /**
      * Represents 'requiredAttr' tag.
      */
-    REQUIRED_ATTR("requiredAttr");
+    REQUIRED_ATTR("requiredAttr"),
+    /**
+     * Represents 'fileNameRegexp' tag.
+     */
+    FILE_NAME_REGEXP("fileNameRegexp"),
+    /**
+     * Represents 'excludedFileNames' tag.
+     */
+    EXCLUDED_FILE_NAMES("excludedFileNames"),
+    /**
+     * Represents 'fileName' tag.
+     */
+    FILE_NAME("fileName");
 
     private final String value;
 

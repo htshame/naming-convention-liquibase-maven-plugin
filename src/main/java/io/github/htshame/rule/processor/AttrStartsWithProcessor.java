@@ -4,6 +4,7 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
+import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeSetRule;
@@ -73,6 +74,16 @@ public class AttrStartsWithProcessor implements ChangeSetRule {
     }
 
     /**
+     * Get rule type.
+     *
+     * @return rule type.
+     */
+    @Override
+    public RuleTypeEnum getType() {
+        return RuleTypeEnum.CHANGE_SET_RULE;
+    }
+
+    /**
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
@@ -95,10 +106,10 @@ public class AttrStartsWithProcessor implements ChangeSetRule {
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final ChangeSetElement changeSetElement,
-                         final ExclusionParser exclusionParser,
-                         final String changeLogFileName,
-                         final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
+    public void validateChangeSet(final ChangeSetElement changeSetElement,
+                                  final ExclusionParser exclusionParser,
+                                  final String changeLogFileName,
+                                  final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }

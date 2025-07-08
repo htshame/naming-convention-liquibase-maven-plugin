@@ -3,7 +3,9 @@ package io.github.htshame.parser;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.RuleParserException;
+import io.github.htshame.rule.ChangeLogRule;
 import io.github.htshame.rule.ChangeSetRule;
+import io.github.htshame.rule.Rule;
 import io.github.htshame.rule.RuleFactory;
 import io.github.htshame.rule.RuleProcessorRegistry;
 import org.w3c.dom.Document;
@@ -61,8 +63,8 @@ public final class RuleParser {
      * @return list of rules.
      * @throws RuleParserException - thrown if parsing fails.
      */
-    public static List<ChangeSetRule> parseRules(final File rulesetFile) throws RuleParserException {
-        List<ChangeSetRule> changeSetRules = new ArrayList<>();
+    public static List<Rule> parseRules(final File rulesetFile) throws RuleParserException {
+        List<Rule> rules = new ArrayList<>();
         try {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
             NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE.getValue());
@@ -71,10 +73,17 @@ public final class RuleParser {
                 RuleEnum ruleType =
                         RuleEnum.fromValue(ruleElement.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
 
-                RuleFactory ruleFactory = RuleProcessorRegistry.getFactory(ruleType);
                 try {
-                    ChangeSetRule changeSetRule = ruleFactory.instantiate(ruleElement);
-                    changeSetRules.add(changeSetRule);
+                    RuleFactory<ChangeSetRule> ruleFactory = RuleProcessorRegistry.getChangeSetRuleFactory(ruleType);
+                    if (ruleFactory != null) {
+                        ChangeSetRule changeSetRule = ruleFactory.instantiate(ruleElement);
+                        rules.add(changeSetRule);
+                    } else {
+                        RuleFactory<ChangeLogRule> changeLogRuleFactory =
+                                RuleProcessorRegistry.getChangeLogRuleFactory(ruleType);
+                        ChangeLogRule changeSetRule = changeLogRuleFactory.instantiate(ruleElement);
+                        rules.add(changeSetRule);
+                    }
                 } catch (Exception e) {
                     throw new RuleParserException("Failed to instantiate rule for type: " + ruleType, e);
                 }
@@ -82,7 +91,7 @@ public final class RuleParser {
         } catch (Exception e) {
             throw new RuleParserException("Error parsing ruleset XML file. Message: " + e.getMessage(), e);
         }
-        return changeSetRules;
+        return rules;
     }
 
 }

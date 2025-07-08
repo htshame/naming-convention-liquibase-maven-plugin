@@ -55,7 +55,7 @@ public class AttrNotEndsWithConditionedProcessorJsonTest extends RuleProcessorTe
      * Test failed validation.
      */
     @Test
-    public void testValidateFailure() throws ParserConfigurationException,
+    public void testValidateChangeSetFailure() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException, ChangeLogParseException {
@@ -84,7 +84,7 @@ public class AttrNotEndsWithConditionedProcessorJsonTest extends RuleProcessorTe
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrNotEndsWithConditionedProcessor.instantiate(ruleElement).validate(
+                AttrNotEndsWithConditionedProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -104,7 +104,7 @@ public class AttrNotEndsWithConditionedProcessorJsonTest extends RuleProcessorTe
      * Test failed validation with wrong exclusion.
      */
     @Test
-    public void testValidateFailureWrongExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWrongExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -135,7 +135,7 @@ public class AttrNotEndsWithConditionedProcessorJsonTest extends RuleProcessorTe
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrNotEndsWithConditionedProcessor.instantiate(ruleElement).validate(
+                AttrNotEndsWithConditionedProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -155,7 +155,7 @@ public class AttrNotEndsWithConditionedProcessorJsonTest extends RuleProcessorTe
      * Test failed validation with exclusion.
      */
     @Test
-    public void testValidateFailureWithExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWithExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException, ChangeLogParseException {
@@ -178,7 +178,7 @@ public class AttrNotEndsWithConditionedProcessorJsonTest extends RuleProcessorTe
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrNotEndsWithConditionedProcessor.instantiate(ruleElement).validate(
+                AttrNotEndsWithConditionedProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -198,7 +198,7 @@ public class AttrNotEndsWithConditionedProcessorJsonTest extends RuleProcessorTe
      * Test successful validation.
      */
     @Test
-    public void testValidateSuccess() throws ParserConfigurationException,
+    public void testValidateChangeSetSuccess() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -214,7 +214,7 @@ public class AttrNotEndsWithConditionedProcessorJsonTest extends RuleProcessorTe
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrNotEndsWithConditionedProcessor.instantiate(ruleElement).validate(
+                AttrNotEndsWithConditionedProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogSuccessFile(),

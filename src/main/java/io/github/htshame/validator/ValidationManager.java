@@ -8,7 +8,9 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
+import io.github.htshame.rule.ChangeLogRule;
 import io.github.htshame.rule.ChangeSetRule;
+import io.github.htshame.rule.Rule;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,21 +47,42 @@ public class ValidationManager {
      * Commence validation.
      *
      * @param changeLogFiles  - changeLog files to validate.
-     * @param changeSetRules  - set of rules to validate against.
+     * @param rules           - set of rules to validate against.
      * @param exclusionParser - exclusions.
      * @param changeLogFormat - changeLog format.
      * @return list of validation errors. Empty list if there are no errors.
      */
     public List<String> validate(final List<File> changeLogFiles,
-                                 final List<ChangeSetRule> changeSetRules,
+                                 final List<Rule> rules,
                                  final ExclusionParser exclusionParser,
                                  final ChangeLogFormatEnum changeLogFormat) {
         List<String> validationErrors = new ArrayList<>();
+
         for (File changeLogFile : changeLogFiles) {
-            Set<ChangeSetRule> rulesToValidateWith =
-                    excludeRulesBasedOnExclusionFile(changeSetRules, exclusionParser, changeLogFile);
+            Set<Rule> rulesToValidateWith =
+                    excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
+            Set<ChangeSetRule> changeSetRules = new HashSet<>();
+            Set<ChangeLogRule> changeLogRules = new HashSet<>();
+            for (Rule rule : rulesToValidateWith) {
+                switch (rule.getType()) {
+                    case CHANGE_SET_RULE:
+                        changeSetRules.add((ChangeSetRule) rule);
+                        break;
+                    case CHANGE_LOG_RULE:
+                        changeLogRules.add((ChangeLogRule) rule);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             validationErrors.addAll(
-                    processValidation(changeLogFile, rulesToValidateWith, exclusionParser, changeLogFormat));
+                    processValidation(
+                            changeLogFile,
+                            changeLogRules,
+                            changeSetRules,
+                            exclusionParser,
+                            changeLogFormat));
         }
         return validationErrors;
     }
@@ -68,24 +91,34 @@ public class ValidationManager {
      * Process a single changeLog file.
      *
      * @param changeLogFile   - changeLog file.
-     * @param changeSetRules  - set of rules.
+     * @param changeLogRules  - set of changeLog rules.
+     * @param changeSetRules  - set of changeSet rules.
      * @param exclusionParser - exclusion parser.
      * @param changeLogFormat - changeLog format.
      * @return list of validation errors. Empty list of there are no errors.
      */
     private List<String> processValidation(final File changeLogFile,
+                                           final Set<ChangeLogRule> changeLogRules,
                                            final Set<ChangeSetRule> changeSetRules,
                                            final ExclusionParser exclusionParser,
                                            final ChangeLogFormatEnum changeLogFormat) {
         List<String> validationErrors = new ArrayList<>();
         try {
+            for (ChangeLogRule changeLogRule : changeLogRules) {
+                try {
+                    changeLogRule.validateChangeLog(changeLogFile);
+                } catch (ValidationException e) {
+                    validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
+                }
+            }
+
             List<ChangeSetElement> changeSetElements = CHANGELOG_PARSER.get(changeLogFormat)
                     .parseChangeLog(changeLogFile);
 
             for (ChangeSetRule changeSetRule : changeSetRules) {
                 for (ChangeSetElement changeSetElement : changeSetElements) {
                     try {
-                        changeSetRule.validate(
+                        changeSetRule.validateChangeSet(
                                 changeSetElement,
                                 exclusionParser,
                                 changeLogFile.getName(),
@@ -110,11 +143,11 @@ public class ValidationManager {
      * @param changeLogFile   - changeLog file.
      * @return set of rules to apply to the given changeLog file.
      */
-    private Set<ChangeSetRule> excludeRulesBasedOnExclusionFile(final List<ChangeSetRule> changeSetRules,
-                                                                final ExclusionParser exclusionParser,
-                                                                final File changeLogFile) {
-        Set<ChangeSetRule> rulesToValidateWith = new HashSet<>();
-        for (ChangeSetRule changeSetRule : changeSetRules) {
+    private Set<Rule> excludeRulesBasedOnExclusionFile(final List<Rule> changeSetRules,
+                                                       final ExclusionParser exclusionParser,
+                                                       final File changeLogFile) {
+        Set<Rule> rulesToValidateWith = new HashSet<>();
+        for (Rule changeSetRule : changeSetRules) {
             if (!exclusionParser.isFileExcluded(changeLogFile.getName(), changeSetRule.getName())) {
                 rulesToValidateWith.add(changeSetRule);
             }

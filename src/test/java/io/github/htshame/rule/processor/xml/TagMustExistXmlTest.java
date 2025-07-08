@@ -90,7 +90,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                TagMustExistProcessor.instantiate(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -146,7 +146,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                TagMustExistProcessor.instantiate(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -196,7 +196,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                TagMustExistProcessor.instantiate(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -232,7 +232,7 @@ public class TagMustExistXmlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                TagMustExistProcessor.instantiate(ruleElement).validate(
+                TagMustExistProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogSuccessFile(),

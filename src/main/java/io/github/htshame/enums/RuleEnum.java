@@ -54,6 +54,10 @@ public enum RuleEnum {
      */
     ATTRIBUTE_MUST_EXIST_IN_TAG("attr-must-exist-in-tag"),
     /**
+     * Represents 'changelog-file-name-must-match-regexp' rule.
+     */
+    CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP("changelog-file-name-must-match-regexp"),
+    /**
      * Represents '*' - all rules.
      */
     ALL_RULES("*");

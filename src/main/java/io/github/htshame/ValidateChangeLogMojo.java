@@ -6,7 +6,7 @@ import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.parser.RuleParser;
-import io.github.htshame.rule.ChangeSetRule;
+import io.github.htshame.rule.Rule;
 import io.github.htshame.util.ChangeLogFilesCollector;
 import io.github.htshame.validator.ValidationManager;
 import org.apache.maven.plugin.AbstractMojo;
@@ -91,7 +91,7 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         validateInput();
 
-        List<ChangeSetRule> changeSetRules;
+        List<Rule> changeSetRules;
         ExclusionParser exclusionParser;
         List<File> changeLogFiles;
         ChangeLogFormatEnum changeLogFormatEnum = ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());

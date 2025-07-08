@@ -13,6 +13,7 @@ import io.github.htshame.rule.processor.NoLowercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
+import io.github.htshame.rule.processor.changelog.ChangeLogFileMustMatchRegexpProcessor;
 
 import java.util.EnumMap;
 
@@ -24,7 +25,8 @@ public final class RuleProcessorRegistry {
     /**
      * Map of rule processors mapped to the corresponding {@link RuleEnum}.
      */
-    private static final EnumMap<RuleEnum, RuleFactory> CHANGE_SET_RULE = new EnumMap<>(RuleEnum.class);
+    private static final EnumMap<RuleEnum, RuleFactory<ChangeSetRule>> CHANGE_SET_RULE = new EnumMap<>(RuleEnum.class);
+    private static final EnumMap<RuleEnum, RuleFactory<ChangeLogRule>> CHANGE_LOG_RULE = new EnumMap<>(RuleEnum.class);
 
     static {
         CHANGE_SET_RULE.put(
@@ -51,6 +53,9 @@ public final class RuleProcessorRegistry {
                 RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, NoLowercaseInAttributesProcessor::instantiate);
         CHANGE_SET_RULE.put(
                 RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, AttrMustExistInTagProcessor::instantiate);
+
+        CHANGE_LOG_RULE.put(
+                RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, ChangeLogFileMustMatchRegexpProcessor::instantiate);
     }
 
     private RuleProcessorRegistry() {
@@ -58,12 +63,22 @@ public final class RuleProcessorRegistry {
     }
 
     /**
-     * Get factory by rule.
+     * Get changeSet rule factory by rule.
      *
      * @param ruleEnum - rule.
      * @return corresponding processor.
      */
-    public static RuleFactory getFactory(final RuleEnum ruleEnum) {
+    public static RuleFactory<ChangeSetRule> getChangeSetRuleFactory(final RuleEnum ruleEnum) {
         return CHANGE_SET_RULE.get(ruleEnum);
+    }
+
+    /**
+     * Get changeLog rule factory by rule.
+     *
+     * @param ruleEnum - rule.
+     * @return corresponding processor.
+     */
+    public static RuleFactory<ChangeLogRule> getChangeLogRuleFactory(final RuleEnum ruleEnum) {
+        return CHANGE_LOG_RULE.get(ruleEnum);
     }
 }

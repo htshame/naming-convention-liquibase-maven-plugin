@@ -2,21 +2,13 @@ package io.github.htshame.rule;
 
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
-import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 
 /**
- * Interface for rule handling.
+ * Interface for changeSet rule handling.
  */
-public interface ChangeSetRule {
-
-    /**
-     * Get rule name.
-     *
-     * @return rule name.
-     */
-    RuleEnum getName();
+public interface ChangeSetRule extends Rule {
 
     /**
      * Validates the changeSet against the rule which implements {@link ChangeSetRule}.
@@ -27,9 +19,9 @@ public interface ChangeSetRule {
      * @param changeLogFormat   - changeLog format.
      * @throws ValidationException - thrown if validation fails.
      */
-    void validate(ChangeSetElement changeSetElement,
-                  ExclusionParser exclusionParser,
-                  String changeLogFileName,
-                  ChangeLogFormatEnum changeLogFormat) throws ValidationException;
+    void validateChangeSet(ChangeSetElement changeSetElement,
+                           ExclusionParser exclusionParser,
+                           String changeLogFileName,
+                           ChangeLogFormatEnum changeLogFormat) throws ValidationException;
 
 }

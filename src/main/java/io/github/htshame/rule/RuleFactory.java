@@ -4,11 +4,12 @@ import org.w3c.dom.Element;
 
 /**
  * Rule factory.
- * <p>
+ * <br>
+ * @param <T> - rule type.
  * Enforces that all rule handlers implement {@link RuleFactory#instantiate} method.
  */
 @FunctionalInterface
-public interface RuleFactory {
+public interface RuleFactory<T extends Rule> {
 
     /**
      * Populate rule with the contents from XML file.
@@ -16,6 +17,6 @@ public interface RuleFactory {
      * @param element - changeSet element.
      * @return instance of {@link ChangeSetRule}.
      */
-    ChangeSetRule instantiate(Element element);
+    T instantiate(Element element);
 
 }

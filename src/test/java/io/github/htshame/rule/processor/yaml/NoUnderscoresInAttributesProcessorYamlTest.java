@@ -55,7 +55,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
      * Test failed validation.
      */
     @Test
-    public void testValidateFailure() throws ParserConfigurationException,
+    public void testValidateChangeSetFailure() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -88,7 +88,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -108,7 +108,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
      * Test failed validation with wrong exclusion.
      */
     @Test
-    public void testValidateFailureWrongExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWrongExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -141,7 +141,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -161,7 +161,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
      * Test failed validation with exclusion.
      */
     @Test
-    public void testValidateFailureWithExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWithExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -188,7 +188,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -208,7 +208,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
      * Test successful validation.
      */
     @Test
-    public void testValidateSuccess() throws ParserConfigurationException,
+    public void testValidateChangeSetSuccess() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -224,7 +224,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends RuleProcessorTes
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validate(
+                NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogSuccessFile(),

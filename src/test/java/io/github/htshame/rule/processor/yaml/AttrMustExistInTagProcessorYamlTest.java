@@ -55,7 +55,7 @@ public class AttrMustExistInTagProcessorYamlTest extends RuleProcessorTestUtil {
      * Test failed validation.
      */
     @Test
-    public void testValidateFailure() throws ParserConfigurationException,
+    public void testValidateChangeSetFailure() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -81,7 +81,7 @@ public class AttrMustExistInTagProcessorYamlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrMustExistInTagProcessor.instantiate(ruleElement).validate(
+                AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -101,7 +101,7 @@ public class AttrMustExistInTagProcessorYamlTest extends RuleProcessorTestUtil {
      * Test failed validation with wrong exclusion.
      */
     @Test
-    public void testValidateFailureWrongExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWrongExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -127,7 +127,7 @@ public class AttrMustExistInTagProcessorYamlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrMustExistInTagProcessor.instantiate(ruleElement).validate(
+                AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -147,7 +147,7 @@ public class AttrMustExistInTagProcessorYamlTest extends RuleProcessorTestUtil {
      * Test failed validation with exclusion.
      */
     @Test
-    public void testValidateFailureWithExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWithExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -169,7 +169,7 @@ public class AttrMustExistInTagProcessorYamlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrMustExistInTagProcessor.instantiate(ruleElement).validate(
+                AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -189,7 +189,7 @@ public class AttrMustExistInTagProcessorYamlTest extends RuleProcessorTestUtil {
      * Test successful validation.
      */
     @Test
-    public void testValidateSuccess() throws ParserConfigurationException,
+    public void testValidateChangeSetSuccess() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -205,7 +205,7 @@ public class AttrMustExistInTagProcessorYamlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrMustExistInTagProcessor.instantiate(ruleElement).validate(
+                AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogSuccessFile(),

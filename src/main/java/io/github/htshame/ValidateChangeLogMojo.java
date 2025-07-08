@@ -25,6 +25,7 @@ import java.util.List;
 public class ValidateChangeLogMojo extends AbstractMojo {
 
     private static final String INVALID_PATH = "Invalid path: ";
+    private static final String BASE_URL = "https://htshame.github.io";
 
     /**
      * Path to the XML file with rules.
@@ -74,13 +75,11 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     @Parameter(defaultValue = "xml")
     private String changeLogFormat;
 
-    private final ValidationManager validationManager;
-
     /**
      * Default constructor.
      */
     public ValidateChangeLogMojo() {
-        this.validationManager = new ValidationManager();
+
     }
 
     /**
@@ -102,13 +101,13 @@ public class ValidateChangeLogMojo extends AbstractMojo {
         } catch (RuleParserException e) {
             getLog().error("Error parsing rules file. Double-check the path to rules XML file "
                     + "provided in <pathToRulesFile>. The sample file: "
-                    + "https://htshame.github.io"
+                    + BASE_URL
                     + "/naming-convention-liquibase-maven-plugin/schema/example/rules_example.xml", e);
             throw new MojoExecutionException(e.getMessage());
         } catch (ExclusionParserException e) {
             getLog().error("Error parsing exclusions file. Double-check the path to exclusions XML file "
                     + "provided in <pathToExclusionsFile>. The sample file: "
-                    + "https://htshame.github.io"
+                    + BASE_URL
                     + "/naming-convention-liquibase-maven-plugin/schema/example/exclusions_example.xml", e);
             throw new MojoExecutionException(e.getMessage());
         } catch (ChangeLogCollectorException e) {
@@ -116,7 +115,7 @@ public class ValidateChangeLogMojo extends AbstractMojo {
                     + "provided in <changeLogDirectory> and changeLog format provided in <changeLogFormat>", e);
             throw new MojoExecutionException(e.getMessage());
         }
-
+        ValidationManager validationManager = createValidationManager();
         List<String> validationErrors =
                 validationManager.validate(changeLogFiles, changeSetRules, exclusionParser, changeLogFormatEnum);
 
@@ -131,6 +130,15 @@ public class ValidateChangeLogMojo extends AbstractMojo {
             getLog().warn(e.getMessage()
                     + " Build will not fail because <shouldFailBuild>false</shouldFailBuild>");
         }
+    }
+
+    /**
+     * Instantiate validation manager.
+     *
+     * @return validation manager.
+     */
+    private ValidationManager createValidationManager() {
+        return new ValidationManager();
     }
 
     /**

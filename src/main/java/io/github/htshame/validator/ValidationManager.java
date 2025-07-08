@@ -6,6 +6,7 @@ import io.github.htshame.change.log.XmlChangeLogParser;
 import io.github.htshame.change.log.YamlChangeLogParser;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
+import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeLogRule;
@@ -17,7 +18,9 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * This class is responsible for actual validation based on
@@ -63,17 +66,13 @@ public class ValidationManager {
                     excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
             Set<ChangeSetRule> changeSetRules = new HashSet<>();
             Set<ChangeLogRule> changeLogRules = new HashSet<>();
+
+            Map<RuleTypeEnum, Consumer<Rule>> ruleTypeMap = Map.of(
+                    RuleTypeEnum.CHANGE_SET_RULE, rule -> changeSetRules.add((ChangeSetRule) rule),
+                    RuleTypeEnum.CHANGE_LOG_RULE, rule -> changeLogRules.add((ChangeLogRule) rule));
+
             for (Rule rule : rulesToValidateWith) {
-                switch (rule.getType()) {
-                    case CHANGE_SET_RULE:
-                        changeSetRules.add((ChangeSetRule) rule);
-                        break;
-                    case CHANGE_LOG_RULE:
-                        changeLogRules.add((ChangeLogRule) rule);
-                        break;
-                    default:
-                        break;
-                }
+                ruleTypeMap.get(rule.getType()).accept(rule);
             }
 
             validationErrors.addAll(

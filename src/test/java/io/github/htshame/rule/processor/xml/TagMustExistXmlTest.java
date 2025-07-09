@@ -7,7 +7,7 @@ import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.processor.RuleProcessorTestUtil;
+import io.github.htshame.rule.processor.ChangeSetRuleProcessorTestUtil;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -23,7 +23,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class TagMustExistXmlTest extends RuleProcessorTestUtil {
+public class TagMustExistXmlTest extends ChangeSetRuleProcessorTestUtil {
 
     private static final RuleEnum RULE_ENUM = RuleEnum.TAG_MUST_EXIST;
     private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.XML;

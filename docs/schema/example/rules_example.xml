@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.7/liquibase-naming-convention-2.7.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.8/liquibase-naming-convention-2.9.xsd">
 
     <!--
     Checks that 'comment' tag exists in every changeSet.
@@ -145,5 +145,35 @@
     <rule name="attr-must-exist-in-tag">
         <tag>createTable</tag>
         <requiredAttr>remarks</requiredAttr>
+    </rule>
+
+    <!--
+    Checks that all changeLog files match the specified regular expression.
+    Example:
+    Each changeLog file name must match provided regular expression,
+    except file names specified in <excludedFileNames>.
+    changelog_01.xml - will pass.
+    changeLog22.yaml - will fail.
+    changelog-master.xml - will pass because it's excluded from the check.
+    -->
+    <rule name="changelog-file-name-must-match-regexp">
+        <fileNameRegexp>^changelog_\d+\.(xml|json|ya?ml)$</fileNameRegexp>
+        <excludedFileNames>
+            <fileName>changelog-master.xml</fileName>
+            <fileName>my_changeLog_01.yaml</fileName>
+        </excludedFileNames>
+    </rule>
+
+    <!--
+    Checks that changeLog file length is <= the number of lines provided in <linesLimit>.
+    ChangeLog file names provided in <excludedFileNames> will be excluded from the check.
+    -->
+    <rule name="changelog-file-lines-limit">
+        <linesLimit>1000</linesLimit>
+        <excludedFileNames>
+            <fileName>changelog-master.json</fileName>
+            <fileName>changelog-master.xml</fileName>
+            <fileName>changelog-master.yaml</fileName>
+        </excludedFileNames>
     </rule>
 </rules>

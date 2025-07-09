@@ -7,6 +7,13 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 2.8
+
+- Implement `changelog-file-name-must-match-regexp` rule
+- Implement `changelog-file-lines-limit` rule
+
+---
+
 ## Version 2.7
 
 - Implement `attr-not-starts-with-conditioned` rule
@@ -35,19 +42,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 2.3
-
-- Add `no-uppercase-in-attributes` rule
-- Add `no-lowercase-in-attributes` rule
-- Add `*` exclusion to exclude all rules
-- Improve XSD schema
-- Improve logging
-- Change mojo name from XML-specific `validate-liquibase-xml` to agnostic `validate-liquibase-changeLog`
-
----
-
 ### Previous Releases
 
+- [2.8](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.8.md)
 - [2.7](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.7.md)
 - [2.6](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.6.md)
 - [2.5](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.5.md)

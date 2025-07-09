@@ -8,7 +8,10 @@ import io.github.htshame.rule.ChangeLogRule;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -17,39 +20,39 @@ import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
 /**
- * Business logic for the <code>changelog-file-name-must-match-regexp</code> rule.
+ * Business logic for the <code>changelog-file-lines-limit</code> rule.
  * <p>
- * Checks that the changeLog file matches the provided regexp.
+ * Checks that changeLog file length is less or equals than value provided in <code>linesLimit</code>.
  * </p>
  * <p>Example:</p>
  * <p>Rule configuration:</p>
  * <pre><code>
- * &lt;rule name="changelog-file-name-must-match-regexp"&gt;
- *     &lt;fileNameRegexp&gt;^changeLog_\d+\.(xml|json|ya?ml)$&lt;/fileNameRegexp&gt;
+ * &lt;rule name="changelog-file-lines-limit"&gt;
+ *     &lt;linesLimit&gt;1000&lt;/linesLimit&gt;
  *     &lt;excludedFileNames&gt;
- *         &lt;fileName&gt;changelog-master.xml&lt;/fileName&gt;
- *         &lt;fileName&gt;changeLog22.xml&lt;/fileName&gt;
+ *         &lt;fileName&gt;changelog_04.xml&lt;/fileName&gt;
+ *         &lt;fileName&gt;changelog_06.xml&lt;/fileName&gt;
  *     &lt;/excludedFileNames&gt;
  * &lt;/rule&gt;
  * </code></pre>
- * <p>This will verify that the changeLog file matches the provided regexp, excluding file names provided in
- * <code>excludedFileNames</code>.</p>
+ * <p>This will verify that the changeLog file length is not longer than specified in <code>linesLimit</code>,
+ * excluding changeLog files provided in <code>excludedFileNames</code>.
  */
-public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
+public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
 
-    private final String fileNameRegexp;
+    private final Integer linesLimit;
     private final Set<String> excludedFileNames;
 
     /**
      * Constructor.
      *
-     * @param fileNameRegexp    - file name regexp.
+     * @param linesLimit    - file name regexp.
      * @param excludedFileNames - excluded file names.
      */
-    public ChangeLogFileMustMatchRegexpProcessor(final String fileNameRegexp,
-                                                 final Set<String> excludedFileNames) {
-        this.fileNameRegexp = Objects.requireNonNull(
-                fileNameRegexp, validationErrorMessage(getName(), RuleStructureEnum.FILE_NAME_REGEXP));
+    public ChangeLogFileLinesLimitProcessor(final String linesLimit,
+                                            final Set<String> excludedFileNames) {
+        Objects.requireNonNull(linesLimit, validationErrorMessage(getName(), RuleStructureEnum.LINES_LIMIT));
+        this.linesLimit = Integer.valueOf(linesLimit);
         this.excludedFileNames = excludedFileNames;
     }
 
@@ -62,10 +65,24 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
     @Override
     public void validateChangeLog(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
-        if (!excludedFileNames.contains(fileName) && !fileName.matches(fileNameRegexp)) {
-            String errorMessage = String.format("File [%s] does not match required regexp [%s]. Rule [%s]",
+        try {
+            long lines = 0;
+            try (BufferedReader reader = new BufferedReader(new FileReader(changeLogFile))) {
+                while (reader.readLine() != null) {
+                    lines++;
+                }
+            }
+            if (!excludedFileNames.contains(fileName) && lines > linesLimit) {
+                String errorMessage = String.format("File [%s] has [%s] lines, longer than [%s] lines max. Rule [%s]",
+                        fileName,
+                        lines,
+                        linesLimit,
+                        getName().getValue());
+                throw new ValidationException(errorMessage);
+            }
+        } catch (IOException e) {
+            String errorMessage = String.format("Unable to read file [%s]. Rule [%s]",
                     fileName,
-                    fileNameRegexp,
                     getName().getValue());
             throw new ValidationException(errorMessage);
         }
@@ -75,9 +92,9 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
-     * @return instance of {@link ChangeLogFileMustMatchRegexpProcessor}.
+     * @return instance of {@link ChangeLogFileLinesLimitProcessor}.
      */
-    public static ChangeLogFileMustMatchRegexpProcessor instantiate(final Element element) {
+    public static ChangeLogFileLinesLimitProcessor instantiate(final Element element) {
         Set<String> excludedFileNames = new HashSet<>();
         NodeList excludedAttrs = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_FILE_NAMES.getValue());
@@ -88,8 +105,8 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
                 excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
             }
         }
-        return new ChangeLogFileMustMatchRegexpProcessor(
-                getText(element, RuleStructureEnum.FILE_NAME_REGEXP.getValue()),
+        return new ChangeLogFileLinesLimitProcessor(
+                getText(element, RuleStructureEnum.LINES_LIMIT.getValue()),
                 excludedFileNames);
     }
 
@@ -100,7 +117,7 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
      */
     @Override
     public RuleEnum getName() {
-        return RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP;
+        return RuleEnum.CHANGELOG_FILE_LINES_LIMIT;
     }
 
     /**

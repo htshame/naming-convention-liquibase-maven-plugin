@@ -8,7 +8,7 @@ import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.processor.AttrNotEndsWithConditionedProcessor;
-import io.github.htshame.rule.processor.RuleProcessorTestUtil;
+import io.github.htshame.rule.processor.ChangeSetRuleProcessorTestUtil;
 import org.junit.Test;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -23,7 +23,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class AttrNotEndsWithConditionedProcessorXmlTest extends RuleProcessorTestUtil {
+public class AttrNotEndsWithConditionedProcessorXmlTest extends ChangeSetRuleProcessorTestUtil {
 
     private static final RuleEnum RULE_ENUM = RuleEnum.ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED;
     private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.XML;

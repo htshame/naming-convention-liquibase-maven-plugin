@@ -14,6 +14,7 @@ import io.github.htshame.rule.processor.NoLowercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
+import io.github.htshame.rule.processor.changelog.ChangeLogFileLinesLimitProcessor;
 import io.github.htshame.rule.processor.changelog.ChangeLogFileMustMatchRegexpProcessor;
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ChangeSetRuleParserTest {
 
-    private static final int RULE_SET_SIZE = 13;
+    private static final int RULE_SET_SIZE = 14;
 
     /**
      * Test successful case of rules.xml parsing.
@@ -52,7 +53,8 @@ public class ChangeSetRuleParserTest {
                 NoUppercaseInAttributesProcessor.class,
                 NoLowercaseInAttributesProcessor.class,
                 AttrMustExistInTagProcessor.class,
-                ChangeLogFileMustMatchRegexpProcessor.class
+                ChangeLogFileMustMatchRegexpProcessor.class,
+                ChangeLogFileLinesLimitProcessor.class
         );
 
         // act

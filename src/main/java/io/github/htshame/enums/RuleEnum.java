@@ -58,6 +58,10 @@ public enum RuleEnum {
      */
     CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP("changelog-file-name-must-match-regexp", RuleTypeEnum.CHANGE_LOG_RULE),
     /**
+     * Represents 'changelog-file-lines-limit' rule.
+     */
+    CHANGELOG_FILE_LINES_LIMIT("changelog-file-lines-limit", RuleTypeEnum.CHANGE_LOG_RULE),
+    /**
      * Represents '*' - all rules.
      */
     ALL_RULES("*", RuleTypeEnum.CHANGE_SET_RULE);

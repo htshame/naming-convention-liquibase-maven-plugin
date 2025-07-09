@@ -13,6 +13,7 @@ import io.github.htshame.rule.processor.NoLowercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
+import io.github.htshame.rule.processor.changelog.ChangeLogFileLinesLimitProcessor;
 import io.github.htshame.rule.processor.changelog.ChangeLogFileMustMatchRegexpProcessor;
 
 import java.util.EnumMap;
@@ -56,6 +57,8 @@ public final class RuleProcessorRegistry {
 
         CHANGE_LOG_RULE.put(
                 RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, ChangeLogFileMustMatchRegexpProcessor::instantiate);
+        CHANGE_LOG_RULE.put(
+                RuleEnum.CHANGELOG_FILE_LINES_LIMIT, ChangeLogFileLinesLimitProcessor::instantiate);
     }
 
     private RuleProcessorRegistry() {

@@ -69,6 +69,8 @@ This plugin allows you to create a set of rules and enforce them.
 - [no-uppercase-in-attributes](#no-uppercase-in-attributes)
 - [no-lowercase-in-attributes](#no-lowercase-in-attributes)
 - [attr-must-exist-in-tag](#attr-must-exist-in-tag)
+- [changelog-file-name-must-match-regexp](#changelog-file-name-must-match-regexp)
+- [changelog-file-lines-limit](#changelog-file-lines-limit)
 
 ---
 
@@ -301,6 +303,70 @@ Example:
 ```
 
 Will check that required attribute `remarks` exists in the specified tag `createTable`.
+
+---
+
+### changelog-file-name-must-match-regexp
+
+Checks that all changeLog files match the specified regular expression.
+
+Example:
+
+```xml
+<rule name="changelog-file-name-must-match-regexp">
+    <fileNameRegexp>^changelog_\d+\.(xml|json|ya?ml)$</fileNameRegexp>
+    <excludedFileNames>
+        <fileName>changelog-master.xml</fileName>
+        <fileName>my_changeLog_01.yaml</fileName>
+    </excludedFileNames>
+</rule>
+```
+
+Will check that each changeLog file matches the specified regular expression, 
+excluding file names provided in `<excludedFileNames>`.
+
+---
+
+### changelog-file-name-must-match-regexp
+
+Checks that all changeLog files match the specified regular expression.
+
+Example:
+
+```xml
+<rule name="changelog-file-name-must-match-regexp">
+    <fileNameRegexp>^changelog_\d+\.(xml|json|ya?ml)$</fileNameRegexp>
+    <excludedFileNames>
+        <fileName>changelog-master.xml</fileName>
+        <fileName>my_changeLog_01.yaml</fileName>
+    </excludedFileNames>
+</rule>
+```
+
+Will check that each changeLog file matches the specified regular expression, 
+excluding changeLog file names provided in `<excludedFileNames>`.
+
+---
+
+### changelog-file-lines-limit
+
+Checks that the length of each changeLog file is not longer than the number specified in `linesLimit`.
+
+Example:
+
+```xml
+<rule name="changelog-file-lines-limit">
+    <linesLimit>100</linesLimit>
+    <excludedFileNames>
+        <fileName>changelog-master.json</fileName>
+        <fileName>changelog-master.xml</fileName>
+        <fileName>changelog-master.yaml</fileName>
+    </excludedFileNames>
+</rule>
+```
+
+Will check that each changeLog file length is <= than the specified regular expression, 
+excluding changeLog file names provided in `<excludedFileNames>`.
 
 ---
 

@@ -7,6 +7,7 @@ import io.github.htshame.change.log.YamlChangeLogParser;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleTypeEnum;
+import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeLogRule;
@@ -62,8 +63,8 @@ public class ValidationManager {
         List<String> validationErrors = new ArrayList<>();
 
         for (File changeLogFile : changeLogFiles) {
-            Set<Rule> rulesToValidateWith =
-                    excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
+            Set<Rule> rulesToValidateWith = excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
+
             Set<ChangeSetRule> changeSetRules = new HashSet<>();
             Set<ChangeLogRule> changeLogRules = new HashSet<>();
 
@@ -103,35 +104,73 @@ public class ValidationManager {
                                            final ChangeLogFormatEnum changeLogFormat) {
         List<String> validationErrors = new ArrayList<>();
         try {
-            for (ChangeLogRule changeLogRule : changeLogRules) {
-                try {
-                    changeLogRule.validateChangeLog(changeLogFile);
-                } catch (ValidationException e) {
-                    validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
-                }
-            }
+            processChangeLogRules(
+                    changeLogFile,
+                    changeLogRules,
+                    validationErrors);
 
-            List<ChangeSetElement> changeSetElements = CHANGELOG_PARSER.get(changeLogFormat)
-                    .parseChangeLog(changeLogFile);
-
-            for (ChangeSetRule changeSetRule : changeSetRules) {
-                for (ChangeSetElement changeSetElement : changeSetElements) {
-                    try {
-                        changeSetRule.validateChangeSet(
-                                changeSetElement,
-                                exclusionParser,
-                                changeLogFile.getName(),
-                                changeLogFormat);
-                    } catch (ValidationException e) {
-                        validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
-                    }
-                }
-            }
+            processChangeSetRules(
+                    changeLogFile,
+                    changeSetRules,
+                    changeLogFormat,
+                    exclusionParser,
+                    validationErrors);
         } catch (Exception e) {
             validationErrors.add("[" + changeLogFile.getName() + "] Failed to parse: " + e.getMessage());
             return validationErrors;
         }
         return validationErrors;
+    }
+
+    /**
+     * Process changeLog rules.
+     *
+     * @param changeLogFile    - changeLog file.
+     * @param changeLogRules   - changeLog rules.
+     * @param validationErrors - validation errors.
+     */
+    private void processChangeLogRules(final File changeLogFile,
+                                       final Set<ChangeLogRule> changeLogRules,
+                                       final List<String> validationErrors) {
+        for (ChangeLogRule changeLogRule : changeLogRules) {
+            try {
+                changeLogRule.validateChangeLog(changeLogFile);
+            } catch (ValidationException e) {
+                validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Process changeSet rules.
+     *
+     * @param changeLogFile    - changeLog file.
+     * @param changeSetRules   - changeSet rules.
+     * @param changeLogFormat  - changeLog format.
+     * @param exclusionParser  - exclusion parser.
+     * @param validationErrors - validation errors.
+     * @throws ChangeLogParseException - thrown if changeLog parsing fails.
+     */
+    private void processChangeSetRules(final File changeLogFile,
+                                       final Set<ChangeSetRule> changeSetRules,
+                                       final ChangeLogFormatEnum changeLogFormat,
+                                       final ExclusionParser exclusionParser,
+                                       final List<String> validationErrors) throws ChangeLogParseException {
+        List<ChangeSetElement> changeSetElements = CHANGELOG_PARSER.get(changeLogFormat)
+                .parseChangeLog(changeLogFile);
+        for (ChangeSetRule changeSetRule : changeSetRules) {
+            for (ChangeSetElement changeSetElement : changeSetElements) {
+                try {
+                    changeSetRule.validateChangeSet(
+                            changeSetElement,
+                            exclusionParser,
+                            changeLogFile.getName(),
+                            changeLogFormat);
+                } catch (ValidationException e) {
+                    validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
+                }
+            }
+        }
     }
 
     /**

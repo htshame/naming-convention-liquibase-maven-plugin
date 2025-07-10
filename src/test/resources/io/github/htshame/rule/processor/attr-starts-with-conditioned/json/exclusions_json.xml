@@ -1,4 +1,5 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
-    <changeSetExclusion fileName="attr-starts-with-conditioned-failure.json" changeSetId="changelog_02_3" changeSetAuthor="test" rule="attr-starts-with-conditioned"/>
+    <changeSetExclusion fileName="attr-starts-with-conditioned-failure.json" changeSetId="changelog_02_3"
+                        changeSetAuthor="test" rule="attr-starts-with-conditioned"/>
 </exclusions>

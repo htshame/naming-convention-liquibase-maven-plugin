@@ -3,12 +3,13 @@ package io.github.htshame.rule.processor.json;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
-import io.github.htshame.rule.processor.RuleProcessorTestUtil;
+import io.github.htshame.rule.processor.ChangeSetRuleProcessorTestUtil;
 import org.junit.Test;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -24,7 +25,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestUtil {
+public class AttrEndsWithConditionedProcessorJsonTest extends ChangeSetRuleProcessorTestUtil {
 
     private static final RuleEnum RULE_ENUM = RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED;
     private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.JSON;
@@ -52,10 +53,25 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
     }
 
     /**
+     * Test getting the type.
+     */
+    @Test
+    public void testGetType() throws ParserConfigurationException, IOException, SAXException {
+        // arrange
+        Element ruleElement = prepareRuleELement();
+
+        // act
+        RuleTypeEnum actual = AttrEndsWithConditionedProcessor.instantiate(ruleElement).getType();
+
+        // assert
+        assertEquals(RULE_ENUM.getType(), actual);
+    }
+
+    /**
      * Test failed validation.
      */
     @Test
-    public void testValidateFailure() throws ParserConfigurationException,
+    public void testValidateChangeSetFailure() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException, ChangeLogParseException {
@@ -82,7 +98,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
+                AttrEndsWithConditionedProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -102,7 +118,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
      * Test failed validation with wrong exclusion.
      */
     @Test
-    public void testValidateFailureWrongExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWrongExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -131,7 +147,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
+                AttrEndsWithConditionedProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -151,7 +167,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
      * Test failed validation with exclusion.
      */
     @Test
-    public void testValidateFailureWithExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWithExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException, ChangeLogParseException {
@@ -173,7 +189,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
+                AttrEndsWithConditionedProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -193,7 +209,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
      * Test successful validation.
      */
     @Test
-    public void testValidateSuccess() throws ParserConfigurationException,
+    public void testValidateChangeSetSuccess() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -209,7 +225,7 @@ public class AttrEndsWithConditionedProcessorJsonTest extends RuleProcessorTestU
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrEndsWithConditionedProcessor.instantiate(ruleElement).validate(
+                AttrEndsWithConditionedProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogSuccessFile(),

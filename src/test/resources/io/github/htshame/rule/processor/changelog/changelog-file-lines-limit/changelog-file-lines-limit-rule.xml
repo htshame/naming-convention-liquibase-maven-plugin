@@ -1,0 +1,11 @@
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
+
+    <rule name="changelog-file-lines-limit">
+        <linesLimit>100</linesLimit>
+        <excludedFileNames>
+            <fileName>changelog_01.json</fileName>
+        </excludedFileNames>
+    </rule>
+</rules>
+

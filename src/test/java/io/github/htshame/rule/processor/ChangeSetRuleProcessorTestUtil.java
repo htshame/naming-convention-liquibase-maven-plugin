@@ -19,7 +19,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-public class RuleProcessorTestUtil {
+public class ChangeSetRuleProcessorTestUtil {
 
     private final String ruleFilePath;
     private final RuleEnum ruleName;
@@ -36,8 +36,8 @@ public class RuleProcessorTestUtil {
      * @param ruleName        - rule name.
      * @param changeLogFormat - changeLog format.
      */
-    public RuleProcessorTestUtil(final RuleEnum ruleName,
-                                 final ChangeLogFormatEnum changeLogFormat) {
+    public ChangeSetRuleProcessorTestUtil(final RuleEnum ruleName,
+                                          final ChangeLogFormatEnum changeLogFormat) {
         this.ruleName = ruleName;
         this.changelogFailureFile = ruleName.getValue() + "-failure." + changeLogFormat.getValue();
         this.changelogSuccessFile = ruleName.getValue() + "-success." + changeLogFormat.getValue();

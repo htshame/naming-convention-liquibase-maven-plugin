@@ -4,9 +4,10 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
+import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.Rule;
+import io.github.htshame.rule.ChangeSetRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -35,7 +36,7 @@ import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
  * <p>This will verify that attribute provided in <code>requiredAttr</code>
  * is present in tag provided in <code>tag</code>.
  */
-public class AttrMustExistInTagProcessor implements Rule {
+public class AttrMustExistInTagProcessor implements ChangeSetRule {
 
     private final String tag;
     private final String requiredAttribute;
@@ -65,6 +66,16 @@ public class AttrMustExistInTagProcessor implements Rule {
     }
 
     /**
+     * Get rule type.
+     *
+     * @return rule type.
+     */
+    @Override
+    public RuleTypeEnum getType() {
+        return RuleTypeEnum.CHANGE_SET_RULE;
+    }
+
+    /**
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
@@ -86,10 +97,10 @@ public class AttrMustExistInTagProcessor implements Rule {
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validate(final ChangeSetElement changeSetElement,
-                         final ExclusionParser exclusionParser,
-                         final String changeLogFileName,
-                         final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
+    public void validateChangeSet(final ChangeSetElement changeSetElement,
+                                  final ExclusionParser exclusionParser,
+                                  final String changeLogFileName,
+                                  final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
 
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;

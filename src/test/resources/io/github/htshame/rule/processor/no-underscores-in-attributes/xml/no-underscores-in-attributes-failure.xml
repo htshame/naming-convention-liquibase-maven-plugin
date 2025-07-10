@@ -17,7 +17,7 @@
             <column name="user_data" type="varchar(64)" defaultValue="some-data"/>
         </createTable>
     </changeSet>
-    
+
     <changeSet id="changelog_02_4" author="test">
         <preConditions onFail="MARK_RAN">
             <not>
@@ -36,7 +36,7 @@
             <column name="user_data" type="varchar(64)" defaultValueComputed="some_data"/>
         </createTable>
     </changeSet>
-    
+
     <changeSet id="changelog_02_5" author="test">
         <preConditions onFail="MARK_RAN">
             <not>

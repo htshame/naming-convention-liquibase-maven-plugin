@@ -3,17 +3,17 @@ databaseChangeLog:
       onFail: HALT
       onError: HALT
 
-  -  changeSet:
-       id:  changelog_02_1
-       author:  test
-       comment: the_Comment
-       changes:
-         -  addForeignKeyConstraint:
-              baseColumnNames:  user_id
-              baseTableName:  car
-              constraintName:  fk_person_car
-              referencedColumnNames:  id
-              referencedTableName:  user_data
+  - changeSet:
+      id: changelog_02_1
+      author: test
+      comment: the_Comment
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: car
+            constraintName: fk_person_car
+            referencedColumnNames: id
+            referencedTableName: user_data
 
   - changeSet:
       id: changelog_02_2

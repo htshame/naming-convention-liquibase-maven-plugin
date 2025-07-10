@@ -14,7 +14,8 @@
         <comment>
             Comment
         </comment>
-        <createIndex tableName="user-metadata" indexName="idx_unique_user_metadata_external_user_id_unique" unique="true">
+        <createIndex tableName="user-metadata" indexName="idx_unique_user_metadata_external_user_id_unique"
+                     unique="true">
             <column name="external_user_id"/>
         </createIndex>
     </changeSet>

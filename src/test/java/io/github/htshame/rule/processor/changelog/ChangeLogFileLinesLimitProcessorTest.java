@@ -96,7 +96,7 @@ public class ChangeLogFileLinesLimitProcessorTest extends ChangeLogRuleProcessor
             ChangeLogFileLinesLimitProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
-            assertEquals("File [changelog-file-lines-limit-failure.xml] has [112] lines,"
+            assertEquals("File [changelog-file-lines-limit-failure.xml] has [119] lines,"
                     + " longer than [100] lines max. Rule [changelog-file-lines-limit]",
                     e.getMessage());
         }

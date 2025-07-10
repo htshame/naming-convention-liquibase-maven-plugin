@@ -1,4 +1,5 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
-    <changeSetExclusion fileName="no-underscores-in-attributes-failure.yaml" changeSetId="changelog_02_3" changeSetAuthor="test" rule="no-underscores-in-attributes"/>
+    <changeSetExclusion fileName="no-underscores-in-attributes-failure.yaml" changeSetId="changelog_02_3"
+                        changeSetAuthor="test" rule="no-underscores-in-attributes"/>
 </exclusions>

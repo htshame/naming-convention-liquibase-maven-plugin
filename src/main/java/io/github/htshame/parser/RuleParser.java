@@ -2,6 +2,7 @@ package io.github.htshame.parser;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
+import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.rule.Rule;
 import io.github.htshame.rule.RuleFactory;
@@ -14,6 +15,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * Parses the rules XML file.
@@ -48,6 +51,14 @@ import java.util.List;
 public final class RuleParser {
 
     /**
+     * All-rule map.
+     */
+    private static final Map<RuleTypeEnum, Function<RuleEnum, RuleFactory<? extends Rule>>> RULE_MAP = Map.of(
+            RuleTypeEnum.CHANGE_SET_RULE, RuleProcessorRegistry::getChangeSetRuleFactory,
+            RuleTypeEnum.CHANGE_LOG_RULE, RuleProcessorRegistry::getChangeLogRuleFactory
+    );
+
+    /**
      * Private constructor.
      */
     private RuleParser() {
@@ -68,13 +79,10 @@ public final class RuleParser {
             NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE.getValue());
             for (int i = 0; i < ruleNodes.getLength(); i++) {
                 Element ruleElement = (Element) ruleNodes.item(i);
-                RuleEnum ruleType =
-                        RuleEnum.fromValue(ruleElement.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
-
-                RuleFactory ruleFactory = RuleProcessorRegistry.getFactory(ruleType);
+                RuleEnum ruleType = RuleEnum.fromValue(
+                        ruleElement.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
                 try {
-                    Rule rule = ruleFactory.instantiate(ruleElement);
-                    rules.add(rule);
+                    rules.add(RULE_MAP.get(ruleType.getType()).apply(ruleType).instantiate(ruleElement));
                 } catch (Exception e) {
                     throw new RuleParserException("Failed to instantiate rule for type: " + ruleType, e);
                 }

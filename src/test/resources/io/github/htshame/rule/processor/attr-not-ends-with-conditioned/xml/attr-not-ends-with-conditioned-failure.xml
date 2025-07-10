@@ -14,7 +14,8 @@
         <comment>
             Comment
         </comment>
-        <createIndex tableName="user-metadata" indexName="user_metadata_external_user_id_unique_idx_unique" unique="true">
+        <createIndex tableName="user-metadata" indexName="user_metadata_external_user_id_unique_idx_unique"
+                     unique="true">
             <column name="external_user_id"/>
         </createIndex>
     </changeSet>
@@ -30,7 +31,8 @@
         <comment>
             Comment
         </comment>
-        <createIndex tableName="user-metadata" indexName="user_metadata_external_user_id_unique_idx1_unique" unique="true">
+        <createIndex tableName="user-metadata" indexName="user_metadata_external_user_id_unique_idx1_unique"
+                     unique="true">
             <column name="external_user_id"/>
         </createIndex>
     </changeSet>

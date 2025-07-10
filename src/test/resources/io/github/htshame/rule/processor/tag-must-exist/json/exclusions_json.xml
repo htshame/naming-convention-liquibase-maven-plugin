@@ -1,4 +1,5 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
-    <changeSetExclusion fileName="tag-must-exist-failure.json" changeSetId="changelog_02_3" changeSetAuthor="test1" rule="tag-must-exist"/>
+    <changeSetExclusion fileName="tag-must-exist-failure.json" changeSetId="changelog_02_3" changeSetAuthor="test1"
+                        rule="tag-must-exist"/>
 </exclusions>

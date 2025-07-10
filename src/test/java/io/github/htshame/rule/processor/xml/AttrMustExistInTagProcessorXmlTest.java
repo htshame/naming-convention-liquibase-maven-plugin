@@ -3,12 +3,13 @@ package io.github.htshame.rule.processor.xml;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.processor.AttrMustExistInTagProcessor;
-import io.github.htshame.rule.processor.RuleProcessorTestUtil;
+import io.github.htshame.rule.processor.ChangeSetRuleProcessorTestUtil;
 import org.junit.Test;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -24,7 +25,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-public class AttrMustExistInTagProcessorXmlTest extends RuleProcessorTestUtil {
+public class AttrMustExistInTagProcessorXmlTest extends ChangeSetRuleProcessorTestUtil {
 
     private static final RuleEnum RULE_ENUM = RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG;
     private static final ChangeLogFormatEnum CHANGELOG_FORMAT = ChangeLogFormatEnum.XML;
@@ -52,10 +53,25 @@ public class AttrMustExistInTagProcessorXmlTest extends RuleProcessorTestUtil {
     }
 
     /**
+     * Test getting the type.
+     */
+    @Test
+    public void testGetType() throws ParserConfigurationException, IOException, SAXException {
+        // arrange
+        Element ruleElement = prepareRuleELement();
+
+        // act
+        RuleTypeEnum actual = AttrMustExistInTagProcessor.instantiate(ruleElement).getType();
+
+        // assert
+        assertEquals(RULE_ENUM.getType(), actual);
+    }
+
+    /**
      * Test failed validation.
      */
     @Test
-    public void testValidateFailure() throws ParserConfigurationException,
+    public void testValidateChangeSetFailure() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -81,7 +97,7 @@ public class AttrMustExistInTagProcessorXmlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrMustExistInTagProcessor.instantiate(ruleElement).validate(
+                AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -101,7 +117,7 @@ public class AttrMustExistInTagProcessorXmlTest extends RuleProcessorTestUtil {
      * Test failed validation with wrong exclusion.
      */
     @Test
-    public void testValidateFailureWrongExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWrongExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -127,7 +143,7 @@ public class AttrMustExistInTagProcessorXmlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrMustExistInTagProcessor.instantiate(ruleElement).validate(
+                AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -147,7 +163,7 @@ public class AttrMustExistInTagProcessorXmlTest extends RuleProcessorTestUtil {
      * Test failed validation with exclusion.
      */
     @Test
-    public void testValidateFailureWithExclusion() throws ParserConfigurationException,
+    public void testValidateChangeSetFailureWithExclusion() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -169,7 +185,7 @@ public class AttrMustExistInTagProcessorXmlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrMustExistInTagProcessor.instantiate(ruleElement).validate(
+                AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogFailureFile(),
@@ -189,7 +205,7 @@ public class AttrMustExistInTagProcessorXmlTest extends RuleProcessorTestUtil {
      * Test successful validation.
      */
     @Test
-    public void testValidateSuccess() throws ParserConfigurationException,
+    public void testValidateChangeSetSuccess() throws ParserConfigurationException,
             IOException,
             SAXException,
             ExclusionParserException,
@@ -205,7 +221,7 @@ public class AttrMustExistInTagProcessorXmlTest extends RuleProcessorTestUtil {
         // act
         for (ChangeSetElement changeSetElement : changeSetElements) {
             try {
-                AttrMustExistInTagProcessor.instantiate(ruleElement).validate(
+                AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
                         exclusionParser,
                         getChangelogSuccessFile(),

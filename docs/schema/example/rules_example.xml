@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.8/liquibase-naming-convention-2.9.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.8/liquibase-naming-convention-2.8.xsd">
 
     <!--
     Checks that 'comment' tag exists in every changeSet.
@@ -171,9 +171,8 @@
     <rule name="changelog-file-lines-limit">
         <linesLimit>1000</linesLimit>
         <excludedFileNames>
-            <fileName>changelog-master.json</fileName>
-            <fileName>changelog-master.xml</fileName>
-            <fileName>changelog-master.yaml</fileName>
+            <fileName>changelog-01.xml</fileName>
+            <fileName>changelog-10.xml</fileName>
         </excludedFileNames>
     </rule>
 </rules>

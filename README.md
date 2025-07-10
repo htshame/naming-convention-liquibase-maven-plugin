@@ -356,16 +356,15 @@ Example:
 
 ```xml
 <rule name="changelog-file-lines-limit">
-    <linesLimit>100</linesLimit>
+    <linesLimit>1000</linesLimit>
     <excludedFileNames>
-        <fileName>changelog-master.json</fileName>
-        <fileName>changelog-master.xml</fileName>
-        <fileName>changelog-master.yaml</fileName>
+        <fileName>changelog-01.xml</fileName>
+        <fileName>changelog-10.xml</fileName>
     </excludedFileNames>
 </rule>
 ```
 
-Will check that each changeLog file length is <= than the specified regular expression, 
+Will check that each changeLog file length is <= `1000` specified in `<linesLimit>`, 
 excluding changeLog file names provided in `<excludedFileNames>`.
 
 ---

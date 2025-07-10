@@ -3,6 +3,7 @@ package io.github.htshame.rule.processor.xml;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.ValidationException;
@@ -48,6 +49,21 @@ public class AttrNotStartsWithConditionedProcessorXmlTest extends ChangeSetRuleP
 
         // assert
         assertEquals(RULE_ENUM, actual);
+    }
+
+    /**
+     * Test getting the type.
+     */
+    @Test
+    public void testGetType() throws ParserConfigurationException, IOException, SAXException {
+        // arrange
+        Element ruleElement = prepareRuleELement();
+
+        // act
+        RuleTypeEnum actual = AttrNotStartsWithConditionedProcessor.instantiate(ruleElement).getType();
+
+        // assert
+        assertEquals(RULE_ENUM.getType(), actual);
     }
 
     /**

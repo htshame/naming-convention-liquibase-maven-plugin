@@ -2,7 +2,6 @@ package io.github.htshame.rule.processor.changelog;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.rule.ChangeLogRule;
 import org.w3c.dom.Element;
@@ -46,7 +45,7 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
     /**
      * Constructor.
      *
-     * @param linesLimit    - file name regexp.
+     * @param linesLimit        - file name regexp.
      * @param excludedFileNames - excluded file names.
      */
     public ChangeLogFileLinesLimitProcessor(final String linesLimit,
@@ -93,26 +92,21 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
      *
      * @param element - element.
      * @return instance of {@link ChangeLogFileLinesLimitProcessor}.
-     * @throws RuleInstantiationException - thrown if rule instantiation fails.
      */
     public static ChangeLogFileLinesLimitProcessor instantiate(final Element element) {
-        try {
-            Set<String> excludedFileNames = new HashSet<>();
-            NodeList excludedAttrs = element
-                    .getElementsByTagName(RuleStructureEnum.EXCLUDED_FILE_NAMES.getValue());
-            if (excludedAttrs.getLength() != 0) {
-                NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
-                        .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
-                for (int i = 0; i < excludedAttrElements.getLength(); i++) {
-                    excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
-                }
+        Set<String> excludedFileNames = new HashSet<>();
+        NodeList excludedAttrs = element
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_FILE_NAMES.getValue());
+        if (excludedAttrs.getLength() != 0) {
+            NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
+                    .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
+            for (int i = 0; i < excludedAttrElements.getLength(); i++) {
+                excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
             }
-            return new ChangeLogFileLinesLimitProcessor(
-                    getText(element, RuleStructureEnum.LINES_LIMIT.getValue()),
-                    excludedFileNames);
-        } catch (Exception e) {
-            throw new RuleInstantiationException(e);
         }
+        return new ChangeLogFileLinesLimitProcessor(
+                getText(element, RuleStructureEnum.LINES_LIMIT.getValue()),
+                excludedFileNames);
     }
 
     /**

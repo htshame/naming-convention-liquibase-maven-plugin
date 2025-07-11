@@ -2,7 +2,6 @@ package io.github.htshame.rule.processor.changelog;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.rule.ChangeLogRule;
 import org.w3c.dom.Element;
@@ -76,26 +75,21 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
      *
      * @param element - element.
      * @return instance of {@link ChangeLogFileMustMatchRegexpProcessor}.
-     * @throws RuleInstantiationException - thrown if rule instantiation fails.
      */
     public static ChangeLogFileMustMatchRegexpProcessor instantiate(final Element element) {
-        try {
-            Set<String> excludedFileNames = new HashSet<>();
-            NodeList excludedAttrs = element
-                    .getElementsByTagName(RuleStructureEnum.EXCLUDED_FILE_NAMES.getValue());
-            if (excludedAttrs.getLength() != 0) {
-                NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
-                        .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
-                for (int i = 0; i < excludedAttrElements.getLength(); i++) {
-                    excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
-                }
+        Set<String> excludedFileNames = new HashSet<>();
+        NodeList excludedAttrs = element
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_FILE_NAMES.getValue());
+        if (excludedAttrs.getLength() != 0) {
+            NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
+                    .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
+            for (int i = 0; i < excludedAttrElements.getLength(); i++) {
+                excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
             }
-            return new ChangeLogFileMustMatchRegexpProcessor(
-                    getText(element, RuleStructureEnum.FILE_NAME_REGEXP.getValue()),
-                    excludedFileNames);
-        } catch (Exception e) {
-            throw new RuleInstantiationException(e);
         }
+        return new ChangeLogFileMustMatchRegexpProcessor(
+                getText(element, RuleStructureEnum.FILE_NAME_REGEXP.getValue()),
+                excludedFileNames);
     }
 
     /**

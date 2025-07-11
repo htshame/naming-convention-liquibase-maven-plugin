@@ -66,7 +66,7 @@
         <org.sonatype.central.central-publishing-maven-plugin>0.7.0</org.sonatype.central.central-publishing-maven-plugin>
         <!-- plugin versions -->
 
-        <test.coverage.min.threshold>0.81</test.coverage.min.threshold>
+        <test.coverage.min.threshold>0.83</test.coverage.min.threshold>
     </properties>
 
     <dependencies>

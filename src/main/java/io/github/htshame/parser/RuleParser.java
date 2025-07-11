@@ -87,8 +87,8 @@ public final class RuleParser {
                         ruleElement.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
                 try {
                     rules.add(RULE_MAP.get(ruleType.getType()).apply(ruleType).instantiate(ruleElement));
-                } catch (RuleInstantiationException e) {
-                    throw new RuleParserException("Failed to instantiate rule for type: " + ruleType, e);
+                } catch (Exception e) {
+                    throw new RuleInstantiationException("Failed to instantiate rule for type: " + ruleType, e);
                 }
             }
         } catch (Exception e) {

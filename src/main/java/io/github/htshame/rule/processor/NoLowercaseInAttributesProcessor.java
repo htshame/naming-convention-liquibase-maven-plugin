@@ -4,7 +4,6 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeSetRule;
@@ -91,24 +90,19 @@ public class NoLowercaseInAttributesProcessor implements ChangeSetRule {
      *
      * @param element - element.
      * @return instance of {@link NoLowercaseInAttributesProcessor}.
-     * @throws RuleInstantiationException - thrown if rule instantiation fails.
      */
     public static NoLowercaseInAttributesProcessor instantiate(final Element element) {
-        try {
-            Set<String> excludedParents = new HashSet<>();
-            NodeList excludedTags = element
-                    .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
-            if (excludedTags.getLength() != 0) {
-                NodeList excludedAttrElements = ((Element) excludedTags.item(0))
-                        .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
-                for (int j = 0; j < excludedAttrElements.getLength(); j++) {
-                    excludedParents.add(excludedAttrElements.item(j).getTextContent());
-                }
+        Set<String> excludedParents = new HashSet<>();
+        NodeList excludedTags = element
+                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
+        if (excludedTags.getLength() != 0) {
+            NodeList excludedAttrElements = ((Element) excludedTags.item(0))
+                    .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
+            for (int j = 0; j < excludedAttrElements.getLength(); j++) {
+                excludedParents.add(excludedAttrElements.item(j).getTextContent());
             }
-            return new NoLowercaseInAttributesProcessor(excludedParents);
-        } catch (Exception e) {
-            throw new RuleInstantiationException(e);
         }
+        return new NoLowercaseInAttributesProcessor(excludedParents);
     }
 
     /**

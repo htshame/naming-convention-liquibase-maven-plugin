@@ -4,7 +4,6 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeSetRule;
@@ -81,17 +80,12 @@ public class AttrEndsWithProcessor implements ChangeSetRule {
      *
      * @param element - element.
      * @return instance of {@link AttrEndsWithProcessor}.
-     * @throws RuleInstantiationException - thrown if rule instantiation fails.
      */
     public static AttrEndsWithProcessor instantiate(final Element element) {
-        try {
-            return new AttrEndsWithProcessor(
-                    getText(element, RuleStructureEnum.TAG.getValue()),
-                    getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
-                    getText(element, RuleStructureEnum.REQUIRED_SUFFIX.getValue()));
-        } catch (Exception e) {
-            throw new RuleInstantiationException(e);
-        }
+        return new AttrEndsWithProcessor(
+                getText(element, RuleStructureEnum.TAG.getValue()),
+                getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
+                getText(element, RuleStructureEnum.REQUIRED_SUFFIX.getValue()));
     }
 
     /**

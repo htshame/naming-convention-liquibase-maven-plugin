@@ -3,14 +3,16 @@ package io.github.htshame.exception;
 /**
  * This exception is thrown when rule instantiation fails.
  */
-public class RuleInstantiationException extends RuntimeException {
+public class RuleInstantiationException extends Exception {
 
     /**
      * Constructor.
      *
-     * @param error - error.
+     * @param message - message.
+     * @param error   - error.
      */
-    public RuleInstantiationException(final Throwable error) {
-        super(error);
+    public RuleInstantiationException(final String message,
+                                      final Throwable error) {
+        super(message, error);
     }
 }

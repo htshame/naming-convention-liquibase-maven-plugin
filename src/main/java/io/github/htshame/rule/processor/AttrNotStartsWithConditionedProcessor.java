@@ -4,7 +4,6 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeSetRule;
@@ -93,19 +92,14 @@ public class AttrNotStartsWithConditionedProcessor implements ChangeSetRule {
      *
      * @param element - element.
      * @return instance of {@link AttrNotStartsWithConditionedProcessor}.
-     * @throws RuleInstantiationException - thrown if rule instantiation fails.
      */
     public static AttrNotStartsWithConditionedProcessor instantiate(final Element element) {
-        try {
-            return new AttrNotStartsWithConditionedProcessor(
-                    getText(element, RuleStructureEnum.TAG.getValue()),
-                    getText(element, RuleStructureEnum.CONDITION_ATTR.getValue()),
-                    getText(element, RuleStructureEnum.CONDITION_VALUE.getValue()),
-                    getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
-                    getText(element, RuleStructureEnum.FORBIDDEN_PREFIX.getValue()));
-        } catch (Exception e) {
-            throw new RuleInstantiationException(e);
-        }
+        return new AttrNotStartsWithConditionedProcessor(
+                getText(element, RuleStructureEnum.TAG.getValue()),
+                getText(element, RuleStructureEnum.CONDITION_ATTR.getValue()),
+                getText(element, RuleStructureEnum.CONDITION_VALUE.getValue()),
+                getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
+                getText(element, RuleStructureEnum.FORBIDDEN_PREFIX.getValue()));
     }
 
     /**

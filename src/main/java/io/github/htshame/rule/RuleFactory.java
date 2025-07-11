@@ -1,5 +1,6 @@
 package io.github.htshame.rule;
 
+import io.github.htshame.exception.RuleInstantiationException;
 import org.w3c.dom.Element;
 
 /**
@@ -16,7 +17,8 @@ public interface RuleFactory<T extends Rule> {
      *
      * @param element - changeSet element.
      * @return instance of {@link ChangeSetRule}.
+     * @throws RuleInstantiationException - thrown if rule instantiation fails.
      */
-    T instantiate(Element element);
+    T instantiate(Element element) throws RuleInstantiationException;
 
 }

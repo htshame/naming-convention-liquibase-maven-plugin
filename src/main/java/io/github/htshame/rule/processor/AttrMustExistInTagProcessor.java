@@ -4,7 +4,7 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.enums.RuleTypeEnum;
+import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeSetRule;
@@ -66,25 +66,20 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
     }
 
     /**
-     * Get rule type.
-     *
-     * @return rule type.
-     */
-    @Override
-    public RuleTypeEnum getType() {
-        return RuleTypeEnum.CHANGE_SET_RULE;
-    }
-
-    /**
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
      * @return instance of {@link AttrStartsWithProcessor}.
+     * @throws RuleInstantiationException - thrown if rule instantiation fails.
      */
     public static AttrMustExistInTagProcessor instantiate(final Element element) {
-        String tag = getText(element, RuleStructureEnum.TAG.getValue());
-        String requiredAttr = getText(element, RuleStructureEnum.REQUIRED_ATTR.getValue());
-        return new AttrMustExistInTagProcessor(tag, requiredAttr);
+        try {
+            String tag = getText(element, RuleStructureEnum.TAG.getValue());
+            String requiredAttr = getText(element, RuleStructureEnum.REQUIRED_ATTR.getValue());
+            return new AttrMustExistInTagProcessor(tag, requiredAttr);
+        } catch (Exception e) {
+            throw new RuleInstantiationException(e);
+        }
     }
 
     /**

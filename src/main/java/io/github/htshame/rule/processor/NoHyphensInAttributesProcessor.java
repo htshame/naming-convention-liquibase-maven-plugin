@@ -4,7 +4,7 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.enums.RuleTypeEnum;
+import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeSetRule;
@@ -90,42 +90,36 @@ public class NoHyphensInAttributesProcessor implements ChangeSetRule {
     }
 
     /**
-     * Get rule type.
-     *
-     * @return rule type.
-     */
-    @Override
-    public RuleTypeEnum getType() {
-        return RuleTypeEnum.CHANGE_SET_RULE;
-    }
-
-    /**
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
      * @return instance of {@link NoHyphensInAttributesProcessor}.
+     * @throws RuleInstantiationException - thrown if rule instantiation fails.
      */
     public static NoHyphensInAttributesProcessor instantiate(final Element element) {
-        Set<String> excludedParents = new HashSet<>();
-        NodeList excludedAttrs = element
-                .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
-        if (excludedAttrs.getLength() != 0) {
-            NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
-                    .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
-            for (int i = 0; i < excludedAttrElements.getLength(); i++) {
-                excludedParents.add(excludedAttrElements.item(i).getTextContent());
+        try {
+            Set<String> excludedParents = new HashSet<>();
+            NodeList excludedAttrs = element
+                    .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
+            if (excludedAttrs.getLength() != 0) {
+                NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
+                        .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
+                for (int i = 0; i < excludedAttrElements.getLength(); i++) {
+                    excludedParents.add(excludedAttrElements.item(i).getTextContent());
+                }
             }
+            return new NoHyphensInAttributesProcessor(excludedParents);
+        } catch (Exception e) {
+            throw new RuleInstantiationException(e);
         }
-
-        return new NoHyphensInAttributesProcessor(excludedParents);
     }
 
     /**
      * Validate element.
      *
-     * @param element - element.
-     * @param changeLogFormat   - changeLog format.
-     * @param errors  - list of errors.
+     * @param element         - element.
+     * @param changeLogFormat - changeLog format.
+     * @param errors          - list of errors.
      * @return list of errors.
      */
     private List<String> validateElement(final ChangeSetElement element,

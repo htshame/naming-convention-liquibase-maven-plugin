@@ -3,7 +3,7 @@ package io.github.htshame.validator;
 import io.github.htshame.change.log.ChangeLogParser;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 
-import static io.github.htshame.validator.ValidationManager.CHANGELOG_PARSER;
+import static io.github.htshame.validator.ValidationManager.CHANGELOG_PARSER_MAP;
 
 /**
  * Util class for {@link ValidationManager} testing.
@@ -24,6 +24,6 @@ public final class ValidatorTestUtil {
      * @return changeLog parser.
      */
     public static ChangeLogParser getParser(final ChangeLogFormatEnum changeLogFormat) {
-        return CHANGELOG_PARSER.get(changeLogFormat);
+        return CHANGELOG_PARSER_MAP.get(changeLogFormat);
     }
 }

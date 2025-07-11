@@ -4,7 +4,7 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.enums.RuleTypeEnum;
+import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeSetRule;
@@ -89,28 +89,23 @@ public class AttrNotEndsWithConditionedProcessor implements ChangeSetRule {
     }
 
     /**
-     * Get rule type.
-     *
-     * @return rule type.
-     */
-    @Override
-    public RuleTypeEnum getType() {
-        return RuleTypeEnum.CHANGE_SET_RULE;
-    }
-
-    /**
      * Populate rule with the contents from XML file.
      *
      * @param element - element.
      * @return instance of {@link AttrNotEndsWithConditionedProcessor}.
+     * @throws RuleInstantiationException - thrown if rule instantiation fails.
      */
     public static AttrNotEndsWithConditionedProcessor instantiate(final Element element) {
-        return new AttrNotEndsWithConditionedProcessor(
-                getText(element, RuleStructureEnum.TAG.getValue()),
-                getText(element, RuleStructureEnum.CONDITION_ATTR.getValue()),
-                getText(element, RuleStructureEnum.CONDITION_VALUE.getValue()),
-                getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
-                getText(element, RuleStructureEnum.FORBIDDEN_SUFFIX.getValue()));
+        try {
+            return new AttrNotEndsWithConditionedProcessor(
+                    getText(element, RuleStructureEnum.TAG.getValue()),
+                    getText(element, RuleStructureEnum.CONDITION_ATTR.getValue()),
+                    getText(element, RuleStructureEnum.CONDITION_VALUE.getValue()),
+                    getText(element, RuleStructureEnum.TARGET_ATTR.getValue()),
+                    getText(element, RuleStructureEnum.FORBIDDEN_SUFFIX.getValue()));
+        } catch (Exception e) {
+            throw new RuleInstantiationException(e);
+        }
     }
 
     /**

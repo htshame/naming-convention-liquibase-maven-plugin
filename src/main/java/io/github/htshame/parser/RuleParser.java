@@ -3,6 +3,7 @@ package io.github.htshame.parser;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.enums.RuleTypeEnum;
+import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.rule.Rule;
 import io.github.htshame.rule.RuleFactory;
@@ -14,8 +15,8 @@ import org.w3c.dom.NodeList;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -53,10 +54,13 @@ public final class RuleParser {
     /**
      * All-rule map.
      */
-    private static final Map<RuleTypeEnum, Function<RuleEnum, RuleFactory<? extends Rule>>> RULE_MAP = Map.of(
-            RuleTypeEnum.CHANGE_SET_RULE, RuleProcessorRegistry::getChangeSetRuleFactory,
-            RuleTypeEnum.CHANGE_LOG_RULE, RuleProcessorRegistry::getChangeLogRuleFactory
-    );
+    private static final EnumMap<RuleTypeEnum, Function<RuleEnum, RuleFactory<? extends Rule>>> RULE_MAP =
+            new EnumMap<>(RuleTypeEnum.class);
+
+    static {
+        RULE_MAP.put(RuleTypeEnum.CHANGE_SET_RULE, RuleProcessorRegistry::getChangeSetRuleFactory);
+        RULE_MAP.put(RuleTypeEnum.CHANGE_LOG_RULE, RuleProcessorRegistry::getChangeLogRuleFactory);
+    }
 
     /**
      * Private constructor.
@@ -83,7 +87,7 @@ public final class RuleParser {
                         ruleElement.getAttribute(RuleStructureEnum.NAME_ATTR.getValue()));
                 try {
                     rules.add(RULE_MAP.get(ruleType.getType()).apply(ruleType).instantiate(ruleElement));
-                } catch (Exception e) {
+                } catch (RuleInstantiationException e) {
                     throw new RuleParserException("Failed to instantiate rule for type: " + ruleType, e);
                 }
             }
@@ -92,5 +96,4 @@ public final class RuleParser {
         }
         return rules;
     }
-
 }

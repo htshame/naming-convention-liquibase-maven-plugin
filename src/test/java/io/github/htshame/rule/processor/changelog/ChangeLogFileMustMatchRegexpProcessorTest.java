@@ -1,7 +1,6 @@
 package io.github.htshame.rule.processor.changelog;
 
 import io.github.htshame.enums.RuleEnum;
-import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ValidationException;
 import org.junit.Test;
 import org.w3c.dom.Element;
@@ -39,21 +38,6 @@ public class ChangeLogFileMustMatchRegexpProcessorTest extends ChangeLogRuleProc
 
         // assert
         assertEquals(RULE_ENUM, actual);
-    }
-
-    /**
-     * Test getting the type.
-     */
-    @Test
-    public void testGetType() throws ParserConfigurationException, IOException, SAXException {
-        // arrange
-        Element ruleElement = prepareRuleELement();
-
-        // act
-        RuleTypeEnum actual = ChangeLogFileMustMatchRegexpProcessor.instantiate(ruleElement).getType();
-
-        // assert
-        assertEquals(RULE_ENUM.getType(), actual);
     }
 
     /**

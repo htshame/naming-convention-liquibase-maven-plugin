@@ -49,7 +49,6 @@ public class ChangeSetRuleProcessorTestUtil {
         this.exclusionEmptyUrl = baseFilePath + "exclusions_empty.xml";
     }
 
-
     protected Element prepareRuleELement() throws ParserConfigurationException, IOException, SAXException {
         Document ruleDocument = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()

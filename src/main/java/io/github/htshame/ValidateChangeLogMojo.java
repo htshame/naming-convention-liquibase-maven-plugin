@@ -19,13 +19,14 @@ import java.io.File;
 import java.util.List;
 
 /**
- * <code>validate-liquibase-changeLog</code> processor.
+ * <code>validate-liquibase-changeLog</code> mojo processor.
  */
 @Mojo(name = "validate-liquibase-changeLog", defaultPhase = LifecyclePhase.COMPILE)
 public class ValidateChangeLogMojo extends AbstractMojo {
 
     private static final String INVALID_PATH = "Invalid path: ";
     private static final String BASE_URL = "https://htshame.github.io";
+    private static final String PROJECT_NAME_PATH = "/naming-convention-liquibase-maven-plugin";
 
     /**
      * Path to the XML file with rules.
@@ -90,34 +91,18 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         validateInput();
 
-        List<Rule> changeSetRules;
-        ExclusionParser exclusionParser;
-        List<File> changeLogFiles;
         ChangeLogFormatEnum changeLogFormatEnum = ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());
-        try {
-            changeSetRules = RuleParser.parseRules(pathToRulesFile);
-            exclusionParser = ExclusionParser.parseExclusions(pathToExclusionsFile);
-            changeLogFiles = ChangeLogFilesCollector.collectChangeLogFiles(changeLogDirectory, changeLogFormatEnum);
-        } catch (RuleParserException e) {
-            getLog().error("Error parsing rules file. Double-check the path to rules XML file "
-                    + "provided in <pathToRulesFile>. The sample file: "
-                    + BASE_URL
-                    + "/naming-convention-liquibase-maven-plugin/schema/example/rules_example.xml", e);
-            throw new MojoExecutionException(e.getMessage());
-        } catch (ExclusionParserException e) {
-            getLog().error("Error parsing exclusions file. Double-check the path to exclusions XML file "
-                    + "provided in <pathToExclusionsFile>. The sample file: "
-                    + BASE_URL
-                    + "/naming-convention-liquibase-maven-plugin/schema/example/exclusions_example.xml", e);
-            throw new MojoExecutionException(e.getMessage());
-        } catch (ChangeLogCollectorException e) {
-            getLog().error("Error changeLog files. Double-check the changeLog directory "
-                    + "provided in <changeLogDirectory> and changeLog format provided in <changeLogFormat>", e);
-            throw new MojoExecutionException(e.getMessage());
-        }
-        ValidationManager validationManager = createValidationManager();
-        List<String> validationErrors =
-                validationManager.validate(changeLogFiles, changeSetRules, exclusionParser, changeLogFormatEnum);
+
+        List<Rule> rules = prepareRules();
+        ExclusionParser exclusionParser = prepareExclusions();
+        List<File> changeLogFiles = prepareChangeLogFiles(changeLogFormatEnum);
+        ValidationManager validationManager = prepareValidationManager();
+
+        List<String> validationErrors = validationManager.validate(
+                changeLogFiles,
+                rules,
+                exclusionParser,
+                changeLogFormatEnum);
 
         try {
             checkValidationResult(validationErrors);
@@ -133,11 +118,65 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     }
 
     /**
+     * Prepare validation rules.
+     *
+     * @return list of rules.
+     * @throws MojoExecutionException - if rule parsing fails.
+     */
+    private List<Rule> prepareRules() throws MojoExecutionException {
+        try {
+            return RuleParser.parseRules(pathToRulesFile);
+        } catch (RuleParserException e) {
+            getLog().error("Error parsing rules file. Double-check the path to rules XML file "
+                    + "provided in <pathToRulesFile>. The sample file: "
+                    + BASE_URL
+                    + PROJECT_NAME_PATH + "/schema/example/rules_example.xml", e);
+            throw new MojoExecutionException(e.getMessage());
+        }
+    }
+
+    /**
+     * Prepare exclusions.
+     *
+     * @return instance of exclusion parser.
+     * @throws MojoExecutionException - if exclusions parsing fails.
+     */
+    private ExclusionParser prepareExclusions() throws MojoExecutionException {
+        try {
+            return ExclusionParser.parseExclusions(pathToExclusionsFile);
+        } catch (ExclusionParserException e) {
+            getLog().error("Error parsing exclusions file. Double-check the path to exclusions XML file "
+                    + "provided in <pathToExclusionsFile>. The sample file: "
+                    + BASE_URL
+                    + PROJECT_NAME_PATH + "/schema/example/exclusions_example.xml", e);
+            throw new MojoExecutionException(e.getMessage());
+        }
+    }
+
+    /**
+     * Collect changeLog files to validate.
+     *
+     * @param changeLogFormatEnum - changeLog format.
+     * @return list of changeLog files.
+     * @throws MojoExecutionException - if changeLog collection fails.
+     */
+    private List<File> prepareChangeLogFiles(final ChangeLogFormatEnum changeLogFormatEnum)
+            throws MojoExecutionException {
+        try {
+            return ChangeLogFilesCollector.collectChangeLogFiles(changeLogDirectory, changeLogFormatEnum);
+        } catch (ChangeLogCollectorException e) {
+            getLog().error("Error changeLog files. Double-check the changeLog directory "
+                    + "provided in <changeLogDirectory> and changeLog format provided in <changeLogFormat>", e);
+            throw new MojoExecutionException(e.getMessage());
+        }
+    }
+
+    /**
      * Instantiate validation manager.
      *
      * @return validation manager.
      */
-    private ValidationManager createValidationManager() {
+    private ValidationManager prepareValidationManager() {
         return new ValidationManager();
     }
 
@@ -148,13 +187,14 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * @throws MojoExecutionException - thrown in there are validation errors.
      */
     private void checkValidationResult(final List<String> validationErrors) throws MojoExecutionException {
-        if (!validationErrors.isEmpty()) {
-            getLog().error("====== Liquibase changeset validation failed ======");
-            for (String v : validationErrors) {
-                getLog().error(v);
-            }
-            throw new MojoExecutionException("Validation failed: " + validationErrors.size() + " violation(s) found.");
+        if (validationErrors.isEmpty()) {
+            return;
         }
+        getLog().error("====== Liquibase changeset validation failed ======");
+        for (String validationError : validationErrors) {
+            getLog().error(validationError);
+        }
+        throw new MojoExecutionException("Validation failed: " + validationErrors.size() + " violation(s) found.");
     }
 
     /**

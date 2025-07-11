@@ -4,7 +4,6 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeSetRule;
@@ -84,16 +83,6 @@ public class NoLowercaseInAttributesProcessor implements ChangeSetRule {
     @Override
     public RuleEnum getName() {
         return RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES;
-    }
-
-    /**
-     * Get rule type.
-     *
-     * @return rule type.
-     */
-    @Override
-    public RuleTypeEnum getType() {
-        return RuleTypeEnum.CHANGE_SET_RULE;
     }
 
     /**

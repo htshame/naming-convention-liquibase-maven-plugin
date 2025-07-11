@@ -2,7 +2,6 @@ package io.github.htshame.rule.processor.changelog;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.rule.ChangeLogRule;
 import org.w3c.dom.Element;
@@ -103,13 +102,4 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
         return RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP;
     }
 
-    /**
-     * Get rule type.
-     *
-     * @return rule type.
-     */
-    @Override
-    public RuleTypeEnum getType() {
-        return RuleTypeEnum.CHANGE_LOG_RULE;
-    }
 }

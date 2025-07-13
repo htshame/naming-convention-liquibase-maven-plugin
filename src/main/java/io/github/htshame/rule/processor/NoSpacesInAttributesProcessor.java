@@ -94,17 +94,17 @@ public class NoSpacesInAttributesProcessor implements ChangeSetRule {
      * @return instance of {@link NoSpacesInAttributesProcessor}.
      */
     public static NoSpacesInAttributesProcessor instantiate(final Element element) {
-        Set<String> excludedParents = new HashSet<>();
-        NodeList excludedTags = element
+        Set<String> excludedAttributes = new HashSet<>();
+        NodeList excludedAttrs = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
-        if (excludedTags.getLength() != 0) {
-            NodeList excludedAttrElements = ((Element) excludedTags.item(0))
+        if (excludedAttrs.getLength() != 0) {
+            NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
             for (int j = 0; j < excludedAttrElements.getLength(); j++) {
-                excludedParents.add(excludedAttrElements.item(j).getTextContent());
+                excludedAttributes.add(excludedAttrElements.item(j).getTextContent());
             }
         }
-        return new NoSpacesInAttributesProcessor(excludedParents);
+        return new NoSpacesInAttributesProcessor(excludedAttributes);
     }
 
     /**

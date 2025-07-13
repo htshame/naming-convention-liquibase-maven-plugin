@@ -21,7 +21,7 @@ public final class RuleUtil {
      * Excluded attributes.
      */
     public static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList(
-            "id", "author", "comment", "remark");
+            "id", "author", "comment", "remarks");
 
     private RuleUtil() {
 

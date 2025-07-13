@@ -50,6 +50,10 @@ public enum RuleEnum {
      */
     NO_LOWERCASE_IN_ATTRIBUTES("no-lowercase-in-attributes", RuleTypeEnum.CHANGE_SET_RULE),
     /**
+     * Represents 'no-spaces-in-attributes' rule.
+     */
+    NO_SPACES_IN_ATTRIBUTES("no-spaces-in-attributes", RuleTypeEnum.CHANGE_SET_RULE),
+    /**
      * Represents 'attr-must-exist-in-tag' rule.
      */
     ATTRIBUTE_MUST_EXIST_IN_TAG("attr-must-exist-in-tag", RuleTypeEnum.CHANGE_SET_RULE),

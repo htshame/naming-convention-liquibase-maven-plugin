@@ -1,0 +1,80 @@
+databaseChangeLog:
+  - changeSet:
+      id: changelog_02_3
+      author: test
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          - indexExists:
+              indexName: user_metadata_external_user_id_unique_idx
+        tableExists:
+          tableName: user_metadata
+        columnExists:
+          tableName: user_metadata
+          columnName: external_user_id
+      comment: Comment_comment
+      createTable:
+        tableName: user_meta
+        columns:
+          - column:
+              name: use r_data
+              type: varc har(64)
+              defaultValue: some-data
+
+  - changeSet:
+      id: changelog_02_4
+      author: test
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          - indexExists:
+              indexName: user_metadata_external_user_id_unique_idx
+        tableExists:
+          tableName: user_metadata
+        columnExists:
+          tableName: user_metadata
+          columnName: external_user_id
+      comment: Comment comment
+      createIndex:
+        tableName: user_metadata
+        indexName: user_idx
+        unique: true
+        columns:
+          - column:
+              name: external_user_id
+      createTable:
+        tableName: user_meta
+        columns:
+          - column:
+              name: user_data
+              type: varchar(6 4)
+              defaultValueComputed: some_data
+
+  - changeSet:
+      id: changelog_02_5
+      author: test
+      preConditions:
+        onFail: MARK_RAN
+        not:
+          - indexExists:
+              indexName: user-metadata-external-user-id-unique-idx
+        tableExists:
+          tableName: user-metadata
+        columnExists:
+          tableName: user-metadata
+          columnName: external-user-id
+      comment: Comment comment
+      createIndex:
+        tableName: user-metadata
+        indexName: user-metadata-external-user-id-unique-idx
+        unique: true
+        columns:
+          - column:
+              name: external-user-id
+      createTable:
+        tableName: user-meta
+        columns:
+          - column:
+              name: user-data
+              type: varchar(64)
+              defaultValueComputed: some_data

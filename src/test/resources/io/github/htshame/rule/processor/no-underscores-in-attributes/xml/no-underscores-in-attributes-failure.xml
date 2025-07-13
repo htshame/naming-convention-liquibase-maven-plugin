@@ -7,7 +7,7 @@
             <not>
                 <indexExists indexName="user_metadata_external_user_id_unique_idx"/>
             </not>
-            <tableExists tableName="user_metadata"/>
+            <tableExists tableName="user_metadata "/>
             <columnExists tableName="user_metadata" columnName="external_user_id"/>
         </preConditions>
         <comment>

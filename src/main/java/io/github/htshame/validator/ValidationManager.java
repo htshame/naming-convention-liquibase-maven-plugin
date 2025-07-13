@@ -30,14 +30,14 @@ import java.util.function.Consumer;
  */
 public class ValidationManager {
 
-    static final EnumMap<ChangeLogFormatEnum, ChangeLogParser> CHANGELOG_PARSER =
+    static final EnumMap<ChangeLogFormatEnum, ChangeLogParser> CHANGELOG_PARSER_MAP =
             new EnumMap<>(ChangeLogFormatEnum.class);
 
     static {
-        CHANGELOG_PARSER.put(ChangeLogFormatEnum.XML, new XmlChangeLogParser());
-        CHANGELOG_PARSER.put(ChangeLogFormatEnum.YAML, new YamlChangeLogParser());
-        CHANGELOG_PARSER.put(ChangeLogFormatEnum.YML, new YamlChangeLogParser());
-        CHANGELOG_PARSER.put(ChangeLogFormatEnum.JSON, new JsonChangeLogParser());
+        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.XML, new XmlChangeLogParser());
+        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.YAML, new YamlChangeLogParser());
+        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.YML, new YamlChangeLogParser());
+        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.JSON, new JsonChangeLogParser());
     }
 
     /**
@@ -73,7 +73,7 @@ public class ValidationManager {
                     RuleTypeEnum.CHANGE_LOG_RULE, rule -> changeLogRules.add((ChangeLogRule) rule));
 
             for (Rule rule : rulesToValidateWith) {
-                ruleTypeMap.get(rule.getType()).accept(rule);
+                ruleTypeMap.get(rule.getName().getType()).accept(rule);
             }
 
             validationErrors.addAll(
@@ -156,8 +156,8 @@ public class ValidationManager {
                                        final ChangeLogFormatEnum changeLogFormat,
                                        final ExclusionParser exclusionParser,
                                        final List<String> validationErrors) throws ChangeLogParseException {
-        List<ChangeSetElement> changeSetElements = CHANGELOG_PARSER.get(changeLogFormat)
-                .parseChangeLog(changeLogFile);
+        List<ChangeSetElement> changeSetElements =
+                CHANGELOG_PARSER_MAP.get(changeLogFormat).parseChangeLog(changeLogFile);
         for (ChangeSetRule changeSetRule : changeSetRules) {
             for (ChangeSetElement changeSetElement : changeSetElements) {
                 try {

@@ -4,7 +4,6 @@ import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.ChangeSetRule;
@@ -51,9 +50,9 @@ public class AttrEndsWithProcessor implements ChangeSetRule {
     /**
      * Constructor.
      *
-     * @param tag             - rule.tag value.
-     * @param targetAttr - rule.targetAttr value.
-     * @param requiredSuffix  - rule.requiredSuffix value.
+     * @param tag            - rule.tag value.
+     * @param targetAttr     - rule.targetAttr value.
+     * @param requiredSuffix - rule.requiredSuffix value.
      */
     public AttrEndsWithProcessor(final String tag,
                                  final String targetAttr,
@@ -74,16 +73,6 @@ public class AttrEndsWithProcessor implements ChangeSetRule {
     @Override
     public RuleEnum getName() {
         return RuleEnum.ATTRIBUTE_ENDS_WITH;
-    }
-
-    /**
-     * Get rule type.
-     *
-     * @return rule type.
-     */
-    @Override
-    public RuleTypeEnum getType() {
-        return RuleTypeEnum.CHANGE_SET_RULE;
     }
 
     /**
@@ -121,16 +110,17 @@ public class AttrEndsWithProcessor implements ChangeSetRule {
 
         for (ChangeSetElement targetTagElement : targetTagElementList) {
             boolean isTargetAttrPresent = targetTagElement.hasProperty(targetAttr);
-            if (isTargetAttrPresent) {
-                String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
-                if (!targetAttrActualValue.endsWith(requiredSuffix)) {
-                    String errorMessage = String.format(getMessage(getName(), changeLogFormat),
-                            tag,
-                            targetAttr,
-                            requiredSuffix,
-                            targetAttrActualValue);
-                    errors.add(errorMessage);
-                }
+            if (!isTargetAttrPresent) {
+                continue;
+            }
+            String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
+            if (!targetAttrActualValue.endsWith(requiredSuffix)) {
+                String errorMessage = String.format(getMessage(getName(), changeLogFormat),
+                        tag,
+                        targetAttr,
+                        requiredSuffix,
+                        targetAttrActualValue);
+                errors.add(errorMessage);
             }
         }
 

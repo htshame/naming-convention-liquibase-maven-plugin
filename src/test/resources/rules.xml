@@ -81,6 +81,13 @@
         </excludedAttrs>
     </rule>
 
+    <rule name="no-spaces-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
+    </rule>
+
     <rule name="attr-must-exist-in-tag">
         <tag>createTable</tag>
         <requiredAttr>remarks</requiredAttr>

@@ -176,16 +176,16 @@ public final class ErrorMessageUtil {
         EnumMap<ChangeLogFormatEnum, String> noSpacesInAttrsMap = new EnumMap<>(ChangeLogFormatEnum.class);
         noSpacesInAttrsMap.put(
                 ChangeLogFormatEnum.XML,
-                "Tag <%s>. Attribute [%s] contains whitespace");
+                "Tag <%s>. Attribute [%s] contains whitespace in value: [%s]");
         noSpacesInAttrsMap.put(
                 ChangeLogFormatEnum.YAML,
-                "Key <%s>. Property [%s] contains whitespace");
+                "Key <%s>. Property [%s] contains whitespace in value: [%s]");
         noSpacesInAttrsMap.put(
                 ChangeLogFormatEnum.YML,
-                "Key <%s>. Property [%s] contains whitespace");
+                "Key <%s>. Property [%s] contains whitespace in value: [%s]");
         noSpacesInAttrsMap.put(
                 ChangeLogFormatEnum.JSON,
-                "Object <%s>. Property [%s] contains whitespace");
+                "Object <%s>. Property [%s] contains whitespace in value: [%s]");
 
         EnumMap<ChangeLogFormatEnum, String> attrMustExistInTagMap = new EnumMap<>(ChangeLogFormatEnum.class);
         attrMustExistInTagMap.put(

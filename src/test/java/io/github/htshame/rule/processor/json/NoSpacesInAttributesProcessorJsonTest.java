@@ -72,12 +72,12 @@ public class NoSpacesInAttributesProcessorJsonTest extends ChangeSetRuleProcesso
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Object <columns>. Property [name] contains whitespace",
-                                "Object <columns>. Property [type] contains whitespace")),
+                                "Object <columns>. Property [name] contains whitespace in value: [user_data ]",
+                                "Object <columns>. Property [type] contains whitespace in value: [var char(64)]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Object <columns>. Property [name] contains whitespace")));
+                        List.of("Object <columns>. Property [name] contains whitespace in value: [user _data]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -120,12 +120,12 @@ public class NoSpacesInAttributesProcessorJsonTest extends ChangeSetRuleProcesso
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Object <columns>. Property [name] contains whitespace",
-                                "Object <columns>. Property [type] contains whitespace")),
+                                "Object <columns>. Property [name] contains whitespace in value: [user_data ]",
+                                "Object <columns>. Property [type] contains whitespace in value: [var char(64)]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Object <columns>. Property [name] contains whitespace")));
+                        List.of("Object <columns>. Property [name] contains whitespace in value: [user _data]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -167,7 +167,7 @@ public class NoSpacesInAttributesProcessorJsonTest extends ChangeSetRuleProcesso
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Object <columns>. Property [name] contains whitespace")));
+                        List.of("Object <columns>. Property [name] contains whitespace in value: [user _data]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act

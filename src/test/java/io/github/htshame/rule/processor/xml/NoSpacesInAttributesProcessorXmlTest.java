@@ -72,12 +72,13 @@ public class NoSpacesInAttributesProcessorXmlTest extends ChangeSetRuleProcessor
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Tag <column>. Attribute [name] contains whitespace",
-                                "Tag <column>. Attribute [type] contains whitespace")),
+                                "Tag <column>. Attribute [name] contains whitespace in value: [ user_data]",
+                                "Tag <column>. Attribute [type] contains whitespace in value: [varchar(64) ]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex>. Attribute [tableName] contains whitespace")));
+                        List.of("Tag <createIndex>. Attribute [tableName] contains whitespace in value:"
+                                + " [user_metadata ]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -120,12 +121,13 @@ public class NoSpacesInAttributesProcessorXmlTest extends ChangeSetRuleProcessor
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Tag <column>. Attribute [name] contains whitespace",
-                                "Tag <column>. Attribute [type] contains whitespace")),
+                                "Tag <column>. Attribute [name] contains whitespace in value: [ user_data]",
+                                "Tag <column>. Attribute [type] contains whitespace in value: [varchar(64) ]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex>. Attribute [tableName] contains whitespace")));
+                        List.of("Tag <createIndex>. Attribute [tableName] contains whitespace in value:"
+                                + " [user_metadata ]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -167,7 +169,8 @@ public class NoSpacesInAttributesProcessorXmlTest extends ChangeSetRuleProcessor
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Tag <createIndex>. Attribute [tableName] contains whitespace")));
+                        List.of("Tag <createIndex>. Attribute [tableName] contains whitespace in value:"
+                                + " [user_metadata ]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act

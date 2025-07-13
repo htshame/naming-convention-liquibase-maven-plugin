@@ -72,12 +72,12 @@ public class NoSpacesInAttributesProcessorYamlTest extends ChangeSetRuleProcesso
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Key <column>. Property [name] contains whitespace",
-                                "Key <column>. Property [type] contains whitespace")),
+                                "Key <column>. Property [name] contains whitespace in value: [use r_data]",
+                                "Key <column>. Property [type] contains whitespace in value: [varc har(64)]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Key <column>. Property [type] contains whitespace")));
+                        List.of("Key <column>. Property [type] contains whitespace in value: [varchar(6 4)]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -120,12 +120,12 @@ public class NoSpacesInAttributesProcessorYamlTest extends ChangeSetRuleProcesso
                         "changelog_02_3",
                         "test",
                         List.of(
-                                "Key <column>. Property [name] contains whitespace",
-                                "Key <column>. Property [type] contains whitespace")),
+                                "Key <column>. Property [name] contains whitespace in value: [use r_data]",
+                                "Key <column>. Property [type] contains whitespace in value: [varc har(64)]")),
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Key <column>. Property [type] contains whitespace")));
+                        List.of("Key <column>. Property [type] contains whitespace in value: [varchar(6 4)]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
@@ -167,7 +167,7 @@ public class NoSpacesInAttributesProcessorYamlTest extends ChangeSetRuleProcesso
                 prepareTestErrorMessage(
                         "changelog_02_4",
                         "test",
-                        List.of("Key <column>. Property [type] contains whitespace")));
+                        List.of("Key <column>. Property [type] contains whitespace in value: [varchar(6 4)]")));
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act

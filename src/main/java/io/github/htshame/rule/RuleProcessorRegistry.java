@@ -10,6 +10,7 @@ import io.github.htshame.rule.processor.AttrStartsWithConditionedProcessor;
 import io.github.htshame.rule.processor.AttrStartsWithProcessor;
 import io.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
 import io.github.htshame.rule.processor.NoLowercaseInAttributesProcessor;
+import io.github.htshame.rule.processor.NoSpacesInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
@@ -54,6 +55,8 @@ public final class RuleProcessorRegistry {
                 RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, NoLowercaseInAttributesProcessor::instantiate);
         CHANGE_SET_RULE.put(
                 RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, AttrMustExistInTagProcessor::instantiate);
+        CHANGE_SET_RULE.put(
+                RuleEnum.NO_SPACES_IN_ATTRIBUTES, NoSpacesInAttributesProcessor::instantiate);
 
         CHANGE_LOG_RULE.put(
                 RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, ChangeLogFileMustMatchRegexpProcessor::instantiate);

@@ -173,6 +173,20 @@ public final class ErrorMessageUtil {
                 ChangeLogFormatEnum.JSON,
                 "Property [%s] of object [%s] contains lowercase characters in value: [%s]");
 
+        EnumMap<ChangeLogFormatEnum, String> noSpacesInAttrsMap = new EnumMap<>(ChangeLogFormatEnum.class);
+        noSpacesInAttrsMap.put(
+                ChangeLogFormatEnum.XML,
+                "Tag <%s>. Attribute [%s] contains whitespace");
+        noSpacesInAttrsMap.put(
+                ChangeLogFormatEnum.YAML,
+                "Key <%s>. Property [%s] contains whitespace");
+        noSpacesInAttrsMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key <%s>. Property [%s] contains whitespace");
+        noSpacesInAttrsMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object <%s>. Property [%s] contains whitespace");
+
         EnumMap<ChangeLogFormatEnum, String> attrMustExistInTagMap = new EnumMap<>(ChangeLogFormatEnum.class);
         attrMustExistInTagMap.put(
                 ChangeLogFormatEnum.XML,
@@ -197,6 +211,7 @@ public final class ErrorMessageUtil {
         RULE_MESSAGE_MAP.put(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, noUnderscoresInAttributesMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, noUppercaseInAttrsMap);
         RULE_MESSAGE_MAP.put(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, noLowercaseInAttrsMap);
+        RULE_MESSAGE_MAP.put(RuleEnum.NO_SPACES_IN_ATTRIBUTES, noSpacesInAttrsMap);
         RULE_MESSAGE_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
         RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, attrMustExistInTagMap);
     }

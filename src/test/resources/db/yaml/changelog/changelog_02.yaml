@@ -9,7 +9,7 @@ databaseChangeLog:
       comment: the_Comment
       changes:
         - addForeignKeyConstraint:
-            baseColumnNames: user_id
+            baseColumnNames: user_ id
             baseTableName: car
             constraintName: fk_person_car
             referencedColumnNames: id

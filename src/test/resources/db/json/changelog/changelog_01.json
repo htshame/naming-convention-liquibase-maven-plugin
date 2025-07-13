@@ -63,7 +63,7 @@
                 }
               ],
               "indexName": "email_idx",
-              "tableName": "user_metadata",
+              "tableName": "  user_metadata ",
               "tablespace": "The Space",
               "unique": true
             }

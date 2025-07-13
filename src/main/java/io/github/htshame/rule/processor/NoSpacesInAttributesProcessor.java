@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import static io.github.htshame.util.ErrorMessageUtil.getMessage;
 import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
@@ -41,7 +42,7 @@ import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
  */
 public class NoSpacesInAttributesProcessor implements ChangeSetRule {
 
-    private static final String SPACES_REGEXP = ".*\\s+.*";
+    private static final Pattern SPACES_REGEXP = Pattern.compile(".*\\s+.*");
     private final Set<String> excludedAttrs;
 
     /**
@@ -125,7 +126,7 @@ public class NoSpacesInAttributesProcessor implements ChangeSetRule {
             if (!isExcludedByAncestorTag(element)
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
-                    && attrValue.matches(SPACES_REGEXP)) {
+                    && SPACES_REGEXP.matcher(attrValue).matches()) {
                 String errorMessage = String.format(getMessage(getName(), changeLogFormat),
                         element.getName(),
                         attrName,

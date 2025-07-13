@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.8</version>
+        <version>2.9</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -68,6 +68,7 @@ This plugin allows you to create a set of rules and enforce them.
 1. [no-underscores-in-attributes](#no-underscores-in-attributes)
 1. [no-uppercase-in-attributes](#no-uppercase-in-attributes)
 1. [no-lowercase-in-attributes](#no-lowercase-in-attributes)
+1. [no-spaces-in-attributes](#no-spaces-in-attributes)
 1. [attr-must-exist-in-tag](#attr-must-exist-in-tag)
 1. [changelog-file-name-must-match-regexp](#changelog-file-name-must-match-regexp)
 1. [changelog-file-lines-limit](#changelog-file-lines-limit)
@@ -286,6 +287,25 @@ Example:
 ```
 
 Will check that lowercase characters are not present in the changeSet attributes at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
+
+---
+
+### no-spaces-in-attributes
+
+Checks that spaces/line breaks/tabs are not present in the changeSet attributes at all.
+
+Example:
+
+```xml
+<rule name="no-spaces-in-attributes">
+    <excludedAttrs>
+        <attr>defaultValue</attr>
+        <attr>defaultValueComputed</attr>
+    </excludedAttrs>
+</rule>
+```
+
+Will check that spaces/line breaks/tabs are not present in the changeSet attributes at all, except for excluded attributes. Attributes `defaultValue` and `defaultValueComputed` will be ignored.
 
 ---
 

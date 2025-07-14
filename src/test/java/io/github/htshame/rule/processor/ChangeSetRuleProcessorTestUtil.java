@@ -21,11 +21,13 @@ import static org.junit.Assert.assertEquals;
 
 public class ChangeSetRuleProcessorTestUtil {
 
+    private static final String BASE_PATH = "src/test/resources/io/github/htshame/rule/processor/";
+    private static final String EXCLUSION_EMPTY_URL = BASE_PATH + "exclusions_empty.xml";
+
     private final String ruleFilePath;
     private final RuleEnum ruleName;
     private final String changelogFailureFile;
     private final String changelogSuccessFile;
-    private final String exclusionEmptyUrl;
     private final String baseUrlPathFormatted;
     private final String exclusionWrongUrl;
     private final String exclusionUrl;
@@ -41,12 +43,11 @@ public class ChangeSetRuleProcessorTestUtil {
         this.ruleName = ruleName;
         this.changelogFailureFile = ruleName.getValue() + "-failure." + changeLogFormat.getValue();
         this.changelogSuccessFile = ruleName.getValue() + "-success." + changeLogFormat.getValue();
-        String baseFilePath = "src/test/resources/io/github/htshame/rule/processor/" + ruleName.getValue() + "/";
+        String baseFilePath = BASE_PATH + ruleName.getValue() + "/";
         this.ruleFilePath = baseFilePath + ruleName.getValue() + "-rule.xml";
         this.baseUrlPathFormatted = baseFilePath + changeLogFormat.getValue() + "/";
         this.exclusionWrongUrl = baseUrlPathFormatted + "exclusions_wrong_" + changeLogFormat.getValue() + ".xml";
         this.exclusionUrl = baseUrlPathFormatted + "exclusions_" + changeLogFormat.getValue() + ".xml";
-        this.exclusionEmptyUrl = baseFilePath + "exclusions_empty.xml";
     }
 
     protected Element prepareRuleELement() throws ParserConfigurationException, IOException, SAXException {
@@ -90,7 +91,7 @@ public class ChangeSetRuleProcessorTestUtil {
     }
 
     public String getExclusionEmptyUrl() {
-        return exclusionEmptyUrl;
+        return EXCLUSION_EMPTY_URL;
     }
 
     public String getBaseUrlPathFormatted() {

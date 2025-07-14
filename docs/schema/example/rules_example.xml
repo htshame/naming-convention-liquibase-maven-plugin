@@ -14,7 +14,7 @@
     </rule>
 
     <!--
-    Checks that specified tag contains required attribute.
+    Checks that the specified tag contains the required attribute.
     Example:
     Attribute 'remarks' must exist in tag '<createTable>'.
     -->

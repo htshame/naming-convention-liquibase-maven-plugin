@@ -47,9 +47,7 @@ This plugin allows you to create a set of rules and enforce them.
             <pathToExclusionsFile>
                 ${project.basedir}/src/main/resources/liquibaseNaming/exclusions.xml
             </pathToExclusionsFile>
-            <changeLogDirectory>
-                ${project.basedir}/src/main/resources/db
-            </changeLogDirectory>
+            <changeLogDirectory>${project.basedir}/src/main/resources/db</changeLogDirectory>
             <changeLogFormat>xml</changeLogFormat>
             <shouldFailBuild>true</shouldFailBuild>
         </configuration>

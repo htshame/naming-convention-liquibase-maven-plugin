@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 public class ChangeSetRuleProcessorTestUtil {
 
     private static final String BASE_PATH = "src/test/resources/io/github/htshame/rule/processor/";
-    private static final String EXCLUSION_EMPTY_URL = BASE_PATH + "exclusions_empty.xml";
+    private static final String EXCLUSION_EMPTY_PATH = BASE_PATH + "exclusions_empty.xml";
 
     private final String ruleFilePath;
     private final RuleEnum ruleName;
@@ -91,7 +91,7 @@ public class ChangeSetRuleProcessorTestUtil {
     }
 
     public String getExclusionEmptyUrl() {
-        return EXCLUSION_EMPTY_URL;
+        return EXCLUSION_EMPTY_PATH;
     }
 
     public String getBaseUrlPathFormatted() {

@@ -41,11 +41,15 @@ This plugin allows you to create a set of rules and enforce them.
             </execution>
         </executions>
         <configuration>
-            <pathToRulesFile>${project.basedir}/src/main/resources/liquibaseNaming/ruleset.xml</pathToRulesFile>
+            <pathToRulesFile>
+                ${project.basedir}/src/main/resources/liquibaseNaming/ruleset.xml
+            </pathToRulesFile>
             <pathToExclusionsFile>
                 ${project.basedir}/src/main/resources/liquibaseNaming/exclusions.xml
             </pathToExclusionsFile>
-            <changeLogDirectory>${project.basedir}/src/main/resources/db</changeLogDirectory>
+            <changeLogDirectory>
+                ${project.basedir}/src/main/resources/db
+            </changeLogDirectory>
             <changeLogFormat>xml</changeLogFormat>
             <shouldFailBuild>true</shouldFailBuild>
         </configuration>
@@ -58,6 +62,7 @@ This plugin allows you to create a set of rules and enforce them.
 ## Available rules:
 
 1. [tag-must-exist](#tag-must-exist)
+1. [attr-must-exist-in-tag](#attr-must-exist-in-tag)
 1. [attr-starts-with](#attr-starts-with)
 1. [attr-starts-with-conditioned](#attr-starts-with-conditioned)
 1. [attr-not-starts-with-conditioned](#attr-not-starts-with-conditioned)
@@ -69,7 +74,6 @@ This plugin allows you to create a set of rules and enforce them.
 1. [no-uppercase-in-attributes](#no-uppercase-in-attributes)
 1. [no-lowercase-in-attributes](#no-lowercase-in-attributes)
 1. [no-spaces-in-attributes](#no-spaces-in-attributes)
-1. [attr-must-exist-in-tag](#attr-must-exist-in-tag)
 1. [changelog-file-name-must-match-regexp](#changelog-file-name-must-match-regexp)
 1. [changelog-file-lines-limit](#changelog-file-lines-limit)
 
@@ -91,6 +95,23 @@ Example:
 ```
 
 Will check that `<comment>` tag is present inside every changeSet, including child `<rollback>`tag.
+
+---
+
+### attr-must-exist-in-tag
+
+Checks that required attribute exists in tag.
+
+Example:
+
+```xml
+<rule name="attr-must-exist-in-tag">
+    <tag>createTable</tag>
+    <requiredAttr>remarks</requiredAttr>
+</rule>
+```
+
+Will check that required attribute `remarks` exists in the specified tag `createTable`.
 
 ---
 
@@ -309,23 +330,6 @@ Will check that spaces/line breaks/tabs are not present in the changeSet attribu
 
 ---
 
-### attr-must-exist-in-tag
-
-Checks that required attribute exists in tag.
-
-Example:
-
-```xml
-<rule name="attr-must-exist-in-tag">
-    <tag>createTable</tag>
-    <requiredAttr>remarks</requiredAttr>
-</rule>
-```
-
-Will check that required attribute `remarks` exists in the specified tag `createTable`.
-
----
-
 ### changelog-file-name-must-match-regexp
 
 Checks that all changeLog files match the specified regular expression.
@@ -370,20 +374,67 @@ excluding changeLog file names provided in `<excludedFileNames>`.
 
 ## Exclusions
 
-You can always add an exclusion to the set of rules. Create a separate `exclusions.xml` (or give it another name).
+You can always add an exclusion for the set of rules. Create a separate `exclusions.xml` (or give it another name).
 
-Example:
+### Available exclusions:
 
-To exclude single or all checks the whole changeLog file or a single changeSet, use:
+1. [exclude a specific rule for a given file](#exclude-a-specific-rule-for-a-given-file)
+1. [exclude all rules for a given file](#exclude-all-rules-for-a-given-file)
+1. [exclude a specific rule for a specific changeSet](#exclude-a-specific-rule-for-a-specific-changeSet)
+1. [exclude all rules for a specific changeSet](#exclude-all-rules-for-a-specific-changeSet)
+
+---
+
+### exclude a specific rule for a given file
+
+To exclude the provided rule for the provided file use:
+
 ```xml
-<fileExclusion fileName="changelog_01.xml" 
-               rule="no-underscores-in-attributes"/>
-<fileExclusion fileName="changelog_02.xml" 
-               rule="*"/>
-<changeSetExclusion fileName="changelog_03.xml" 
+<fileExclusion fileName="changelog_01.xml" rule="no-underscores-in-attributes"/>
+```
+
+Rule `no-underscores-in-attributes` will not be applied to `changelog_01.xml`.
+
+---
+
+### exclude all rules for a given file
+
+To exclude all rules for the provided file use:
+
+```xml
+<fileExclusion fileName="changelog_01.xml" rule="*"/>
+```
+
+Not a single rule will be applied to `changelog_01.xml`. This file will be ignored.
+
+---
+
+### exclude a specific rule for a specific changeSet
+
+To exclude the provided rule for the provided changeSet
+
+```xml
+<changeSetExclusion fileName="changelog_04.xml" 
                     changeSetId="changelog_04-1" changeSetAuthor="test" 
                     rule="tag-must-exist"/>
 ```
+
+Rule `tag-must-exist` will not be applied to the change set with `id=changelog_04_1`, `author=test` inside `changelog_04.xml`.
+
+---
+
+### exclude all rules for a specific changeSet
+
+To exclude all rules for the provided changeSet
+
+```xml
+<changeSetExclusion fileName="changelog_04.xml" 
+                    changeSetId="changelog_04-1" changeSetAuthor="test" 
+                    rule="*"/>
+```
+
+Not a single rule will be applied to the change set with `id=changelog_04_1`, `author=test` inside `changelog_04.xml`.
+This changeSet will be ignored.
 
 ---
 

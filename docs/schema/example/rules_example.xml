@@ -14,6 +14,16 @@
     </rule>
 
     <!--
+    Checks that specified tag contains required attribute.
+    Example:
+    Tag <createTable> must exist attribute 'remarks'.
+    -->
+    <rule name="attr-must-exist-in-tag">
+        <tag>createTable</tag>
+        <requiredAttr>remarks</requiredAttr>
+    </rule>
+
+    <!--
     Checks that specified attribute starts with specified value.
     Will check that each `indexName` attribute of each `<createIndex>` tag starts with `idx_`.
     -->
@@ -147,16 +157,6 @@
             <attr>defaultValue</attr>
             <attr>defaultValueComputed</attr>
         </excludedAttrs>
-    </rule>
-
-    <!--
-    Checks that specified tag contains required attribute.
-    Example:
-    Tag <createTable> must exist attribute 'remarks'.
-    -->
-    <rule name="attr-must-exist-in-tag">
-        <tag>createTable</tag>
-        <requiredAttr>remarks</requiredAttr>
     </rule>
 
     <!--

@@ -1,11 +1,7 @@
 package io.github.htshame.rule.processor.changelog;
 
-import io.github.htshame.change.set.ChangeSetElement;
-import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
-import io.github.htshame.exception.ChangeLogParseException;
-import io.github.htshame.validator.ValidatorTestUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -15,7 +11,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class ChangeLogRuleProcessorTestUtil {
 
@@ -54,12 +49,5 @@ public class ChangeLogRuleProcessorTestUtil {
 
     protected File getChangeLogFailureFileNotFound() {
         return new File(changeLogFailureFile + "1");
-    }
-
-    protected List<ChangeSetElement> parseChangeSetFile(final String filePath,
-                                                        final ChangeLogFormatEnum format)
-            throws ChangeLogParseException {
-        File changeLogFile = new File(filePath);
-        return ValidatorTestUtil.getParser(format).parseChangeLog(changeLogFile);
     }
 }

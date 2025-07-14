@@ -22,7 +22,7 @@ import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 /**
  * Business logic for the <code>attr-must-exist-in-tag</code> rule.
  * <p>
- * Checks that specified tag contains required attribute.
+ * Checks that the specified tag contains the required attribute.
  * </p>
  * <p>Example:</p>
  * <p>Rule configuration:</p>

@@ -372,7 +372,7 @@ excluding changeLog file names provided in `<excludedFileNames>`.
 
 ## Exclusions
 
-You can always add an exclusion for the set of rules. Create a separate `exclusions.xml` (or give it another name).
+You can always add an exclusion to the set of rules. Create a separate `exclusions.xml` (or give it another name).
 
 ### Available exclusions:
 

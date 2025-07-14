@@ -16,7 +16,7 @@
     <!--
     Checks that specified tag contains required attribute.
     Example:
-    Tag <createTable> must exist attribute 'remarks'.
+    Attribute 'remarks' must exist in tag '<createTable>'.
     -->
     <rule name="attr-must-exist-in-tag">
         <tag>createTable</tag>

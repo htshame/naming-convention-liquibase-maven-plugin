@@ -13,8 +13,13 @@
     <fileExclusion fileName="changelog_05.xml"
                    rule="*"/>
 
-    <!-- this makes 'tag-must-exist' rule not applicable to changeSet with id='changelog_04-1',
+    <!-- this makes 'tag-must-exist' rule not applicable to the changeSet with id='changelog_04-1',
      author='test' in file 'changelog_04.xml' -->
     <changeSetExclusion fileName="changelog_04.xml" changeSetId="changelog_04-1" changeSetAuthor="test"
                         rule="tag-must-exist"/>
+
+    <!-- this makes all rules not applicable to the changeSet with id='changelog_04-1',
+     author='test' in file 'changelog_04.xml' -->
+    <changeSetExclusion fileName="changelog_04.xml" changeSetId="changelog_04-1" changeSetAuthor="test"
+                        rule="*"/>
 </exclusions>

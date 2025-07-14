@@ -66,7 +66,9 @@ public final class ExclusionParser {
                 String rule = exclusion.getAttribute(ExclusionEnum.RULE_ATTR.getValue()).trim();
                 RuleEnum ruleEnum = RuleEnum.fromValue(rule);
 
-                Set<RuleEnum> rules = config.fileRuleExclusions.computeIfAbsent(fileName, k -> new HashSet<>());
+                Set<RuleEnum> rules = config.fileRuleExclusions
+                        .computeIfAbsent(fileName, k -> new HashSet<>());
+
                 if (RuleEnum.ALL_RULES.equals(ruleEnum)) {
                     rules.addAll(Arrays.asList(RuleEnum.values()));
                 } else {

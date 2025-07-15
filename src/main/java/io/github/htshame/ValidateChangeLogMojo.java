@@ -106,7 +106,6 @@ public class ValidateChangeLogMojo extends AbstractMojo {
 
         try {
             checkValidationResult(validationErrors);
-            getLog().info("All ChangeLog files passed validation");
         } catch (MojoExecutionException e) {
             getLog().warn("Failing the build because <shouldFailBuild> is not provided or set to 'true'");
             if (Boolean.TRUE.equals(shouldFailBuild)) {
@@ -188,6 +187,7 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      */
     private void checkValidationResult(final List<String> validationErrors) throws MojoExecutionException {
         if (validationErrors.isEmpty()) {
+            getLog().info("All ChangeLog files passed validation");
             return;
         }
         getLog().error("====== Liquibase changeset validation failed ======");

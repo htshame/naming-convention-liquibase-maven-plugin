@@ -3,7 +3,7 @@ package io.github.htshame.exception;
 /**
  * Rules file parser exception.
  */
-public class RuleParserException extends Exception {
+public class RuleParserException extends RuntimeException {
 
     /**
      * Constructor.
@@ -14,5 +14,14 @@ public class RuleParserException extends Exception {
     public RuleParserException(final String message,
                                final Throwable e) {
         super(message, e);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param message - message.
+     */
+    public RuleParserException(final String message) {
+        super(message);
     }
 }

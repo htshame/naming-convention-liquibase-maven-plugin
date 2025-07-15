@@ -19,8 +19,9 @@ import java.util.Objects;
 import java.util.Set;
 
 import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
-import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
+import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
 
 /**
  * Business logic for the <code>tag-must-exist</code> rule.
@@ -82,17 +83,17 @@ public class TagMustExistProcessor implements ChangeSetRule {
      * @return instance of {@link TagMustExistProcessor}.
      */
     public static TagMustExistProcessor instantiate(final Element element) {
-        String requiredTag = RuleUtil.getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
-        Set<String> requiredForChildTags = new HashSet<>();
         NodeList requiredChildTags = element.getElementsByTagName(
                 RuleStructureEnum.REQUIRED_FOR_CHILD_TAGS.getValue());
-        if (requiredChildTags.getLength() != 0) {
-            NodeList excludedTagElements = ((Element) requiredChildTags.item(0))
+        Set<String> requiredForChildTags = new HashSet<>();
+        if (shouldCollectValuesRuleListFormat(requiredChildTags, RuleStructureEnum.REQUIRED_FOR_CHILD_TAGS)) {
+            NodeList requiredTagElements = ((Element) requiredChildTags.item(0))
                     .getElementsByTagName(RuleStructureEnum.TAG.getValue());
-            for (int j = 0; j < excludedTagElements.getLength(); j++) {
-                requiredForChildTags.add(excludedTagElements.item(j).getTextContent());
+            for (int j = 0; j < requiredTagElements.getLength(); j++) {
+                requiredForChildTags.add(requiredTagElements.item(j).getTextContent());
             }
         }
+        String requiredTag = RuleUtil.getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());
         return new TagMustExistProcessor(requiredTag, requiredForChildTags);
     }
 
@@ -136,7 +137,7 @@ public class TagMustExistProcessor implements ChangeSetRule {
 
         if (shouldAddError(hasRequiredChild, element, tagName, isSearchInChildTagRequired)) {
             String error = String.format(
-                    getMessage(getName(), changeLogFormat),
+                    getChangeSetError(getName(), changeLogFormat),
                     tagName,
                     requiredTag);
             errors.add(error);

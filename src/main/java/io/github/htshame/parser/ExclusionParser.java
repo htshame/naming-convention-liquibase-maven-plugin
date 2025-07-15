@@ -39,6 +39,9 @@ public final class ExclusionParser {
      */
     private final Map<ChangeSetExclusionDto, Set<RuleEnum>> changeSetRuleExclusions = new HashMap<>();
 
+    /**
+     * Default constructor.
+     */
     private ExclusionParser() {
 
     }

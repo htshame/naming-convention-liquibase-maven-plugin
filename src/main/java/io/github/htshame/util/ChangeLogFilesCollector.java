@@ -16,6 +16,9 @@ import java.util.stream.Stream;
  */
 public final class ChangeLogFilesCollector {
 
+    /**
+     * Default constructor.
+     */
     private ChangeLogFilesCollector() {
 
     }

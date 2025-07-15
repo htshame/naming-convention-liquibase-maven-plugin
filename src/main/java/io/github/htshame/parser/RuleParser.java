@@ -76,7 +76,7 @@ public final class RuleParser {
      * @return list of rules.
      * @throws RuleParserException - thrown if parsing fails.
      */
-    public static List<Rule> parseRules(final File rulesetFile) throws RuleParserException {
+    public static List<Rule> parseRules(final File rulesetFile) {
         List<Rule> rules = new ArrayList<>();
         try {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
@@ -88,7 +88,8 @@ public final class RuleParser {
                 try {
                     rules.add(RULE_MAP.get(ruleType.getType()).apply(ruleType).instantiate(ruleElement));
                 } catch (Exception e) {
-                    throw new RuleInstantiationException("Failed to instantiate rule for type: " + ruleType, e);
+                    throw new RuleInstantiationException(
+                            "Failed to instantiate rule for type: [" + ruleType.getValue() + "]", e);
                 }
             }
         } catch (Exception e) {

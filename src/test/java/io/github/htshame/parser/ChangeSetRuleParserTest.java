@@ -34,11 +34,9 @@ public class ChangeSetRuleParserTest {
 
     /**
      * Test successful case of rules.xml parsing.
-     *
-     * @throws RuleParserException - if parsing fails.
      */
     @Test
-    public void testParseRulesSuccess() throws RuleParserException {
+    public void testParseRulesSuccess() {
         // arrange
         File ruleFile = new File("src/test/resources/rules.xml");
         Set<Class<? extends Rule>> ruleClassNames = Set.of(

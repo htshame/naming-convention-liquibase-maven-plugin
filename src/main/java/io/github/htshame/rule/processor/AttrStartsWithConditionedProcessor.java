@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
@@ -132,7 +132,7 @@ public class AttrStartsWithConditionedProcessor implements ChangeSetRule {
                 if (targetAttrActualValue.startsWith(requiredPrefix)) {
                     continue;
                 }
-                String errorMessage = String.format(getMessage(getName(), changeLogFormat),
+                String errorMessage = String.format(getChangeSetError(getName(), changeLogFormat),
                         tag,
                         conditionAttr,
                         conditionValue,

@@ -83,10 +83,10 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_FILE_NAMES.getValue());
         Set<String> excludedFileNames = new HashSet<>();
         if (shouldCollectValuesRuleListFormat(excludedFiles, RuleStructureEnum.EXCLUDED_FILE_NAMES)) {
-            NodeList excludedAttrElements = ((Element) excludedFiles.item(0))
+            NodeList excludedFileElement = ((Element) excludedFiles.item(0))
                     .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
-            for (int i = 0; i < excludedAttrElements.getLength(); i++) {
-                excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
+            for (int i = 0; i < excludedFileElement.getLength(); i++) {
+                excludedFileNames.add(excludedFileElement.item(i).getTextContent());
             }
         }
         return new ChangeLogFileMustMatchRegexpProcessor(

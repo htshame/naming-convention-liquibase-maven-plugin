@@ -87,10 +87,10 @@ public class TagMustExistProcessor implements ChangeSetRule {
                 RuleStructureEnum.REQUIRED_FOR_CHILD_TAGS.getValue());
         Set<String> requiredForChildTags = new HashSet<>();
         if (shouldCollectValuesRuleListFormat(requiredChildTags, RuleStructureEnum.REQUIRED_FOR_CHILD_TAGS)) {
-            NodeList excludedTagElements = ((Element) requiredChildTags.item(0))
+            NodeList requiredTagElements = ((Element) requiredChildTags.item(0))
                     .getElementsByTagName(RuleStructureEnum.TAG.getValue());
-            for (int j = 0; j < excludedTagElements.getLength(); j++) {
-                requiredForChildTags.add(excludedTagElements.item(j).getTextContent());
+            for (int j = 0; j < requiredTagElements.getLength(); j++) {
+                requiredForChildTags.add(requiredTagElements.item(j).getTextContent());
             }
         }
         String requiredTag = RuleUtil.getText(element, RuleStructureEnum.REQUIRED_TAG.getValue());

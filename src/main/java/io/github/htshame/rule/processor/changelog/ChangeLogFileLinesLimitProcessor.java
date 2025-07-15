@@ -98,12 +98,13 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
     public static ChangeLogFileLinesLimitProcessor instantiate(final Element element) {
         NodeList excludedFiles = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_FILE_NAMES.getValue());
-        shouldCollectValuesRuleListFormat(excludedFiles, RuleStructureEnum.EXCLUDED_FILE_NAMES);
-        NodeList excludedAttrElements = ((Element) excludedFiles.item(0))
-                .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
         Set<String> excludedFileNames = new HashSet<>();
-        for (int i = 0; i < excludedAttrElements.getLength(); i++) {
-            excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
+        if (shouldCollectValuesRuleListFormat(excludedFiles, RuleStructureEnum.EXCLUDED_FILE_NAMES)) {
+            NodeList excludedAttrElements = ((Element) excludedFiles.item(0))
+                    .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
+            for (int i = 0; i < excludedAttrElements.getLength(); i++) {
+                excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
+            }
         }
         return new ChangeLogFileLinesLimitProcessor(
                 getText(element, RuleStructureEnum.LINES_LIMIT.getValue()),

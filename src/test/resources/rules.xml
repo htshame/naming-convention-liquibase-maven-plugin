@@ -79,6 +79,10 @@
             <attr>defaultValue</attr>
             <attr>defaultValueComputed</attr>
         </excludedAttrs>
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
     </rule>
 
     <rule name="no-spaces-in-attributes">

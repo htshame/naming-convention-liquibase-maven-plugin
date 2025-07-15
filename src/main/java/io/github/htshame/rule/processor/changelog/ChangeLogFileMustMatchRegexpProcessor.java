@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static io.github.htshame.util.ErrorMessageUtil.getChangeLogError;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
@@ -62,7 +63,7 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
     public void validateChangeLog(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
         if (!excludedFileNames.contains(fileName) && !fileName.matches(fileNameRegexp)) {
-            String errorMessage = String.format("File [%s] does not match required regexp [%s]. Rule [%s]",
+            String errorMessage = String.format(getChangeLogError(getName()),
                     fileName,
                     fileNameRegexp,
                     getName().getValue());

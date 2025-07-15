@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static io.github.htshame.util.ErrorMessageUtil.getChangeLogError;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
@@ -72,7 +73,7 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
                 }
             }
             if (!excludedFileNames.contains(fileName) && lines > linesLimit) {
-                String errorMessage = String.format("File [%s] has [%s] lines, longer than [%s] lines max. Rule [%s]",
+                String errorMessage = String.format(getChangeLogError(getName()),
                         fileName,
                         lines,
                         linesLimit,

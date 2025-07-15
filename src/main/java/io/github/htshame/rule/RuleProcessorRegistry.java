@@ -25,9 +25,13 @@ import java.util.EnumMap;
 public final class RuleProcessorRegistry {
 
     /**
-     * Map of rule processors mapped to the corresponding {@link RuleEnum}.
+     * Map of changeSet rule processors, each mapped to the corresponding {@link RuleEnum}.
      */
     private static final EnumMap<RuleEnum, RuleFactory<ChangeSetRule>> CHANGE_SET_RULE = new EnumMap<>(RuleEnum.class);
+
+    /**
+     * Map of changeLog rule processors, each mapped to the corresponding {@link RuleEnum}.
+     */
     private static final EnumMap<RuleEnum, RuleFactory<ChangeLogRule>> CHANGE_LOG_RULE = new EnumMap<>(RuleEnum.class);
 
     static {

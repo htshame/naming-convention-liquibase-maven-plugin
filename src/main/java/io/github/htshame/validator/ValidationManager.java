@@ -63,7 +63,7 @@ public class ValidationManager {
         List<String> validationErrors = new ArrayList<>();
 
         for (File changeLogFile : changeLogFiles) {
-            Set<Rule> rulesToValidateWith = excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
+            Set<Rule> rulesToValidateAgainst = excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
 
             Set<ChangeSetRule> changeSetRules = new HashSet<>();
             Set<ChangeLogRule> changeLogRules = new HashSet<>();
@@ -72,7 +72,7 @@ public class ValidationManager {
                     RuleTypeEnum.CHANGE_SET_RULE, rule -> changeSetRules.add((ChangeSetRule) rule),
                     RuleTypeEnum.CHANGE_LOG_RULE, rule -> changeLogRules.add((ChangeLogRule) rule));
 
-            for (Rule rule : rulesToValidateWith) {
+            for (Rule rule : rulesToValidateAgainst) {
                 ruleTypeMap.get(rule.getName().getType()).accept(rule);
             }
 

@@ -15,6 +15,9 @@ import java.util.List;
  */
 public final class RuleUtil {
 
+    /**
+     * Globally excluded tags.
+     */
     private static final List<String> EXCLUDED_TAG = Arrays.asList("preConditions", "loadData");
 
     /**
@@ -23,6 +26,9 @@ public final class RuleUtil {
     public static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList(
             "id", "author", "comment", "remarks");
 
+    /**
+     * Default constructor.
+     */
     private RuleUtil() {
 
     }
@@ -37,7 +43,9 @@ public final class RuleUtil {
     public static String getText(final Element element,
                                  final String tagName) {
         NodeList nodes = element.getElementsByTagName(tagName);
-        return nodes.getLength() > 0 ? nodes.item(0).getTextContent().trim() : null;
+        return nodes.getLength() > 0
+                ? nodes.item(0).getTextContent().trim()
+                : null;
     }
 
     /**

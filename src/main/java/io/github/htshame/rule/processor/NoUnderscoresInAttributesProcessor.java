@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
 import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 
@@ -127,7 +127,7 @@ public class NoUnderscoresInAttributesProcessor implements ChangeSetRule {
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
                     && attrValue.contains(UNDERSCORE)) {
-                String errorMessage = String.format(getMessage(getName(), changeLogFormat),
+                String errorMessage = String.format(getChangeSetError(getName(), changeLogFormat),
                         attrName,
                         element.getName(),
                         attrValue);

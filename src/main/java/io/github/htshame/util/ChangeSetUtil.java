@@ -12,13 +12,25 @@ public final class ChangeSetUtil {
      * ChangeSet name.
      */
     public static final String CHANGE_SET_TAG_NAME = "changeSet";
+
     /**
      * Database changeLog name.
      */
     public static final String DATABASE_CHANGELOG_NAME = "databaseChangeLog";
+
+    /**
+     * ChangeSet ID.
+     */
     private static final String ID_ATTR_NAME = "id";
+
+    /**
+     * ChangeSet author.
+     */
     private static final String AUTHOR_ATTR_NAME = "author";
 
+    /**
+     * Default constructor.
+     */
     private ChangeSetUtil() {
 
     }
@@ -41,7 +53,7 @@ public final class ChangeSetUtil {
     /**
      * Retrieve the value of the specified attribute from the given element.
      *
-     * @param element - element.
+     * @param element       - element.
      * @param attributeName - attribute name.
      * @return attribute value.
      */

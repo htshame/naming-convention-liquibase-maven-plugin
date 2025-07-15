@@ -20,7 +20,7 @@ public final class ErrorMessageUtil {
     /**
      * Map of changeLog rules and error messages.
      */
-    private static final EnumMap<RuleEnum, String> CHANGE_LOG_ERROR_MAP = new EnumMap<>(RuleEnum.class);
+    private static final EnumMap<RuleEnum, String> CHANGE_LOG_RULE_ERROR_MAP = new EnumMap<>(RuleEnum.class);
 
     /**
      * Default constructor.
@@ -229,8 +229,10 @@ public final class ErrorMessageUtil {
         CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
         CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, attrMustExistInTagMap);
 
-        CHANGE_LOG_ERROR_MAP.put(RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, changeLogFileNameMustMatchRegexpError);
-        CHANGE_LOG_ERROR_MAP.put(RuleEnum.CHANGELOG_FILE_LINES_LIMIT, changeLogFileLinesLimitError);
+        CHANGE_LOG_RULE_ERROR_MAP.put(
+                RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, changeLogFileNameMustMatchRegexpError);
+        CHANGE_LOG_RULE_ERROR_MAP.put(
+                RuleEnum.CHANGELOG_FILE_LINES_LIMIT, changeLogFileLinesLimitError);
     }
 
     /**
@@ -252,7 +254,7 @@ public final class ErrorMessageUtil {
      * @return error message.
      */
     public static String getChangeLogError(final RuleEnum ruleEnum) {
-        return CHANGE_LOG_ERROR_MAP.get(ruleEnum);
+        return CHANGE_LOG_RULE_ERROR_MAP.get(ruleEnum);
     }
 
     /**

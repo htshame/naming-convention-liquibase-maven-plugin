@@ -103,16 +103,16 @@ public final class RuleUtil {
     /**
      * Check whether child values should be collected or not.
      *
-     * @param excludedTag          - excluded tag.
+     * @param nodeList             - node list to check.
      * @param ruleStructureElement - rule structure element.
      * @return <code>true</code> if should. <code>false</code> - if not.
-     * @throws RuleParserException - if number of parent exclusions tags is more than 1.
+     * @throws RuleParserException - if number of parent node tags is more than 1.
      */
-    public static boolean shouldCollectValuesRuleListFormat(final NodeList excludedTag,
+    public static boolean shouldCollectValuesRuleListFormat(final NodeList nodeList,
                                                             final RuleStructureEnum ruleStructureElement) {
-        if (excludedTag.getLength() > 1) {
-            throw new RuleParserException("Too many [" + ruleStructureElement.getValue() + "] elements");
+        if (nodeList.getLength() > 1) {
+            throw new RuleParserException("Too many [" + ruleStructureElement.getValue() + "] tags");
         }
-        return excludedTag.getLength() != 0;
+        return nodeList.getLength() != 0;
     }
 }

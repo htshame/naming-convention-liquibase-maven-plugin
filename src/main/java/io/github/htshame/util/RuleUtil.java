@@ -106,7 +106,7 @@ public final class RuleUtil {
      * @param excludedTag          - excluded tag.
      * @param ruleStructureElement - rule structure element.
      * @return <code>true</code> if should. <code>false</code> - if not.
-     * @throws RuleParserException - if number of parent exclusions tags is > 1.
+     * @throws RuleParserException - if number of parent exclusions tags is more than 1.
      */
     public static boolean shouldCollectValuesRuleListFormat(final NodeList excludedTag,
                                                             final RuleStructureEnum ruleStructureElement) {

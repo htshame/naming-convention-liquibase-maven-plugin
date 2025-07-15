@@ -30,6 +30,9 @@ import java.util.function.Consumer;
  */
 public class ValidationManager {
 
+    /**
+     * Map of changeLog formats and changeLog parsers.
+     */
     static final EnumMap<ChangeLogFormatEnum, ChangeLogParser> CHANGELOG_PARSER_MAP =
             new EnumMap<>(ChangeLogFormatEnum.class);
 

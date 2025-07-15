@@ -18,6 +18,7 @@ import java.util.Set;
 import static io.github.htshame.util.ErrorMessageUtil.getChangeLogError;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
+import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
 
 /**
  * Business logic for the <code>changelog-file-lines-limit</code> rule.
@@ -95,15 +96,14 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
      * @return instance of {@link ChangeLogFileLinesLimitProcessor}.
      */
     public static ChangeLogFileLinesLimitProcessor instantiate(final Element element) {
-        Set<String> excludedFileNames = new HashSet<>();
-        NodeList excludedAttrs = element
+        NodeList excludedFiles = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_FILE_NAMES.getValue());
-        if (excludedAttrs.getLength() != 0) {
-            NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
-                    .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
-            for (int i = 0; i < excludedAttrElements.getLength(); i++) {
-                excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
-            }
+        shouldCollectValuesRuleListFormat(excludedFiles, RuleStructureEnum.EXCLUDED_FILE_NAMES);
+        NodeList excludedAttrElements = ((Element) excludedFiles.item(0))
+                .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
+        Set<String> excludedFileNames = new HashSet<>();
+        for (int i = 0; i < excludedAttrElements.getLength(); i++) {
+            excludedFileNames.add(excludedAttrElements.item(i).getTextContent());
         }
         return new ChangeLogFileLinesLimitProcessor(
                 getText(element, RuleStructureEnum.LINES_LIMIT.getValue()),

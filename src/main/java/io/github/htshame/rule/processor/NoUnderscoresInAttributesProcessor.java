@@ -20,6 +20,7 @@ import java.util.Set;
 import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
 import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
+import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
 
 /**
  * Business logic for the <code>no-underscores-in-attributes</code> rule.
@@ -94,10 +95,10 @@ public class NoUnderscoresInAttributesProcessor implements ChangeSetRule {
      * @return instance of {@link NoUnderscoresInAttributesProcessor}.
      */
     public static NoUnderscoresInAttributesProcessor instantiate(final Element element) {
-        Set<String> excludedParents = new HashSet<>();
         NodeList excludedTags = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
-        if (excludedTags.getLength() != 0) {
+        Set<String> excludedParents = new HashSet<>();
+        if (shouldCollectValuesRuleListFormat(excludedTags, RuleStructureEnum.EXCLUDED_ATTRS)) {
             NodeList excludedAttrElements = ((Element) excludedTags.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
             for (int j = 0; j < excludedAttrElements.getLength(); j++) {

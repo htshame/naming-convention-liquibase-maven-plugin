@@ -3,6 +3,8 @@ package io.github.htshame.util;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.enums.RuleStructureEnum;
+import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.parser.ExclusionParser;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -96,5 +98,21 @@ public final class RuleUtil {
                 changeSetAttributeDto.getAuthor(),
                 ruleName.getValue(),
                 String.join("\n    ", errors));
+    }
+
+    /**
+     * Check whether child values should be collected or not.
+     *
+     * @param excludedTag          - excluded tag.
+     * @param ruleStructureElement - rule structure element.
+     * @return <code>true</code> if should. <code>false</code> - if not.
+     * @throws RuleParserException - if number of parent exclusions tags is > 1.
+     */
+    public static boolean shouldCollectValuesRuleListFormat(final NodeList excludedTag,
+                                                            final RuleStructureEnum ruleStructureElement) {
+        if (excludedTag.getLength() > 1) {
+            throw new RuleParserException("Too many [" + ruleStructureElement.getValue() + "] elements");
+        }
+        return excludedTag.getLength() != 0;
     }
 }

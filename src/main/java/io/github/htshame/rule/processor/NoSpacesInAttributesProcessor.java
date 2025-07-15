@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
 import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
+import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
 
 /**
  * Business logic for the <code>no-spaces-in-attributes</code> rule.
@@ -94,10 +95,10 @@ public class NoSpacesInAttributesProcessor implements ChangeSetRule {
      * @return instance of {@link NoSpacesInAttributesProcessor}.
      */
     public static NoSpacesInAttributesProcessor instantiate(final Element element) {
-        Set<String> excludedAttributes = new HashSet<>();
         NodeList excludedAttrs = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
-        if (excludedAttrs.getLength() != 0) {
+        Set<String> excludedAttributes = new HashSet<>();
+        if (shouldCollectValuesRuleListFormat(excludedAttrs, RuleStructureEnum.EXCLUDED_ATTRS)) {
             NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
             for (int j = 0; j < excludedAttrElements.getLength(); j++) {

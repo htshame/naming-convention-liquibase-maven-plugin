@@ -76,7 +76,7 @@ public final class RuleParser {
      * @return list of rules.
      * @throws RuleParserException - thrown if parsing fails.
      */
-    public static List<Rule> parseRules(final File rulesetFile) throws RuleParserException {
+    public static List<Rule> parseRules(final File rulesetFile) {
         List<Rule> rules = new ArrayList<>();
         try {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);

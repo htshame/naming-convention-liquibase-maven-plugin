@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static io.github.htshame.validator.ValidationManager.CHANGELOG_PARSER_MAP;
+
 /**
  * ChangeSet rule validator.
  */
@@ -51,8 +53,7 @@ public class ChangeSetRuleValidator implements RuleValidator {
                          final List<String> validationErrors,
                          final ChangeLogFormatEnum changeLogFormat,
                          final ExclusionParser exclusionParser) throws ChangeLogParseException {
-        List<ChangeSetElement> elements =
-                ValidationManager.CHANGELOG_PARSER_MAP.get(changeLogFormat).parseChangeLog(changeLogFile);
+        List<ChangeSetElement> elements = CHANGELOG_PARSER_MAP.get(changeLogFormat).parseChangeLog(changeLogFile);
 
         for (ChangeSetRule rule : rules) {
             for (ChangeSetElement element : elements) {

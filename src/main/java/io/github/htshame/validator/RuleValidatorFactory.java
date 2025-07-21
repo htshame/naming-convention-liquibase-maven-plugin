@@ -32,9 +32,7 @@ public final class RuleValidatorFactory {
         validatorMap.put(RuleTypeEnum.CHANGE_SET_RULE, new ChangeSetRuleValidator());
 
         for (Rule rule : rules) {
-            RuleTypeEnum type = rule.getName().getType();
-            RuleValidator validator = validatorMap.get(type);
-            validator.addRule(rule);
+            validatorMap.get(rule.getName().getType()).addRule(rule);
         }
 
         return validatorMap.values();

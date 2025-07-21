@@ -53,12 +53,12 @@ public class ChangeSetRuleValidator implements RuleValidator {
                          final List<String> validationErrors,
                          final ChangeLogFormatEnum changeLogFormat,
                          final ExclusionParser exclusionParser) throws ChangeLogParseException {
-        List<ChangeSetElement> elements = CHANGELOG_PARSER_MAP.get(changeLogFormat).parseChangeLog(changeLogFile);
+        List<ChangeSetElement> changeSets = CHANGELOG_PARSER_MAP.get(changeLogFormat).parseChangeLog(changeLogFile);
 
         for (ChangeSetRule rule : rules) {
-            for (ChangeSetElement element : elements) {
+            for (ChangeSetElement changeSet : changeSets) {
                 try {
-                    rule.validateChangeSet(element, exclusionParser, changeLogFile.getName(), changeLogFormat);
+                    rule.validateChangeSet(changeSet, exclusionParser, changeLogFile.getName(), changeLogFormat);
                 } catch (ValidationException e) {
                     validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
                 }

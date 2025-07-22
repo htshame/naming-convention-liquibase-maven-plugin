@@ -3,7 +3,7 @@ package io.github.htshame.rule.processor.changelog;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.rule.ChangeLogRule;
+import io.github.htshame.parser.rule.ChangeLogRule;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 

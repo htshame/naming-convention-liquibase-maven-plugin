@@ -1,5 +1,6 @@
-package io.github.htshame.rule;
+package io.github.htshame.parser.rule;
 
+import io.github.htshame.rule.Rule;
 import org.w3c.dom.Element;
 
 /**

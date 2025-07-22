@@ -5,7 +5,7 @@ import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.ChangeSetRule;
+import io.github.htshame.parser.rule.ChangeSetRule;
 import io.github.htshame.rule.Rule;
 
 import java.io.File;

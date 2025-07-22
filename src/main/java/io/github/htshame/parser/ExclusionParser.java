@@ -1,10 +1,15 @@
 package io.github.htshame.parser;
 
 import io.github.htshame.dto.ChangeSetExclusionDto;
+import io.github.htshame.enums.ExclusionTypeEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ExclusionParserException;
+import io.github.htshame.parser.exclusion.ChangeSetExclusionHandler;
+import io.github.htshame.parser.exclusion.ExclusionHandler;
+import io.github.htshame.parser.exclusion.FileExclusionHandler;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -12,9 +17,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,6 +44,17 @@ public final class ExclusionParser {
     private final Map<ChangeSetExclusionDto, Set<RuleEnum>> changeSetRuleExclusions = new HashMap<>();
 
     /**
+     * Exclusion type map.
+     */
+    private static final EnumMap<ExclusionTypeEnum, ExclusionHandler> EXCLUSION_TYPE_MAP =
+            new EnumMap<>(ExclusionTypeEnum.class);
+
+    static {
+        EXCLUSION_TYPE_MAP.put(ExclusionTypeEnum.FILE_EXCLUSION, new FileExclusionHandler());
+        EXCLUSION_TYPE_MAP.put(ExclusionTypeEnum.CHANGESET_EXCLUSION, new ChangeSetExclusionHandler());
+    }
+
+    /**
      * Default constructor.
      */
     private ExclusionParser() {
@@ -57,44 +72,22 @@ public final class ExclusionParser {
         if (exclusionsFile == null) {
             return new ExclusionParser();
         }
+        ExclusionParser parser = new ExclusionParser();
         try {
-            ExclusionParser config = new ExclusionParser();
+            Document document = DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(exclusionsFile);
 
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(exclusionsFile);
-
-            NodeList fileExclusions = document.getElementsByTagName(ExclusionEnum.FILE_EXCLUSION_TAG.getValue());
-            for (int i = 0; i < fileExclusions.getLength(); i++) {
-                Element exclusion = (Element) fileExclusions.item(i);
-                String fileName = exclusion.getAttribute(ExclusionEnum.FILE_NAME_ATTR.getValue()).trim();
-                String rule = exclusion.getAttribute(ExclusionEnum.RULE_ATTR.getValue()).trim();
-                RuleEnum ruleEnum = RuleEnum.fromValue(rule);
-
-                Set<RuleEnum> rules = config.fileRuleExclusions
-                        .computeIfAbsent(fileName, k -> new HashSet<>());
-
-                if (RuleEnum.ALL_RULES.equals(ruleEnum)) {
-                    rules.addAll(Arrays.asList(RuleEnum.values()));
-                } else {
-                    rules.add(ruleEnum);
+            NodeList elements = document.getDocumentElement().getChildNodes();
+            for (int i = 0; i < elements.getLength(); i++) {
+                Node node = elements.item(i);
+                if (!(node instanceof Element)) {
+                    continue;
                 }
+                Element element = (Element) node;
+                EXCLUSION_TYPE_MAP.get(ExclusionTypeEnum.fromTypeName(element.getTagName())).handle(element, parser);
             }
-
-            NodeList changeSetExclusions =
-                    document.getElementsByTagName(ExclusionEnum.CHANGESET_EXCLUSION_TAG.getValue());
-            for (int i = 0; i < changeSetExclusions.getLength(); i++) {
-                Element exclusion = (Element) changeSetExclusions.item(i);
-                String fileName = exclusion.getAttribute(ExclusionEnum.FILE_NAME_ATTR.getValue()).trim();
-                String rule = exclusion.getAttribute(ExclusionEnum.RULE_ATTR.getValue()).trim();
-                String changeSetId = exclusion.getAttribute(ExclusionEnum.CHANGESET_ID_ATTR.getValue()).trim();
-                String changeSetAuthor = exclusion.getAttribute(ExclusionEnum.CHANGESET_AUTHOR_ATTR.getValue()).trim();
-
-                config.changeSetRuleExclusions
-                        .computeIfAbsent(
-                                new ChangeSetExclusionDto(fileName, changeSetId, changeSetAuthor),
-                                k -> new HashSet<>())
-                        .add(RuleEnum.fromValue(rule));
-            }
-            return config;
+            return parser;
         } catch (ParserConfigurationException | IOException | SAXException e) {
             throw new ExclusionParserException("Error parsing exclusion XML file");
         }
@@ -132,24 +125,21 @@ public final class ExclusionParser {
     }
 
     /**
-     * Exclusion XML tags and attributes.
+     * Get rule exclusions applied to files.
+     *
+     * @return rule exclusions applied to files.
      */
-    private enum ExclusionEnum {
-        FILE_EXCLUSION_TAG("fileExclusion"),
-        CHANGESET_EXCLUSION_TAG("changeSetExclusion"),
-        FILE_NAME_ATTR("fileName"),
-        CHANGESET_ID_ATTR("changeSetId"),
-        CHANGESET_AUTHOR_ATTR("changeSetAuthor"),
-        RULE_ATTR("rule");
-
-        private final String value;
-
-        ExclusionEnum(final String value) {
-            this.value = value;
-        }
-
-        private String getValue() {
-            return value;
-        }
+    public Map<String, Set<RuleEnum>> getFileRuleExclusions() {
+        return fileRuleExclusions;
     }
+
+    /**
+     * Get rule exclusions applied to changeSets.
+     *
+     * @return rule exclusions applied to changeSets.
+     */
+    public Map<ChangeSetExclusionDto, Set<RuleEnum>> getChangeSetRuleExclusions() {
+        return changeSetRuleExclusions;
+    }
+
 }

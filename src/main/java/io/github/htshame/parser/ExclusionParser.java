@@ -81,11 +81,11 @@ public final class ExclusionParser {
             NodeList elements = document.getDocumentElement().getChildNodes();
             for (int i = 0; i < elements.getLength(); i++) {
                 Node node = elements.item(i);
-                if (!(node instanceof Element)) {
-                    continue;
+                if (node instanceof Element) {
+                    Element element = (Element) node;
+                    EXCLUSION_TYPE_MAP.get(ExclusionTypeEnum.fromTypeName(element.getTagName()))
+                            .handle(element, parser);
                 }
-                Element element = (Element) node;
-                EXCLUSION_TYPE_MAP.get(ExclusionTypeEnum.fromTypeName(element.getTagName())).handle(element, parser);
             }
             return parser;
         } catch (ParserConfigurationException | IOException | SAXException e) {

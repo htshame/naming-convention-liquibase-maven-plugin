@@ -1,4 +1,4 @@
-package io.github.htshame.rule;
+package io.github.htshame.parser.rule;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;

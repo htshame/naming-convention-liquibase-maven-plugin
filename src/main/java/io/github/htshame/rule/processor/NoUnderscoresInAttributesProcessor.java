@@ -6,7 +6,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.ChangeSetRule;
+import io.github.htshame.parser.rule.ChangeSetRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

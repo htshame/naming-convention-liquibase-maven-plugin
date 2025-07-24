@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
-import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
 
@@ -136,10 +136,14 @@ public class TagMustExistProcessor implements ChangeSetRule {
         boolean hasRequiredChild = hasRequiredChild(element);
 
         if (shouldAddError(hasRequiredChild, element, tagName, isSearchInChildTagRequired)) {
-            String error = String.format(
-                    getChangeSetError(getName(), changeLogFormat),
+            Object[] messageArguments = {
                     tagName,
-                    requiredTag);
+                    requiredTag
+            };
+            String error = getErrorMessage(
+                    getName(),
+                    changeLogFormat,
+                    messageArguments);
             errors.add(error);
         }
 

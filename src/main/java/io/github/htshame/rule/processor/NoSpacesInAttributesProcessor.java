@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
@@ -128,10 +128,15 @@ public class NoSpacesInAttributesProcessor implements ChangeSetRule {
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
                     && SPACES_REGEXP.matcher(attrValue).matches()) {
-                String errorMessage = String.format(getChangeSetError(getName(), changeLogFormat),
+                Object[] messageArguments = {
                         element.getName(),
                         attrName,
-                        attrValue);
+                        attrValue
+                };
+                String errorMessage = getErrorMessage(
+                        getName(),
+                        changeLogFormat,
+                        messageArguments);
                 errors.add(errorMessage);
             }
         }

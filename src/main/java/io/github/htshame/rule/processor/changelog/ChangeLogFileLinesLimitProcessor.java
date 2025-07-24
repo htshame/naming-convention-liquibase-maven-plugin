@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static io.github.htshame.util.ErrorMessageUtil.getChangeLogError;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
@@ -74,11 +74,15 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
                 }
             }
             if (!excludedFileNames.contains(fileName) && lines > linesLimit) {
-                String errorMessage = String.format(getChangeLogError(getName()),
+                Object[] messageArguments = {
                         fileName,
                         lines,
                         linesLimit,
-                        getName().getValue());
+                        getName().getValue()
+                };
+                String errorMessage = getErrorMessage(
+                        getName(),
+                        messageArguments);
                 throw new ValidationException(errorMessage);
             }
         } catch (IOException e) {

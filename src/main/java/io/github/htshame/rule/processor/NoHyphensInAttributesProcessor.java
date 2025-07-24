@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
@@ -130,10 +130,15 @@ public class NoHyphensInAttributesProcessor implements ChangeSetRule {
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
                     && attrValue.contains(HYPHEN)) {
-                String errorMessage = String.format(getChangeSetError(getName(), changeLogFormat),
+                Object[] messageArguments = {
                         attrName,
                         element.getName(),
-                        attrValue);
+                        attrValue
+                };
+                String errorMessage = getErrorMessage(
+                        getName(),
+                        changeLogFormat,
+                        messageArguments);
                 errors.add(errorMessage);
             }
         }

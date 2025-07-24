@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static io.github.htshame.util.ErrorMessageUtil.getChangeLogError;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
@@ -64,10 +64,14 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
     public void validateChangeLog(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
         if (!excludedFileNames.contains(fileName) && !fileName.matches(fileNameRegexp)) {
-            String errorMessage = String.format(getChangeLogError(getName()),
+            Object[] messageArguments = {
                     fileName,
                     fileNameRegexp,
-                    getName().getValue());
+                    getName().getValue()
+            };
+            String errorMessage = getErrorMessage(
+                    getName(),
+                    messageArguments);
             throw new ValidationException(errorMessage);
         }
     }

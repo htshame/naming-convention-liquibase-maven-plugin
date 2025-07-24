@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
@@ -112,11 +112,16 @@ public class AttrStartsWithProcessor implements ChangeSetRule {
             }
             String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
             if (!targetAttrActualValue.startsWith(requiredPrefix)) {
-                String error = String.format(getChangeSetError(getName(), changeLogFormat),
+                Object[] messageArguments = {
                         tag,
                         targetAttr,
                         targetAttrActualValue,
                         requiredPrefix
+                };
+                String error = getErrorMessage(
+                        getName(),
+                        changeLogFormat,
+                        messageArguments
                 );
                 errors.add(error);
             }

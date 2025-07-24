@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 
 /**
@@ -110,9 +110,15 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
             Map<String, String> attributes = element.getProperties();
             if (!attributes.containsKey(requiredAttribute)
                     || (attributes.containsKey(requiredAttribute) && attributes.get(requiredAttribute).isBlank())) {
-                errors.add(String.format(getChangeSetError(getName(), changeLogFormat),
+                Object[] messageArguments = {
                         element.getName(),
-                        requiredAttribute));
+                        requiredAttribute
+                };
+                errors.add(
+                        getErrorMessage(
+                                getName(),
+                                changeLogFormat,
+                                messageArguments));
             }
         }
 

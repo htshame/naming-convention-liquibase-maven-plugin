@@ -70,6 +70,9 @@ public final class RuleProcessorRegistry {
                 RuleEnum.CHANGELOG_FILE_LINES_LIMIT, ChangeLogFileLinesLimitProcessor::instantiate);
     }
 
+    /**
+     * Private constructor.
+     */
     private RuleProcessorRegistry() {
 
     }

@@ -79,7 +79,9 @@ public final class RuleParser {
     public static List<Rule> parseRules(final File rulesetFile) {
         List<Rule> rules = new ArrayList<>();
         try {
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
+            Document document = DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(rulesetFile);
             NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE.getValue());
             for (int i = 0; i < ruleNodes.getLength(); i++) {
                 Element ruleElement = (Element) ruleNodes.item(i);

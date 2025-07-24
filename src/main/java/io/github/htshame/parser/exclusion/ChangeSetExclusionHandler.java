@@ -34,9 +34,10 @@ public class ChangeSetExclusionHandler implements ExclusionHandler {
         String changeSetId = element.getAttribute(ExclusionStructureEnum.CHANGESET_ID_ATTR.getValue()).trim();
         String changeSetAuthor = element.getAttribute(ExclusionStructureEnum.CHANGESET_AUTHOR_ATTR.getValue()).trim();
 
-        ChangeSetExclusionDto key = new ChangeSetExclusionDto(fileName, changeSetId, changeSetAuthor);
+        ChangeSetExclusionDto changeSetExclusionDto =
+                new ChangeSetExclusionDto(fileName, changeSetId, changeSetAuthor);
         parser.getChangeSetRuleExclusions()
-                .computeIfAbsent(key, k -> new HashSet<>())
+                .computeIfAbsent(changeSetExclusionDto, key -> new HashSet<>())
                 .add(RuleEnum.fromValue(rule));
     }
 }

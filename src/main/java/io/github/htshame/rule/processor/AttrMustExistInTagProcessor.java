@@ -129,10 +129,10 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
 
     private static String getText(final Element parent,
                                   final String childName) {
-        NodeList list = parent.getElementsByTagName(childName);
-        if (list.getLength() == 0) {
+        NodeList childTags = parent.getElementsByTagName(childName);
+        if (childTags.getLength() == 0) {
             return null;
         }
-        return list.item(0).getTextContent().trim();
+        return childTags.item(0).getTextContent().trim();
     }
 }

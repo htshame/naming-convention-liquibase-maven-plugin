@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static io.github.htshame.util.ErrorMessageUtil.getChangeSetError;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
@@ -115,11 +115,16 @@ public class AttrEndsWithProcessor implements ChangeSetRule {
             }
             String targetAttrActualValue = targetTagElement.getPropertyValue(targetAttr);
             if (!targetAttrActualValue.endsWith(requiredSuffix)) {
-                String errorMessage = String.format(getChangeSetError(getName(), changeLogFormat),
+                Object[] messageArguments = {
                         tag,
                         targetAttr,
                         requiredSuffix,
-                        targetAttrActualValue);
+                        targetAttrActualValue
+                };
+                String errorMessage = getErrorMessage(
+                        getName(),
+                        changeLogFormat,
+                        messageArguments);
                 errors.add(errorMessage);
             }
         }

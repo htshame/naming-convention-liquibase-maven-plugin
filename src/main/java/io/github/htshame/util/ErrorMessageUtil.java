@@ -242,8 +242,8 @@ public final class ErrorMessageUtil {
      * @param changeLogFormatEnum - changeLog format.
      * @return error message.
      */
-    public static String getChangeSetError(final RuleEnum ruleEnum,
-                                           final ChangeLogFormatEnum changeLogFormatEnum) {
+    private static String getChangeSetError(final RuleEnum ruleEnum,
+                                            final ChangeLogFormatEnum changeLogFormatEnum) {
         return CHANGE_SET_RULE_ERROR_MAP.get(ruleEnum).get(changeLogFormatEnum);
     }
 
@@ -253,8 +253,34 @@ public final class ErrorMessageUtil {
      * @param ruleEnum - rule.
      * @return error message.
      */
-    public static String getChangeLogError(final RuleEnum ruleEnum) {
+    private static String getChangeLogError(final RuleEnum ruleEnum) {
         return CHANGE_LOG_RULE_ERROR_MAP.get(ruleEnum);
+    }
+
+    /**
+     * Get and format changeSet error message.
+     *
+     * @param rule            - rule.
+     * @param changeLogFormat - changeLog format.
+     * @param arguments       - error message arguments.
+     * @return formatted error message.
+     */
+    public static String getErrorMessage(final RuleEnum rule,
+                                         final ChangeLogFormatEnum changeLogFormat,
+                                         final Object... arguments) {
+        return String.format(getChangeSetError(rule, changeLogFormat), arguments);
+    }
+
+    /**
+     * Get and format changeLog error message.
+     *
+     * @param rule            - rule.
+     * @param arguments       - error message arguments.
+     * @return formatted error message.
+     */
+    public static String getErrorMessage(final RuleEnum rule,
+                                         final Object... arguments) {
+        return String.format(getChangeLogError(rule), arguments);
     }
 
     /**

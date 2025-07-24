@@ -95,25 +95,24 @@ public class JsonChangeSetElement implements ChangeSetElement {
             String childName = entry.getKey();
             JsonNode childNode = entry.getValue();
 
-            if (childNode.isArray()) {
-                ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
-                for (JsonNode childElement : childNode) {
-                    if (!childElement.isObject()) {
-                        continue;
-                    }
-                    ObjectNode childObjectNode = (ObjectNode) childElement;
-
-                    childObjectNode.fieldNames().forEachRemaining(fieldName -> {
-                        JsonNode fieldValue = childObjectNode.get(fieldName);
-                        objectNode.set(fieldName, fieldValue);
-                    });
-                }
-                children.add(new JsonChangeSetElement(childName, objectNode));
-            } else {
+            if (!childNode.isArray()) {
                 children.add(new JsonChangeSetElement(childName, childNode));
+                continue;
             }
-        }
+            ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
+            for (JsonNode childElement : childNode) {
+                if (!childElement.isObject()) {
+                    continue;
+                }
+                ObjectNode childObjectNode = (ObjectNode) childElement;
 
+                childObjectNode.fieldNames().forEachRemaining(fieldName -> {
+                    JsonNode fieldValue = childObjectNode.get(fieldName);
+                    objectNode.set(fieldName, fieldValue);
+                });
+            }
+            children.add(new JsonChangeSetElement(childName, objectNode));
+        }
         return children;
     }
 
@@ -125,12 +124,13 @@ public class JsonChangeSetElement implements ChangeSetElement {
     @Override
     public Map<String, String> getProperties() {
         Map<String, String> props = new LinkedHashMap<>();
-        if (node.isObject()) {
-            for (Map.Entry<String, JsonNode> entry : node.properties()) {
-                JsonNode val = entry.getValue();
-                if (val.isValueNode()) {
-                    props.put(entry.getKey(), val.asText());
-                }
+        if (!node.isObject()) {
+            return props;
+        }
+        for (Map.Entry<String, JsonNode> entry : node.properties()) {
+            JsonNode val = entry.getValue();
+            if (val.isValueNode()) {
+                props.put(entry.getKey(), val.asText());
             }
         }
         return props;

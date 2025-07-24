@@ -148,8 +148,8 @@ public class TagMustExistProcessor implements ChangeSetRule {
         }
 
         List<ChangeSetElement> children = element.getChildren();
-        for (ChangeSetElement node : children) {
-            validateElement(node, changeLogFormat, errors);
+        for (ChangeSetElement child : children) {
+            validateElement(child, changeLogFormat, errors);
         }
         return errors;
     }

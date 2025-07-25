@@ -17,7 +17,7 @@ import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 /**
  * Business logic for the <code>no-tabs-in-changelog</code> rule.
  * <p>
- * Checks that the changeLog file matches the provided regexp.
+ * Checks that the changeLog file does not contain tabs.
  * </p>
  * <p>Example:</p>
  * <p>Rule configuration:</p>

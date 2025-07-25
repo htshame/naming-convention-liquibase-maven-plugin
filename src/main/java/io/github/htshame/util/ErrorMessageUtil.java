@@ -214,6 +214,7 @@ public final class ErrorMessageUtil {
 
         String changeLogFileNameMustMatchRegexpError = "File [%s] does not match required regexp [%s]. Rule [%s]";
         String changeLogFileLinesLimitError = "File [%s] has [%s] lines, longer than [%s] lines max. Rule [%s]";
+        String noTabsInChangeLogError = "File [%s] must not contain tabs. Rule [%s]";
 
         CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, attrEndsWithMap);
         CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
@@ -233,6 +234,8 @@ public final class ErrorMessageUtil {
                 RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, changeLogFileNameMustMatchRegexpError);
         CHANGE_LOG_RULE_ERROR_MAP.put(
                 RuleEnum.CHANGELOG_FILE_LINES_LIMIT, changeLogFileLinesLimitError);
+        CHANGE_LOG_RULE_ERROR_MAP.put(
+                RuleEnum.NO_TABS_IN_CHANGELOG, noTabsInChangeLogError);
     }
 
     /**

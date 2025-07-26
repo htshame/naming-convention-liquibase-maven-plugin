@@ -2,6 +2,7 @@ package io.github.htshame.rule.processor.changelog;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
+import io.github.htshame.exception.ChangeLogRuleProcessingException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.exception.ValidationException;
 import org.junit.Test;
@@ -139,7 +140,7 @@ public class NoTabsInChangeLogProcessorTest extends ChangeLogRuleProcessorTestUt
         // act
         try {
             NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
-        } catch (RuntimeException e) {
+        } catch (ChangeLogRuleProcessingException e) {
             isExceptionThrown = true;
         }
 

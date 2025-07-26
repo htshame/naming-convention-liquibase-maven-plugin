@@ -1,5 +1,5 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.9/liquibase-naming-convention-2.9.xsd">
+            xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.10/liquibase-naming-convention-2.10.xsd">
 
     <!-- this makes 'tag-must-exist' rule not applicable to 'changelog_03.xml' file -->
     <fileExclusion fileName="changelog_03.xml"

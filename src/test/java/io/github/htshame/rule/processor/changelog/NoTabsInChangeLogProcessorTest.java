@@ -1,0 +1,150 @@
+package io.github.htshame.rule.processor.changelog;
+
+import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.enums.RuleStructureEnum;
+import io.github.htshame.exception.ChangeLogRuleProcessingException;
+import io.github.htshame.exception.RuleParserException;
+import io.github.htshame.exception.ValidationException;
+import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class NoTabsInChangeLogProcessorTest extends ChangeLogRuleProcessorTestUtil {
+
+    private static final RuleEnum RULE_ENUM = RuleEnum.NO_TABS_IN_CHANGELOG;
+
+    /**
+     * Default constructor.
+     */
+    public NoTabsInChangeLogProcessorTest() {
+        super(RULE_ENUM);
+    }
+
+    /**
+     * Test getting the name.
+     */
+    @Test
+    public void testGetName() throws ParserConfigurationException, IOException, SAXException {
+        // arrange
+        Element ruleElement = prepareRuleELement();
+
+        // act
+        RuleEnum actual = NoTabsInChangeLogProcessor.instantiate(ruleElement).getName();
+
+        // assert
+        assertEquals(RULE_ENUM, actual);
+    }
+
+    /**
+     * Test successful validation.
+     */
+    @Test
+    public void testChangeLogValidationSuccess() throws ParserConfigurationException,
+            IOException,
+            SAXException {
+        // arrange
+        Element ruleElement = prepareRuleELement();
+        File changeLogFile = getChangeLogSuccessFile();
+        boolean isExceptionThrown = false;
+
+        // act
+        try {
+            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+        } catch (ValidationException e) {
+            isExceptionThrown = true;
+        }
+
+        // assert
+        assertFalse(isExceptionThrown);
+    }
+
+    /**
+     * Test failed validation.
+     */
+    @Test
+    public void testChangeLogValidationFailure() throws ParserConfigurationException,
+            IOException,
+            SAXException {
+        // arrange
+        Element ruleElement = prepareRuleELement();
+        File changeLogFile = getChangeLogFailureFile();
+        boolean isExceptionThrown = false;
+
+        // act
+        try {
+            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+        } catch (ValidationException e) {
+            isExceptionThrown = true;
+            assertEquals("File [no-tabs-in-changelog-failure.xml] must not contain tabs. "
+                            + "Rule [no-tabs-in-changelog]", e.getMessage());
+        }
+
+        // assert
+        assertTrue(isExceptionThrown);
+    }
+
+    /**
+     * Test failed validation. Wrong rule configuration.
+     */
+    @Test
+    public void testChangeLogValidationFailureWrongRule() throws ParserConfigurationException,
+            IOException,
+            SAXException,
+            ValidationException {
+        // arrange
+        Document ruleDocument = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder()
+                .parse(new File("src/test/resources/io/github/htshame/rule/processor/changelog/"
+                        + RULE_ENUM.getValue() + "/" + RULE_ENUM.getValue() + "-rule-failure.xml"));
+        NodeList ruleNodes = ruleDocument.getElementsByTagName(RuleStructureEnum.RULE.getValue());
+        Element ruleElement = (Element) ruleNodes.item(0);
+        File changeLogFile = getChangeLogFailureFile();
+        boolean isExceptionThrown = false;
+
+        // act
+        try {
+            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+        } catch (RuleParserException e) {
+            isExceptionThrown = true;
+            assertEquals("Rule [NO_TABS_IN_CHANGELOG] configuration should not contain child tags", e.getMessage());
+        }
+
+        // assert
+        assertTrue(isExceptionThrown);
+    }
+
+    /**
+     * Test failed validation. Wrong file.
+     */
+    @Test
+    public void testChangeLogValidationFailureWrongFile() throws ParserConfigurationException,
+            IOException,
+            SAXException,
+            ValidationException {
+        // arrange
+        Element ruleElement = prepareRuleELement();
+        File changeLogFile = new File("123123123123123");
+        boolean isExceptionThrown = false;
+
+        // act
+        try {
+            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+        } catch (ChangeLogRuleProcessingException e) {
+            isExceptionThrown = true;
+        }
+
+        // assert
+        assertTrue(isExceptionThrown);
+    }
+}

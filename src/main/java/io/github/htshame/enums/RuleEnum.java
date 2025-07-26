@@ -66,6 +66,10 @@ public enum RuleEnum {
      */
     CHANGELOG_FILE_LINES_LIMIT("changelog-file-lines-limit", RuleTypeEnum.CHANGE_LOG_RULE),
     /**
+     * Represents 'no-tabs-in-changelog' rule.
+     */
+    NO_TABS_IN_CHANGELOG("no-tabs-in-changelog", RuleTypeEnum.CHANGE_LOG_RULE),
+    /**
      * Represents '*' - all rules.
      */
     ALL_RULES("*", RuleTypeEnum.CHANGE_SET_RULE);

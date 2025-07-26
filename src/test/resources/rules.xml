@@ -17,6 +17,9 @@
         </excludedFileNames>
     </rule>
 
+    <rule name="no-tabs-in-changelog">
+    </rule>
+
     <rule name="tag-must-exist">
         <requiredTag>comment</requiredTag>
         <requiredForChildTags>

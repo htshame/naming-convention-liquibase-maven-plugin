@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.9</version>
+        <version>2.10</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -74,6 +74,7 @@ This plugin allows you to create a set of rules and enforce them.
 1. [no-spaces-in-attributes](#no-spaces-in-attributes)
 1. [changelog-file-name-must-match-regexp](#changelog-file-name-must-match-regexp)
 1. [changelog-file-lines-limit](#changelog-file-lines-limit)
+1. [no-tabs-in-changelog](#no-tabs-in-changelog)
 
 ---
 
@@ -367,6 +368,20 @@ Example:
 
 Will check that each changeLog file length is <= `1000` specified in `<linesLimit>`, 
 excluding changeLog file names provided in `<excludedFileNames>`.
+
+---
+
+### no-tabs-in-changelog
+
+Checks that file does not contain tab characters.
+
+Example:
+
+```xml
+<rule name="no-tabs-in-changelog"/>
+```
+
+Will check that file does not contain tab characters.
 
 ---
 

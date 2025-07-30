@@ -1,4 +1,4 @@
-package io.github.htshame.rule;
+package io.github.htshame.parser.rule;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
@@ -16,6 +16,7 @@ import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
 import io.github.htshame.rule.processor.changelog.ChangeLogFileLinesLimitProcessor;
 import io.github.htshame.rule.processor.changelog.ChangeLogFileMustMatchRegexpProcessor;
+import io.github.htshame.rule.processor.changelog.NoTabsInChangeLogProcessor;
 
 import java.util.EnumMap;
 
@@ -25,45 +26,56 @@ import java.util.EnumMap;
 public final class RuleProcessorRegistry {
 
     /**
-     * Map of rule processors mapped to the corresponding {@link RuleEnum}.
+     * Map of changeSet rule processors, each mapped to the corresponding {@link RuleEnum}.
      */
-    private static final EnumMap<RuleEnum, RuleFactory<ChangeSetRule>> CHANGE_SET_RULE = new EnumMap<>(RuleEnum.class);
-    private static final EnumMap<RuleEnum, RuleFactory<ChangeLogRule>> CHANGE_LOG_RULE = new EnumMap<>(RuleEnum.class);
+    private static final EnumMap<RuleEnum, RuleFactory<ChangeSetRule>> CHANGE_SET_RULE_MAP
+            = new EnumMap<>(RuleEnum.class);
+
+    /**
+     * Map of changeLog rule processors, each mapped to the corresponding {@link RuleEnum}.
+     */
+    private static final EnumMap<RuleEnum, RuleFactory<ChangeLogRule>> CHANGE_LOG_RULE_MAP
+            = new EnumMap<>(RuleEnum.class);
 
     static {
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.TAG_MUST_EXIST, TagMustExistProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.ATTRIBUTE_STARTS_WITH, AttrStartsWithProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.ATTRIBUTE_STARTS_WITH_CONDITIONED, AttrStartsWithConditionedProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.ATTRIBUTE_NOT_STARTS_WITH_CONDITIONED, AttrNotStartsWithConditionedProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, NoHyphensInAttributesProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.ATTRIBUTE_ENDS_WITH, AttrEndsWithProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, AttrEndsWithConditionedProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED, AttrNotEndsWithConditionedProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, NoUnderscoresInAttributesProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, NoUppercaseInAttributesProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, NoLowercaseInAttributesProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, AttrMustExistInTagProcessor::instantiate);
-        CHANGE_SET_RULE.put(
+        CHANGE_SET_RULE_MAP.put(
                 RuleEnum.NO_SPACES_IN_ATTRIBUTES, NoSpacesInAttributesProcessor::instantiate);
 
-        CHANGE_LOG_RULE.put(
+        CHANGE_LOG_RULE_MAP.put(
                 RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, ChangeLogFileMustMatchRegexpProcessor::instantiate);
-        CHANGE_LOG_RULE.put(
+        CHANGE_LOG_RULE_MAP.put(
                 RuleEnum.CHANGELOG_FILE_LINES_LIMIT, ChangeLogFileLinesLimitProcessor::instantiate);
+        CHANGE_LOG_RULE_MAP.put(
+                RuleEnum.NO_TABS_IN_CHANGELOG, NoTabsInChangeLogProcessor::instantiate);
     }
 
+    /**
+     * Private constructor.
+     */
     private RuleProcessorRegistry() {
 
     }
@@ -75,7 +87,7 @@ public final class RuleProcessorRegistry {
      * @return corresponding processor.
      */
     public static RuleFactory<ChangeSetRule> getChangeSetRuleFactory(final RuleEnum ruleEnum) {
-        return CHANGE_SET_RULE.get(ruleEnum);
+        return CHANGE_SET_RULE_MAP.get(ruleEnum);
     }
 
     /**
@@ -85,6 +97,6 @@ public final class RuleProcessorRegistry {
      * @return corresponding processor.
      */
     public static RuleFactory<ChangeLogRule> getChangeLogRuleFactory(final RuleEnum ruleEnum) {
-        return CHANGE_LOG_RULE.get(ruleEnum);
+        return CHANGE_LOG_RULE_MAP.get(ruleEnum);
     }
 }

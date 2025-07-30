@@ -1,6 +1,7 @@
-package io.github.htshame.rule;
+package io.github.htshame.parser.rule;
 
 import io.github.htshame.exception.ValidationException;
+import io.github.htshame.rule.Rule;
 
 import java.io.File;
 

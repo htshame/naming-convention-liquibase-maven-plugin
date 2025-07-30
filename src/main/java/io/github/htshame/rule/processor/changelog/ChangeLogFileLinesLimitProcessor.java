@@ -3,7 +3,7 @@ package io.github.htshame.rule.processor.changelog;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.rule.ChangeLogRule;
+import io.github.htshame.parser.rule.ChangeLogRule;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -15,8 +15,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
+import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
 
 /**
  * Business logic for the <code>changelog-file-lines-limit</code> rule.
@@ -72,11 +74,15 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
                 }
             }
             if (!excludedFileNames.contains(fileName) && lines > linesLimit) {
-                String errorMessage = String.format("File [%s] has [%s] lines, longer than [%s] lines max. Rule [%s]",
+                Object[] messageArguments = {
                         fileName,
                         lines,
                         linesLimit,
-                        getName().getValue());
+                        getName().getValue()
+                };
+                String errorMessage = getErrorMessage(
+                        getName(),
+                        messageArguments);
                 throw new ValidationException(errorMessage);
             }
         } catch (IOException e) {
@@ -94,11 +100,11 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
      * @return instance of {@link ChangeLogFileLinesLimitProcessor}.
      */
     public static ChangeLogFileLinesLimitProcessor instantiate(final Element element) {
-        Set<String> excludedFileNames = new HashSet<>();
-        NodeList excludedAttrs = element
+        NodeList excludedFiles = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_FILE_NAMES.getValue());
-        if (excludedAttrs.getLength() != 0) {
-            NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
+        Set<String> excludedFileNames = new HashSet<>();
+        if (shouldCollectValuesRuleListFormat(excludedFiles, RuleStructureEnum.EXCLUDED_FILE_NAMES)) {
+            NodeList excludedAttrElements = ((Element) excludedFiles.item(0))
                     .getElementsByTagName(RuleStructureEnum.FILE_NAME.getValue());
             for (int i = 0; i < excludedAttrElements.getLength(); i++) {
                 excludedFileNames.add(excludedAttrElements.item(i).getTextContent());

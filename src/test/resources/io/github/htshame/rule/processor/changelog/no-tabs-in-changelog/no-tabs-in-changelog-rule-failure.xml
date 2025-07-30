@@ -1,0 +1,8 @@
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
+
+    <rule name="no-tabs-in-changelog">
+        <targetAttr>attr</targetAttr>
+    </rule>
+</rules>
+

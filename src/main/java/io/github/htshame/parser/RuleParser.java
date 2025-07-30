@@ -6,8 +6,8 @@ import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.rule.Rule;
-import io.github.htshame.rule.RuleFactory;
-import io.github.htshame.rule.RuleProcessorRegistry;
+import io.github.htshame.parser.rule.RuleFactory;
+import io.github.htshame.parser.rule.RuleProcessorRegistry;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -76,10 +76,12 @@ public final class RuleParser {
      * @return list of rules.
      * @throws RuleParserException - thrown if parsing fails.
      */
-    public static List<Rule> parseRules(final File rulesetFile) throws RuleParserException {
+    public static List<Rule> parseRules(final File rulesetFile) {
         List<Rule> rules = new ArrayList<>();
         try {
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(rulesetFile);
+            Document document = DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(rulesetFile);
             NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE.getValue());
             for (int i = 0; i < ruleNodes.getLength(); i++) {
                 Element ruleElement = (Element) ruleNodes.item(i);
@@ -88,7 +90,8 @@ public final class RuleParser {
                 try {
                     rules.add(RULE_MAP.get(ruleType.getType()).apply(ruleType).instantiate(ruleElement));
                 } catch (Exception e) {
-                    throw new RuleInstantiationException("Failed to instantiate rule for type: " + ruleType, e);
+                    throw new RuleInstantiationException(
+                            "Failed to instantiate rule for type: [" + ruleType.getValue() + "]", e);
                 }
             }
         } catch (Exception e) {

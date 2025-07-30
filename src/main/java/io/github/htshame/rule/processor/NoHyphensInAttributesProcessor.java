@@ -6,7 +6,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.ChangeSetRule;
+import io.github.htshame.parser.rule.ChangeSetRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,9 +17,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
+import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
 
 /**
  * Business logic for <code>no-hyphens-in-attributes</code> rule.
@@ -95,10 +96,10 @@ public class NoHyphensInAttributesProcessor implements ChangeSetRule {
      * @return instance of {@link NoHyphensInAttributesProcessor}.
      */
     public static NoHyphensInAttributesProcessor instantiate(final Element element) {
-        Set<String> excludedParents = new HashSet<>();
         NodeList excludedAttrs = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
-        if (excludedAttrs.getLength() != 0) {
+        Set<String> excludedParents = new HashSet<>();
+        if (shouldCollectValuesRuleListFormat(excludedAttrs, RuleStructureEnum.EXCLUDED_ATTRS)) {
             NodeList excludedAttrElements = ((Element) excludedAttrs.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
             for (int i = 0; i < excludedAttrElements.getLength(); i++) {
@@ -129,10 +130,15 @@ public class NoHyphensInAttributesProcessor implements ChangeSetRule {
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
                     && attrValue.contains(HYPHEN)) {
-                String errorMessage = String.format(getMessage(getName(), changeLogFormat),
+                Object[] messageArguments = {
                         attrName,
                         element.getName(),
-                        attrValue);
+                        attrValue
+                };
+                String errorMessage = getErrorMessage(
+                        getName(),
+                        changeLogFormat,
+                        messageArguments);
                 errors.add(errorMessage);
             }
         }

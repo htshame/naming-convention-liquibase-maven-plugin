@@ -17,6 +17,7 @@ import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
 import io.github.htshame.rule.processor.changelog.ChangeLogFileLinesLimitProcessor;
 import io.github.htshame.rule.processor.changelog.ChangeLogFileMustMatchRegexpProcessor;
+import io.github.htshame.rule.processor.changelog.NoTabsInChangeLogProcessor;
 import org.junit.Test;
 
 import java.io.File;
@@ -30,15 +31,13 @@ import static org.junit.Assert.assertTrue;
 
 public class ChangeSetRuleParserTest {
 
-    private static final int RULE_SET_SIZE = 15;
+    private static final int RULE_SET_SIZE = 16;
 
     /**
      * Test successful case of rules.xml parsing.
-     *
-     * @throws RuleParserException - if parsing fails.
      */
     @Test
-    public void testParseRulesSuccess() throws RuleParserException {
+    public void testParseRulesSuccess() {
         // arrange
         File ruleFile = new File("src/test/resources/rules.xml");
         Set<Class<? extends Rule>> ruleClassNames = Set.of(
@@ -56,7 +55,8 @@ public class ChangeSetRuleParserTest {
                 AttrMustExistInTagProcessor.class,
                 NoSpacesInAttributesProcessor.class,
                 ChangeLogFileMustMatchRegexpProcessor.class,
-                ChangeLogFileLinesLimitProcessor.class
+                ChangeLogFileLinesLimitProcessor.class,
+                NoTabsInChangeLogProcessor.class
         );
 
         // act

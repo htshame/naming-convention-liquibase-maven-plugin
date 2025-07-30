@@ -11,9 +11,20 @@ import java.util.EnumMap;
  */
 public final class ErrorMessageUtil {
 
-    private static final EnumMap<RuleEnum, EnumMap<ChangeLogFormatEnum, String>> RULE_MESSAGE_MAP =
+    /**
+     * Map of changeSet rules and error messages, depending on the changeLog format.
+     */
+    private static final EnumMap<RuleEnum, EnumMap<ChangeLogFormatEnum, String>> CHANGE_SET_RULE_ERROR_MAP =
             new EnumMap<>(RuleEnum.class);
 
+    /**
+     * Map of changeLog rules and error messages.
+     */
+    private static final EnumMap<RuleEnum, String> CHANGE_LOG_RULE_ERROR_MAP = new EnumMap<>(RuleEnum.class);
+
+    /**
+     * Default constructor.
+     */
     private ErrorMessageUtil() {
 
     }
@@ -201,31 +212,78 @@ public final class ErrorMessageUtil {
                 ChangeLogFormatEnum.JSON,
                 "Object <%s>. Property [%s] is missing or empty");
 
-        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, attrEndsWithMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED, attrNotEndsWithConditionedMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH, attrStartsWithMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH_CONDITIONED, attrStartsWithConditionedMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_NOT_STARTS_WITH_CONDITIONED, attrNotStartsWithConditionedMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, noHyphensInAttributesMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, noUnderscoresInAttributesMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, noUppercaseInAttrsMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, noLowercaseInAttrsMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.NO_SPACES_IN_ATTRIBUTES, noSpacesInAttrsMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
-        RULE_MESSAGE_MAP.put(RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, attrMustExistInTagMap);
+        String changeLogFileNameMustMatchRegexpError = "File [%s] does not match required regexp [%s]. Rule [%s]";
+        String changeLogFileLinesLimitError = "File [%s] has [%s] lines, longer than [%s] lines max. Rule [%s]";
+        String noTabsInChangeLogError = "File [%s] must not contain tabs. Rule [%s]";
+
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, attrEndsWithMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED, attrNotEndsWithConditionedMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH, attrStartsWithMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_STARTS_WITH_CONDITIONED, attrStartsWithConditionedMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_NOT_STARTS_WITH_CONDITIONED, attrNotStartsWithConditionedMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.NO_HYPHENS_IN_ATTRIBUTES, noHyphensInAttributesMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.NO_UNDERSCORES_IN_ATTRIBUTES, noUnderscoresInAttributesMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.NO_UPPERCASE_IN_ATTRIBUTES, noUppercaseInAttrsMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.NO_LOWERCASE_IN_ATTRIBUTES, noLowercaseInAttrsMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.NO_SPACES_IN_ATTRIBUTES, noSpacesInAttrsMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
+        CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, attrMustExistInTagMap);
+
+        CHANGE_LOG_RULE_ERROR_MAP.put(
+                RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, changeLogFileNameMustMatchRegexpError);
+        CHANGE_LOG_RULE_ERROR_MAP.put(
+                RuleEnum.CHANGELOG_FILE_LINES_LIMIT, changeLogFileLinesLimitError);
+        CHANGE_LOG_RULE_ERROR_MAP.put(
+                RuleEnum.NO_TABS_IN_CHANGELOG, noTabsInChangeLogError);
     }
 
     /**
-     * Get message.
+     * Get changeSet error message.
      *
      * @param ruleEnum            - rule.
      * @param changeLogFormatEnum - changeLog format.
      * @return error message.
      */
-    public static String getMessage(final RuleEnum ruleEnum,
-                                    final ChangeLogFormatEnum changeLogFormatEnum) {
-        return RULE_MESSAGE_MAP.get(ruleEnum).get(changeLogFormatEnum);
+    private static String getChangeSetError(final RuleEnum ruleEnum,
+                                            final ChangeLogFormatEnum changeLogFormatEnum) {
+        return CHANGE_SET_RULE_ERROR_MAP.get(ruleEnum).get(changeLogFormatEnum);
+    }
+
+    /**
+     * Get changeLog error message.
+     *
+     * @param ruleEnum - rule.
+     * @return error message.
+     */
+    private static String getChangeLogError(final RuleEnum ruleEnum) {
+        return CHANGE_LOG_RULE_ERROR_MAP.get(ruleEnum);
+    }
+
+    /**
+     * Get and format changeSet error message.
+     *
+     * @param rule            - rule.
+     * @param changeLogFormat - changeLog format.
+     * @param arguments       - error message arguments.
+     * @return formatted error message.
+     */
+    public static String getErrorMessage(final RuleEnum rule,
+                                         final ChangeLogFormatEnum changeLogFormat,
+                                         final Object... arguments) {
+        return String.format(getChangeSetError(rule, changeLogFormat), arguments);
+    }
+
+    /**
+     * Get and format changeLog error message.
+     *
+     * @param rule            - rule.
+     * @param arguments       - error message arguments.
+     * @return formatted error message.
+     */
+    public static String getErrorMessage(final RuleEnum rule,
+                                         final Object... arguments) {
+        return String.format(getChangeLogError(rule), arguments);
     }
 
     /**

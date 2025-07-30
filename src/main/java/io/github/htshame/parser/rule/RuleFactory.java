@@ -1,12 +1,13 @@
-package io.github.htshame.rule;
+package io.github.htshame.parser.rule;
 
+import io.github.htshame.rule.Rule;
 import org.w3c.dom.Element;
 
 /**
  * Rule factory.
  * <br>
- * @param <T> - rule type.
  * Enforces that all rule handlers implement {@link RuleFactory#instantiate} method.
+ * @param <T> - rule type.
  */
 @FunctionalInterface
 public interface RuleFactory<T extends Rule> {

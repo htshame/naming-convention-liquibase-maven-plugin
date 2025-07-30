@@ -7,6 +7,13 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 2.10
+
+- Implement `no-tabs-in-changelog` rule
+- Code optimizations
+
+---
+
 ## Version 2.9
 
 - Implement `no-spaces-in-attributes` rule
@@ -35,15 +42,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 2.5
-
-- Implement `attr-must-exist-in-tag` rule
-- Improve logging
-
----
-
 ### Previous Releases
 
+- [2.10](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.10.md)
 - [2.9](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.9.md)
 - [2.8](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.8.md)
 - [2.7](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.7.md)

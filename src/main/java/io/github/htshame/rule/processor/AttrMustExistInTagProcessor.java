@@ -6,7 +6,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.ChangeSetRule;
+import io.github.htshame.parser.rule.ChangeSetRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 
 /**
@@ -106,14 +106,19 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
     private void validateElement(final ChangeSetElement element,
                                  final ChangeLogFormatEnum changeLogFormat,
                                  final List<String> errors) {
-
         if (tag.equals(element.getName())) {
             Map<String, String> attributes = element.getProperties();
             if (!attributes.containsKey(requiredAttribute)
                     || (attributes.containsKey(requiredAttribute) && attributes.get(requiredAttribute).isBlank())) {
-                errors.add(String.format(getMessage(getName(), changeLogFormat),
+                Object[] messageArguments = {
                         element.getName(),
-                        requiredAttribute));
+                        requiredAttribute
+                };
+                errors.add(
+                        getErrorMessage(
+                                getName(),
+                                changeLogFormat,
+                                messageArguments));
             }
         }
 
@@ -124,10 +129,10 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
 
     private static String getText(final Element parent,
                                   final String childName) {
-        NodeList list = parent.getElementsByTagName(childName);
-        if (list.getLength() == 0) {
+        NodeList childTags = parent.getElementsByTagName(childName);
+        if (childTags.getLength() == 0) {
             return null;
         }
-        return list.item(0).getTextContent().trim();
+        return childTags.item(0).getTextContent().trim();
     }
 }

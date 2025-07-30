@@ -6,7 +6,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.ChangeSetRule;
+import io.github.htshame.parser.rule.ChangeSetRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,9 +17,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
+import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
 
 /**
  * Business logic for the <code>no-underscores-in-attributes</code> rule.
@@ -94,10 +95,10 @@ public class NoUnderscoresInAttributesProcessor implements ChangeSetRule {
      * @return instance of {@link NoUnderscoresInAttributesProcessor}.
      */
     public static NoUnderscoresInAttributesProcessor instantiate(final Element element) {
-        Set<String> excludedParents = new HashSet<>();
         NodeList excludedTags = element
                 .getElementsByTagName(RuleStructureEnum.EXCLUDED_ATTRS.getValue());
-        if (excludedTags.getLength() != 0) {
+        Set<String> excludedParents = new HashSet<>();
+        if (shouldCollectValuesRuleListFormat(excludedTags, RuleStructureEnum.EXCLUDED_ATTRS)) {
             NodeList excludedAttrElements = ((Element) excludedTags.item(0))
                     .getElementsByTagName(RuleStructureEnum.ATTR.getValue());
             for (int j = 0; j < excludedAttrElements.getLength(); j++) {
@@ -127,10 +128,15 @@ public class NoUnderscoresInAttributesProcessor implements ChangeSetRule {
                     && !EXCLUDED_ATTRIBUTES.contains(attrName)
                     && !excludedAttrs.contains(attrName)
                     && attrValue.contains(UNDERSCORE)) {
-                String errorMessage = String.format(getMessage(getName(), changeLogFormat),
+                Object[] messageArguments = {
                         attrName,
                         element.getName(),
-                        attrValue);
+                        attrValue
+                };
+                String errorMessage = getErrorMessage(
+                        getName(),
+                        changeLogFormat,
+                        messageArguments);
                 errors.add(errorMessage);
             }
         }

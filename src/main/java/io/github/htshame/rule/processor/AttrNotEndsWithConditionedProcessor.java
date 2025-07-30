@@ -6,7 +6,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.rule.ChangeSetRule;
+import io.github.htshame.parser.rule.ChangeSetRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static io.github.htshame.util.ErrorMessageUtil.getMessage;
+import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
@@ -132,13 +132,18 @@ public class AttrNotEndsWithConditionedProcessor implements ChangeSetRule {
                 if (!targetAttrActualValue.endsWith(forbiddenSuffix)) {
                     continue;
                 }
-                String errorMessage = String.format(getMessage(getName(), changeLogFormat),
+                Object[] messageArguments = {
                         tag,
                         conditionAttr,
                         conditionValue,
                         targetAttr,
                         forbiddenSuffix,
-                        targetAttrActualValue);
+                        targetAttrActualValue
+                };
+                String errorMessage = getErrorMessage(
+                        getName(),
+                        changeLogFormat,
+                        messageArguments);
                 errors.add(errorMessage);
             }
         }

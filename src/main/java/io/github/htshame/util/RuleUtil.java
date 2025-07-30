@@ -3,6 +3,8 @@ package io.github.htshame.util;
 import io.github.htshame.change.set.ChangeSetElement;
 import io.github.htshame.dto.ChangeSetAttributeDto;
 import io.github.htshame.enums.RuleEnum;
+import io.github.htshame.enums.RuleStructureEnum;
+import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.parser.ExclusionParser;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -15,14 +17,20 @@ import java.util.List;
  */
 public final class RuleUtil {
 
-    private static final List<String> EXCLUDED_TAG = Arrays.asList("preConditions", "loadData");
+    /**
+     * Globally excluded tags.
+     */
+    private static final List<String> EXCLUDED_TAGS = Arrays.asList("preConditions", "loadData");
 
     /**
-     * Excluded attributes.
+     * Globally excluded attributes.
      */
     public static final List<String> EXCLUDED_ATTRIBUTES = Arrays.asList(
             "id", "author", "comment", "remarks");
 
+    /**
+     * Default constructor.
+     */
     private RuleUtil() {
 
     }
@@ -37,7 +45,9 @@ public final class RuleUtil {
     public static String getText(final Element element,
                                  final String tagName) {
         NodeList nodes = element.getElementsByTagName(tagName);
-        return nodes.getLength() > 0 ? nodes.item(0).getTextContent().trim() : null;
+        return nodes.getLength() > 0
+                ? nodes.item(0).getTextContent().trim()
+                : null;
     }
 
     /**
@@ -47,7 +57,7 @@ public final class RuleUtil {
      * @return <code>true</code> if excluded. <code>false</code> - if not.
      */
     public static boolean isExcludedByAncestorTag(final ChangeSetElement element) {
-        return EXCLUDED_TAG.contains(element.getName());
+        return EXCLUDED_TAGS.contains(element.getName());
     }
 
     /**
@@ -88,5 +98,21 @@ public final class RuleUtil {
                 changeSetAttributeDto.getAuthor(),
                 ruleName.getValue(),
                 String.join("\n    ", errors));
+    }
+
+    /**
+     * Check whether child values should be collected or not.
+     *
+     * @param nodeList             - node list to check.
+     * @param ruleStructureElement - rule structure element.
+     * @return <code>true</code> if should. <code>false</code> - if not.
+     * @throws RuleParserException - if number of parent node tags is more than 1.
+     */
+    public static boolean shouldCollectValuesRuleListFormat(final NodeList nodeList,
+                                                            final RuleStructureEnum ruleStructureElement) {
+        if (nodeList.getLength() > 1) {
+            throw new RuleParserException("Too many [" + ruleStructureElement.getValue() + "] tags");
+        }
+        return nodeList.getLength() != 0;
     }
 }

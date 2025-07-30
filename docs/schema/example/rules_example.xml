@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.9/liquibase-naming-convention-2.9.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.10/liquibase-naming-convention-2.10.xsd">
 
     <!--
     Checks that 'comment' tag exists in every changeSet.
@@ -187,4 +187,9 @@
             <fileName>changelog-10.xml</fileName>
         </excludedFileNames>
     </rule>
+
+    <!--
+    Checks that changeLog file does not contain tabs.
+    -->
+    <rule name="no-tabs-in-changelog"/>
 </rules>

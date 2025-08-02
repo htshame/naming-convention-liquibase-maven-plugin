@@ -70,6 +70,10 @@ public enum RuleEnum {
      */
     NO_TABS_IN_CHANGELOG("no-tabs-in-changelog", RuleTypeEnum.CHANGE_LOG_RULE),
     /**
+     * Represents 'no-trailing-spaces-in-changelog' rule.
+     */
+    NO_TRAILING_SPACES_IN_CHANGELOG("no-trailing-spaces-in-changelog", RuleTypeEnum.CHANGE_LOG_RULE),
+    /**
      * Represents '*' - all rules.
      */
     ALL_RULES("*", RuleTypeEnum.CHANGE_SET_RULE);

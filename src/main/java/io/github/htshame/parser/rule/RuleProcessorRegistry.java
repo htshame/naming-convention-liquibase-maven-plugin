@@ -17,6 +17,7 @@ import io.github.htshame.rule.processor.TagMustExistProcessor;
 import io.github.htshame.rule.processor.changelog.ChangeLogFileLinesLimitProcessor;
 import io.github.htshame.rule.processor.changelog.ChangeLogFileMustMatchRegexpProcessor;
 import io.github.htshame.rule.processor.changelog.NoTabsInChangeLogProcessor;
+import io.github.htshame.rule.processor.changelog.NoTrailingSpacesInChangeLogProcessor;
 
 import java.util.EnumMap;
 
@@ -71,6 +72,8 @@ public final class RuleProcessorRegistry {
                 RuleEnum.CHANGELOG_FILE_LINES_LIMIT, ChangeLogFileLinesLimitProcessor::instantiate);
         CHANGE_LOG_RULE_MAP.put(
                 RuleEnum.NO_TABS_IN_CHANGELOG, NoTabsInChangeLogProcessor::instantiate);
+        CHANGE_LOG_RULE_MAP.put(
+                RuleEnum.NO_TRAILING_SPACES_IN_CHANGELOG, NoTrailingSpacesInChangeLogProcessor::instantiate);
     }
 
     /**

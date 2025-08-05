@@ -9,6 +9,7 @@
             <xs:enumeration value="changelog-file-name-must-match-regexp"/>
             <xs:enumeration value="changelog-file-lines-limit"/>
             <xs:enumeration value="no-tabs-in-changelog"/>
+            <xs:enumeration value="no-trailing-spaces-in-changelog"/>
             <xs:enumeration value="tag-must-exist"/>
             <xs:enumeration value="no-hyphens-in-attributes"/>
             <xs:enumeration value="attr-starts-with"/>
@@ -30,6 +31,7 @@
             <xs:enumeration value="changelog-file-name-must-match-regexp"/>
             <xs:enumeration value="changelog-file-lines-limit"/>
             <xs:enumeration value="no-tabs-in-changelog"/>
+            <xs:enumeration value="no-trailing-spaces-in-changelog"/>
             <xs:enumeration value="tag-must-exist"/>
             <xs:enumeration value="no-hyphens-in-attributes"/>
             <xs:enumeration value="attr-starts-with"/>

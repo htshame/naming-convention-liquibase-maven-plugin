@@ -5,15 +5,16 @@ import io.github.htshame.exception.ChangeLogRuleProcessingException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.rule.ChangeLogRule;
+import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.util.stream.Stream;
-
-import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Business logic for the <code>no-trailing-spaces-in-changelog</code> rule.
@@ -30,7 +31,7 @@ import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
  */
 public class NoTrailingSpacesInChangeLogProcessor implements ChangeLogRule {
 
-    private static final String TAB_CHARACTER = "\t";
+    private static final String TRAILING_SPACES_REGEXP = ".*\\s$";
 
     /**
      * Constructor.
@@ -48,18 +49,22 @@ public class NoTrailingSpacesInChangeLogProcessor implements ChangeLogRule {
     @Override
     public void validateChangeLog(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
-        try {
-            try (Stream<String> linesStream = Files.lines(changeLogFile.toPath())) {
-                if (linesStream.anyMatch(line -> line.contains(TAB_CHARACTER))) {
-                    Object[] messageArguments = {fileName, getName().getValue()};
-                    String errorMessage = getErrorMessage(
-                            getName(),
-                            messageArguments);
-                    throw new ValidationException(errorMessage);
+        List<String> linesWithTrailingSpaces = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(changeLogFile))) {
+            String line;
+            int lineNumber = 1;
+            while ((line = reader.readLine()) != null) {
+                if (line.matches(TRAILING_SPACES_REGEXP)) {
+                    linesWithTrailingSpaces.add(fileName + ":" + lineNumber);
                 }
+                lineNumber++;
             }
         } catch (IOException e) {
             throw new ChangeLogRuleProcessingException("Failed to process changeLog file [" + fileName + "]", e);
+        }
+
+        if (!linesWithTrailingSpaces.isEmpty()) {
+            throw new ValidationException(RuleUtil.composeErrorMessage(fileName, getName(), linesWithTrailingSpaces));
         }
     }
 
@@ -72,7 +77,7 @@ public class NoTrailingSpacesInChangeLogProcessor implements ChangeLogRule {
     public static NoTrailingSpacesInChangeLogProcessor instantiate(final Element element) {
         NodeList nodeList = element.getChildNodes();
         if (nodeList.getLength() > 1) {
-            throw new RuleParserException("Rule [" + RuleEnum.NO_TABS_IN_CHANGELOG.name() + "]"
+            throw new RuleParserException("Rule [" + RuleEnum.NO_TRAILING_SPACES_IN_CHANGELOG.name() + "]"
                     + " configuration should not contain child tags");
         }
         return new NoTrailingSpacesInChangeLogProcessor();

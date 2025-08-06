@@ -27,7 +27,7 @@ import java.util.List;
  * &lt;rule name="no-trailing-spaces-in-changelog"&gt;
  * &lt;/rule&gt;
  * </code></pre>
- * <p>This will verify that the changeLog file does not trailing spaces or trailing tabs.</p>
+ * <p>This will verify that the changeLog file does not contain trailing spaces or trailing tabs.</p>
  */
 public class NoTrailingSpacesInChangeLogProcessor implements ChangeLogRule {
 

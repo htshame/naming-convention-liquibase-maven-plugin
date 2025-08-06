@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Business logic for the <code>no-trailing-spaces-in-changelog</code> rule.
  * <p>
- * Checks that the changeLog file has no trailing spaces.
+ * Checks that the changeLog file has no trailing spaces or trailing tabs.
  * </p>
  * <p>Example:</p>
  * <p>Rule configuration:</p>
@@ -27,7 +27,7 @@ import java.util.List;
  * &lt;rule name="no-trailing-spaces-in-changelog"&gt;
  * &lt;/rule&gt;
  * </code></pre>
- * <p>This will verify that the changeLog file does not trailing spaces.</p>
+ * <p>This will verify that the changeLog file does not trailing spaces or trailing tabs.</p>
  */
 public class NoTrailingSpacesInChangeLogProcessor implements ChangeLogRule {
 
@@ -55,7 +55,7 @@ public class NoTrailingSpacesInChangeLogProcessor implements ChangeLogRule {
             int lineNumber = 1;
             while ((line = reader.readLine()) != null) {
                 if (line.matches(TRAILING_SPACES_REGEXP)) {
-                    linesWithTrailingSpaces.add(fileName + ":" + lineNumber);
+                    linesWithTrailingSpaces.add(fileName + ":" + lineNumber + " has trailing spaces or trailing tabs");
                 }
                 lineNumber++;
             }

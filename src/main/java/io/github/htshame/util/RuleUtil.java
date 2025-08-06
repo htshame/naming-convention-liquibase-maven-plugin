@@ -82,7 +82,7 @@ public final class RuleUtil {
     }
 
     /**
-     * Compose error message.
+     * Compose error message for changeSet.
      *
      * @param changeSetElement - changeSet element.
      * @param ruleName         - rule name.
@@ -96,6 +96,23 @@ public final class RuleUtil {
         return String.format("ChangeSet: id=\"%s\", author=\"%s\". Rule [%s]\n    %s",
                 changeSetAttributeDto.getId(),
                 changeSetAttributeDto.getAuthor(),
+                ruleName.getValue(),
+                String.join("\n    ", errors));
+    }
+
+    /**
+     * Compose error message for changeLog file.
+     *
+     * @param fileName - changeLog file name.
+     * @param ruleName - rule name.
+     * @param errors   - list of errors.
+     * @return error message.
+     */
+    public static String composeErrorMessage(final String fileName,
+                                             final RuleEnum ruleName,
+                                             final List<String> errors) {
+        return String.format("File: [%s]. Rule [%s]\n    %s",
+                fileName,
                 ruleName.getValue(),
                 String.join("\n    ", errors));
     }

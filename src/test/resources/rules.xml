@@ -23,6 +23,9 @@
     <rule name="no-trailing-spaces-in-changelog">
     </rule>
 
+    <rule name="changelog-must-end-with-newline">
+    </rule>
+
     <rule name="tag-must-exist">
         <requiredTag>comment</requiredTag>
         <requiredForChildTags>

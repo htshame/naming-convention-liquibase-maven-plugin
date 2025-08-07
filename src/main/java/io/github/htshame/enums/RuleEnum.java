@@ -74,6 +74,10 @@ public enum RuleEnum {
      */
     NO_TRAILING_SPACES_IN_CHANGELOG("no-trailing-spaces-in-changelog", RuleTypeEnum.CHANGE_LOG_RULE),
     /**
+     * Represents 'changelog-must-end-with-newline' rule.
+     */
+    CHANGELOG_MUST_END_WITH_NEWLINE("changelog-must-end-with-newline", RuleTypeEnum.CHANGE_LOG_RULE),
+    /**
      * Represents '*' - all rules.
      */
     ALL_RULES("*", RuleTypeEnum.CHANGE_SET_RULE);

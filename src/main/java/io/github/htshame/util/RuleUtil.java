@@ -118,6 +118,23 @@ public final class RuleUtil {
     }
 
     /**
+     * Compose error message for changeLog file.
+     *
+     * @param fileName - changeLog file name.
+     * @param ruleName - rule name.
+     * @param error    - error message.
+     * @return error message.
+     */
+    public static String composeErrorMessage(final String fileName,
+                                             final RuleEnum ruleName,
+                                             final String error) {
+        return String.format("File: [%s]. Rule [%s]. %s",
+                fileName,
+                ruleName.getValue(),
+                error);
+    }
+
+    /**
      * Check whether child values should be collected or not.
      *
      * @param nodeList             - node list to check.

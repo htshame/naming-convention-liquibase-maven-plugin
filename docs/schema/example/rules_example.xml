@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.11/liquibase-naming-convention-2.11.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.12/liquibase-naming-convention-2.12.xsd">
 
     <!--
     Checks that 'comment' tag exists in every changeSet.
@@ -197,4 +197,9 @@
     Checks that changeLog file does not contain trailing spaces or trailing tabs.
     -->
     <rule name="no-trailing-spaces-in-changelog"/>
+
+    <!--
+    Checks that changeLog file ends with a newline character.
+    -->
+    <rule name="changelog-must-end-with-newline"/>
 </rules>

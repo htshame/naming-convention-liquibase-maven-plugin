@@ -4,7 +4,7 @@
 
     <groupId>io.github.htshame</groupId>
     <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-    <version>2.11</version>
+    <version>2.12</version>
     <packaging>maven-plugin</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -63,7 +63,7 @@
         <org.apache.maven.plugins.maven-javadoc-plugin>3.11.2</org.apache.maven.plugins.maven-javadoc-plugin>
         <org.apache.maven.plugins.maven-source-plugin>3.3.1</org.apache.maven.plugins.maven-source-plugin>
         <org.apache.maven.plugins.maven-gpg-plugin>3.1.0</org.apache.maven.plugins.maven-gpg-plugin>
-        <org.sonatype.central.central-publishing-maven-plugin>0.7.0</org.sonatype.central.central-publishing-maven-plugin>
+        <org.sonatype.central.central-publishing-maven-plugin>0.8.0</org.sonatype.central.central-publishing-maven-plugin>
         <!-- plugin versions -->
 
         <test.coverage.min.threshold>0.85</test.coverage.min.threshold>

@@ -7,6 +7,12 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 2.12
+
+- Implement `changelog-must-end-with-newline` rule
+
+---
+
 ## Version 2.11
 
 - Implement `no-trailing-spaces-in-changelog` rule
@@ -34,15 +40,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 2.7
-
-- Implement `attr-not-starts-with-conditioned` rule
-- Implement `attr-not-ends-with-conditioned` rule
-
----
-
 ### Previous Releases
 
+- [2.12](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.12.md)
 - [2.11](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.11.md)
 - [2.10](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.10.md)
 - [2.9](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.9.md)

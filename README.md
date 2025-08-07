@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.11</version>
+        <version>2.12</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -76,6 +76,7 @@ This plugin allows you to create a set of rules and enforce them.
 1. [changelog-file-lines-limit](#changelog-file-lines-limit)
 1. [no-tabs-in-changelog](#no-tabs-in-changelog)
 1. [no-trailing-spaces-in-changelog](#no-trailing-spaces-in-changelog)
+1. [changelog-must-end-with-newline](#changelog-must-end-with-newline)
 
 ---
 
@@ -397,6 +398,20 @@ Example:
 ```
 
 Will check that file does not contain trailing spaces or trailing tabs.
+
+---
+
+### changelog-must-end-with-newline
+
+Checks that file ends with a newline character.
+
+Example:
+
+```xml
+<rule name="changelog-must-end-with-newline"/>
+```
+
+Will check that file ends with a newline character.
 
 ---
 

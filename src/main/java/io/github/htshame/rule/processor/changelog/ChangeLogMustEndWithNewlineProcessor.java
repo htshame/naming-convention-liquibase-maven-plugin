@@ -81,15 +81,24 @@ public class ChangeLogMustEndWithNewlineProcessor implements ChangeLogRule {
 
         try (RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r")) {
             long length = randomAccessFile.length();
-            randomAccessFile.seek(length - 1);
-            int lastByte = randomAccessFile.read();
-
-            if (lastByte == '\n') {
-                endsWithNewline = true;
-            } else if (lastByte == '\r' && length > 1) {
+            if (length >= 2) {
                 randomAccessFile.seek(length - 2);
                 int secondLastByte = randomAccessFile.read();
-                endsWithNewline = (secondLastByte == '\n');
+                int lastByte = randomAccessFile.read();
+                // Check for Windows-style line ending (\r\n)
+                if (secondLastByte == '\r' && lastByte == '\n') {
+                    endsWithNewline = true;
+                } else if (lastByte == '\n') {
+                    // Check for Unix-style line ending (\n)
+                    endsWithNewline = true;
+                }
+            } else {
+                // File is only 1 byte long, check for Unix-style line ending
+                randomAccessFile.seek(length - 1);
+                int lastByte = randomAccessFile.read();
+                if (lastByte == '\n') {
+                    endsWithNewline = true;
+                }
             }
         }
 

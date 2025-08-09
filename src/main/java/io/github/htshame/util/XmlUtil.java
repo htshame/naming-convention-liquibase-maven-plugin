@@ -40,4 +40,3 @@ public final class XmlUtil {
         return DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
     }
 }
-

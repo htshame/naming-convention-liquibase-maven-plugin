@@ -8,8 +8,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
+import static io.github.htshame.util.XmlUtil.newXmlDocumentBuilder;
 
 /**
  * XML changeLog parser.
@@ -40,8 +39,7 @@ public class XmlChangeLogParser implements ChangeLogParser {
     @Override
     public List<ChangeSetElement> parseChangeLog(final File changeLogFile) throws ChangeLogParseException {
         try {
-            DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            Document document = documentBuilder.parse(changeLogFile);
+            Document document = newXmlDocumentBuilder().parse(changeLogFile);
             document.getDocumentElement().normalize();
             NodeList changeSetList = document.getElementsByTagName(CHANGE_SET_TAG_NAME);
 

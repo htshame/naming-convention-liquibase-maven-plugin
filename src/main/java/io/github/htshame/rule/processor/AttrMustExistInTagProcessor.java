@@ -108,8 +108,7 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
                                  final List<String> errors) {
         if (tag.equals(element.getName())) {
             Map<String, String> attributes = element.getProperties();
-            if (!attributes.containsKey(requiredAttribute)
-                    || (attributes.containsKey(requiredAttribute) && attributes.get(requiredAttribute).isBlank())) {
+            if (!attributes.containsKey(requiredAttribute) || attributes.get(requiredAttribute).isBlank()) {
                 Object[] messageArguments = {
                         element.getName(),
                         requiredAttribute

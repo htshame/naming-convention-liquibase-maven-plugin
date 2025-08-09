@@ -48,15 +48,13 @@ public class NoTabsInChangeLogProcessor implements ChangeLogRule {
     @Override
     public void validateChangeLog(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
-        try {
-            try (Stream<String> linesStream = Files.lines(changeLogFile.toPath())) {
-                if (linesStream.anyMatch(line -> line.contains(TAB_CHARACTER))) {
-                    Object[] messageArguments = {fileName, getName().getValue()};
-                    String errorMessage = getErrorMessage(
-                            getName(),
-                            messageArguments);
-                    throw new ValidationException(errorMessage);
-                }
+        try (Stream<String> linesStream = Files.lines(changeLogFile.toPath())) {
+            if (linesStream.anyMatch(line -> line.contains(TAB_CHARACTER))) {
+                Object[] messageArguments = {fileName, getName().getValue()};
+                String errorMessage = getErrorMessage(
+                        getName(),
+                        messageArguments);
+                throw new ValidationException(errorMessage);
             }
         } catch (IOException e) {
             throw new ChangeLogRuleProcessingException("Failed to process changeLog file [" + fileName + "]", e);

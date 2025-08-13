@@ -78,7 +78,7 @@ public enum RuleEnum {
      */
     CHANGELOG_MUST_END_WITH_NEWLINE("changelog-must-end-with-newline", RuleTypeEnum.CHANGE_LOG_FILE_RULE),
     /**
-     * Represents '*' - all rules.
+     * Represents '*' - all changeSet rules.
      */
     ALL_RULES("*", RuleTypeEnum.CHANGE_SET_RULE);
 

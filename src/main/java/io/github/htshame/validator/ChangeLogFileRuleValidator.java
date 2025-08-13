@@ -12,16 +12,16 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * ChangeLog rule validator.
+ * ChangeLog file rule validator.
  */
-public class ChangeLogRuleValidator implements RuleValidator {
+public class ChangeLogFileRuleValidator implements RuleValidator {
 
     private final Set<ChangeLogFileRule> rules = new HashSet<>();
 
     /**
      * Default constructor.
      */
-    public ChangeLogRuleValidator() {
+    public ChangeLogFileRuleValidator() {
 
     }
 
@@ -36,7 +36,7 @@ public class ChangeLogRuleValidator implements RuleValidator {
     }
 
     /**
-     * Process changeLog rules.
+     * Process changeLog file rules.
      *
      * @param changeLogFile    - changeLog file.
      * @param validationErrors - validation errors.

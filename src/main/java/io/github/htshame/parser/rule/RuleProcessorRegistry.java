@@ -34,9 +34,9 @@ public final class RuleProcessorRegistry {
             = new EnumMap<>(RuleEnum.class);
 
     /**
-     * Map of changeLog rule processors, each mapped to the corresponding {@link RuleEnum}.
+     * Map of changeLog file rule processors, each mapped to the corresponding {@link RuleEnum}.
      */
-    private static final EnumMap<RuleEnum, RuleFactory<ChangeLogRule>> CHANGE_LOG_RULE_MAP
+    private static final EnumMap<RuleEnum, RuleFactory<ChangeLogFileRule>> CHANGE_LOG_FILE_RULE_MAP
             = new EnumMap<>(RuleEnum.class);
 
     static {
@@ -67,15 +67,15 @@ public final class RuleProcessorRegistry {
         CHANGE_SET_RULE_MAP.put(
                 RuleEnum.NO_SPACES_IN_ATTRIBUTES, NoSpacesInAttributesProcessor::instantiate);
 
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, ChangeLogFileMustMatchRegexpProcessor::instantiate);
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.CHANGELOG_FILE_LINES_LIMIT, ChangeLogFileLinesLimitProcessor::instantiate);
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.NO_TABS_IN_CHANGELOG, NoTabsInChangeLogProcessor::instantiate);
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.NO_TRAILING_SPACES_IN_CHANGELOG, NoTrailingSpacesInChangeLogProcessor::instantiate);
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.CHANGELOG_MUST_END_WITH_NEWLINE, ChangeLogMustEndWithNewlineProcessor::instantiate);
     }
 
@@ -97,12 +97,12 @@ public final class RuleProcessorRegistry {
     }
 
     /**
-     * Get changeLog rule factory by rule.
+     * Get changeLog file rule factory by rule.
      *
      * @param ruleEnum - rule.
      * @return corresponding processor.
      */
-    public static RuleFactory<ChangeLogRule> getChangeLogRuleFactory(final RuleEnum ruleEnum) {
-        return CHANGE_LOG_RULE_MAP.get(ruleEnum);
+    public static RuleFactory<ChangeLogFileRule> getChangeLogFileRuleFactory(final RuleEnum ruleEnum) {
+        return CHANGE_LOG_FILE_RULE_MAP.get(ruleEnum);
     }
 }

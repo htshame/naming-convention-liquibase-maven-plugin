@@ -1,4 +1,4 @@
-package io.github.htshame.change.set;
+package io.github.htshame.changeset.element;
 
 import java.util.List;
 import java.util.Map;

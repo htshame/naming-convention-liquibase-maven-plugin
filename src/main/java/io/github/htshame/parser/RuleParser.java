@@ -60,7 +60,7 @@ public final class RuleParser {
 
     static {
         RULE_MAP.put(RuleTypeEnum.CHANGE_SET_RULE, RuleProcessorRegistry::getChangeSetRuleFactory);
-        RULE_MAP.put(RuleTypeEnum.CHANGE_LOG_RULE, RuleProcessorRegistry::getChangeLogRuleFactory);
+        RULE_MAP.put(RuleTypeEnum.CHANGE_LOG_FILE_RULE, RuleProcessorRegistry::getChangeLogFileRuleFactory);
     }
 
     /**

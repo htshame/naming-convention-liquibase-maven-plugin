@@ -4,7 +4,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogRuleProcessingException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.rule.ChangeLogRule;
+import io.github.htshame.parser.rule.ChangeLogFileRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -29,7 +29,7 @@ import java.util.List;
  * </code></pre>
  * <p>This will verify that the changeLog file does not contain trailing spaces or trailing tabs.</p>
  */
-public class NoTrailingSpacesInChangeLogProcessor implements ChangeLogRule {
+public class NoTrailingSpacesInChangeLogProcessor implements ChangeLogFileRule {
 
     private static final String TRAILING_SPACES_REGEXP = ".*\\s$";
 
@@ -47,7 +47,7 @@ public class NoTrailingSpacesInChangeLogProcessor implements ChangeLogRule {
      * @throws ValidationException - if validation fails.
      */
     @Override
-    public void validateChangeLog(final File changeLogFile) throws ValidationException {
+    public void validateChangeLogFile(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
         List<String> linesWithTrailingSpaces = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(changeLogFile))) {

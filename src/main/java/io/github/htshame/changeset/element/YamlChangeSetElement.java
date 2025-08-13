@@ -1,4 +1,4 @@
-package io.github.htshame.change.set;
+package io.github.htshame.changeset.element;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;

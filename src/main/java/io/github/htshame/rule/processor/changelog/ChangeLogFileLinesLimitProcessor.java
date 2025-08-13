@@ -3,7 +3,7 @@ package io.github.htshame.rule.processor.changelog;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.rule.ChangeLogRule;
+import io.github.htshame.parser.rule.ChangeLogFileRule;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -39,7 +39,7 @@ import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
  * <p>This will verify that the changeLog file length is not longer than specified in <code>linesLimit</code>,
  * excluding changeLog files provided in <code>excludedFileNames</code>.
  */
-public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
+public class ChangeLogFileLinesLimitProcessor implements ChangeLogFileRule {
 
     private final Integer linesLimit;
     private final Set<String> excludedFileNames;
@@ -64,7 +64,7 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogRule {
      * @throws ValidationException - if validation fails.
      */
     @Override
-    public void validateChangeLog(final File changeLogFile) throws ValidationException {
+    public void validateChangeLogFile(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
         try {
             long lines = 0;

@@ -54,7 +54,7 @@ public class ChangeLogFileLinesLimitProcessorTest extends ChangeLogRuleProcessor
 
         // act
         try {
-            ChangeLogFileLinesLimitProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            ChangeLogFileLinesLimitProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
         }
@@ -77,7 +77,7 @@ public class ChangeLogFileLinesLimitProcessorTest extends ChangeLogRuleProcessor
 
         // act
         try {
-            ChangeLogFileLinesLimitProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            ChangeLogFileLinesLimitProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
             assertEquals("File [changelog-file-lines-limit-failure.xml] has [119] lines,"
@@ -103,7 +103,7 @@ public class ChangeLogFileLinesLimitProcessorTest extends ChangeLogRuleProcessor
 
         // act
         try {
-            ChangeLogFileLinesLimitProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            ChangeLogFileLinesLimitProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
             assertEquals("Unable to read file [changelog-file-lines-limit-failure.xml1]."

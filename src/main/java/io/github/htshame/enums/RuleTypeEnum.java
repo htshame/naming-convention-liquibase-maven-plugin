@@ -9,7 +9,7 @@ public enum RuleTypeEnum {
      */
     CHANGE_SET_RULE,
     /**
-     * Indicates that rule is applicable to changeLog.
+     * Indicates that rule is applicable to changeLog file.
      */
-    CHANGE_LOG_RULE
+    CHANGE_LOG_FILE_RULE
 }

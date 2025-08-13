@@ -54,7 +54,7 @@ public class ChangeLogFileMustMatchRegexpProcessorTest extends ChangeLogRuleProc
 
         // act
         try {
-            ChangeLogFileMustMatchRegexpProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            ChangeLogFileMustMatchRegexpProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
         }
@@ -77,7 +77,7 @@ public class ChangeLogFileMustMatchRegexpProcessorTest extends ChangeLogRuleProc
 
         // act
         try {
-            ChangeLogFileMustMatchRegexpProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            ChangeLogFileMustMatchRegexpProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
             assertEquals("File [changelog-file-name-must-match-regexp-failure.xml] "

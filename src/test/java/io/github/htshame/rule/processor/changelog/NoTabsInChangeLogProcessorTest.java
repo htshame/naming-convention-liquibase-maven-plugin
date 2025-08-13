@@ -60,7 +60,7 @@ public class NoTabsInChangeLogProcessorTest extends ChangeLogRuleProcessorTestUt
 
         // act
         try {
-            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
         }
@@ -83,7 +83,7 @@ public class NoTabsInChangeLogProcessorTest extends ChangeLogRuleProcessorTestUt
 
         // act
         try {
-            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
             assertEquals("File [no-tabs-in-changelog-failure.xml] must not contain tabs. "
@@ -114,7 +114,7 @@ public class NoTabsInChangeLogProcessorTest extends ChangeLogRuleProcessorTestUt
 
         // act
         try {
-            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (RuleParserException e) {
             isExceptionThrown = true;
             assertEquals("Rule [NO_TABS_IN_CHANGELOG] configuration should not contain child tags", e.getMessage());
@@ -139,7 +139,7 @@ public class NoTabsInChangeLogProcessorTest extends ChangeLogRuleProcessorTestUt
 
         // act
         try {
-            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            NoTabsInChangeLogProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ChangeLogRuleProcessingException e) {
             isExceptionThrown = true;
         }

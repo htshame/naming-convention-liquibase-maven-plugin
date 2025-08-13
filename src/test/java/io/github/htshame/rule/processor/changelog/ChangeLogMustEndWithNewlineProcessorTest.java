@@ -60,7 +60,7 @@ public class ChangeLogMustEndWithNewlineProcessorTest extends ChangeLogRuleProce
 
         // act
         try {
-            ChangeLogMustEndWithNewlineProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            ChangeLogMustEndWithNewlineProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
         }
@@ -83,7 +83,7 @@ public class ChangeLogMustEndWithNewlineProcessorTest extends ChangeLogRuleProce
 
         // act
         try {
-            ChangeLogMustEndWithNewlineProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            ChangeLogMustEndWithNewlineProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
             assertEquals("File: [changelog-must-end-with-newline-failure.xml]. "
@@ -116,7 +116,7 @@ public class ChangeLogMustEndWithNewlineProcessorTest extends ChangeLogRuleProce
 
         // act
         try {
-            ChangeLogMustEndWithNewlineProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            ChangeLogMustEndWithNewlineProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (RuleParserException e) {
             isExceptionThrown = true;
             assertEquals("Rule [CHANGELOG_MUST_END_WITH_NEWLINE] configuration should not contain child tags",
@@ -142,7 +142,7 @@ public class ChangeLogMustEndWithNewlineProcessorTest extends ChangeLogRuleProce
 
         // act
         try {
-            ChangeLogMustEndWithNewlineProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            ChangeLogMustEndWithNewlineProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ChangeLogRuleProcessingException e) {
             isExceptionThrown = true;
         }

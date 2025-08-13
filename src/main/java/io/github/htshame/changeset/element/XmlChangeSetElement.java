@@ -1,4 +1,4 @@
-package io.github.htshame.change.set;
+package io.github.htshame.changeset.element;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;

@@ -3,7 +3,7 @@ package io.github.htshame.rule.processor.changelog;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.rule.ChangeLogRule;
+import io.github.htshame.parser.rule.ChangeLogFileRule;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -36,7 +36,7 @@ import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
  * <p>This will verify that the changeLog file matches the provided regexp, excluding file names provided in
  * <code>excludedFileNames</code>.</p>
  */
-public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
+public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogFileRule {
 
     private final String fileNameRegexp;
     private final Set<String> excludedFileNames;
@@ -61,7 +61,7 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogRule {
      * @throws ValidationException - if validation fails.
      */
     @Override
-    public void validateChangeLog(final File changeLogFile) throws ValidationException {
+    public void validateChangeLogFile(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
         if (!excludedFileNames.contains(fileName) && !fileName.matches(fileNameRegexp)) {
             Object[] messageArguments = {

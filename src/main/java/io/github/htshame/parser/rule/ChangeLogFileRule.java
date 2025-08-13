@@ -6,15 +6,15 @@ import io.github.htshame.rule.Rule;
 import java.io.File;
 
 /**
- * Interface for changeLog rule handling.
+ * Interface for changeLog file rule handling.
  */
-public interface ChangeLogRule extends Rule {
+public interface ChangeLogFileRule extends Rule {
 
     /**
-     * Validates the changeLog file against the rule which implements {@link ChangeLogRule}.
+     * Validates the changeLog file against the rule which implements {@link ChangeLogFileRule}.
      *
      * @param changeLogFile - changeLog file.
      * @throws ValidationException - thrown if validation fails.
      */
-    void validateChangeLog(File changeLogFile) throws ValidationException;
+    void validateChangeLogFile(File changeLogFile) throws ValidationException;
 }

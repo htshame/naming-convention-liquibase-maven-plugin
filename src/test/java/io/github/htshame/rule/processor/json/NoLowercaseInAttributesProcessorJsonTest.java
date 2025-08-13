@@ -1,6 +1,6 @@
 package io.github.htshame.rule.processor.json;
 
-import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.changeset.element.ChangeSetElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;

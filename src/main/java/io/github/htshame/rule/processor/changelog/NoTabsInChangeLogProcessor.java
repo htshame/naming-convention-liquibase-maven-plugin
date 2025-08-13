@@ -4,7 +4,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogRuleProcessingException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.rule.ChangeLogRule;
+import io.github.htshame.parser.rule.ChangeLogFileRule;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -28,7 +28,7 @@ import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
  * </code></pre>
  * <p>This will verify that the changeLog file does not contain tabs.</p>
  */
-public class NoTabsInChangeLogProcessor implements ChangeLogRule {
+public class NoTabsInChangeLogProcessor implements ChangeLogFileRule {
 
     private static final String TAB_CHARACTER = "\t";
 
@@ -46,7 +46,7 @@ public class NoTabsInChangeLogProcessor implements ChangeLogRule {
      * @throws ValidationException - if validation fails.
      */
     @Override
-    public void validateChangeLog(final File changeLogFile) throws ValidationException {
+    public void validateChangeLogFile(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
         try (Stream<String> linesStream = Files.lines(changeLogFile.toPath())) {
             if (linesStream.anyMatch(line -> line.contains(TAB_CHARACTER))) {

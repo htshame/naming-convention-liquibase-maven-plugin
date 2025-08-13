@@ -1,7 +1,7 @@
-package io.github.htshame.change.log;
+package io.github.htshame.changeset.parser;
 
-import io.github.htshame.change.set.ChangeSetElement;
-import io.github.htshame.change.set.XmlChangeSetElement;
+import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.changeset.element.XmlChangeSetElement;
 import io.github.htshame.exception.ChangeLogParseException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -18,14 +18,14 @@ import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 import static io.github.htshame.util.XmlUtil.newXmlDocumentBuilder;
 
 /**
- * XML changeLog parser.
+ * XML changeSet parser.
  */
-public class XmlChangeLogParser implements ChangeLogParser {
+public class XmlChangeSetParser implements ChangeSetParser {
 
     /**
      * Default constructor.
      */
-    public XmlChangeLogParser() {
+    public XmlChangeSetParser() {
 
     }
 
@@ -37,7 +37,7 @@ public class XmlChangeLogParser implements ChangeLogParser {
      * @throws ChangeLogParseException - thrown if parsing fails.
      */
     @Override
-    public List<ChangeSetElement> parseChangeLog(final File changeLogFile) throws ChangeLogParseException {
+    public List<ChangeSetElement> parseChangeSets(final File changeLogFile) throws ChangeLogParseException {
         try {
             Document document = newXmlDocumentBuilder().parse(changeLogFile);
             document.getDocumentElement().normalize();

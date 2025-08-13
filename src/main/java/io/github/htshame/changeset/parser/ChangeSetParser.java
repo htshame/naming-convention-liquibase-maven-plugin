@@ -1,6 +1,6 @@
-package io.github.htshame.change.log;
+package io.github.htshame.changeset.parser;
 
-import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.changeset.element.ChangeSetElement;
 import io.github.htshame.exception.ChangeLogParseException;
 
 import java.io.File;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * ChangeLog parser interface.
  */
-public interface ChangeLogParser {
+public interface ChangeSetParser {
 
     /**
      * ChangeLog file parser.
@@ -18,5 +18,5 @@ public interface ChangeLogParser {
      * @return list of changeSets.
      * @throws ChangeLogParseException - thrown if parsing fails.
      */
-    List<ChangeSetElement> parseChangeLog(File changeLogFile) throws ChangeLogParseException;
+    List<ChangeSetElement> parseChangeSets(File changeLogFile) throws ChangeLogParseException;
 }

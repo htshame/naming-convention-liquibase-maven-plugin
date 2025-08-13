@@ -60,7 +60,7 @@ public class NoTrailingSpacesInChangeLogProcessorTest extends ChangeLogRuleProce
 
         // act
         try {
-            NoTrailingSpacesInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            NoTrailingSpacesInChangeLogProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
         }
@@ -83,7 +83,7 @@ public class NoTrailingSpacesInChangeLogProcessorTest extends ChangeLogRuleProce
 
         // act
         try {
-            NoTrailingSpacesInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            NoTrailingSpacesInChangeLogProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ValidationException e) {
             isExceptionThrown = true;
             assertEquals("File: [no-trailing-spaces-in-changelog-failure.xml]. "
@@ -118,7 +118,7 @@ public class NoTrailingSpacesInChangeLogProcessorTest extends ChangeLogRuleProce
 
         // act
         try {
-            NoTrailingSpacesInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            NoTrailingSpacesInChangeLogProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (RuleParserException e) {
             isExceptionThrown = true;
             assertEquals("Rule [NO_TRAILING_SPACES_IN_CHANGELOG] configuration should not contain child tags",
@@ -144,7 +144,7 @@ public class NoTrailingSpacesInChangeLogProcessorTest extends ChangeLogRuleProce
 
         // act
         try {
-            NoTrailingSpacesInChangeLogProcessor.instantiate(ruleElement).validateChangeLog(changeLogFile);
+            NoTrailingSpacesInChangeLogProcessor.instantiate(ruleElement).validateChangeLogFile(changeLogFile);
         } catch (ChangeLogRuleProcessingException e) {
             isExceptionThrown = true;
         }

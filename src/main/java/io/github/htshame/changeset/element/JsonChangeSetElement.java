@@ -1,4 +1,4 @@
-package io.github.htshame.change.set;
+package io.github.htshame.changeset.element;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;

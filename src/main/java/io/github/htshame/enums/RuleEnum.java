@@ -60,23 +60,23 @@ public enum RuleEnum {
     /**
      * Represents 'changelog-file-name-must-match-regexp' rule.
      */
-    CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP("changelog-file-name-must-match-regexp", RuleTypeEnum.CHANGE_LOG_RULE),
+    CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP("changelog-file-name-must-match-regexp", RuleTypeEnum.CHANGE_LOG_FILE_RULE),
     /**
      * Represents 'changelog-file-lines-limit' rule.
      */
-    CHANGELOG_FILE_LINES_LIMIT("changelog-file-lines-limit", RuleTypeEnum.CHANGE_LOG_RULE),
+    CHANGELOG_FILE_LINES_LIMIT("changelog-file-lines-limit", RuleTypeEnum.CHANGE_LOG_FILE_RULE),
     /**
      * Represents 'no-tabs-in-changelog' rule.
      */
-    NO_TABS_IN_CHANGELOG("no-tabs-in-changelog", RuleTypeEnum.CHANGE_LOG_RULE),
+    NO_TABS_IN_CHANGELOG("no-tabs-in-changelog", RuleTypeEnum.CHANGE_LOG_FILE_RULE),
     /**
      * Represents 'no-trailing-spaces-in-changelog' rule.
      */
-    NO_TRAILING_SPACES_IN_CHANGELOG("no-trailing-spaces-in-changelog", RuleTypeEnum.CHANGE_LOG_RULE),
+    NO_TRAILING_SPACES_IN_CHANGELOG("no-trailing-spaces-in-changelog", RuleTypeEnum.CHANGE_LOG_FILE_RULE),
     /**
      * Represents 'changelog-must-end-with-newline' rule.
      */
-    CHANGELOG_MUST_END_WITH_NEWLINE("changelog-must-end-with-newline", RuleTypeEnum.CHANGE_LOG_RULE),
+    CHANGELOG_MUST_END_WITH_NEWLINE("changelog-must-end-with-newline", RuleTypeEnum.CHANGE_LOG_FILE_RULE),
     /**
      * Represents '*' - all rules.
      */

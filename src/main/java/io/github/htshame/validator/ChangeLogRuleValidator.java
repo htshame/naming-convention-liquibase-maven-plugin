@@ -3,7 +3,7 @@ package io.github.htshame.validator;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.parser.rule.ChangeLogRule;
+import io.github.htshame.parser.rule.ChangeLogFileRule;
 import io.github.htshame.rule.Rule;
 
 import java.io.File;
@@ -16,7 +16,7 @@ import java.util.Set;
  */
 public class ChangeLogRuleValidator implements RuleValidator {
 
-    private final Set<ChangeLogRule> rules = new HashSet<>();
+    private final Set<ChangeLogFileRule> rules = new HashSet<>();
 
     /**
      * Default constructor.
@@ -32,7 +32,7 @@ public class ChangeLogRuleValidator implements RuleValidator {
      */
     @Override
     public void addRule(final Rule rule) {
-        rules.add((ChangeLogRule) rule);
+        rules.add((ChangeLogFileRule) rule);
     }
 
     /**
@@ -48,9 +48,9 @@ public class ChangeLogRuleValidator implements RuleValidator {
                          final List<String> validationErrors,
                          final ChangeLogFormatEnum changeLogFormat,
                          final ExclusionParser exclusionParser) {
-        for (ChangeLogRule rule : rules) {
+        for (ChangeLogFileRule rule : rules) {
             try {
-                rule.validateChangeLog(changeLogFile);
+                rule.validateChangeLogFile(changeLogFile);
             } catch (ValidationException e) {
                 validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
             }

@@ -4,7 +4,7 @@ import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogRuleProcessingException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.exception.ValidationException;
-import io.github.htshame.parser.rule.ChangeLogRule;
+import io.github.htshame.parser.rule.ChangeLogFileRule;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -27,7 +27,7 @@ import java.io.RandomAccessFile;
  * </code></pre>
  * <p>This will verify that the changeLog file ends with a newline.</p>
  */
-public class ChangeLogMustEndWithNewlineProcessor implements ChangeLogRule {
+public class ChangeLogMustEndWithNewlineProcessor implements ChangeLogFileRule {
 
     /**
      * Constructor.
@@ -43,7 +43,7 @@ public class ChangeLogMustEndWithNewlineProcessor implements ChangeLogRule {
      * @throws ValidationException - if validation fails.
      */
     @Override
-    public void validateChangeLog(final File changeLogFile) throws ValidationException {
+    public void validateChangeLogFile(final File changeLogFile) throws ValidationException {
         String fileName = changeLogFile.getName();
         boolean doesFileEndWithNewLine;
         try {

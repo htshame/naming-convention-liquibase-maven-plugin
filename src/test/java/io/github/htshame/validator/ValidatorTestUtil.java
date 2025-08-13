@@ -1,6 +1,6 @@
 package io.github.htshame.validator;
 
-import io.github.htshame.change.log.ChangeLogParser;
+import io.github.htshame.changeset.parser.ChangeSetParser;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 
 import static io.github.htshame.validator.ValidationManager.CHANGELOG_PARSER_MAP;
@@ -23,7 +23,7 @@ public final class ValidatorTestUtil {
      * @param changeLogFormat - changeLog file format.
      * @return changeLog parser.
      */
-    public static ChangeLogParser getParser(final ChangeLogFormatEnum changeLogFormat) {
+    public static ChangeSetParser getParser(final ChangeLogFormatEnum changeLogFormat) {
         return CHANGELOG_PARSER_MAP.get(changeLogFormat);
     }
 }

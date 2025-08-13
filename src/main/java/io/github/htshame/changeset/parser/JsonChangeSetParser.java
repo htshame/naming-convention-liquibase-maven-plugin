@@ -1,9 +1,9 @@
-package io.github.htshame.change.log;
+package io.github.htshame.changeset.parser;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.htshame.change.set.ChangeSetElement;
-import io.github.htshame.change.set.JsonChangeSetElement;
+import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.changeset.element.JsonChangeSetElement;
 import io.github.htshame.exception.ChangeLogParseException;
 
 import java.io.File;
@@ -16,16 +16,16 @@ import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 import static io.github.htshame.util.ChangeSetUtil.DATABASE_CHANGELOG_NAME;
 
 /**
- * JSON changeLog parser.
+ * JSON changeSet parser.
  */
-public class JsonChangeLogParser implements ChangeLogParser {
+public class JsonChangeSetParser implements ChangeSetParser {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Default constructor.
      */
-    public JsonChangeLogParser() {
+    public JsonChangeSetParser() {
 
     }
 
@@ -37,7 +37,7 @@ public class JsonChangeLogParser implements ChangeLogParser {
      * @throws ChangeLogParseException - thrown if parsing fails.
      */
     @Override
-    public List<ChangeSetElement> parseChangeLog(final File changeLogFile) throws ChangeLogParseException {
+    public List<ChangeSetElement> parseChangeSets(final File changeLogFile) throws ChangeLogParseException {
         try {
             JsonNode root = objectMapper.readTree(changeLogFile);
             JsonNode changeLogArray = root.get(DATABASE_CHANGELOG_NAME);

@@ -1,9 +1,9 @@
 package io.github.htshame.validator;
 
-import io.github.htshame.change.log.ChangeLogParser;
-import io.github.htshame.change.log.JsonChangeLogParser;
-import io.github.htshame.change.log.XmlChangeLogParser;
-import io.github.htshame.change.log.YamlChangeLogParser;
+import io.github.htshame.changeset.parser.ChangeSetParser;
+import io.github.htshame.changeset.parser.JsonChangeSetParser;
+import io.github.htshame.changeset.parser.XmlChangeSetParser;
+import io.github.htshame.changeset.parser.YamlChangeSetParser;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.parser.ExclusionParser;
@@ -27,14 +27,14 @@ public class ValidationManager {
     /**
      * Map of changeLog formats and changeLog parsers.
      */
-    static final EnumMap<ChangeLogFormatEnum, ChangeLogParser> CHANGELOG_PARSER_MAP =
+    static final EnumMap<ChangeLogFormatEnum, ChangeSetParser> CHANGELOG_PARSER_MAP =
             new EnumMap<>(ChangeLogFormatEnum.class);
 
     static {
-        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.XML, new XmlChangeLogParser());
-        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.YAML, new YamlChangeLogParser());
-        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.YML, new YamlChangeLogParser());
-        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.JSON, new JsonChangeLogParser());
+        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.XML, new XmlChangeSetParser());
+        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.YAML, new YamlChangeSetParser());
+        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.YML, new YamlChangeSetParser());
+        CHANGELOG_PARSER_MAP.put(ChangeLogFormatEnum.JSON, new JsonChangeSetParser());
     }
 
     /**

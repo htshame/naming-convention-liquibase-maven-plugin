@@ -1,6 +1,6 @@
 package io.github.htshame.util;
 
-import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.changeset.element.ChangeSetElement;
 import io.github.htshame.dto.ChangeSetAttributeDto;
 
 /**

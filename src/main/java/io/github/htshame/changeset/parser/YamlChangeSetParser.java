@@ -1,7 +1,7 @@
-package io.github.htshame.change.log;
+package io.github.htshame.changeset.parser;
 
-import io.github.htshame.change.set.ChangeSetElement;
-import io.github.htshame.change.set.YamlChangeSetElement;
+import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.changeset.element.YamlChangeSetElement;
 import io.github.htshame.exception.ChangeLogParseException;
 import org.yaml.snakeyaml.Yaml;
 
@@ -16,16 +16,16 @@ import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
 import static io.github.htshame.util.ChangeSetUtil.DATABASE_CHANGELOG_NAME;
 
 /**
- * YAML changeLog parser.
+ * YAML changeSet parser.
  */
-public class YamlChangeLogParser implements ChangeLogParser {
+public class YamlChangeSetParser implements ChangeSetParser {
 
     private static final String PLACEHOLDER_ELEMENT = "item";
 
     /**
      * Default constructor.
      */
-    public YamlChangeLogParser() {
+    public YamlChangeSetParser() {
 
     }
 
@@ -37,7 +37,7 @@ public class YamlChangeLogParser implements ChangeLogParser {
      * @throws ChangeLogParseException - thrown if parsing fails.
      */
     @Override
-    public List<ChangeSetElement> parseChangeLog(final File changeLogFile) throws ChangeLogParseException {
+    public List<ChangeSetElement> parseChangeSets(final File changeLogFile) throws ChangeLogParseException {
         try {
             Yaml yaml = new Yaml();
             Object loaded = yaml.load(new FileInputStream(changeLogFile));

@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ChangeLogMustEndWithNewlineProcessorTest extends ChangeLogRuleProcessorTestUtil {
+public class ChangeLogMustEndWithNewlineProcessorTest extends ChangeLogFileRuleProcessorTestUtil {
 
     private static final RuleEnum RULE_ENUM = RuleEnum.CHANGELOG_MUST_END_WITH_NEWLINE;
 

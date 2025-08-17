@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
-public class ChangeLogRuleProcessorTestUtil {
+public class ChangeLogFileRuleProcessorTestUtil {
 
     private final String ruleFilePath;
     private final String changeLogSuccessFile;
@@ -23,7 +23,7 @@ public class ChangeLogRuleProcessorTestUtil {
      *
      * @param ruleName - rule name.
      */
-    public ChangeLogRuleProcessorTestUtil(final RuleEnum ruleName) {
+    public ChangeLogFileRuleProcessorTestUtil(final RuleEnum ruleName) {
         String baseFilePath =
                 "src/test/resources/io/github/htshame/rule/processor/changelogfile/" + ruleName.getValue() + "/";
         this.ruleFilePath = baseFilePath + ruleName.getValue() + "-rule.xml";

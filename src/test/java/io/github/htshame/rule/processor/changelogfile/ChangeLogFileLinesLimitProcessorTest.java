@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ChangeLogFileLinesLimitProcessorTest extends ChangeLogRuleProcessorTestUtil {
+public class ChangeLogFileLinesLimitProcessorTest extends ChangeLogFileRuleProcessorTestUtil {
 
     private static final RuleEnum RULE_ENUM = RuleEnum.CHANGELOG_FILE_LINES_LIMIT;
 

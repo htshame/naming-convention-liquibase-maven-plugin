@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class NoTrailingSpacesInChangeLogProcessorTest extends ChangeLogRuleProcessorTestUtil {
+public class NoTrailingSpacesInChangeLogProcessorTest extends ChangeLogFileRuleProcessorTestUtil {
 
     private static final RuleEnum RULE_ENUM = RuleEnum.NO_TRAILING_SPACES_IN_CHANGELOG;
 

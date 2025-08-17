@@ -1,6 +1,6 @@
 package io.github.htshame.rule.processor.yaml;
 
-import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;
@@ -61,7 +61,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends ChangeSetRulePro
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 CHANGELOG_FORMAT);
         int exceptionCount = 0;
@@ -86,7 +86,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends ChangeSetRulePro
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
@@ -114,7 +114,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends ChangeSetRulePro
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 CHANGELOG_FORMAT);
         int exceptionCount = 0;
@@ -139,7 +139,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends ChangeSetRulePro
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
@@ -167,7 +167,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends ChangeSetRulePro
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 CHANGELOG_FORMAT);
         int exceptionCount = 0;
@@ -186,7 +186,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends ChangeSetRulePro
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
@@ -214,7 +214,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends ChangeSetRulePro
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogSuccessFile(),
                 CHANGELOG_FORMAT);
         boolean isExceptionThrown = false;
@@ -222,7 +222,7 @@ public class NoUnderscoresInAttributesProcessorYamlTest extends ChangeSetRulePro
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionUrl()));
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 NoUnderscoresInAttributesProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,

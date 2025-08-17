@@ -30,6 +30,7 @@ public final class RuleValidatorFactory {
         EnumMap<RuleTypeEnum, RuleValidator> validatorMap = new EnumMap<>(RuleTypeEnum.class);
         validatorMap.put(RuleTypeEnum.CHANGE_LOG_FILE_RULE, new ChangeLogFileRuleValidator());
         validatorMap.put(RuleTypeEnum.CHANGE_SET_RULE, new ChangeSetRuleValidator());
+        validatorMap.put(RuleTypeEnum.CHANGE_LOG_RULE, new ChangeLogRuleValidator());
 
         for (Rule rule : rules) {
             validatorMap.get(rule.getName().getType()).addRule(rule);

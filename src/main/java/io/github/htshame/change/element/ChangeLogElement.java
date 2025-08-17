@@ -1,12 +1,13 @@
-package io.github.htshame.changeset.element;
+package io.github.htshame.change.element;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Abstract changeSet representation.
+ * Abstract changeLog element representation.
+ * Could be <code>changeSet</code>, <code>property</code>, <code>include</code>, etc.
  */
-public interface ChangeSetElement {
+public interface ChangeLogElement {
 
     /**
      * Get element name.
@@ -43,7 +44,7 @@ public interface ChangeSetElement {
      *
      * @return list of child elements.
      */
-    List<ChangeSetElement> getChildren();
+    List<ChangeLogElement> getChildren();
 
     /**
      * Get properties.
@@ -59,5 +60,5 @@ public interface ChangeSetElement {
      * @param name             - element name.
      * @return list of elements with the provided name.
      */
-    List<ChangeSetElement> findElementsByName(ChangeSetElement changeSetElement, String name);
+    List<ChangeLogElement> findElementsByName(ChangeLogElement changeSetElement, String name);
 }

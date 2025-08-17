@@ -1,4 +1,4 @@
-package io.github.htshame.changeset.element;
+package io.github.htshame.change.element;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * YAML changeSet representation.
+ * YAML changeLog element representation.
  */
-public class YamlChangeSetElement implements ChangeSetElement {
+public class YamlChangeLogElement implements ChangeLogElement {
 
     private final String name;
     private final Map<String, String> properties;
-    private final List<ChangeSetElement> children;
+    private final List<ChangeLogElement> children;
     private final String value;
 
     /**
@@ -23,9 +23,9 @@ public class YamlChangeSetElement implements ChangeSetElement {
      * @param children   - children.
      * @param value      - value.
      */
-    public YamlChangeSetElement(final String name,
+    public YamlChangeLogElement(final String name,
                                 final Map<String, String> properties,
-                                final List<ChangeSetElement> children,
+                                final List<ChangeLogElement> children,
                                 final String value) {
         this.name = name;
         this.properties = properties != null ? properties : new LinkedHashMap<>();
@@ -54,7 +54,7 @@ public class YamlChangeSetElement implements ChangeSetElement {
     }
 
     @Override
-    public List<ChangeSetElement> getChildren() {
+    public List<ChangeLogElement> getChildren() {
         return children;
     }
 
@@ -64,13 +64,13 @@ public class YamlChangeSetElement implements ChangeSetElement {
     }
 
     @Override
-    public List<ChangeSetElement> findElementsByName(final ChangeSetElement root,
+    public List<ChangeLogElement> findElementsByName(final ChangeLogElement root,
                                                      final String searchName) {
-        List<ChangeSetElement> result = new ArrayList<>();
+        List<ChangeLogElement> result = new ArrayList<>();
         if (root.getName().equals(searchName)) {
             result.add(root);
         }
-        for (ChangeSetElement child : root.getChildren()) {
+        for (ChangeLogElement child : root.getChildren()) {
             result.addAll(findElementsByName(child, searchName));
         }
         return result;

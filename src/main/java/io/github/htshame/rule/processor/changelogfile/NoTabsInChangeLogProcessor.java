@@ -1,4 +1,4 @@
-package io.github.htshame.rule.processor.changelog;
+package io.github.htshame.rule.processor.changelogfile;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogRuleProcessingException;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.stream.Stream;
 
-import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
+import static io.github.htshame.util.ErrorMessageUtil.getChangeLogFileErrorMessage;
 
 /**
  * Business logic for the <code>no-tabs-in-changelog</code> rule.
@@ -51,7 +51,7 @@ public class NoTabsInChangeLogProcessor implements ChangeLogFileRule {
         try (Stream<String> linesStream = Files.lines(changeLogFile.toPath())) {
             if (linesStream.anyMatch(line -> line.contains(TAB_CHARACTER))) {
                 Object[] messageArguments = {fileName, getName().getValue()};
-                String errorMessage = getErrorMessage(
+                String errorMessage = getChangeLogFileErrorMessage(
                         getName(),
                         messageArguments);
                 throw new ValidationException(errorMessage);

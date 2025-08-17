@@ -15,11 +15,12 @@ import io.github.htshame.rule.processor.NoSpacesInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
 import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
 import io.github.htshame.rule.processor.TagMustExistProcessor;
-import io.github.htshame.rule.processor.changelog.ChangeLogFileLinesLimitProcessor;
-import io.github.htshame.rule.processor.changelog.ChangeLogFileMustMatchRegexpProcessor;
-import io.github.htshame.rule.processor.changelog.ChangeLogMustEndWithNewlineProcessor;
-import io.github.htshame.rule.processor.changelog.NoTabsInChangeLogProcessor;
-import io.github.htshame.rule.processor.changelog.NoTrailingSpacesInChangeLogProcessor;
+import io.github.htshame.rule.processor.changelog.TagMustNotExistInChangeLogProcessor;
+import io.github.htshame.rule.processor.changelogfile.ChangeLogFileLinesLimitProcessor;
+import io.github.htshame.rule.processor.changelogfile.ChangeLogFileMustMatchRegexpProcessor;
+import io.github.htshame.rule.processor.changelogfile.ChangeLogMustEndWithNewlineProcessor;
+import io.github.htshame.rule.processor.changelogfile.NoTabsInChangeLogProcessor;
+import io.github.htshame.rule.processor.changelogfile.NoTrailingSpacesInChangeLogProcessor;
 import org.junit.Test;
 
 import java.io.File;
@@ -33,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 
 public class ChangeSetRuleParserTest {
 
-    private static final int RULE_SET_SIZE = 18;
+    private static final int RULE_SET_SIZE = 19;
 
     /**
      * Test successful case of rules.xml parsing.
@@ -60,7 +61,8 @@ public class ChangeSetRuleParserTest {
                 ChangeLogFileLinesLimitProcessor.class,
                 NoTabsInChangeLogProcessor.class,
                 NoTrailingSpacesInChangeLogProcessor.class,
-                ChangeLogMustEndWithNewlineProcessor.class
+                ChangeLogMustEndWithNewlineProcessor.class,
+                TagMustNotExistInChangeLogProcessor.class
         );
 
         // act

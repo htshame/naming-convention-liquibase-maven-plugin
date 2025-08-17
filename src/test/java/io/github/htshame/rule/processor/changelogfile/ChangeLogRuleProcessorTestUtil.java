@@ -1,4 +1,4 @@
-package io.github.htshame.rule.processor.changelog;
+package io.github.htshame.rule.processor.changelogfile;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
@@ -25,7 +25,7 @@ public class ChangeLogRuleProcessorTestUtil {
      */
     public ChangeLogRuleProcessorTestUtil(final RuleEnum ruleName) {
         String baseFilePath =
-                "src/test/resources/io/github/htshame/rule/processor/changelog/" + ruleName.getValue() + "/";
+                "src/test/resources/io/github/htshame/rule/processor/changelogfile/" + ruleName.getValue() + "/";
         this.ruleFilePath = baseFilePath + ruleName.getValue() + "-rule.xml";
         this.changeLogSuccessFile = baseFilePath + ruleName.getValue() + "-success.xml";
         this.changeLogFailureFile = baseFilePath + ruleName.getValue() + "-failure.xml";

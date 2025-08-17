@@ -5,7 +5,7 @@ import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.parser.rule.ChangeSetRule;
+import io.github.htshame.parser.rule.ChangeLogRule;
 import io.github.htshame.rule.Rule;
 
 import java.io.File;
@@ -18,14 +18,14 @@ import static io.github.htshame.validator.ValidationManager.CHANGESET_PARSER_MAP
 /**
  * ChangeSet rule validator.
  */
-public class ChangeSetRuleValidator implements RuleValidator {
+public class ChangeLogRuleValidator implements RuleValidator {
 
-    private final Set<ChangeSetRule> rules = new HashSet<>();
+    private final Set<ChangeLogRule> rules = new HashSet<>();
 
     /**
      * Default constructor.
      */
-    public ChangeSetRuleValidator() {
+    public ChangeLogRuleValidator() {
 
     }
 
@@ -36,7 +36,7 @@ public class ChangeSetRuleValidator implements RuleValidator {
      */
     @Override
     public void addRule(final Rule rule) {
-        rules.add((ChangeSetRule) rule);
+        rules.add((ChangeLogRule) rule);
     }
 
     /**
@@ -53,12 +53,13 @@ public class ChangeSetRuleValidator implements RuleValidator {
                          final List<String> validationErrors,
                          final ChangeLogFormatEnum changeLogFormat,
                          final ExclusionParser exclusionParser) throws ChangeLogParseException {
-        List<ChangeLogElement> changeSets = CHANGESET_PARSER_MAP.get(changeLogFormat).parseChangeSets(changeLogFile);
+        List<ChangeLogElement> changeSets = CHANGESET_PARSER_MAP.get(changeLogFormat)
+                .parseNonChangeSets(changeLogFile);
 
-        for (ChangeSetRule rule : rules) {
+        for (ChangeLogRule rule : rules) {
             for (ChangeLogElement changeSet : changeSets) {
                 try {
-                    rule.validateChangeSet(changeSet, exclusionParser, changeLogFile.getName(), changeLogFormat);
+                    rule.validateChangeLog(changeSet, exclusionParser, changeLogFile.getName(), changeLogFormat);
                 } catch (ValidationException e) {
                     validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
                 }

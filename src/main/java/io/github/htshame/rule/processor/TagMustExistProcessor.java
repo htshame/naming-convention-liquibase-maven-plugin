@@ -1,12 +1,13 @@
 package io.github.htshame.rule.processor;
 
-import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.parser.rule.ChangeSetRule;
+import io.github.htshame.util.ErrorMessageUtil;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -19,7 +20,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import static io.github.htshame.util.ChangeSetUtil.CHANGE_SET_TAG_NAME;
-import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
 
@@ -107,7 +107,7 @@ public class TagMustExistProcessor implements ChangeSetRule {
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validateChangeSet(final ChangeSetElement changeSetElement,
+    public void validateChangeSet(final ChangeLogElement changeSetElement,
                                   final ExclusionParser exclusionParser,
                                   final String changeLogFileName,
                                   final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
@@ -128,7 +128,7 @@ public class TagMustExistProcessor implements ChangeSetRule {
      * @param errors          - list of errors.
      * @return list of errors.
      */
-    private List<String> validateElement(final ChangeSetElement element,
+    private List<String> validateElement(final ChangeLogElement element,
                                          final ChangeLogFormatEnum changeLogFormat,
                                          final List<String> errors) {
         String tagName = element.getName();
@@ -140,15 +140,15 @@ public class TagMustExistProcessor implements ChangeSetRule {
                     tagName,
                     requiredTag
             };
-            String error = getErrorMessage(
+            String error = ErrorMessageUtil.getChangeSetErrorMessage(
                     getName(),
                     changeLogFormat,
                     messageArguments);
             errors.add(error);
         }
 
-        List<ChangeSetElement> children = element.getChildren();
-        for (ChangeSetElement child : children) {
+        List<ChangeLogElement> children = element.getChildren();
+        for (ChangeLogElement child : children) {
             validateElement(child, changeLogFormat, errors);
         }
         return errors;
@@ -164,7 +164,7 @@ public class TagMustExistProcessor implements ChangeSetRule {
      * @return <code>true</code> if error should be added, <code>false</code> - if not.
      */
     private boolean shouldAddError(final boolean hasRequiredChild,
-                                   final ChangeSetElement element,
+                                   final ChangeLogElement element,
                                    final String tagName,
                                    final boolean isSearchInChildTagRequired) {
         return (hasRequiredChild && isErrorPresentInTheChildElement(element))
@@ -177,8 +177,8 @@ public class TagMustExistProcessor implements ChangeSetRule {
      * @param element - changeSet element.
      * @return <code>true</code> if present, <code>false</code> - if not.
      */
-    private boolean isErrorPresentInTheChildElement(final ChangeSetElement element) {
-        for (ChangeSetElement child : element.getChildren()) {
+    private boolean isErrorPresentInTheChildElement(final ChangeLogElement element) {
+        for (ChangeLogElement child : element.getChildren()) {
             if (requiredTag.equals(child.getName())) {
                 String value = child.getValue();
                 if (value == null || value.isBlank()) {
@@ -204,9 +204,9 @@ public class TagMustExistProcessor implements ChangeSetRule {
      * @param element - element.
      * @return <code>true</code> if contains. <code>false</code> - if not.
      */
-    private boolean hasRequiredChild(final ChangeSetElement element) {
-        List<ChangeSetElement> children = element.getChildren();
-        for (ChangeSetElement child : children) {
+    private boolean hasRequiredChild(final ChangeLogElement element) {
+        List<ChangeLogElement> children = element.getChildren();
+        for (ChangeLogElement child : children) {
             if (requiredTag.equals(child.getName())) {
                 return true;
             }

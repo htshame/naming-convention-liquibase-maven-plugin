@@ -1,4 +1,4 @@
-package io.github.htshame.changeset.element;
+package io.github.htshame.change.element;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * JSON changeSet representation.
+ * JSON changeLog element representation.
  */
-public class JsonChangeSetElement implements ChangeSetElement {
+public class JsonChangeLogElement implements ChangeLogElement {
 
     private final String name;
     private final JsonNode node;
@@ -23,7 +23,7 @@ public class JsonChangeSetElement implements ChangeSetElement {
      * @param name - node name.
      * @param node - json node.
      */
-    public JsonChangeSetElement(final String name,
+    public JsonChangeLogElement(final String name,
                                 final JsonNode node) {
         this.name = name;
         this.node = node;
@@ -84,8 +84,8 @@ public class JsonChangeSetElement implements ChangeSetElement {
      * @return list of child elements.
      */
     @Override
-    public List<ChangeSetElement> getChildren() {
-        List<ChangeSetElement> children = new ArrayList<>();
+    public List<ChangeLogElement> getChildren() {
+        List<ChangeLogElement> children = new ArrayList<>();
 
         if (!node.isObject()) {
             return children;
@@ -96,7 +96,7 @@ public class JsonChangeSetElement implements ChangeSetElement {
             JsonNode childNode = entry.getValue();
 
             if (!childNode.isArray()) {
-                children.add(new JsonChangeSetElement(childName, childNode));
+                children.add(new JsonChangeLogElement(childName, childNode));
                 continue;
             }
             ObjectNode objectNode = JsonNodeFactory.instance.objectNode();
@@ -111,7 +111,7 @@ public class JsonChangeSetElement implements ChangeSetElement {
                     objectNode.set(fieldName, fieldValue);
                 });
             }
-            children.add(new JsonChangeSetElement(childName, objectNode));
+            children.add(new JsonChangeLogElement(childName, objectNode));
         }
         return children;
     }
@@ -144,13 +144,13 @@ public class JsonChangeSetElement implements ChangeSetElement {
      * @return list of properties with the provided name.
      */
     @Override
-    public List<ChangeSetElement> findElementsByName(final ChangeSetElement root,
+    public List<ChangeLogElement> findElementsByName(final ChangeLogElement root,
                                                      final String propertyName) {
-        List<ChangeSetElement> result = new ArrayList<>();
+        List<ChangeLogElement> result = new ArrayList<>();
         if (root.getName().equals(propertyName)) {
             result.add(root);
         }
-        for (ChangeSetElement child : root.getChildren()) {
+        for (ChangeLogElement child : root.getChildren()) {
             result.addAll(findElementsByName(child, propertyName));
         }
         return result;

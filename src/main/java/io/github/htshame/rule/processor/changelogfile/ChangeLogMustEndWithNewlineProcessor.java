@@ -1,4 +1,4 @@
-package io.github.htshame.rule.processor.changelog;
+package io.github.htshame.rule.processor.changelogfile;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogRuleProcessingException;

@@ -1,4 +1,4 @@
-package io.github.htshame.rule.processor.changelog;
+package io.github.htshame.rule.processor.changelogfile;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
+import static io.github.htshame.util.ErrorMessageUtil.getChangeLogFileErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
@@ -80,7 +80,7 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogFileRule {
                         linesLimit,
                         getName().getValue()
                 };
-                String errorMessage = getErrorMessage(
+                String errorMessage = getChangeLogFileErrorMessage(
                         getName(),
                         messageArguments);
                 throw new ValidationException(errorMessage);

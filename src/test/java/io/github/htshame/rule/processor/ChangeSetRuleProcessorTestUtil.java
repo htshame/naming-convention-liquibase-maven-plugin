@@ -1,6 +1,6 @@
 package io.github.htshame.rule.processor;
 
-import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
@@ -58,7 +58,7 @@ public class ChangeSetRuleProcessorTestUtil {
         return (Element) ruleNodes.item(0);
     }
 
-    protected List<ChangeSetElement> parseChangeSetFile(final String filePath,
+    protected List<ChangeLogElement> parseChangeSetFile(final String filePath,
                                                         final ChangeLogFormatEnum format)
             throws ChangeLogParseException {
         File changeLogFile = new File(filePath);

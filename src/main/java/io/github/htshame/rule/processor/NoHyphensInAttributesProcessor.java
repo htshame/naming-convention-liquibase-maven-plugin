@@ -1,12 +1,13 @@
 package io.github.htshame.rule.processor;
 
-import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.parser.rule.ChangeSetRule;
+import io.github.htshame.util.ErrorMessageUtil;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.RuleUtil.EXCLUDED_ATTRIBUTES;
 import static io.github.htshame.util.RuleUtil.isExcludedByAncestorTag;
 import static io.github.htshame.util.RuleUtil.shouldCollectValuesRuleListFormat;
@@ -66,7 +66,7 @@ public class NoHyphensInAttributesProcessor implements ChangeSetRule {
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validateChangeSet(final ChangeSetElement changeSetElement,
+    public void validateChangeSet(final ChangeLogElement changeSetElement,
                                   final ExclusionParser exclusionParser,
                                   final String changeLogFileName,
                                   final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
@@ -117,7 +117,7 @@ public class NoHyphensInAttributesProcessor implements ChangeSetRule {
      * @param errors          - list of errors.
      * @return list of errors.
      */
-    private List<String> validateElement(final ChangeSetElement element,
+    private List<String> validateElement(final ChangeLogElement element,
                                          final ChangeLogFormatEnum changeLogFormat,
                                          final List<String> errors) {
         Map<String, String> attributes = element.getProperties();
@@ -135,7 +135,7 @@ public class NoHyphensInAttributesProcessor implements ChangeSetRule {
                         element.getName(),
                         attrValue
                 };
-                String errorMessage = getErrorMessage(
+                String errorMessage = ErrorMessageUtil.getChangeSetErrorMessage(
                         getName(),
                         changeLogFormat,
                         messageArguments);
@@ -143,8 +143,8 @@ public class NoHyphensInAttributesProcessor implements ChangeSetRule {
             }
         }
 
-        List<ChangeSetElement> children = element.getChildren();
-        for (ChangeSetElement child : children) {
+        List<ChangeLogElement> children = element.getChildren();
+        for (ChangeLogElement child : children) {
             boolean isElementExcluded = isExcludedByAncestorTag(child);
             if (isElementExcluded) {
                 continue;

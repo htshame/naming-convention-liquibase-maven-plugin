@@ -1,6 +1,6 @@
 package io.github.htshame.rule.processor.json;
 
-import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;
@@ -61,7 +61,7 @@ public class AttrEndsWithProcessorJsonTest extends ChangeSetRuleProcessorTestUti
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 CHANGELOG_FORMAT);
         int exceptionCount = 0;
@@ -83,7 +83,7 @@ public class AttrEndsWithProcessorJsonTest extends ChangeSetRuleProcessorTestUti
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 AttrEndsWithProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
@@ -111,7 +111,7 @@ public class AttrEndsWithProcessorJsonTest extends ChangeSetRuleProcessorTestUti
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 CHANGELOG_FORMAT);
         int exceptionCount = 0;
@@ -133,7 +133,7 @@ public class AttrEndsWithProcessorJsonTest extends ChangeSetRuleProcessorTestUti
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 AttrEndsWithProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
@@ -161,7 +161,7 @@ public class AttrEndsWithProcessorJsonTest extends ChangeSetRuleProcessorTestUti
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 CHANGELOG_FORMAT);
         int exceptionCount = 0;
@@ -177,7 +177,7 @@ public class AttrEndsWithProcessorJsonTest extends ChangeSetRuleProcessorTestUti
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 AttrEndsWithProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
@@ -205,7 +205,7 @@ public class AttrEndsWithProcessorJsonTest extends ChangeSetRuleProcessorTestUti
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogSuccessFile(),
                 CHANGELOG_FORMAT);
         boolean isExceptionThrown = false;
@@ -213,7 +213,7 @@ public class AttrEndsWithProcessorJsonTest extends ChangeSetRuleProcessorTestUti
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 AttrEndsWithProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,

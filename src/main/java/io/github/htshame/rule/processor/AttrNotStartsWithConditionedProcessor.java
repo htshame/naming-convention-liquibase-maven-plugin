@@ -1,12 +1,13 @@
 package io.github.htshame.rule.processor;
 
-import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.parser.rule.ChangeSetRule;
+import io.github.htshame.util.ErrorMessageUtil;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
@@ -112,17 +112,17 @@ public class AttrNotStartsWithConditionedProcessor implements ChangeSetRule {
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validateChangeSet(final ChangeSetElement changeSetElement,
+    public void validateChangeSet(final ChangeLogElement changeSetElement,
                                   final ExclusionParser exclusionParser,
                                   final String changeLogFileName,
                                   final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
         if (RuleUtil.shouldSkipProcessingRule(changeSetElement, exclusionParser, changeLogFileName, getName())) {
             return;
         }
-        List<ChangeSetElement> targetTagElementList = changeSetElement.findElementsByName(changeSetElement, tag);
+        List<ChangeLogElement> targetTagElementList = changeSetElement.findElementsByName(changeSetElement, tag);
         List<String> errors = new ArrayList<>();
 
-        for (ChangeSetElement targetTagElement : targetTagElementList) {
+        for (ChangeLogElement targetTagElement : targetTagElementList) {
             if (!conditionValue.equals(targetTagElement.getPropertyValue(conditionAttr))) {
                 continue;
             }
@@ -140,7 +140,7 @@ public class AttrNotStartsWithConditionedProcessor implements ChangeSetRule {
                         forbiddenPrefix,
                         targetAttrActualValue
                 };
-                String errorMessage = getErrorMessage(
+                String errorMessage = ErrorMessageUtil.getChangeSetErrorMessage(
                         getName(),
                         changeLogFormat,
                         messageArguments);

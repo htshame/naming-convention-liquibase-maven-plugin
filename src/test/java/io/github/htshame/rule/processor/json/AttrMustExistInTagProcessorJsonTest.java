@@ -1,6 +1,6 @@
 package io.github.htshame.rule.processor.json;
 
-import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogParseException;
@@ -61,7 +61,7 @@ public class AttrMustExistInTagProcessorJsonTest extends ChangeSetRuleProcessorT
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 CHANGELOG_FORMAT);
         int exceptionCount = 0;
@@ -79,7 +79,7 @@ public class AttrMustExistInTagProcessorJsonTest extends ChangeSetRuleProcessorT
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
@@ -107,7 +107,7 @@ public class AttrMustExistInTagProcessorJsonTest extends ChangeSetRuleProcessorT
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 CHANGELOG_FORMAT);
         int exceptionCount = 0;
@@ -125,7 +125,7 @@ public class AttrMustExistInTagProcessorJsonTest extends ChangeSetRuleProcessorT
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
@@ -153,7 +153,7 @@ public class AttrMustExistInTagProcessorJsonTest extends ChangeSetRuleProcessorT
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogFailureFile(),
                 CHANGELOG_FORMAT);
         int exceptionCount = 0;
@@ -167,7 +167,7 @@ public class AttrMustExistInTagProcessorJsonTest extends ChangeSetRuleProcessorT
         List<String> actualErrorMessages = new ArrayList<>();
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,
@@ -195,7 +195,7 @@ public class AttrMustExistInTagProcessorJsonTest extends ChangeSetRuleProcessorT
             ExclusionParserException,
             ChangeLogParseException {
         // arrange
-        List<ChangeSetElement> changeSetElements = parseChangeSetFile(
+        List<ChangeLogElement> changeSetElements = parseChangeSetFile(
                 getBaseUrlPathFormatted() + getChangelogSuccessFile(),
                 CHANGELOG_FORMAT);
         boolean isExceptionThrown = false;
@@ -203,7 +203,7 @@ public class AttrMustExistInTagProcessorJsonTest extends ChangeSetRuleProcessorT
         ExclusionParser exclusionParser = ExclusionParser.parseExclusions(new File(getExclusionEmptyUrl()));
 
         // act
-        for (ChangeSetElement changeSetElement : changeSetElements) {
+        for (ChangeLogElement changeSetElement : changeSetElements) {
             try {
                 AttrMustExistInTagProcessor.instantiate(ruleElement).validateChangeSet(
                         changeSetElement,

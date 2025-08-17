@@ -1,4 +1,4 @@
-package io.github.htshame.rule.processor.changelog;
+package io.github.htshame.rule.processor.changelogfile;
 
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
@@ -107,7 +107,7 @@ public class ChangeLogMustEndWithNewlineProcessorTest extends ChangeLogRuleProce
         // arrange
         Document ruleDocument = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
-                .parse(new File("src/test/resources/io/github/htshame/rule/processor/changelog/"
+                .parse(new File("src/test/resources/io/github/htshame/rule/processor/changelogfile/"
                         + RULE_ENUM.getValue() + "/" + RULE_ENUM.getValue() + "-rule-failure.xml"));
         NodeList ruleNodes = ruleDocument.getElementsByTagName(RuleStructureEnum.RULE.getValue());
         Element ruleElement = (Element) ruleNodes.item(0);

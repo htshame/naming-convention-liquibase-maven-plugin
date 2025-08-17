@@ -1,4 +1,4 @@
-package io.github.htshame.changeset.element;
+package io.github.htshame.change.element;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -12,18 +12,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * XML changeSet representation.
+ * XML changeLog element representation.
  */
-public class XmlChangeSetElement implements ChangeSetElement {
+public class XmlChangeLogElement implements ChangeLogElement {
 
     private final Element element;
 
     /**
      * Constructor.
      *
-     * @param element - XML element containing the changeSet.
+     * @param element - XML element containing the changeLog element.
      */
-    public XmlChangeSetElement(final Element element) {
+    public XmlChangeLogElement(final Element element) {
         this.element = element;
     }
 
@@ -65,14 +65,14 @@ public class XmlChangeSetElement implements ChangeSetElement {
      * @return list of child elements.
      */
     @Override
-    public List<ChangeSetElement> getChildren() {
+    public List<ChangeLogElement> getChildren() {
         NodeList childNodes = element.getChildNodes();
-        List<ChangeSetElement> children = new ArrayList<>();
+        List<ChangeLogElement> children = new ArrayList<>();
         for (int i = 0; i < childNodes.getLength(); i++) {
             Node n = childNodes.item(i);
             if (n instanceof Element) {
                 Element e = (Element) n;
-                children.add(new XmlChangeSetElement(e));
+                children.add(new XmlChangeLogElement(e));
             }
         }
         return children;
@@ -102,20 +102,20 @@ public class XmlChangeSetElement implements ChangeSetElement {
      * @return list of elements with the provided name.
      */
     @Override
-    public List<ChangeSetElement> findElementsByName(final ChangeSetElement root,
+    public List<ChangeLogElement> findElementsByName(final ChangeLogElement root,
                                                      final String name) {
-        List<ChangeSetElement> result = new ArrayList<>();
+        List<ChangeLogElement> result = new ArrayList<>();
         traverse(root, name, result);
         return result;
     }
 
-    private void traverse(final ChangeSetElement changeSetElement,
+    private void traverse(final ChangeLogElement changeLogElement,
                           final String name,
-                          final List<ChangeSetElement> result) {
-        if (name.equals(changeSetElement.getName())) {
-            result.add(changeSetElement);
+                          final List<ChangeLogElement> result) {
+        if (name.equals(changeLogElement.getName())) {
+            result.add(changeLogElement);
         }
-        for (ChangeSetElement child : changeSetElement.getChildren()) {
+        for (ChangeLogElement child : changeLogElement.getChildren()) {
             traverse(child, name, result);
         }
     }

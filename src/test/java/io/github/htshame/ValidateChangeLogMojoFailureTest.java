@@ -102,7 +102,7 @@ public class ValidateChangeLogMojoFailureTest {
         } catch (MojoExecutionException e) {
             // assert
             isExceptionThrown = true;
-            assertEquals("Validation failed: 2 violation(s) found.", e.getMessage());
+            assertEquals("Validation failed: 3 violation(s) found.", e.getMessage());
         }
         assertTrue(isExceptionThrown);
     }

@@ -7,22 +7,21 @@ import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.rule.Rule;
 
 /**
- * Interface for changeSet rule handling.
+ * Interface for changeLog rule handling.
  */
-public interface ChangeSetRule extends Rule {
+public interface ChangeLogRule extends Rule {
 
     /**
-     * Validates the changeSet against the rule which implements {@link ChangeSetRule}.
+     * Validates the changeLog against the rule which implements {@link ChangeLogRule}.
      *
-     * @param changeSetElement  - changeSet.
+     * @param changeLogElements - changeLog elements excluding changeSets.
      * @param exclusionParser   - exclusion parser.
      * @param changeLogFileName - changeLog file name.
      * @param changeLogFormat   - changeLog format.
      * @throws ValidationException - thrown if validation fails.
      */
-    void validateChangeSet(ChangeLogElement changeSetElement,
+    void validateChangeLog(ChangeLogElement changeLogElements,
                            ExclusionParser exclusionParser,
                            String changeLogFileName,
                            ChangeLogFormatEnum changeLogFormat) throws ValidationException;
-
 }

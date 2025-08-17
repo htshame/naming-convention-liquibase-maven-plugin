@@ -1,12 +1,13 @@
 package io.github.htshame.rule.processor;
 
-import io.github.htshame.changeset.element.ChangeSetElement;
+import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.parser.rule.ChangeSetRule;
+import io.github.htshame.util.ErrorMessageUtil;
 import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static io.github.htshame.util.ErrorMessageUtil.getErrorMessage;
 import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 
 /**
@@ -86,7 +86,7 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
      * @throws ValidationException - thrown if validation fails.
      */
     @Override
-    public void validateChangeSet(final ChangeSetElement changeSetElement,
+    public void validateChangeSet(final ChangeLogElement changeSetElement,
                                   final ExclusionParser exclusionParser,
                                   final String changeLogFileName,
                                   final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
@@ -103,7 +103,7 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
         }
     }
 
-    private void validateElement(final ChangeSetElement element,
+    private void validateElement(final ChangeLogElement element,
                                  final ChangeLogFormatEnum changeLogFormat,
                                  final List<String> errors) {
         if (tag.equals(element.getName())) {
@@ -114,14 +114,14 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
                         requiredAttribute
                 };
                 errors.add(
-                        getErrorMessage(
+                        ErrorMessageUtil.getChangeSetErrorMessage(
                                 getName(),
                                 changeLogFormat,
                                 messageArguments));
             }
         }
 
-        for (ChangeSetElement child : element.getChildren()) {
+        for (ChangeLogElement child : element.getChildren()) {
             validateElement(child, changeLogFormat, errors);
         }
     }

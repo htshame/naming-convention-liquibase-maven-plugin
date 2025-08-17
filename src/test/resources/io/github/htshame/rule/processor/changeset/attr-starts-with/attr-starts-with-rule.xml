@@ -1,0 +1,10 @@
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
+
+    <rule name="attr-starts-with">
+        <tag>createIndex</tag>
+        <targetAttr>indexName</targetAttr>
+        <requiredPrefix>idx_</requiredPrefix>
+    </rule>
+</rules>
+

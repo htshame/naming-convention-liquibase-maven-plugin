@@ -16,23 +16,19 @@ import static io.github.htshame.util.ErrorMessageUtil.validationErrorMessage;
 import static io.github.htshame.util.RuleUtil.getText;
 
 /**
- * Business logic for the <code>changelog-file-name-must-match-regexp</code> rule.
+ * Business logic for the <code>tag-must-not-exist-in-changelog</code> rule.
  * <p>
- * Checks that the changeLog file matches the provided regexp.
+ * Checks that the specified changeLog file does not contain the specified tag.
  * </p>
  * <p>Example:</p>
  * <p>Rule configuration:</p>
  * <pre><code>
- * &lt;rule name="changelog-file-name-must-match-regexp"&gt;
- *     &lt;fileNameRegexp&gt;^changeLog_\d+\.(xml|json|ya?ml)$&lt;/fileNameRegexp&gt;
- *     &lt;excludedFileNames&gt;
- *         &lt;fileName&gt;changelog-master.xml&lt;/fileName&gt;
- *         &lt;fileName&gt;changeLog22.xml&lt;/fileName&gt;
- *     &lt;/excludedFileNames&gt;
+ * &lt;rule name="tag-must-not-exist-in-changelog"&gt;
+ *     &lt;tag&gt;include&lt;/tag&gt;
+ *     &lt;targetFileName&gt;changelog-master.xml&lt;/targetFileName&gt;
  * &lt;/rule&gt;
  * </code></pre>
- * <p>This will verify that the changeLog file matches the provided regexp, excluding file names provided in
- * <code>excludedFileNames</code>.</p>
+ * <p>This will verify that changeLog file 'changelog-master.xml' does not contain tag 'include'.</p>
  */
 public class TagMustNotExistInChangeLogProcessor implements ChangeLogRule {
 
@@ -97,5 +93,4 @@ public class TagMustNotExistInChangeLogProcessor implements ChangeLogRule {
     public RuleEnum getName() {
         return RuleEnum.TAG_MUST_NOT_EXIST_IN_CHANGELOG;
     }
-
 }

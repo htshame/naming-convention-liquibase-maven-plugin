@@ -1,25 +1,25 @@
 package io.github.htshame.parser.rule;
 
 import io.github.htshame.enums.RuleEnum;
-import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
-import io.github.htshame.rule.processor.AttrEndsWithProcessor;
-import io.github.htshame.rule.processor.AttrMustExistInTagProcessor;
-import io.github.htshame.rule.processor.AttrNotEndsWithConditionedProcessor;
-import io.github.htshame.rule.processor.AttrNotStartsWithConditionedProcessor;
-import io.github.htshame.rule.processor.AttrStartsWithConditionedProcessor;
-import io.github.htshame.rule.processor.AttrStartsWithProcessor;
-import io.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
-import io.github.htshame.rule.processor.NoLowercaseInAttributesProcessor;
-import io.github.htshame.rule.processor.NoSpacesInAttributesProcessor;
-import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
-import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
-import io.github.htshame.rule.processor.TagMustExistProcessor;
 import io.github.htshame.rule.processor.changelog.TagMustNotExistInChangeLogProcessor;
 import io.github.htshame.rule.processor.changelogfile.ChangeLogFileLinesLimitProcessor;
 import io.github.htshame.rule.processor.changelogfile.ChangeLogFileMustMatchRegexpProcessor;
 import io.github.htshame.rule.processor.changelogfile.ChangeLogMustEndWithNewlineProcessor;
 import io.github.htshame.rule.processor.changelogfile.NoTabsInChangeLogProcessor;
 import io.github.htshame.rule.processor.changelogfile.NoTrailingSpacesInChangeLogProcessor;
+import io.github.htshame.rule.processor.changeset.AttrEndsWithConditionedProcessor;
+import io.github.htshame.rule.processor.changeset.AttrEndsWithProcessor;
+import io.github.htshame.rule.processor.changeset.AttrMustExistInTagProcessor;
+import io.github.htshame.rule.processor.changeset.AttrNotEndsWithConditionedProcessor;
+import io.github.htshame.rule.processor.changeset.AttrNotStartsWithConditionedProcessor;
+import io.github.htshame.rule.processor.changeset.AttrStartsWithConditionedProcessor;
+import io.github.htshame.rule.processor.changeset.AttrStartsWithProcessor;
+import io.github.htshame.rule.processor.changeset.NoHyphensInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.NoLowercaseInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.NoSpacesInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.NoUnderscoresInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.NoUppercaseInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.TagMustExistProcessor;
 
 import java.util.EnumMap;
 

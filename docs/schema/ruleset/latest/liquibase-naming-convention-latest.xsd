@@ -62,6 +62,12 @@
                         <xs:attribute name="rule" type="ExclusionType" use="required"/>
                     </xs:complexType>
                 </xs:element>
+                <xs:element name="changeLogExclusion" maxOccurs="unbounded" minOccurs="0">
+                    <xs:complexType>
+                        <xs:attribute name="fileName" type="xs:string" use="required"/>
+                        <xs:attribute name="rule" type="ExclusionType" use="required"/>
+                    </xs:complexType>
+                </xs:element>
                 <xs:element name="changeSetExclusion" maxOccurs="unbounded" minOccurs="0">
                     <xs:complexType>
                         <xs:attribute name="fileName" type="xs:string" use="required"/>

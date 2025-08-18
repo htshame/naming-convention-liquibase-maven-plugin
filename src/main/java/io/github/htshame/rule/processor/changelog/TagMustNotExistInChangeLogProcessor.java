@@ -7,6 +7,7 @@ import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.parser.rule.ChangeLogRule;
+import io.github.htshame.util.RuleUtil;
 import org.w3c.dom.Element;
 
 import java.util.Objects;
@@ -60,6 +61,9 @@ public class TagMustNotExistInChangeLogProcessor implements ChangeLogRule {
                                   final ExclusionParser exclusionParser,
                                   final String fileName,
                                   final ChangeLogFormatEnum changeLogFormat) throws ValidationException {
+        if (RuleUtil.shouldSkipProcessingRule(exclusionParser, fileName, getName())) {
+            return;
+        }
         if (targetFileName.equals(fileName) && forbiddenTag.equals(changeLogElements.getName())) {
             Object[] messageArguments = {
                     forbiddenTag

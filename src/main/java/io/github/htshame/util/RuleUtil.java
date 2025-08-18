@@ -82,6 +82,22 @@ public final class RuleUtil {
     }
 
     /**
+     * Check whether the changeLog should be processed.
+     *
+     * @param exclusionParser   - exclusion parser.
+     * @param changeLogFileName - changeLog file name.
+     * @param ruleName          - rule name.
+     * @return <code>true</code> if yes. <code>false</code> if not.
+     */
+    public static boolean shouldSkipProcessingRule(final ExclusionParser exclusionParser,
+                                                   final String changeLogFileName,
+                                                   final RuleEnum ruleName) {
+        return exclusionParser.isChangeLogExcluded(
+                changeLogFileName,
+                ruleName);
+    }
+
+    /**
      * Compose error message for changeSet.
      *
      * @param changeSetElement - changeSet element.

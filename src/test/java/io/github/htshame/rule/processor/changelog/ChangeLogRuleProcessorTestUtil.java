@@ -55,7 +55,7 @@ public class ChangeLogRuleProcessorTestUtil {
         Document ruleDocument = DocumentBuilderFactory.newInstance()
                 .newDocumentBuilder()
                 .parse(new File(baseFilePath + "/" + format.name().toLowerCase() + "/"
-                        + ruleName.getValue().toLowerCase() +  "-" + type + "-rule." + format.name().toLowerCase()));
+                        + ruleName.getValue().toLowerCase() + "-" + type + "-rule.xml"));
         NodeList ruleNodes = ruleDocument.getElementsByTagName(RuleStructureEnum.RULE.getValue());
         return (Element) ruleNodes.item(0);
     }

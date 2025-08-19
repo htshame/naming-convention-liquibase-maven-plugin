@@ -28,8 +28,9 @@ public final class RuleValidatorFactory {
     public static Collection<RuleValidator> instantiate(final Set<Rule> rules) {
 
         EnumMap<RuleTypeEnum, RuleValidator> validatorMap = new EnumMap<>(RuleTypeEnum.class);
-        validatorMap.put(RuleTypeEnum.CHANGE_LOG_RULE, new ChangeLogRuleValidator());
+        validatorMap.put(RuleTypeEnum.CHANGE_LOG_FILE_RULE, new ChangeLogFileRuleValidator());
         validatorMap.put(RuleTypeEnum.CHANGE_SET_RULE, new ChangeSetRuleValidator());
+        validatorMap.put(RuleTypeEnum.CHANGE_LOG_RULE, new ChangeLogRuleValidator());
 
         for (Rule rule : rules) {
             validatorMap.get(rule.getName().getType()).addRule(rule);

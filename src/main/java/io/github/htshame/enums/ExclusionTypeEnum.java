@@ -11,7 +11,11 @@ public enum ExclusionTypeEnum {
     /**
      * Exclusion applied to changeSet.
      */
-    CHANGESET_EXCLUSION("changeSetExclusion");
+    CHANGESET_EXCLUSION("changeSetExclusion"),
+    /**
+     * Exclusion applied to changeLog.
+     */
+    CHANGELOG_EXCLUSION("changeLogExclusion");
 
     private final String type;
 

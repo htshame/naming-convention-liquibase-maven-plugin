@@ -1,5 +1,5 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.12/liquibase-naming-convention-2.12.xsd">
+       xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/3.0/liquibase-naming-convention-3.0.xsd">
 
     <!--
     Checks that 'comment' tag exists in every changeSet.
@@ -202,4 +202,12 @@
     Checks that changeLog file ends with a newline character.
     -->
     <rule name="changelog-must-end-with-newline"/>
+
+    <!--
+    Checks that the specified changeLog file does not contain the specified tag.
+    -->
+    <rule name="tag-must-not-exist-in-changelog">
+        <tag>includeAll</tag>
+        <targetFileName>changelog-master.xml</targetFileName>
+    </rule>
 </rules>

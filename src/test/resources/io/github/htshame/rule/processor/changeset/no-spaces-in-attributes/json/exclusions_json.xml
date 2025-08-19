@@ -1,0 +1,5 @@
+<exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="../../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
+    <changeSetExclusion fileName="no-spaces-in-attributes-failure.json" changeSetId="changelog_02_3"
+                        changeSetAuthor="test" rule="no-spaces-in-attributes"/>
+</exclusions>

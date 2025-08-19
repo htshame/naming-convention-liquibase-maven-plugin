@@ -1,7 +1,0 @@
-<exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
-    <changeSetExclusion fileName="attr-not-starts-with-conditioned-failure.yaml" changeSetId="changelog_02_3"
-                        changeSetAuthor="test" rule="tag-must-exist"/>
-    <changeSetExclusion fileName="attr-not-starts-with-conditioned-failure.yaml" changeSetId="changelog_02_3"
-                        changeSetAuthor="test" rule="tag-must-exist"/>
-</exclusions>

@@ -1,0 +1,16 @@
+{
+  "databaseChangeLog": [
+    {
+      "includeAll": {
+        "file": "changelog/changelog_01.json",
+        "relativeToChangelogFile": true
+      }
+    },
+    {
+      "includeAll": {
+        "file": "changelog/changelog_02.json",
+        "relativeToChangelogFile": true
+      }
+    }
+  ]
+}

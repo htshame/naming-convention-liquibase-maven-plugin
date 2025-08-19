@@ -30,7 +30,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>2.12</version>
+        <version>3.0</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -77,6 +77,7 @@ This plugin allows you to create a set of rules and enforce them.
 1. [no-tabs-in-changelog](#no-tabs-in-changelog)
 1. [no-trailing-spaces-in-changelog](#no-trailing-spaces-in-changelog)
 1. [changelog-must-end-with-newline](#changelog-must-end-with-newline)
+1. [tag-must-not-exist-in-changelog](#tag-must-not-exist-in-changelog)
 
 ---
 
@@ -415,6 +416,23 @@ Will check that file ends with a newline character.
 
 ---
 
+### tag-must-not-exist-in-changelog
+
+Checks that the specified changeLog does not contain the specified tag.
+
+Example:
+
+```xml
+<rule name="tag-must-not-exist-in-changelog">
+    <tag>includeAll</tag>
+    <targetFileName>changelog-master.xml</targetFileName>
+</rule>
+```
+
+Will check that file `changelog-master.xml` does not contain `includeAll` tags.
+
+---
+
 ## Exclusions
 
 You can always add an exclusion to the set of rules. Create a separate `exclusions.xml` (or give it another name).
@@ -422,6 +440,7 @@ You can always add an exclusion to the set of rules. Create a separate `exclusio
 ### Available exclusions:
 
 1. [exclude a specific rule for a given file](#exclude-a-specific-rule-for-a-given-file)
+1. [exclude a specific rule for a given changeLog](#exclude-a-specific-rule-for-a-given-changeLog)
 1. [exclude all rules for a given file](#exclude-all-rules-for-a-given-file)
 1. [exclude a specific rule for a specific changeSet](#exclude-a-specific-rule-for-a-specific-changeSet)
 1. [exclude all rules for a specific changeSet](#exclude-all-rules-for-a-specific-changeSet)
@@ -437,6 +456,18 @@ To exclude the provided rule for the provided file use:
 ```
 
 Rule `no-underscores-in-attributes` will not be applied to `changelog_01.xml`.
+
+---
+
+### exclude a specific rule for a given changeLog
+
+To exclude the provided rule for the provided changeLog use:
+
+```xml
+<changeLogExclusion fileName="changelog-master.xml" rule="tag-must-not-exist-in-changelog"/>
+```
+
+Rule `tag-must-not-exist-in-changelog` will not be applied to `changelog-master.xml`.
 
 ---
 

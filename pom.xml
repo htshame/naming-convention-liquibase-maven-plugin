@@ -4,7 +4,7 @@
 
     <groupId>io.github.htshame</groupId>
     <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-    <version>2.12</version>
+    <version>3.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -45,14 +45,14 @@
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- dependencies versions -->
+        <!-- dependency versions -->
         <maven-plugin.api.version>3.9.10</maven-plugin.api.version>
         <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
         <jackson-dataformat-yaml.version>2.19.1</jackson-dataformat-yaml.version>
         <junit.version>4.13.2</junit.version>
         <org.snakeyaml.version>2.4</org.snakeyaml.version>
         <jackson-databind.version>2.19.1</jackson-databind.version>
-        <!-- dependencies versions -->
+        <!-- dependency versions -->
 
         <!-- plugin versions -->
         <maven-plugin-plugin.version>3.13.1</maven-plugin-plugin.version>

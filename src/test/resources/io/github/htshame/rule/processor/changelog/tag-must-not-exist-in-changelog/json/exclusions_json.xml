@@ -1,0 +1,4 @@
+<exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="../../../../../../../../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
+    <changeLogExclusion fileName="tag-must-not-exist-in-changelog-failure.json" rule="tag-must-not-exist-in-changelog"/>
+</exclusions>

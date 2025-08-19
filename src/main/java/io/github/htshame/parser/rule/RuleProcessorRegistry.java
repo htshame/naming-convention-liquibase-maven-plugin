@@ -1,24 +1,25 @@
 package io.github.htshame.parser.rule;
 
 import io.github.htshame.enums.RuleEnum;
-import io.github.htshame.rule.processor.AttrEndsWithConditionedProcessor;
-import io.github.htshame.rule.processor.AttrEndsWithProcessor;
-import io.github.htshame.rule.processor.AttrMustExistInTagProcessor;
-import io.github.htshame.rule.processor.AttrNotEndsWithConditionedProcessor;
-import io.github.htshame.rule.processor.AttrNotStartsWithConditionedProcessor;
-import io.github.htshame.rule.processor.AttrStartsWithConditionedProcessor;
-import io.github.htshame.rule.processor.AttrStartsWithProcessor;
-import io.github.htshame.rule.processor.NoHyphensInAttributesProcessor;
-import io.github.htshame.rule.processor.NoLowercaseInAttributesProcessor;
-import io.github.htshame.rule.processor.NoSpacesInAttributesProcessor;
-import io.github.htshame.rule.processor.NoUnderscoresInAttributesProcessor;
-import io.github.htshame.rule.processor.NoUppercaseInAttributesProcessor;
-import io.github.htshame.rule.processor.TagMustExistProcessor;
-import io.github.htshame.rule.processor.changelog.ChangeLogFileLinesLimitProcessor;
-import io.github.htshame.rule.processor.changelog.ChangeLogFileMustMatchRegexpProcessor;
-import io.github.htshame.rule.processor.changelog.ChangeLogMustEndWithNewlineProcessor;
-import io.github.htshame.rule.processor.changelog.NoTabsInChangeLogProcessor;
-import io.github.htshame.rule.processor.changelog.NoTrailingSpacesInChangeLogProcessor;
+import io.github.htshame.rule.processor.changelog.TagMustNotExistInChangeLogProcessor;
+import io.github.htshame.rule.processor.changelogfile.ChangeLogFileLinesLimitProcessor;
+import io.github.htshame.rule.processor.changelogfile.ChangeLogFileMustMatchRegexpProcessor;
+import io.github.htshame.rule.processor.changelogfile.ChangeLogMustEndWithNewlineProcessor;
+import io.github.htshame.rule.processor.changelogfile.NoTabsInChangeLogProcessor;
+import io.github.htshame.rule.processor.changelogfile.NoTrailingSpacesInChangeLogProcessor;
+import io.github.htshame.rule.processor.changeset.AttrEndsWithConditionedProcessor;
+import io.github.htshame.rule.processor.changeset.AttrEndsWithProcessor;
+import io.github.htshame.rule.processor.changeset.AttrMustExistInTagProcessor;
+import io.github.htshame.rule.processor.changeset.AttrNotEndsWithConditionedProcessor;
+import io.github.htshame.rule.processor.changeset.AttrNotStartsWithConditionedProcessor;
+import io.github.htshame.rule.processor.changeset.AttrStartsWithConditionedProcessor;
+import io.github.htshame.rule.processor.changeset.AttrStartsWithProcessor;
+import io.github.htshame.rule.processor.changeset.NoHyphensInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.NoLowercaseInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.NoSpacesInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.NoUnderscoresInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.NoUppercaseInAttributesProcessor;
+import io.github.htshame.rule.processor.changeset.TagMustExistProcessor;
 
 import java.util.EnumMap;
 
@@ -31,6 +32,12 @@ public final class RuleProcessorRegistry {
      * Map of changeSet rule processors, each mapped to the corresponding {@link RuleEnum}.
      */
     private static final EnumMap<RuleEnum, RuleFactory<ChangeSetRule>> CHANGE_SET_RULE_MAP
+            = new EnumMap<>(RuleEnum.class);
+
+    /**
+     * Map of changeLog file rule processors, each mapped to the corresponding {@link RuleEnum}.
+     */
+    private static final EnumMap<RuleEnum, RuleFactory<ChangeLogFileRule>> CHANGE_LOG_FILE_RULE_MAP
             = new EnumMap<>(RuleEnum.class);
 
     /**
@@ -67,16 +74,19 @@ public final class RuleProcessorRegistry {
         CHANGE_SET_RULE_MAP.put(
                 RuleEnum.NO_SPACES_IN_ATTRIBUTES, NoSpacesInAttributesProcessor::instantiate);
 
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, ChangeLogFileMustMatchRegexpProcessor::instantiate);
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.CHANGELOG_FILE_LINES_LIMIT, ChangeLogFileLinesLimitProcessor::instantiate);
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.NO_TABS_IN_CHANGELOG, NoTabsInChangeLogProcessor::instantiate);
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.NO_TRAILING_SPACES_IN_CHANGELOG, NoTrailingSpacesInChangeLogProcessor::instantiate);
-        CHANGE_LOG_RULE_MAP.put(
+        CHANGE_LOG_FILE_RULE_MAP.put(
                 RuleEnum.CHANGELOG_MUST_END_WITH_NEWLINE, ChangeLogMustEndWithNewlineProcessor::instantiate);
+
+        CHANGE_LOG_RULE_MAP.put(
+                RuleEnum.TAG_MUST_NOT_EXIST_IN_CHANGELOG, TagMustNotExistInChangeLogProcessor::instantiate);
     }
 
     /**
@@ -87,7 +97,7 @@ public final class RuleProcessorRegistry {
     }
 
     /**
-     * Get changeSet rule factory by rule.
+     * Get changeSet rule processor by rule.
      *
      * @param ruleEnum - rule.
      * @return corresponding processor.
@@ -97,10 +107,20 @@ public final class RuleProcessorRegistry {
     }
 
     /**
-     * Get changeLog rule factory by rule.
+     * Get changeLog file rule processor by rule.
      *
      * @param ruleEnum - rule.
      * @return corresponding processor.
+     */
+    public static RuleFactory<ChangeLogFileRule> getChangeLogFileRuleFactory(final RuleEnum ruleEnum) {
+        return CHANGE_LOG_FILE_RULE_MAP.get(ruleEnum);
+    }
+
+    /**
+     * Get changeLog rule processor by rule.
+     *
+     * @param ruleEnum - rule.
+     * @return corresponding processor
      */
     public static RuleFactory<ChangeLogRule> getChangeLogRuleFactory(final RuleEnum ruleEnum) {
         return CHANGE_LOG_RULE_MAP.get(ruleEnum);

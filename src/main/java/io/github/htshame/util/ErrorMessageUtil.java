@@ -18,9 +18,15 @@ public final class ErrorMessageUtil {
             new EnumMap<>(RuleEnum.class);
 
     /**
+     * Map of changeLog file rules and error messages.
+     */
+    private static final EnumMap<RuleEnum, String> CHANGE_LOG_FILE_RULE_ERROR_MAP = new EnumMap<>(RuleEnum.class);
+
+    /**
      * Map of changeLog rules and error messages.
      */
-    private static final EnumMap<RuleEnum, String> CHANGE_LOG_RULE_ERROR_MAP = new EnumMap<>(RuleEnum.class);
+    private static final EnumMap<RuleEnum, EnumMap<ChangeLogFormatEnum, String>> CHANGE_LOG_RULE_ERROR_MAP =
+            new EnumMap<>(RuleEnum.class);
 
     /**
      * Default constructor.
@@ -216,6 +222,20 @@ public final class ErrorMessageUtil {
         String changeLogFileLinesLimitError = "File [%s] has [%s] lines, longer than [%s] lines max. Rule [%s]";
         String noTabsInChangeLogError = "File [%s] must not contain tabs. Rule [%s]";
 
+        EnumMap<ChangeLogFormatEnum, String> tagMustNotExistInChangeLogMap = new EnumMap<>(ChangeLogFormatEnum.class);
+        tagMustNotExistInChangeLogMap.put(
+                ChangeLogFormatEnum.XML,
+                "Tag <%s> must not exist in change log");
+        tagMustNotExistInChangeLogMap.put(
+                ChangeLogFormatEnum.YAML,
+                "Key <%s> must not exist in change log");
+        tagMustNotExistInChangeLogMap.put(
+                ChangeLogFormatEnum.YML,
+                "Key <%s> must not exist in change log");
+        tagMustNotExistInChangeLogMap.put(
+                ChangeLogFormatEnum.JSON,
+                "Object <%s> must not exist in change log");
+
         CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH, attrEndsWithMap);
         CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_ENDS_WITH_CONDITIONED, attrEndsWithConditionedMap);
         CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_NOT_ENDS_WITH_CONDITIONED, attrNotEndsWithConditionedMap);
@@ -230,12 +250,14 @@ public final class ErrorMessageUtil {
         CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.TAG_MUST_EXIST, tagMustExistMap);
         CHANGE_SET_RULE_ERROR_MAP.put(RuleEnum.ATTRIBUTE_MUST_EXIST_IN_TAG, attrMustExistInTagMap);
 
-        CHANGE_LOG_RULE_ERROR_MAP.put(
+        CHANGE_LOG_FILE_RULE_ERROR_MAP.put(
                 RuleEnum.CHANGELOG_FILE_NAME_MUST_MATCH_REGEXP, changeLogFileNameMustMatchRegexpError);
-        CHANGE_LOG_RULE_ERROR_MAP.put(
+        CHANGE_LOG_FILE_RULE_ERROR_MAP.put(
                 RuleEnum.CHANGELOG_FILE_LINES_LIMIT, changeLogFileLinesLimitError);
-        CHANGE_LOG_RULE_ERROR_MAP.put(
+        CHANGE_LOG_FILE_RULE_ERROR_MAP.put(
                 RuleEnum.NO_TABS_IN_CHANGELOG, noTabsInChangeLogError);
+
+        CHANGE_LOG_RULE_ERROR_MAP.put(RuleEnum.TAG_MUST_NOT_EXIST_IN_CHANGELOG, tagMustNotExistInChangeLogMap);
     }
 
     /**
@@ -253,11 +275,23 @@ public final class ErrorMessageUtil {
     /**
      * Get changeLog error message.
      *
+     * @param ruleEnum            - rule.
+     * @param changeLogFormatEnum - changeLog format.
+     * @return error message.
+     */
+    private static String getChangeLogError(final RuleEnum ruleEnum,
+                                            final ChangeLogFormatEnum changeLogFormatEnum) {
+        return CHANGE_LOG_RULE_ERROR_MAP.get(ruleEnum).get(changeLogFormatEnum);
+    }
+
+    /**
+     * Get changeLog file error message.
+     *
      * @param ruleEnum - rule.
      * @return error message.
      */
-    private static String getChangeLogError(final RuleEnum ruleEnum) {
-        return CHANGE_LOG_RULE_ERROR_MAP.get(ruleEnum);
+    private static String getChangeLogFileError(final RuleEnum ruleEnum) {
+        return CHANGE_LOG_FILE_RULE_ERROR_MAP.get(ruleEnum);
     }
 
     /**
@@ -268,9 +302,9 @@ public final class ErrorMessageUtil {
      * @param arguments       - error message arguments.
      * @return formatted error message.
      */
-    public static String getErrorMessage(final RuleEnum rule,
-                                         final ChangeLogFormatEnum changeLogFormat,
-                                         final Object... arguments) {
+    public static String getChangeSetErrorMessage(final RuleEnum rule,
+                                                  final ChangeLogFormatEnum changeLogFormat,
+                                                  final Object... arguments) {
         return String.format(getChangeSetError(rule, changeLogFormat), arguments);
     }
 
@@ -278,12 +312,26 @@ public final class ErrorMessageUtil {
      * Get and format changeLog error message.
      *
      * @param rule            - rule.
+     * @param changeLogFormat - changeLog format.
      * @param arguments       - error message arguments.
      * @return formatted error message.
      */
-    public static String getErrorMessage(final RuleEnum rule,
-                                         final Object... arguments) {
-        return String.format(getChangeLogError(rule), arguments);
+    public static String getChangeLogErrorMessage(final RuleEnum rule,
+                                                  final ChangeLogFormatEnum changeLogFormat,
+                                                  final Object... arguments) {
+        return String.format(getChangeLogError(rule, changeLogFormat), arguments);
+    }
+
+    /**
+     * Get and format changeLog file error message.
+     *
+     * @param rule      - rule.
+     * @param arguments - error message arguments.
+     * @return formatted error message.
+     */
+    public static String getChangeLogFileErrorMessage(final RuleEnum rule,
+                                                      final Object... arguments) {
+        return String.format(getChangeLogFileError(rule), arguments);
     }
 
     /**

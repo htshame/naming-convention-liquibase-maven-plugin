@@ -4,6 +4,7 @@ import io.github.htshame.dto.ChangeSetExclusionDto;
 import io.github.htshame.enums.ExclusionTypeEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ExclusionParserException;
+import io.github.htshame.parser.exclusion.ChangeLogExclusionHandler;
 import io.github.htshame.parser.exclusion.ChangeSetExclusionHandler;
 import io.github.htshame.parser.exclusion.ExclusionHandler;
 import io.github.htshame.parser.exclusion.FileExclusionHandler;
@@ -13,7 +14,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +21,8 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+
+import static io.github.htshame.util.XmlUtil.newXmlDocumentBuilder;
 
 /**
  * This class parses the exclusions XML file.
@@ -44,6 +46,11 @@ public final class ExclusionParser {
     private final Map<ChangeSetExclusionDto, Set<RuleEnum>> changeSetRuleExclusions = new HashMap<>();
 
     /**
+     * Sets of excluded rules mapped by the excluded changeLog.
+     */
+    private final Map<String, Set<RuleEnum>> changeLogRuleExclusions = new HashMap<>();
+
+    /**
      * Exclusion type map.
      */
     private static final EnumMap<ExclusionTypeEnum, ExclusionHandler> EXCLUSION_TYPE_MAP =
@@ -52,6 +59,7 @@ public final class ExclusionParser {
     static {
         EXCLUSION_TYPE_MAP.put(ExclusionTypeEnum.FILE_EXCLUSION, new FileExclusionHandler());
         EXCLUSION_TYPE_MAP.put(ExclusionTypeEnum.CHANGESET_EXCLUSION, new ChangeSetExclusionHandler());
+        EXCLUSION_TYPE_MAP.put(ExclusionTypeEnum.CHANGELOG_EXCLUSION, new ChangeLogExclusionHandler());
     }
 
     /**
@@ -74,9 +82,7 @@ public final class ExclusionParser {
         }
         ExclusionParser parser = new ExclusionParser();
         try {
-            Document document = DocumentBuilderFactory.newInstance()
-                    .newDocumentBuilder()
-                    .parse(exclusionsFile);
+            Document document = newXmlDocumentBuilder().parse(exclusionsFile);
 
             NodeList elements = document.getDocumentElement().getChildNodes();
             for (int i = 0; i < elements.getLength(); i++) {
@@ -126,12 +132,34 @@ public final class ExclusionParser {
     }
 
     /**
+     * Check whether the rule is excluded or not for the given changeSet.
+     *
+     * @param changeLogFileName - changeLog file name.
+     * @param ruleName          - rule name.
+     * @return <code>true</code> if excluded, <code>false</code> if not excluded.
+     */
+    public boolean isChangeLogExcluded(final String changeLogFileName,
+                                       final RuleEnum ruleName) {
+        Set<RuleEnum> excludedRules = changeLogRuleExclusions.get(changeLogFileName);
+        return excludedRules != null && excludedRules.contains(ruleName);
+    }
+
+    /**
      * Get rule exclusions applied to files.
      *
      * @return rule exclusions applied to files.
      */
     public Map<String, Set<RuleEnum>> getFileRuleExclusions() {
         return fileRuleExclusions;
+    }
+
+    /**
+     * Get rule exclusions applied to changeLogs.
+     *
+     * @return rule exclusions applied to changeLogs.
+     */
+    public Map<String, Set<RuleEnum>> getChangeLogRuleExclusions() {
+        return changeLogRuleExclusions;
     }
 
     /**
@@ -142,5 +170,4 @@ public final class ExclusionParser {
     public Map<ChangeSetExclusionDto, Set<RuleEnum>> getChangeSetRuleExclusions() {
         return changeSetRuleExclusions;
     }
-
 }

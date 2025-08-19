@@ -1,6 +1,6 @@
 package io.github.htshame.util;
 
-import io.github.htshame.change.set.ChangeSetElement;
+import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.dto.ChangeSetAttributeDto;
 
 /**
@@ -41,7 +41,7 @@ public final class ChangeSetUtil {
      * @param element - element of the changeSet.
      * @return object with changeSet attributes.
      */
-    public static ChangeSetAttributeDto getAttributesFromAncestor(final ChangeSetElement element) {
+    public static ChangeSetAttributeDto getAttributesFromAncestor(final ChangeLogElement element) {
         if (CHANGE_SET_TAG_NAME.equals(element.getName())) {
             return new ChangeSetAttributeDto(
                     getAttributeValue(element, ID_ATTR_NAME),
@@ -57,7 +57,7 @@ public final class ChangeSetUtil {
      * @param attributeName - attribute name.
      * @return attribute value.
      */
-    private static String getAttributeValue(final ChangeSetElement element,
+    private static String getAttributeValue(final ChangeLogElement element,
                                             final String attributeName) {
         return element.getProperties().get(attributeName);
     }

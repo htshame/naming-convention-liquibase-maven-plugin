@@ -5,19 +5,20 @@ import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.enums.RuleTypeEnum;
 import io.github.htshame.exception.RuleInstantiationException;
 import io.github.htshame.exception.RuleParserException;
-import io.github.htshame.rule.Rule;
 import io.github.htshame.parser.rule.RuleFactory;
 import io.github.htshame.parser.rule.RuleProcessorRegistry;
+import io.github.htshame.rule.Rule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.function.Function;
+
+import static io.github.htshame.util.XmlUtil.newXmlDocumentBuilder;
 
 /**
  * Parses the rules XML file.
@@ -59,6 +60,7 @@ public final class RuleParser {
 
     static {
         RULE_MAP.put(RuleTypeEnum.CHANGE_SET_RULE, RuleProcessorRegistry::getChangeSetRuleFactory);
+        RULE_MAP.put(RuleTypeEnum.CHANGE_LOG_FILE_RULE, RuleProcessorRegistry::getChangeLogFileRuleFactory);
         RULE_MAP.put(RuleTypeEnum.CHANGE_LOG_RULE, RuleProcessorRegistry::getChangeLogRuleFactory);
     }
 
@@ -79,9 +81,7 @@ public final class RuleParser {
     public static List<Rule> parseRules(final File rulesetFile) {
         List<Rule> rules = new ArrayList<>();
         try {
-            Document document = DocumentBuilderFactory.newInstance()
-                    .newDocumentBuilder()
-                    .parse(rulesetFile);
+            Document document = newXmlDocumentBuilder().parse(rulesetFile);
             NodeList ruleNodes = document.getElementsByTagName(RuleStructureEnum.RULE.getValue());
             for (int i = 0; i < ruleNodes.getLength(); i++) {
                 Element ruleElement = (Element) ruleNodes.item(i);

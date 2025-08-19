@@ -90,7 +90,6 @@
         <property name="maximum" value="0"/>
         <property name="message" value="Line has trailing spaces."/>
     </module>
-
     <!-- Checks for Headers                                -->
     <!-- See https://checkstyle.org/checks/header/index.html   -->
     <!-- <module name="Header"> -->
@@ -99,6 +98,13 @@
     <!-- </module> -->
 
     <module name="TreeWalker">
+
+        <module name="EmptyLineSeparator">
+            <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
+            <property name="allowNoEmptyLineBetweenFields" value="true"/>
+            <property name="allowMultipleEmptyLines" value="false"/>
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF"/>
+        </module>
 
         <!-- Checks for Javadoc comments.                     -->
         <!-- See https://checkstyle.org/checks/javadoc/index.html -->

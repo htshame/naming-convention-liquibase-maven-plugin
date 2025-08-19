@@ -117,5 +117,10 @@
         <targetAttr>indexName</targetAttr>
         <forbiddenSuffix>_unique</forbiddenSuffix>
     </rule>
+
+    <rule name="tag-must-not-exist-in-changelog">
+        <tag>include</tag>
+        <targetFileName>changelog-master.xml</targetFileName>
+    </rule>
 </rules>
 

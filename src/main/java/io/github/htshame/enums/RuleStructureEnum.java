@@ -77,6 +77,10 @@ public enum RuleStructureEnum {
      */
     FILE_NAME("fileName"),
     /**
+     * Represents 'targetFileName' tag.
+     */
+    TARGET_FILE_NAME("targetFileName"),
+    /**
      * Represents 'linesLimit' tag.
      */
     LINES_LIMIT("linesLimit");

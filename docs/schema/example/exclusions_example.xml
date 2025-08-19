@@ -1,5 +1,5 @@
 <exclusions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/2.12/liquibase-naming-convention-2.12.xsd">
+            xsi:noNamespaceSchemaLocation="https://htshame.github.io/naming-convention-liquibase-maven-plugin/schema/ruleset/3.0/liquibase-naming-convention-3.0.xsd">
 
     <!-- this makes 'tag-must-exist' rule not applicable to 'changelog_03.xml' file -->
     <fileExclusion fileName="changelog_03.xml"
@@ -22,4 +22,9 @@
      author='test' in file 'changelog_04.xml' -->
     <changeSetExclusion fileName="changelog_04.xml" changeSetId="changelog_04-1" changeSetAuthor="test"
                         rule="*"/>
+
+    <!-- this makes 'tag-must-not-exist-in-changelog' rule not applicable
+     to the changeLog file `changelog-master.xml`-->
+    <changeLogExclusion fileName="changelog-master.xml"
+                        rule="tag-must-not-exist-in-changelog"/>
 </exclusions>

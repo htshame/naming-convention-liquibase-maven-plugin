@@ -7,6 +7,13 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 3.0
+
+- Implement `tag-must-not-exist-in-changelog` rule
+- Implement `changeLogExclusion` exclusion
+
+---
+
 ## Version 2.12
 
 - Implement `changelog-must-end-with-newline` rule
@@ -33,15 +40,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 2.8
-
-- Implement `changelog-file-name-must-match-regexp` rule
-- Implement `changelog-file-lines-limit` rule
-
----
-
 ### Previous Releases
 
+- [3.0](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/3.0.md)
 - [2.12](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.12.md)
 - [2.11](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.11.md)
 - [2.10](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.10.md)

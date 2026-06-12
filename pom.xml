@@ -4,7 +4,7 @@
 
     <groupId>io.github.htshame</groupId>
     <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-    <version>3.0</version>
+    <version>3.1</version>
     <packaging>maven-plugin</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -21,7 +21,7 @@
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
 
@@ -46,12 +46,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- dependency versions -->
-        <maven-plugin.api.version>3.9.10</maven-plugin.api.version>
+        <maven-plugin.api.version>3.9.16</maven-plugin.api.version>
         <maven-plugin-annotations.version>3.15.1</maven-plugin-annotations.version>
         <jackson-dataformat-yaml.version>2.19.1</jackson-dataformat-yaml.version>
         <junit.version>4.13.2</junit.version>
         <org.snakeyaml.version>2.4</org.snakeyaml.version>
-        <jackson-databind.version>2.19.1</jackson-databind.version>
+        <jackson-databind.version>2.22.0</jackson-databind.version>
         <!-- dependency versions -->
 
         <!-- plugin versions -->
@@ -59,7 +59,7 @@
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
         <maven.checkstyle.plugin.version>3.6.0</maven.checkstyle.plugin.version>
         <com.puppycrawl.tools.checkstyle.version>10.25.0</com.puppycrawl.tools.checkstyle.version>
-        <jacoco.maven.plugin.version>0.8.13</jacoco.maven.plugin.version>
+        <jacoco.maven.plugin.version>0.8.14</jacoco.maven.plugin.version>
         <org.apache.maven.plugins.maven-javadoc-plugin>3.11.2</org.apache.maven.plugins.maven-javadoc-plugin>
         <org.apache.maven.plugins.maven-source-plugin>3.3.1</org.apache.maven.plugins.maven-source-plugin>
         <org.apache.maven.plugins.maven-gpg-plugin>3.1.0</org.apache.maven.plugins.maven-gpg-plugin>

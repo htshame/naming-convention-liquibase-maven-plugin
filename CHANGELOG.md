@@ -7,6 +7,13 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 3.1
+
+- update jackson-databind to version 2.22.0
+- update maven-plugin-api to version 3.9.16
+
+---
+
 ## Version 3.0
 
 - Implement `tag-must-not-exist-in-changelog` rule
@@ -42,6 +49,7 @@ and [Semantic Versioning](https://semver.org/).
 
 ### Previous Releases
 
+- [3.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/3.1.md)
 - [3.0](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/3.0.md)
 - [2.12](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.12.md)
 - [2.11](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.11.md)

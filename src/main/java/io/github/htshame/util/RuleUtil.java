@@ -2,6 +2,7 @@ package io.github.htshame.util;
 
 import io.github.htshame.change.element.ChangeLogElement;
 import io.github.htshame.dto.ChangeSetAttributeDto;
+import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.RuleParserException;
@@ -98,56 +99,69 @@ public final class RuleUtil {
     }
 
     /**
-     * Compose error message for changeSet.
+     * Compose error details for changeSet.
      *
      * @param changeSetElement - changeSet element.
      * @param ruleName         - rule name.
      * @param errors           - list of errors.
-     * @return error message.
+     * @return error details.
      */
-    public static String composeErrorMessage(final ChangeLogElement changeSetElement,
-                                             final RuleEnum ruleName,
-                                             final List<String> errors) {
+    public static RuleValidationErrorDto composeErrorMessage(final ChangeLogElement changeSetElement,
+                                                             final RuleEnum ruleName,
+                                                             final List<String> errors) {
         ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(changeSetElement);
-        return String.format("ChangeSet: id=\"%s\", author=\"%s\". Rule [%s]\n    %s",
+        return new RuleValidationErrorDto(
+                ruleName,
                 changeSetAttributeDto.getId(),
                 changeSetAttributeDto.getAuthor(),
-                ruleName.getValue(),
-                String.join("\n    ", errors));
+                String.format("ChangeSet: id=\"%s\", author=\"%s\". Rule [%s]\n    %s",
+                        changeSetAttributeDto.getId(),
+                        changeSetAttributeDto.getAuthor(),
+                        ruleName.getValue(),
+                        String.join("\n    ", errors)));
     }
 
     /**
-     * Compose error message for changeLog file.
+     * Compose error details for changeLog file.
      *
      * @param fileName - changeLog file name.
      * @param ruleName - rule name.
      * @param errors   - list of errors.
-     * @return error message.
+     * @return error details.
      */
-    public static String composeErrorMessage(final String fileName,
-                                             final RuleEnum ruleName,
-                                             final List<String> errors) {
-        return String.format("File: [%s]. Rule [%s]\n    %s",
-                fileName,
-                ruleName.getValue(),
-                String.join("\n    ", errors));
+    public static RuleValidationErrorDto composeErrorMessage(final String fileName,
+                                                             final RuleEnum ruleName,
+                                                             final List<String> errors) {
+        RuleValidationErrorDto ruleValidationErrorDto = new RuleValidationErrorDto(ruleName,
+                String.format("File: [%s]. Rule [%s]\n    %s",
+                        fileName,
+                        ruleName.getValue(),
+                        String.join("\n    ", errors)),
+                fileName);
+        ruleValidationErrorDto.setChangeLogFileName(fileName);
+        return ruleValidationErrorDto;
     }
 
     /**
-     * Compose error message for changeLog file.
+     * Compose error details for changeLog file.
      *
      * @param fileName - changeLog file name.
      * @param ruleName - rule name.
      * @param error    - error message.
-     * @return error message.
+     * @return error details.
      */
-    public static String composeErrorMessage(final String fileName,
-                                             final RuleEnum ruleName,
-                                             final String error) {
-        return String.format("File: [%s]. Rule [%s]. %s",
-                fileName,
-                ruleName.getValue(),
-                error);
+    public static RuleValidationErrorDto composeErrorMessage(final String fileName,
+                                                             final RuleEnum ruleName,
+                                                             final String error) {
+        RuleValidationErrorDto ruleValidationErrorDto = new RuleValidationErrorDto(
+                ruleName,
+                String.format("File: [%s]. Rule [%s]. %s",
+                        fileName,
+                        ruleName.getValue(),
+                        error),
+                fileName);
+        ruleValidationErrorDto.setChangeLogFileName(fileName);
+        return ruleValidationErrorDto;
     }
 
     /**

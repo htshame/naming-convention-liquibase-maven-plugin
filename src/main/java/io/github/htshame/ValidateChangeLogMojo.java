@@ -1,14 +1,10 @@
 package io.github.htshame;
 
+import io.github.htshame.core.PluginConfig;
+import io.github.htshame.core.ValidateChangeLogService;
 import io.github.htshame.enums.ChangeLogFormatEnum;
-import io.github.htshame.exception.ChangeLogCollectorException;
-import io.github.htshame.exception.ExclusionParserException;
-import io.github.htshame.exception.RuleParserException;
-import io.github.htshame.parser.ExclusionParser;
-import io.github.htshame.parser.RuleParser;
-import io.github.htshame.rule.Rule;
-import io.github.htshame.util.ChangeLogFilesCollector;
-import io.github.htshame.validator.ValidationManager;
+import io.github.htshame.exception.ValidateChangeLogException;
+import io.github.htshame.log.PluginLogger;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -16,7 +12,6 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * <code>validate-liquibase-changeLog</code> mojo processor.
@@ -25,8 +20,6 @@ import java.util.List;
 public class ValidateChangeLogMojo extends AbstractMojo {
 
     private static final String INVALID_PATH = "Invalid path: ";
-    private static final String BASE_URL = "https://htshame.github.io";
-    private static final String PROJECT_NAME_PATH = "/naming-convention-liquibase-maven-plugin";
 
     /**
      * Path to the XML file with rules.
@@ -77,6 +70,21 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     private String changeLogFormat;
 
     /**
+     * Flag that determines whether the exclusions file content will be generated if the build fails.
+     * <br>
+     * This is helpful when changeLog already has a bunch of errors that will not be addressed
+     * and user does not want to spend time writing exclusions manually.
+     * <br>
+     * If set to <code>true</code>, the contents of exclusions file will be generated in the logs.
+     * <br>
+     * If set to <code>false</code>, the contents of exclusions file will not be generated.
+     * <br>
+     * Default value is <code>false</code>.
+     */
+    @Parameter(defaultValue = "false")
+    private Boolean shouldGenerateExclusions;
+
+    /**
      * Default constructor.
      */
     public ValidateChangeLogMojo() {
@@ -91,110 +99,56 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
         validateInput();
 
-        ChangeLogFormatEnum changeLogFormatEnum = ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());
+        PluginLogger logger = preparePluginLogger();
+        PluginConfig config = new PluginConfig(
+                changeLogFormat,
+                pathToRulesFile,
+                pathToExclusionsFile,
+                changeLogDirectory,
+                shouldGenerateExclusions);
 
-        List<Rule> rules = prepareRules();
-        ExclusionParser exclusionParser = prepareExclusions();
-        List<File> changeLogFiles = prepareChangeLogFiles(changeLogFormatEnum);
-        ValidationManager validationManager = prepareValidationManager();
-
-        List<String> validationErrors = validationManager.validate(
-                changeLogFiles,
-                rules,
-                exclusionParser,
-                changeLogFormatEnum);
+        ValidateChangeLogService validateChangeLogService = new ValidateChangeLogService(
+                logger,
+                config);
 
         try {
-            checkValidationResult(validationErrors);
-        } catch (MojoExecutionException e) {
-            getLog().warn("Failing the build because <shouldFailBuild> is not provided or set to 'true'");
+            validateChangeLogService.execute();
+        } catch (ValidateChangeLogException e) {
             if (Boolean.TRUE.equals(shouldFailBuild)) {
-                throw e;
+                throw new MojoExecutionException(e.getMessage());
             }
-            getLog().warn(e.getMessage()
+            logger.warn(e.getMessage()
                     + " Build will not fail because <shouldFailBuild>false</shouldFailBuild>");
         }
     }
 
     /**
-     * Prepare validation rules.
+     * Prepare plugin logger.
      *
-     * @return list of rules.
-     * @throws MojoExecutionException - if rule parsing fails.
+     * @return plugin logger.
      */
-    private List<Rule> prepareRules() throws MojoExecutionException {
-        try {
-            return RuleParser.parseRules(pathToRulesFile);
-        } catch (RuleParserException e) {
-            getLog().error("Error parsing rules file. Double-check the path to rules XML file "
-                    + "provided in <pathToRulesFile>. The sample file: "
-                    + BASE_URL
-                    + PROJECT_NAME_PATH + "/schema/example/rules_example.xml", e);
-            throw new MojoExecutionException(e.getMessage());
-        }
-    }
+    private PluginLogger preparePluginLogger() {
+        return new PluginLogger() {
+            @Override
+            public void info(final String message) {
+                getLog().info(message);
+            }
 
-    /**
-     * Prepare exclusions.
-     *
-     * @return instance of exclusion parser.
-     * @throws MojoExecutionException - if exclusions parsing fails.
-     */
-    private ExclusionParser prepareExclusions() throws MojoExecutionException {
-        try {
-            return ExclusionParser.parseExclusions(pathToExclusionsFile);
-        } catch (ExclusionParserException e) {
-            getLog().error("Error parsing exclusions file. Double-check the path to exclusions XML file "
-                    + "provided in <pathToExclusionsFile>. The sample file: "
-                    + BASE_URL
-                    + PROJECT_NAME_PATH + "/schema/example/exclusions_example.xml", e);
-            throw new MojoExecutionException(e.getMessage());
-        }
-    }
+            @Override
+            public void warn(final String message) {
+                getLog().warn(message);
+            }
 
-    /**
-     * Collect changeLog files to validate.
-     *
-     * @param changeLogFormatEnum - changeLog format.
-     * @return list of changeLog files.
-     * @throws MojoExecutionException - if changeLog collection fails.
-     */
-    private List<File> prepareChangeLogFiles(final ChangeLogFormatEnum changeLogFormatEnum)
-            throws MojoExecutionException {
-        try {
-            return ChangeLogFilesCollector.collectChangeLogFiles(changeLogDirectory, changeLogFormatEnum);
-        } catch (ChangeLogCollectorException e) {
-            getLog().error("Error changeLog files. Double-check the changeLog directory "
-                    + "provided in <changeLogDirectory> and changeLog format provided in <changeLogFormat>", e);
-            throw new MojoExecutionException(e.getMessage());
-        }
-    }
+            @Override
+            public void error(final String message) {
+                getLog().error(message);
+            }
 
-    /**
-     * Instantiate validation manager.
-     *
-     * @return validation manager.
-     */
-    private ValidationManager prepareValidationManager() {
-        return new ValidationManager();
-    }
-
-    /**
-     * Check is validation errors exist. Log them if they do.
-     *
-     * @param validationErrors - list of validation errors.
-     * @throws MojoExecutionException - thrown in there are validation errors.
-     */
-    private void checkValidationResult(final List<String> validationErrors) throws MojoExecutionException {
-        if (validationErrors.isEmpty()) {
-            getLog().info("All ChangeLog files passed validation");
-            return;
-        }
-        getLog().error("====== Liquibase changeset validation failed ======");
-        for (String validationError : validationErrors) {
-            getLog().error(validationError);
-        }
-        throw new MojoExecutionException("Validation failed: " + validationErrors.size() + " violation(s) found.");
+            @Override
+            public void error(final String message, final Exception e) {
+                getLog().error(message, e);
+            }
+        };
     }
 
     /**

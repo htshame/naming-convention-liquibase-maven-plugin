@@ -1,6 +1,7 @@
 package io.github.htshame.rule.processor.changelog;
 
 import io.github.htshame.change.element.ChangeLogElement;
+import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
@@ -54,6 +55,8 @@ public class TagMustNotExistInChangeLogProcessor implements ChangeLogRule {
      * Validate.
      *
      * @param changeLogElements - changeLog file.
+     * @param exclusionParser   - exclusion parser.
+     * @param fileName          - file name.
      * @throws ValidationException - if validation fails.
      */
     @Override
@@ -72,7 +75,7 @@ public class TagMustNotExistInChangeLogProcessor implements ChangeLogRule {
                     getName(),
                     changeLogFormat,
                     messageArguments);
-            throw new ValidationException(errorMessage);
+            throw new ValidationException(new RuleValidationErrorDto(getName(), errorMessage, fileName));
         }
     }
 

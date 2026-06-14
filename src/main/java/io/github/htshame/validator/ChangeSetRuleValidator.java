@@ -1,6 +1,7 @@
 package io.github.htshame.validator;
 
 import io.github.htshame.change.element.ChangeLogElement;
+import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.exception.ValidationException;
@@ -50,7 +51,7 @@ public class ChangeSetRuleValidator implements RuleValidator {
      */
     @Override
     public void validate(final File changeLogFile,
-                         final List<String> validationErrors,
+                         final List<RuleValidationErrorDto> validationErrors,
                          final ChangeLogFormatEnum changeLogFormat,
                          final ExclusionParser exclusionParser) throws ChangeLogParseException {
         List<ChangeLogElement> changeSets = CHANGESET_PARSER_MAP.get(changeLogFormat).parseChangeSets(changeLogFile);
@@ -60,7 +61,8 @@ public class ChangeSetRuleValidator implements RuleValidator {
                 try {
                     rule.validateChangeSet(changeSet, exclusionParser, changeLogFile.getName(), changeLogFormat);
                 } catch (ValidationException e) {
-                    validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
+                    e.getRuleValidationError().setGenericMessage("[" + changeLogFile.getName() + "] " + e.getMessage());
+                    validationErrors.add(e.getRuleValidationError());
                 }
             }
         }

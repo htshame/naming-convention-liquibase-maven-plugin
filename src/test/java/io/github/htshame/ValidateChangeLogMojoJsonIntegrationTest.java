@@ -29,6 +29,7 @@ public class ValidateChangeLogMojoJsonIntegrationTest {
         setField("changeLogDirectory", new File("src/test/resources/db/json"));
         setField("shouldFailBuild", true);
         setField("changeLogFormat", "json");
+        setField("shouldGenerateExclusions", false);
     }
 
     /**

@@ -1,5 +1,6 @@
 package io.github.htshame.rule.processor.changelogfile;
 
+import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
@@ -72,7 +73,7 @@ public class ChangeLogFileMustMatchRegexpProcessor implements ChangeLogFileRule 
             String errorMessage = getChangeLogFileErrorMessage(
                     getName(),
                     messageArguments);
-            throw new ValidationException(errorMessage);
+            throw new ValidationException(new RuleValidationErrorDto(getName(), errorMessage, fileName));
         }
     }
 

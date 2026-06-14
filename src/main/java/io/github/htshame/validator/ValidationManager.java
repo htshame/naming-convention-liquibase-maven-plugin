@@ -4,6 +4,7 @@ import io.github.htshame.change.parser.ChangeLogParser;
 import io.github.htshame.change.parser.JsonChangeLogParser;
 import io.github.htshame.change.parser.XmlChangeLogParser;
 import io.github.htshame.change.parser.YamlChangeLogParser;
+import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.parser.ExclusionParser;
@@ -53,11 +54,11 @@ public class ValidationManager {
      * @param changeLogFormat - changeLog format.
      * @return list of validation errors. Empty list if there are no errors.
      */
-    public List<String> validate(final List<File> changeLogFiles,
-                                 final List<Rule> rules,
-                                 final ExclusionParser exclusionParser,
-                                 final ChangeLogFormatEnum changeLogFormat) {
-        List<String> validationErrors = new ArrayList<>();
+    public List<RuleValidationErrorDto> validate(final List<File> changeLogFiles,
+                                                 final List<Rule> rules,
+                                                 final ExclusionParser exclusionParser,
+                                                 final ChangeLogFormatEnum changeLogFormat) {
+        List<RuleValidationErrorDto> validationErrors = new ArrayList<>();
 
         for (File changeLogFile : changeLogFiles) {
             Set<Rule> rulesToValidateAgainst = excludeRulesBasedOnExclusionFile(rules, exclusionParser, changeLogFile);
@@ -67,7 +68,9 @@ public class ValidationManager {
                 try {
                     ruleValidator.validate(changeLogFile, validationErrors, changeLogFormat, exclusionParser);
                 } catch (ChangeLogParseException e) {
-                    validationErrors.add("[" + changeLogFile.getName() + "] Failed to parse: " + e.getMessage());
+                    validationErrors.add(
+                            new RuleValidationErrorDto(
+                                    "[" + changeLogFile.getName() + "] Failed to parse: " + e.getMessage()));
                 }
             }
         }

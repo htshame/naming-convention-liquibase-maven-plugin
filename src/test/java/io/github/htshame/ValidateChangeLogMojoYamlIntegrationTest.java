@@ -28,6 +28,7 @@ public class ValidateChangeLogMojoYamlIntegrationTest {
         setField("pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
         setField("changeLogDirectory", new File("src/test/resources/db/yaml"));
         setField("shouldFailBuild", true);
+        setField("shouldGenerateExclusions", false);
         setField("changeLogFormat", "yaml");
     }
 

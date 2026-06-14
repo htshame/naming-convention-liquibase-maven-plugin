@@ -25,6 +25,7 @@ public class ValidateChangeLogMojoFailureTest {
     public void init() throws NoSuchFieldException, IllegalAccessException {
         validateChangeLogMojo = new ValidateChangeLogMojo();
         setField("shouldFailBuild", true);
+        setField("shouldGenerateExclusions", false);
         setField("changeLogFormat", "xml");
     }
 

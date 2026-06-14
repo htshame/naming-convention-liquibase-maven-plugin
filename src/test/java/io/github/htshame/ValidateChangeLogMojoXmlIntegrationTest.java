@@ -28,6 +28,7 @@ public class ValidateChangeLogMojoXmlIntegrationTest {
         setField("pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
         setField("changeLogDirectory", new File("src/test/resources/db/xml"));
         setField("shouldFailBuild", true);
+        setField("shouldGenerateExclusions", false);
         setField("changeLogFormat", "xml");
     }
 

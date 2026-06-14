@@ -1,5 +1,6 @@
 package io.github.htshame.rule.processor.changelogfile;
 
+import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.exception.ChangeLogRuleProcessingException;
 import io.github.htshame.exception.RuleParserException;
@@ -54,7 +55,7 @@ public class NoTabsInChangeLogProcessor implements ChangeLogFileRule {
                 String errorMessage = getChangeLogFileErrorMessage(
                         getName(),
                         messageArguments);
-                throw new ValidationException(errorMessage);
+                throw new ValidationException(new RuleValidationErrorDto(getName(), errorMessage, fileName));
             }
         } catch (IOException e) {
             throw new ChangeLogRuleProcessingException("Failed to process changeLog file [" + fileName + "]", e);

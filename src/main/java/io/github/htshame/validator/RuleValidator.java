@@ -1,5 +1,6 @@
 package io.github.htshame.validator;
 
+import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogParseException;
 import io.github.htshame.parser.ExclusionParser;
@@ -30,7 +31,7 @@ public interface RuleValidator {
      * @throws ChangeLogParseException - thrown if changeLog parsing fails.
      */
     void validate(File changeLogFile,
-                  List<String> validationErrors,
+                  List<RuleValidationErrorDto> validationErrors,
                   ChangeLogFormatEnum changeLogFormat,
                   ExclusionParser exclusionParser) throws ChangeLogParseException;
 }

@@ -1,5 +1,6 @@
 package io.github.htshame.validator;
 
+import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ValidationException;
 import io.github.htshame.parser.ExclusionParser;
@@ -45,14 +46,15 @@ public class ChangeLogFileRuleValidator implements RuleValidator {
      */
     @Override
     public void validate(final File changeLogFile,
-                         final List<String> validationErrors,
+                         final List<RuleValidationErrorDto> validationErrors,
                          final ChangeLogFormatEnum changeLogFormat,
                          final ExclusionParser exclusionParser) {
         for (ChangeLogFileRule rule : rules) {
             try {
                 rule.validateChangeLogFile(changeLogFile);
             } catch (ValidationException e) {
-                validationErrors.add("[" + changeLogFile.getName() + "] " + e.getMessage());
+                e.getRuleValidationError().setGenericMessage("[" + changeLogFile.getName() + "] " + e.getMessage());
+                validationErrors.add(e.getRuleValidationError());
             }
         }
     }

@@ -1,5 +1,6 @@
 package io.github.htshame.rule.processor.changelogfile;
 
+import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
 import io.github.htshame.exception.ValidationException;
@@ -83,13 +84,13 @@ public class ChangeLogFileLinesLimitProcessor implements ChangeLogFileRule {
                 String errorMessage = getChangeLogFileErrorMessage(
                         getName(),
                         messageArguments);
-                throw new ValidationException(errorMessage);
+                throw new ValidationException(new RuleValidationErrorDto(getName(), errorMessage, fileName));
             }
         } catch (IOException e) {
             String errorMessage = String.format("Unable to read file [%s]. Rule [%s]",
                     fileName,
                     getName().getValue());
-            throw new ValidationException(errorMessage);
+            throw new ValidationException(new RuleValidationErrorDto(getName(), errorMessage, fileName));
         }
     }
 

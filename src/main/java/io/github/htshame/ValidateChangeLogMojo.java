@@ -25,19 +25,19 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     /**
      * Path to the XML file with rules.
      */
-    @Parameter(required = true, readonly = true)
+    @Parameter(required = true)
     private File pathToRulesFile;
 
     /**
      * Path to the XML file with exclusions.
      */
-    @Parameter(readonly = true)
+    @Parameter
     private File pathToExclusionsFile;
 
     /**
      * Path to directory with changeLog files.
      */
-    @Parameter(required = true, readonly = true)
+    @Parameter(required = true)
     private File changeLogDirectory;
 
     /**
@@ -51,8 +51,8 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * <br>
      * Default value is <code>true</code>.
      */
-    @Parameter(defaultValue = "true", readonly = true)
-    private Boolean shouldFailBuild;
+    @Parameter(defaultValue = "true")
+    private boolean shouldFailBuild;
 
     /**
      * ChangeLog files format.
@@ -67,7 +67,7 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * <p>
      * Default value is <code>xml</code>.
      */
-    @Parameter(defaultValue = "xml", readonly = true)
+    @Parameter(defaultValue = "xml")
     private String changeLogFormat;
 
     /**
@@ -82,8 +82,8 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * <br>
      * Default value is <code>false</code>.
      */
-    @Parameter(defaultValue = "false", readonly = true)
-    private Boolean shouldGenerateExclusions;
+    @Parameter(defaultValue = "false")
+    private boolean shouldGenerateExclusions;
 
     /**
      * Plugin descriptor.
@@ -105,8 +105,8 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      */
     public void execute() throws MojoExecutionException {
         validateInput();
+        configReminder();
 
-        PluginLogger logger = preparePluginLogger();
         PluginConfig config = new PluginConfig(
                 changeLogFormat,
                 pathToRulesFile,
@@ -115,6 +115,8 @@ public class ValidateChangeLogMojo extends AbstractMojo {
                 shouldGenerateExclusions,
                 pluginDescriptor.getVersion());
 
+        PluginLogger logger = preparePluginLogger();
+
         ValidateChangeLogService validateChangeLogService = new ValidateChangeLogService(
                 logger,
                 config);
@@ -122,11 +124,29 @@ public class ValidateChangeLogMojo extends AbstractMojo {
         try {
             validateChangeLogService.execute();
         } catch (ValidateChangeLogException e) {
-            if (Boolean.TRUE.equals(shouldFailBuild)) {
+            if (shouldFailBuild) {
                 throw new MojoExecutionException(e.getMessage());
             }
             logger.warn(e.getMessage()
                     + " Build will not fail because <shouldFailBuild>false</shouldFailBuild>");
+        }
+    }
+
+    /**
+     * Analyze input parameters and remind a user that parameters exist.
+     */
+    private void configReminder() {
+        if (pathToExclusionsFile == null) {
+            getLog().info("Parameter <pathToExclusionsFile> is not set. Great job!");
+        }
+        if (shouldFailBuild) {
+            getLog().info("Parameter <shouldFailBuild> is set to 'true' (default value) or not defined.");
+        }
+        if ("xml".equals(changeLogFormat)) {
+            getLog().info("Parameter <changeLogFormat> is set to 'xml' (default value) or not defined.");
+        }
+        if (!shouldGenerateExclusions) {
+            getLog().info("Parameter <shouldGenerateExclusions> is set to 'false' (default value) or not defined.");
         }
     }
 

@@ -17,7 +17,7 @@ public final class PluginConfig {
 
     private final File changeLogDirectory;
 
-    private final Boolean shouldGenerateExclusions;
+    private final boolean shouldGenerateExclusions;
 
     private final String pluginVersion;
 
@@ -35,7 +35,7 @@ public final class PluginConfig {
                         final File pathToRulesFile,
                         final File pathToExclusionsFile,
                         final File changeLogDirectory,
-                        final Boolean shouldGenerateExclusions,
+                        final boolean shouldGenerateExclusions,
                         final String pluginVersion) {
         this.changeLogFormat = ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());
         this.pathToRulesFile = pathToRulesFile;
@@ -86,7 +86,7 @@ public final class PluginConfig {
      *
      * @return should generate exclusions flag.
      */
-    public Boolean getShouldGenerateExclusions() {
+    public boolean getShouldGenerateExclusions() {
         return shouldGenerateExclusions;
     }
 

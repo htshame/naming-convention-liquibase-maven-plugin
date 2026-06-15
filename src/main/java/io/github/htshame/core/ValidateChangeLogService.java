@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Validate changeLog service. It handles and orchestrates all business logic of the plugin.
  */
-public class ValidateChangeLogService {
+public final class ValidateChangeLogService {
 
     private static final String BASE_URL = "https://htshame.github.io";
     private static final String PROJECT_NAME_PATH = "/naming-convention-liquibase-maven-plugin";
@@ -64,7 +64,7 @@ public class ValidateChangeLogService {
             checkValidationResult(validationErrors);
         } catch (ValidateChangeLogException e) {
             logger.warn("Failing the build because <shouldFailBuild> is not provided or set to 'true'");
-            if (Boolean.TRUE.equals(config.getShouldGenerateExclusions())) {
+            if (config.getShouldGenerateExclusions()) {
                 exclusionsGenerator.generateExclusions(validationErrors);
             }
             throw e;

@@ -101,12 +101,14 @@ public final class RuleUtil {
     /**
      * Compose error details for changeSet.
      *
-     * @param changeSetElement - changeSet element.
-     * @param ruleName         - rule name.
-     * @param errors           - list of errors.
+     * @param changeSetElement  - changeSet element.
+     * @param changeLogFileName - changeLog file name.
+     * @param ruleName          - rule name.
+     * @param errors            - list of errors.
      * @return error details.
      */
     public static RuleValidationErrorDto composeErrorMessage(final ChangeLogElement changeSetElement,
+                                                             final String changeLogFileName,
                                                              final RuleEnum ruleName,
                                                              final List<String> errors) {
         ChangeSetAttributeDto changeSetAttributeDto = ChangeSetUtil.getAttributesFromAncestor(changeSetElement);
@@ -114,6 +116,7 @@ public final class RuleUtil {
                 ruleName,
                 changeSetAttributeDto.getId(),
                 changeSetAttributeDto.getAuthor(),
+                changeLogFileName,
                 String.format("ChangeSet: id=\"%s\", author=\"%s\". Rule [%s]\n    %s",
                         changeSetAttributeDto.getId(),
                         changeSetAttributeDto.getAuthor(),

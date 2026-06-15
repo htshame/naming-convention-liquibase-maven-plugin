@@ -74,7 +74,8 @@ public class NoSpacesInAttributesProcessor implements ChangeSetRule {
         }
         List<String> errors = validateElement(changeSetElement, changeLogFormat, new ArrayList<>());
         if (!errors.isEmpty()) {
-            throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
+            throw new ValidationException(
+                    RuleUtil.composeErrorMessage(changeSetElement, changeLogFileName, getName(), errors));
         }
     }
 

@@ -7,6 +7,7 @@ import io.github.htshame.exception.ValidateChangeLogException;
 import io.github.htshame.log.PluginLogger;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -14,7 +15,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import java.io.File;
 
 /**
- * <code>validate-liquibase-changeLog</code> mojo processor.
+ * <code>validate-liquibase-changeLog</code> mojo executor.
  */
 @Mojo(name = "validate-liquibase-changeLog", defaultPhase = LifecyclePhase.COMPILE)
 public class ValidateChangeLogMojo extends AbstractMojo {
@@ -24,19 +25,19 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     /**
      * Path to the XML file with rules.
      */
-    @Parameter(required = true)
+    @Parameter(required = true, readonly = true)
     private File pathToRulesFile;
 
     /**
      * Path to the XML file with exclusions.
      */
-    @Parameter
+    @Parameter(readonly = true)
     private File pathToExclusionsFile;
 
     /**
      * Path to directory with changeLog files.
      */
-    @Parameter(required = true)
+    @Parameter(required = true, readonly = true)
     private File changeLogDirectory;
 
     /**
@@ -50,7 +51,7 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * <br>
      * Default value is <code>true</code>.
      */
-    @Parameter(defaultValue = "true")
+    @Parameter(defaultValue = "true", readonly = true)
     private Boolean shouldFailBuild;
 
     /**
@@ -66,7 +67,7 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * <p>
      * Default value is <code>xml</code>.
      */
-    @Parameter(defaultValue = "xml")
+    @Parameter(defaultValue = "xml", readonly = true)
     private String changeLogFormat;
 
     /**
@@ -81,8 +82,14 @@ public class ValidateChangeLogMojo extends AbstractMojo {
      * <br>
      * Default value is <code>false</code>.
      */
-    @Parameter(defaultValue = "false")
+    @Parameter(defaultValue = "false", readonly = true)
     private Boolean shouldGenerateExclusions;
+
+    /**
+     * Plugin descriptor.
+     */
+    @Parameter(defaultValue = "${plugin}", readonly = true)
+    private PluginDescriptor pluginDescriptor;
 
     /**
      * Default constructor.
@@ -105,7 +112,8 @@ public class ValidateChangeLogMojo extends AbstractMojo {
                 pathToRulesFile,
                 pathToExclusionsFile,
                 changeLogDirectory,
-                shouldGenerateExclusions);
+                shouldGenerateExclusions,
+                pluginDescriptor.getVersion());
 
         ValidateChangeLogService validateChangeLogService = new ValidateChangeLogService(
                 logger,

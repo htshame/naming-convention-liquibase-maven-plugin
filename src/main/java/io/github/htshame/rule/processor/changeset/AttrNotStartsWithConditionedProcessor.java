@@ -148,7 +148,8 @@ public class AttrNotStartsWithConditionedProcessor implements ChangeSetRule {
             }
         }
         if (!errors.isEmpty()) {
-            throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
+            throw new ValidationException(
+                    RuleUtil.composeErrorMessage(changeSetElement, changeLogFileName, getName(), errors));
         }
     }
 }

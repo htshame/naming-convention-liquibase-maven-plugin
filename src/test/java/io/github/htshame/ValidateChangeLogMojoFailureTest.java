@@ -1,6 +1,7 @@
 package io.github.htshame;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,8 +26,11 @@ public class ValidateChangeLogMojoFailureTest {
     public void init() throws NoSuchFieldException, IllegalAccessException {
         validateChangeLogMojo = new ValidateChangeLogMojo();
         setField("shouldFailBuild", true);
-        setField("shouldGenerateExclusions", false);
+        setField("shouldGenerateExclusions", true);
         setField("changeLogFormat", "xml");
+        PluginDescriptor pluginDescriptor = new PluginDescriptor();
+        pluginDescriptor.setVersion("1.0");
+        setField("pluginDescriptor", pluginDescriptor);
     }
 
     /**

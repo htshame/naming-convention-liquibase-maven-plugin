@@ -19,6 +19,8 @@ public final class PluginConfig {
 
     private final Boolean shouldGenerateExclusions;
 
+    private final String pluginVersion;
+
     /**
      * Constructor.
      *
@@ -27,17 +29,20 @@ public final class PluginConfig {
      * @param pathToExclusionsFile     - path to file with exclusions.
      * @param changeLogDirectory       - path to changeLog directory.
      * @param shouldGenerateExclusions - whether should exclusions file be generated.
+     * @param pluginVersion            - plugin version.
      */
     public PluginConfig(final String changeLogFormat,
                         final File pathToRulesFile,
                         final File pathToExclusionsFile,
                         final File changeLogDirectory,
-                        final Boolean shouldGenerateExclusions) {
+                        final Boolean shouldGenerateExclusions,
+                        final String pluginVersion) {
         this.changeLogFormat = ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());
         this.pathToRulesFile = pathToRulesFile;
         this.pathToExclusionsFile = pathToExclusionsFile;
         this.changeLogDirectory = changeLogDirectory;
         this.shouldGenerateExclusions = shouldGenerateExclusions;
+        this.pluginVersion = pluginVersion;
     }
 
     /**
@@ -83,5 +88,14 @@ public final class PluginConfig {
      */
     public Boolean getShouldGenerateExclusions() {
         return shouldGenerateExclusions;
+    }
+
+    /**
+     * Get plugin version.
+     *
+     * @return plugin versin.
+     */
+    public String getPluginVersion() {
+        return pluginVersion;
     }
 }

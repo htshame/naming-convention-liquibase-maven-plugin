@@ -1,6 +1,7 @@
 package io.github.htshame;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,8 +29,11 @@ public class ValidateChangeLogMojoYamlIntegrationTest {
         setField("pathToExclusionsFile", new File("src/test/resources/exclusions.xml"));
         setField("changeLogDirectory", new File("src/test/resources/db/yaml"));
         setField("shouldFailBuild", true);
-        setField("shouldGenerateExclusions", false);
+        setField("shouldGenerateExclusions", true);
         setField("changeLogFormat", "yaml");
+        PluginDescriptor pluginDescriptor = new PluginDescriptor();
+        pluginDescriptor.setVersion("1.0");
+        setField("pluginDescriptor", pluginDescriptor);
     }
 
     /**

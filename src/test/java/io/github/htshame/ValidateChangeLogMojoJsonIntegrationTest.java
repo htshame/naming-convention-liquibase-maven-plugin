@@ -1,6 +1,7 @@
 package io.github.htshame;
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.descriptor.PluginDescriptor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,7 +30,10 @@ public class ValidateChangeLogMojoJsonIntegrationTest {
         setField("changeLogDirectory", new File("src/test/resources/db/json"));
         setField("shouldFailBuild", true);
         setField("changeLogFormat", "json");
-        setField("shouldGenerateExclusions", false);
+        setField("shouldGenerateExclusions", true);
+        PluginDescriptor pluginDescriptor = new PluginDescriptor();
+        pluginDescriptor.setVersion("1.0");
+        setField("pluginDescriptor", pluginDescriptor);
     }
 
     /**

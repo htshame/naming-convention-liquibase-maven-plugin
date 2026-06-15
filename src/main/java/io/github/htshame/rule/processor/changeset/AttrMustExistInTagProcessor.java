@@ -99,7 +99,8 @@ public class AttrMustExistInTagProcessor implements ChangeSetRule {
         validateElement(changeSetElement, changeLogFormat, errors);
 
         if (!errors.isEmpty()) {
-            throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
+            throw new ValidationException(
+                    RuleUtil.composeErrorMessage(changeSetElement, changeLogFileName, getName(), errors));
         }
     }
 

@@ -27,6 +27,8 @@ public class ValidateChangeLogService {
 
     private final PluginLogger logger;
     private final PluginConfig config;
+    private final ValidationManager validationManager;
+    private final ExclusionsGenerator exclusionsGenerator;
 
     /**
      * Constructor.
@@ -38,6 +40,8 @@ public class ValidateChangeLogService {
                                     final PluginConfig config) {
         this.logger = logger;
         this.config = config;
+        this.validationManager = new ValidationManager();
+        this.exclusionsGenerator = new ExclusionsGenerator(logger, config);
     }
 
     /**
@@ -49,7 +53,6 @@ public class ValidateChangeLogService {
         List<Rule> rules = prepareRules();
         ExclusionParser exclusionParser = prepareExclusions();
         List<File> changeLogFiles = prepareChangeLogFiles(config.getChangeLogFormat());
-        ValidationManager validationManager = prepareValidationManager();
 
         List<RuleValidationErrorDto> validationErrors = validationManager.validate(
                 changeLogFiles,
@@ -62,7 +65,7 @@ public class ValidateChangeLogService {
         } catch (ValidateChangeLogException e) {
             logger.warn("Failing the build because <shouldFailBuild> is not provided or set to 'true'");
             if (Boolean.TRUE.equals(config.getShouldGenerateExclusions())) {
-                generateExclusionsFileContent(validationErrors);
+                exclusionsGenerator.generateExclusions(validationErrors);
             }
             throw e;
         }
@@ -143,33 +146,5 @@ public class ValidateChangeLogService {
                     + "provided in <changeLogDirectory> and changeLog format provided in <changeLogFormat>", e);
             throw new ValidateChangeLogException(e.getMessage());
         }
-    }
-
-    /**
-     * Generate exclusions file content.
-     *
-     * @param validationErrors - validation errors.
-     */
-    private void generateExclusionsFileContent(final List<RuleValidationErrorDto> validationErrors) {
-        ExclusionsGenerator exclusionsGenerator = prepareExclusionsGenerator();
-        exclusionsGenerator.generateExclusions(validationErrors);
-    }
-
-    /**
-     * Instantiate validation manager.
-     *
-     * @return validation manager.
-     */
-    private ValidationManager prepareValidationManager() {
-        return new ValidationManager();
-    }
-
-    /**
-     * Instantiate exclusions generator.
-     *
-     * @return exclusions generator.
-     */
-    private ExclusionsGenerator prepareExclusionsGenerator() {
-        return new ExclusionsGenerator(logger);
     }
 }

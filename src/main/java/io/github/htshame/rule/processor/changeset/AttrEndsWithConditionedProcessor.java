@@ -1,7 +1,6 @@
 package io.github.htshame.rule.processor.changeset;
 
 import io.github.htshame.change.element.ChangeLogElement;
-import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.enums.RuleEnum;
 import io.github.htshame.enums.RuleStructureEnum;
@@ -149,10 +148,8 @@ public class AttrEndsWithConditionedProcessor implements ChangeSetRule {
             }
         }
         if (!errors.isEmpty()) {
-            RuleValidationErrorDto ruleValidationErrorDto =
-                    RuleUtil.composeErrorMessage(changeSetElement, getName(), errors);
-            ruleValidationErrorDto.setChangeLogFileName(changeLogFileName);
-            throw new ValidationException(RuleUtil.composeErrorMessage(changeSetElement, getName(), errors));
+            throw new ValidationException(
+                    RuleUtil.composeErrorMessage(changeSetElement, changeLogFileName, getName(), errors));
         }
     }
 }

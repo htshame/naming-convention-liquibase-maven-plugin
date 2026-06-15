@@ -66,24 +66,6 @@ public class RuleValidationErrorDto {
     }
 
     /**
-     * Constructor.
-     *
-     * @param rule            - validation rule.
-     * @param changeSetId     - changeSet ID.
-     * @param changeSetAuthor - changeSet author.
-     * @param errorMessage    - error message.
-     */
-    public RuleValidationErrorDto(final RuleEnum rule,
-                                  final String changeSetId,
-                                  final String changeSetAuthor,
-                                  final String errorMessage) {
-        this.rule = rule;
-        this.changeSetId = changeSetId;
-        this.changeSetAuthor = changeSetAuthor;
-        this.errorMessage = errorMessage;
-    }
-
-    /**
      * Get rule.
      *
      * @return rule.

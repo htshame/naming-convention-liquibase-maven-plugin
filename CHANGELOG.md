@@ -7,6 +7,16 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
+## Version 4.0
+
+- added the ability to generate content of the exclusions file.
+  If your changeLog has too many errors that can not or should not be fixed, just add parameter
+  `<shouldGenerateExclusions>true</shouldGenerateExclusions>`
+  to plugin configuration, and the content of your exclusions file will be generated in the logs upon plugin execution.
+  Default value of this parameter is `false`.
+
+---
+
 ## Version 3.1
 
 - update jackson-databind to version 2.22.0
@@ -40,15 +50,9 @@ and [Semantic Versioning](https://semver.org/).
 
 ---
 
-## Version 2.9
-
-- Implement `no-spaces-in-attributes` rule
-- Bugfixes
-
----
-
 ### Previous Releases
 
+- [4.0](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/4.0.md)
 - [3.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/3.1.md)
 - [3.0](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/3.0.md)
 - [2.12](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/2.12.md)

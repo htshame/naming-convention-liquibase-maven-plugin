@@ -2,3 +2,6 @@
 /target
 /releaseChecklist.md
 /gpgfix.txt
+/ncl-maven.iml
+/ncl-maven/target/
+/ncl-core/target/

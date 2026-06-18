@@ -22,7 +22,8 @@ This plugin allows you to create a set of rules and enforce them.
 # How to use it?
 
 1. Create <b>[rules.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/rules_example.xml)</b> (or name it differently) file and provide it in `<pathToRulesFile>`.
-2. Create <b>[exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml)</b> (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`.
+2. Create <b>[exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml)</b> (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`. <br>
+Exclusions file contents could be generated automatically by setting plugin config parameter `<shouldGenerateExclusions>` to `true`, default value is `false`.
 3. Provide the path to the directory with Liquibase XML changeLogs in `<changeLogDirectory>`.
 4. Provide `false` in `<shouldFailBuild>` if you want to just see the warnings.
 5. Put this into your pom.xml:
@@ -30,7 +31,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>3.1</version>
+        <version>4.0</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -50,6 +51,7 @@ This plugin allows you to create a set of rules and enforce them.
             <changeLogDirectory>${project.basedir}/src/main/resources/db</changeLogDirectory>
             <changeLogFormat>xml</changeLogFormat>
             <shouldFailBuild>true</shouldFailBuild>
+            <shouldGenerateExclusions>true</shouldGenerateExclusions>
         </configuration>
     </plugin>
     ```
@@ -509,6 +511,12 @@ To exclude all rules for the provided changeSet
 
 Not a single rule will be applied to the change set with `id=changelog_04_1`, `author=test` inside `changelog_04.xml`.
 This changeSet will be ignored.
+
+---
+
+### Exclusions file generation
+
+Exclusions file contents could be generated automatically by setting plugin config parameter `<shouldGenerateExclusions>` to `true`, default value is `false`.
 
 ---
 

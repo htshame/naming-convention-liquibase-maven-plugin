@@ -1,0 +1,126 @@
+<rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../docs/schema/ruleset/latest/liquibase-naming-convention-latest.xsd">
+
+    <rule name="changelog-file-name-must-match-regexp">
+        <fileNameRegexp>^changelog_\d+\.(xml|json|ya?ml)$</fileNameRegexp>
+        <excludedFileNames>
+            <fileName>changelog-master.json</fileName>
+            <fileName>changelog-master.xml</fileName>
+            <fileName>changelog-master.yaml</fileName>
+        </excludedFileNames>
+    </rule>
+
+    <rule name="changelog-file-lines-limit">
+        <linesLimit>100</linesLimit>
+        <excludedFileNames>
+            <fileName>changelog_01.json</fileName>
+        </excludedFileNames>
+    </rule>
+
+    <rule name="no-tabs-in-changelog">
+    </rule>
+
+    <rule name="no-trailing-spaces-in-changelog">
+    </rule>
+
+    <rule name="changelog-must-end-with-newline">
+    </rule>
+
+    <rule name="tag-must-exist">
+        <requiredTag>comment</requiredTag>
+        <requiredForChildTags>
+            <tag>rollback</tag>
+        </requiredForChildTags>
+    </rule>
+
+    <rule name="attr-starts-with">
+        <tag>createIndex</tag>
+        <targetAttr>indexName</targetAttr>
+        <requiredPrefix>idx_</requiredPrefix>
+    </rule>
+
+    <rule name="attr-starts-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttr>unique</conditionAttr>
+        <conditionValue>true</conditionValue>
+        <targetAttr>indexName</targetAttr>
+        <requiredPrefix>idx_unique_</requiredPrefix>
+    </rule>
+
+    <rule name="attr-ends-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttr>unique</conditionAttr>
+        <conditionValue>true</conditionValue>
+        <targetAttr>indexName</targetAttr>
+        <requiredSuffix>_unique</requiredSuffix>
+    </rule>
+
+    <rule name="attr-ends-with">
+        <tag>addForeignKeyConstraint</tag>
+        <targetAttr>constraintName</targetAttr>
+        <requiredSuffix>_fk</requiredSuffix>
+    </rule>
+
+    <rule name="no-hyphens-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
+    </rule>
+
+    <rule name="no-underscores-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
+    </rule>
+
+    <rule name="no-uppercase-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+            <attr>tablespace</attr>
+        </excludedAttrs>
+    </rule>
+
+    <rule name="no-lowercase-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
+    </rule>
+
+    <rule name="no-spaces-in-attributes">
+        <excludedAttrs>
+            <attr>defaultValue</attr>
+            <attr>defaultValueComputed</attr>
+        </excludedAttrs>
+    </rule>
+
+    <rule name="attr-must-exist-in-tag">
+        <tag>createTable</tag>
+        <requiredAttr>remarks</requiredAttr>
+    </rule>
+
+    <rule name="attr-not-starts-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttr>unique</conditionAttr>
+        <conditionValue>true</conditionValue>
+        <targetAttr>indexName</targetAttr>
+        <forbiddenPrefix>idx_unique_</forbiddenPrefix>
+    </rule>
+
+    <rule name="attr-not-ends-with-conditioned">
+        <tag>createIndex</tag>
+        <conditionAttr>unique</conditionAttr>
+        <conditionValue>true</conditionValue>
+        <targetAttr>indexName</targetAttr>
+        <forbiddenSuffix>_unique</forbiddenSuffix>
+    </rule>
+
+    <rule name="tag-must-not-exist-in-changelog">
+        <tag>include</tag>
+        <targetFileName>changelog-master.xml</targetFileName>
+    </rule>
+</rules>
+

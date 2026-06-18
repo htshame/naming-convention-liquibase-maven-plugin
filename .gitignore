@@ -6,3 +6,6 @@
 /ncl-maven/target/
 /ncl-core/target/
 /naming-convention-liquibase-maven-plugin.iml
+/ncl-maven/.flattened-pom.xml
+/.flattened-pom.xml
+/ncl-core/.flattened-pom.xml

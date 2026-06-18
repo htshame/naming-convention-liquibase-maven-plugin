@@ -15,6 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.deploy.skip>false</maven.deploy.skip>
 
         <test.coverage.min.threshold>0.80</test.coverage.min.threshold>
     </properties>

@@ -1,6 +1,7 @@
 package io.github.htshame.core;
 
 import io.github.htshame.enums.ChangeLogFormatEnum;
+import io.github.htshame.enums.PluginTypeEnum;
 
 import java.io.File;
 
@@ -21,6 +22,8 @@ public final class PluginConfig {
 
     private final String pluginVersion;
 
+    private final PluginTypeEnum pluginType;
+
     /**
      * Constructor.
      *
@@ -30,19 +33,22 @@ public final class PluginConfig {
      * @param changeLogDirectory       - path to changeLog directory.
      * @param shouldGenerateExclusions - whether should exclusions file be generated.
      * @param pluginVersion            - plugin version.
+     * @param pluginType               - plugin type.
      */
     public PluginConfig(final String changeLogFormat,
                         final File pathToRulesFile,
                         final File pathToExclusionsFile,
                         final File changeLogDirectory,
                         final boolean shouldGenerateExclusions,
-                        final String pluginVersion) {
+                        final String pluginVersion,
+                        final PluginTypeEnum pluginType) {
         this.changeLogFormat = ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());
         this.pathToRulesFile = pathToRulesFile;
         this.pathToExclusionsFile = pathToExclusionsFile;
         this.changeLogDirectory = changeLogDirectory;
         this.shouldGenerateExclusions = shouldGenerateExclusions;
         this.pluginVersion = pluginVersion;
+        this.pluginType = pluginType;
     }
 
     /**
@@ -97,5 +103,14 @@ public final class PluginConfig {
      */
     public String getPluginVersion() {
         return pluginVersion;
+    }
+
+    /**
+     * Get plugin type.
+     *
+     * @return plugin type.
+     */
+    public PluginTypeEnum getPluginType() {
+        return pluginType;
     }
 }

@@ -10,8 +10,8 @@ import io.github.htshame.log.PluginLogger;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.parser.RuleParser;
 import io.github.htshame.rule.Rule;
+import io.github.htshame.service.ExclusionsGenerationService;
 import io.github.htshame.util.ChangeLogFilesCollector;
-import io.github.htshame.util.ExclusionsGenerator;
 import io.github.htshame.validator.ValidationManager;
 
 import java.io.File;
@@ -28,7 +28,7 @@ public final class ValidateChangeLogService {
     private final PluginLogger logger;
     private final PluginConfig config;
     private final ValidationManager validationManager;
-    private final ExclusionsGenerator exclusionsGenerator;
+    private final ExclusionsGenerationService exclusionsGenerator;
 
     /**
      * Constructor.
@@ -41,7 +41,7 @@ public final class ValidateChangeLogService {
         this.logger = logger;
         this.config = config;
         this.validationManager = new ValidationManager();
-        this.exclusionsGenerator = new ExclusionsGenerator(logger, config);
+        this.exclusionsGenerator = new ExclusionsGenerationService(logger, config);
     }
 
     /**

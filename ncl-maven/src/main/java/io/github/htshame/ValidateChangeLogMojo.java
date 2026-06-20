@@ -3,6 +3,7 @@ package io.github.htshame;
 import io.github.htshame.core.PluginConfig;
 import io.github.htshame.core.ValidateChangeLogService;
 import io.github.htshame.enums.ChangeLogFormatEnum;
+import io.github.htshame.enums.PluginTypeEnum;
 import io.github.htshame.exception.ValidateChangeLogException;
 import io.github.htshame.log.PluginLogger;
 import org.apache.maven.plugin.AbstractMojo;
@@ -113,7 +114,8 @@ public class ValidateChangeLogMojo extends AbstractMojo {
                 pathToExclusionsFile,
                 changeLogDirectory,
                 shouldGenerateExclusions,
-                pluginDescriptor.getVersion());
+                pluginDescriptor.getVersion(),
+                PluginTypeEnum.MAVEN);
 
         PluginLogger logger = preparePluginLogger();
 

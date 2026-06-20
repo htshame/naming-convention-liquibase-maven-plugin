@@ -17,6 +17,8 @@ This plugin allows you to create a set of rules and enforce them.
 
 - If someone... - well, you get the point!
 
+**Gradle** version is available here: [naming-convention-liquibase-gradle-plugin](https://htshame.github.io/naming-convention-liquibase-gradle-plugin/)
+
 ---
 
 # How to use it?

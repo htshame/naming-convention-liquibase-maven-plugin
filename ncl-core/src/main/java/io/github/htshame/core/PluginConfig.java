@@ -5,7 +5,6 @@ import io.github.htshame.enums.PluginTypeEnum;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Objects;
 
 /**
  * Plugin configuration class.
@@ -153,7 +152,7 @@ public final class PluginConfig {
          * @param rulesFileUrl - rules file URL.
          * @return this builder.
          */
-        public Builder ruleFileUrl(final URL rulesFileUrl) {
+        public Builder rulesFileUrl(final URL rulesFileUrl) {
             this.rulesFileUrlBuilder = rulesFileUrl;
             return this;
         }
@@ -175,18 +174,6 @@ public final class PluginConfig {
          * @return new PluginConfig instance.
          */
         public PluginConfig build() {
-            Objects.requireNonNull(changeLogFormatBuilder, "changeLogFormat must not be null");
-            Objects.requireNonNull(changeLogDirectoryBuilder, "changeLogDirectory must not be null");
-            Objects.requireNonNull(pluginVersionBuilder, "pluginVersion must not be null");
-            Objects.requireNonNull(pluginTypeBuilder, "pluginType must not be null");
-            if ((pathToRulesFileBuilder == null) == (rulesFileUrlBuilder == null)) {
-                throw new IllegalArgumentException(
-                        "Exactly one of 'pathToRulesFile' or 'rulesFileUrl' parameters must be present");
-            }
-            if (pathToExclusionsFileBuilder != null && exclusionsFileUrlBuilder != null) {
-                throw new IllegalArgumentException(
-                        "Only one of 'pathToExclusionsFile' or 'exclusionsFileUrl' parameters must be present");
-            }
             return new PluginConfig(this);
         }
     }

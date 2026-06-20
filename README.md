@@ -53,7 +53,7 @@ This plugin allows you to create a set of rules and enforce them.
             <rulesFileUrl>
                 https://raw.githubusercontent.com/htshame/naming-convention-liquibase-maven-plugin/refs/heads/main/docs/schema/example/rules_example.xml
             </rulesFileUrl> -->
-   
+
             <!-- path to file with exclusion rules -->
             <pathToExclusionsFile>
                 ${project.basedir}/src/main/resources/liquibaseNaming/exclusions.xml
@@ -63,22 +63,22 @@ This plugin allows you to create a set of rules and enforce them.
             <exclusionsFileUrl>
                 https://raw.githubusercontent.com/htshame/naming-convention-liquibase-maven-plugin/refs/heads/main/docs/schema/example/exclusions_example.xml
             </exclusionsFileUrl> -->
-   
+
             <!-- path to your changeLog directory -->
             <changeLogDirectory>${project.basedir}/src/main/resources/db</changeLogDirectory>
-   
-            <!-- (optional) your changeLog format. Supported values: XML, YAML, YML, JSON. Default value is XML. --> 
+
+            <!-- (optional) your changeLog format. Supported values: XML, YAML, YML, JSON. Default value is XML. -->
             <changeLogFormat>xml</changeLogFormat>
-   
+
             <!-- (optional) set to 'false' if you don't want the build to fail if errors are found. Default value is 'true' -->
             <shouldFailBuild>true</shouldFailBuild>
-   
+
             <!-- (optional) set to 'true' if you want exclusions file content to be generated automatically. Default value is 'false' -->
             <shouldGenerateExclusions>true</shouldGenerateExclusions>
         </configuration>
     </plugin>
     ```
-6. Run your build.
+7. Run your build.
 
 ---
 

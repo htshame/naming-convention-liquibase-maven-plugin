@@ -124,7 +124,7 @@ public class ValidateChangeLogMojo extends AbstractMojo {
         PluginConfig config = PluginConfig.builder()
                 .changeLogFormat(changeLogFormat)
                 .pathToRulesFile(pathToRulesFile)
-                .ruleFileUrl(rulesFileUrl)
+                .rulesFileUrl(rulesFileUrl)
                 .pathToExclusionsFile(pathToExclusionsFile)
                 .exclusionsFileUrl(exclusionsFileUrl)
                 .changeLogDirectory(changeLogDirectory)
@@ -219,6 +219,14 @@ public class ValidateChangeLogMojo extends AbstractMojo {
         }
         if (pathToExclusionsFile != null && !pathToExclusionsFile.exists()) {
             throw new MojoExecutionException(INVALID_PATH + pathToExclusionsFile);
+        }
+        if ((pathToRulesFile == null) == (rulesFileUrl == null)) {
+            throw new MojoExecutionException(
+                    "Exactly one of 'pathToRulesFile' or 'rulesFileUrl' parameters must be present");
+        }
+        if (pathToExclusionsFile != null && exclusionsFileUrl != null) {
+            throw new MojoExecutionException(
+                    "Only one of 'pathToExclusionsFile' or 'exclusionsFileUrl' parameters must be present");
         }
         try {
             ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());

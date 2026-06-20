@@ -19,7 +19,7 @@ public class ConfigApiGatewayTest {
     private static final int OK_200 = 200;
 
     /**
-     * Test getting file from URL. Http with redirect.
+     * Test getting file from URL.
      *
      */
     @Test

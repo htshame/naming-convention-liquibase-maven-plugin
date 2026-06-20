@@ -1,7 +1,8 @@
-package io.github.htshame.util;
+package io.github.htshame.service;
 
 import io.github.htshame.core.PluginConfig;
 import io.github.htshame.dto.RuleValidationErrorDto;
+import io.github.htshame.enums.PluginTypeEnum;
 import io.github.htshame.log.PluginLogger;
 
 import java.util.List;
@@ -9,10 +10,10 @@ import java.util.List;
 /**
  * Generates the contents of the exclusions file.
  */
-public class ExclusionsGenerator {
+public class ExclusionsGenerationService {
 
     private static final String LINE_BREAK = "\n";
-    private static final String INDENT = "....";
+    private static final String INDENT = "    ";
     private final PluginLogger logger;
     private final PluginConfig config;
 
@@ -22,8 +23,8 @@ public class ExclusionsGenerator {
      * @param logger - logger.
      * @param config - plugin configuration.
      */
-    public ExclusionsGenerator(final PluginLogger logger,
-                               final PluginConfig config) {
+    public ExclusionsGenerationService(final PluginLogger logger,
+                                       final PluginConfig config) {
         this.logger = logger;
         this.config = config;
     }
@@ -83,11 +84,15 @@ public class ExclusionsGenerator {
                         break;
                 }
             }
-
-            logger.info("\n====== Generating content of the exclusions file ======\n\n"
+            String exclusionsContent = "\n====== Generating content of the exclusions file ======\n\n"
                     + exclusionFileContent
-                    + "</exclusions>\n");
-            logger.info("====== Content generation of the exclusions file complete ======");
+                    + "</exclusions>"
+                    + "\n====== Content generation of the exclusions file complete ======";
+            if (PluginTypeEnum.MAVEN.equals(config.getPluginType())) {
+                logger.info(exclusionsContent);
+            } else if (PluginTypeEnum.GRADLE.equals(config.getPluginType())) {
+                logger.error(exclusionsContent);
+            }
         } catch (Exception e) {
             logger.error("\n====== Failed to generate content of the exclusions file ======");
         }

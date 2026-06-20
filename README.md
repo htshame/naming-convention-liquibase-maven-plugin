@@ -23,8 +23,8 @@ This plugin allows you to create a set of rules and enforce them.
 
 # How to use it?
 
-1. Create <b>[rules.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/rules_example.xml)</b> (or name it differently) file and provide it in `<pathToRulesFile>`.
-2. Create <b>[exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml)</b> (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`. <br>
+1. Create <b>[rules.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/rules_example.xml)</b> (or name it differently) file and provide it in `<pathToRulesFile>`. Or fetch your rules file from remote URL by specifying `<rulesFileUrl>` parameter instead.
+2. Create <b>[exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml)</b> (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`. Or fetch your exclusions file from remote URL by specifying `<exclusionsFileUrl>` parameter instead.
 3. Provide the path to the directory with Liquibase XML changeLogs in `<changeLogDirectory>`.
 4. Provide `false` in `<shouldFailBuild>` if you want to just see the warnings.
 5. Provide `true` in `<shouldGenerateExclusions>` if you want your exclusions file to be generated automatically.
@@ -33,7 +33,7 @@ This plugin allows you to create a set of rules and enforce them.
     <plugin>
         <groupId>io.github.htshame</groupId>
         <artifactId>naming-convention-liquibase-maven-plugin</artifactId>
-        <version>4.0</version>
+        <version>4.1</version>
         <executions>
             <execution>
                 <id>validate-changeLog</id>
@@ -44,15 +44,36 @@ This plugin allows you to create a set of rules and enforce them.
             </execution>
         </executions>
         <configuration>
+            <!-- path to file with naming rules -->
             <pathToRulesFile>
                 ${project.basedir}/src/main/resources/liquibaseNaming/ruleset.xml
             </pathToRulesFile>
+            <!-- OR provide URL to file with naming rules -->
+            <!--
+            <rulesFileUrl>
+                https://raw.githubusercontent.com/htshame/naming-convention-liquibase-maven-plugin/refs/heads/main/docs/schema/example/rules_example.xml
+            </rulesFileUrl> -->
+   
+            <!-- path to file with exclusion rules -->
             <pathToExclusionsFile>
                 ${project.basedir}/src/main/resources/liquibaseNaming/exclusions.xml
             </pathToExclusionsFile>
+            <!-- OR provide URL to file with exclusion rules -->
+            <!-- 
+            <exclusionsFileUrl>
+                https://raw.githubusercontent.com/htshame/naming-convention-liquibase-maven-plugin/refs/heads/main/docs/schema/example/exclusions_example.xml
+            </exclusionsFileUrl> -->
+   
+            <!-- path to your changeLog directory -->
             <changeLogDirectory>${project.basedir}/src/main/resources/db</changeLogDirectory>
+   
+            <!-- (optional) your changeLog format. Supported values: XML, YAML, YML, JSON. Default value is XML. --> 
             <changeLogFormat>xml</changeLogFormat>
+   
+            <!-- (optional) set to 'false' if you don't want the build to fail if errors are found. Default value is 'true' -->
             <shouldFailBuild>true</shouldFailBuild>
+   
+            <!-- (optional) set to 'true' if you want exclusions file content to be generated automatically. Default value is 'false' -->
             <shouldGenerateExclusions>true</shouldGenerateExclusions>
         </configuration>
     </plugin>

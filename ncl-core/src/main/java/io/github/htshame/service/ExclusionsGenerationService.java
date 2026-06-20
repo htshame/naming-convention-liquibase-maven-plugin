@@ -13,7 +13,7 @@ import java.util.List;
 public class ExclusionsGenerationService {
 
     private static final String LINE_BREAK = "\n";
-    private static final String INDENT = "....";
+    private static final String INDENT = "    ";
     private final PluginLogger logger;
     private final PluginConfig config;
 

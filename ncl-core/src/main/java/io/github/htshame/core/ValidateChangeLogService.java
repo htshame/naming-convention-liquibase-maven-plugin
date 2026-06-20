@@ -6,6 +6,7 @@ import io.github.htshame.exception.ChangeLogCollectorException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.exception.ValidateChangeLogException;
+import io.github.htshame.gateway.ConfigApiGateway;
 import io.github.htshame.log.PluginLogger;
 import io.github.htshame.parser.ExclusionParser;
 import io.github.htshame.parser.RuleParser;
@@ -29,6 +30,7 @@ public final class ValidateChangeLogService {
     private final PluginConfig config;
     private final ValidationManager validationManager;
     private final ExclusionsGenerationService exclusionsGenerator;
+    private final ConfigApiGateway configApiGateway;
 
     /**
      * Constructor.
@@ -42,6 +44,7 @@ public final class ValidateChangeLogService {
         this.config = config;
         this.validationManager = new ValidationManager();
         this.exclusionsGenerator = new ExclusionsGenerationService(logger, config);
+        this.configApiGateway = new ConfigApiGateway();
     }
 
     /**
@@ -102,7 +105,11 @@ public final class ValidateChangeLogService {
      */
     private List<Rule> prepareRules() throws ValidateChangeLogException {
         try {
-            return RuleParser.parseRules(config.getPathToRulesFile());
+            File rulesFile = config.getPathToRulesFile();
+            if (rulesFile == null) {
+                rulesFile = configApiGateway.getFile(config.getRulesFileUrl());
+            }
+            return RuleParser.parseRules(rulesFile);
         } catch (RuleParserException e) {
             logger.error("Error parsing rules file. Double-check the path to rules XML file "
                     + "provided in <pathToRulesFile>. The sample file: "
@@ -120,7 +127,11 @@ public final class ValidateChangeLogService {
      */
     private ExclusionParser prepareExclusions() throws ValidateChangeLogException {
         try {
-            return ExclusionParser.parseExclusions(config.getPathToExclusionsFile());
+            File exclusionsFile = config.getPathToExclusionsFile();
+            if (exclusionsFile == null && config.getExclusionsFileUrl() != null) {
+                exclusionsFile = configApiGateway.getFile(config.getExclusionsFileUrl());
+            }
+            return ExclusionParser.parseExclusions(exclusionsFile);
         } catch (ExclusionParserException e) {
             logger.error("Error parsing exclusions file. Double-check the path to exclusions XML file "
                     + "provided in <pathToExclusionsFile>. The sample file: "

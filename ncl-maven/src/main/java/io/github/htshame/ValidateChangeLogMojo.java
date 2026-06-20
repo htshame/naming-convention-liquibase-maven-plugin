@@ -14,6 +14,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
+import java.net.URL;
 
 /**
  * <code>validate-liquibase-changeLog</code> mojo executor.
@@ -26,14 +27,26 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     /**
      * Path to the XML file with rules.
      */
-    @Parameter(required = true)
+    @Parameter
     private File pathToRulesFile;
+
+    /**
+     * Rules file URL.
+     */
+    @Parameter
+    private URL rulesFileUrl;
 
     /**
      * Path to the XML file with exclusions.
      */
     @Parameter
     private File pathToExclusionsFile;
+
+    /**
+     * Exclusions file URL.
+     */
+    @Parameter
+    private URL exclusionsFileUrl;
 
     /**
      * Path to directory with changeLog files.
@@ -108,14 +121,17 @@ public class ValidateChangeLogMojo extends AbstractMojo {
         validateInput();
         configReminder();
 
-        PluginConfig config = new PluginConfig(
-                changeLogFormat,
-                pathToRulesFile,
-                pathToExclusionsFile,
-                changeLogDirectory,
-                shouldGenerateExclusions,
-                pluginDescriptor.getVersion(),
-                PluginTypeEnum.MAVEN);
+        PluginConfig config = PluginConfig.builder()
+                .changeLogFormat(changeLogFormat)
+                .pathToRulesFile(pathToRulesFile)
+                .ruleFileUrl(rulesFileUrl)
+                .pathToExclusionsFile(pathToExclusionsFile)
+                .exclusionsFileUrl(exclusionsFileUrl)
+                .changeLogDirectory(changeLogDirectory)
+                .shouldGenerateExclusions(shouldGenerateExclusions)
+                .pluginVersion(pluginDescriptor.getVersion())
+                .pluginType(PluginTypeEnum.MAVEN)
+                .build();
 
         PluginLogger logger = preparePluginLogger();
 
@@ -198,7 +214,7 @@ public class ValidateChangeLogMojo extends AbstractMojo {
         if (!changeLogDirectory.isDirectory()) {
             throw new MojoExecutionException(INVALID_PATH + changeLogDirectory);
         }
-        if (!pathToRulesFile.exists()) {
+        if (pathToRulesFile != null && !pathToRulesFile.exists()) {
             throw new MojoExecutionException(INVALID_PATH + pathToRulesFile);
         }
         if (pathToExclusionsFile != null && !pathToExclusionsFile.exists()) {

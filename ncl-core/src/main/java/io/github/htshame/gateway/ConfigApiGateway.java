@@ -16,6 +16,8 @@ public class ConfigApiGateway {
 
     private static final int OK_200 = 200;
     private static final int BUFFER_SIZE = 8192;
+    private static final int REDIRECT_301 = 301;
+    private static final int TIMEOUT = 10000;
 
     /**
      * Default constructor.
@@ -37,14 +39,16 @@ public class ConfigApiGateway {
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Accept", "application/xml");
             connection.setInstanceFollowRedirects(true);
+            connection.setConnectTimeout(TIMEOUT);
+            connection.setReadTimeout(TIMEOUT);
 
             int status = connection.getResponseCode();
-            if (status != OK_200) {
+            if (status != OK_200 && status != REDIRECT_301) {
                 throw new ConfigApiGatewayException("Error reading configuration content from URL: " + configFileUrl
                         + ". Status code != 200");
             }
 
-            File xmlFile = File.createTempFile("api-response-", ".xml");
+            File xmlFile = File.createTempFile("naming_convention_liquibase_maven_pluginconfig_file", ".xml");
 
             try (InputStream in = connection.getInputStream();
                  FileOutputStream out = new FileOutputStream(xmlFile)) {

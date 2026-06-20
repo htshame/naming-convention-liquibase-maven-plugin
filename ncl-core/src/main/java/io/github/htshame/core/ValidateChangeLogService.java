@@ -3,6 +3,7 @@ package io.github.htshame.core;
 import io.github.htshame.dto.RuleValidationErrorDto;
 import io.github.htshame.enums.ChangeLogFormatEnum;
 import io.github.htshame.exception.ChangeLogCollectorException;
+import io.github.htshame.exception.ConfigApiGatewayException;
 import io.github.htshame.exception.ExclusionParserException;
 import io.github.htshame.exception.RuleParserException;
 import io.github.htshame.exception.ValidateChangeLogException;
@@ -110,9 +111,9 @@ public final class ValidateChangeLogService {
                 rulesFile = configApiGateway.getFile(config.getRulesFileUrl());
             }
             return RuleParser.parseRules(rulesFile);
-        } catch (RuleParserException e) {
+        } catch (RuleParserException | ConfigApiGatewayException e) {
             logger.error("Error parsing rules file. Double-check the path to rules XML file "
-                    + "provided in <pathToRulesFile>. The sample file: "
+                    + "provided in <pathToRulesFile> or <rulesFileUrl>. The sample file: "
                     + BASE_URL
                     + PROJECT_NAME_PATH + "/schema/example/rules_example.xml", e);
             throw new ValidateChangeLogException(e.getMessage());
@@ -132,9 +133,9 @@ public final class ValidateChangeLogService {
                 exclusionsFile = configApiGateway.getFile(config.getExclusionsFileUrl());
             }
             return ExclusionParser.parseExclusions(exclusionsFile);
-        } catch (ExclusionParserException e) {
+        } catch (ExclusionParserException | ConfigApiGatewayException e) {
             logger.error("Error parsing exclusions file. Double-check the path to exclusions XML file "
-                    + "provided in <pathToExclusionsFile>. The sample file: "
+                    + "provided in <pathToExclusionsFile> or <exclusionsFileUrl>. The sample file: "
                     + BASE_URL
                     + PROJECT_NAME_PATH + "/schema/example/exclusions_example.xml", e);
             throw new ValidateChangeLogException(e.getMessage());

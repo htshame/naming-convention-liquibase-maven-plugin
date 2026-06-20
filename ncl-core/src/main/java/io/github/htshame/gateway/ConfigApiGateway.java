@@ -44,11 +44,13 @@ public class ConfigApiGateway {
 
             int status = connection.getResponseCode();
             if (status != OK_200 && status != REDIRECT_301) {
+                connection.disconnect();
                 throw new ConfigApiGatewayException("Error reading configuration content from URL: " + configFileUrl
-                        + ". Status code != 200");
+                        + ". Status code: " + status);
             }
 
             File xmlFile = File.createTempFile("naming_convention_liquibase_maven_pluginconfig_file", ".xml");
+            xmlFile.deleteOnExit();
 
             try (InputStream in = connection.getInputStream();
                  FileOutputStream out = new FileOutputStream(xmlFile)) {

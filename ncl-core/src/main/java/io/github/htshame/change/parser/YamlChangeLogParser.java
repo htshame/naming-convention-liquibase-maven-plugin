@@ -38,35 +38,33 @@ public class YamlChangeLogParser implements ChangeLogParser {
      */
     @Override
     public List<ChangeLogElement> parseChangeSets(final File changeLogFile) throws ChangeLogParseException {
-        try {
-            try (FileInputStream inputStream = new FileInputStream(changeLogFile)) {
-                Yaml yaml = new Yaml();
-                Object loaded = yaml.load(inputStream);
+        try (FileInputStream inputStream = new FileInputStream(changeLogFile)) {
+            Yaml yaml = new Yaml();
+            Object loaded = yaml.load(inputStream);
 
-                List<?> changeLogEntries = getObjectList(loaded);
+            List<?> changeLogEntries = getObjectList(loaded);
 
-                List<ChangeLogElement> changeSetElements = new ArrayList<>();
+            List<ChangeLogElement> changeSetElements = new ArrayList<>();
 
-                for (Object changeLogEntry : changeLogEntries) {
-                    if (!(changeLogEntry instanceof Map<?, ?>)) {
+            for (Object changeLogEntry : changeLogEntries) {
+                if (!(changeLogEntry instanceof Map<?, ?>)) {
+                    continue;
+                }
+                Map<?, ?> entryMap = (Map<?, ?>) changeLogEntry;
+
+                for (Map.Entry<?, ?> changeSetEntry : entryMap.entrySet()) {
+                    String key = changeSetEntry.getKey().toString();
+                    if (!CHANGE_SET_TAG_NAME.equals(key)) {
                         continue;
                     }
-                    Map<?, ?> entryMap = (Map<?, ?>) changeLogEntry;
 
-                    for (Map.Entry<?, ?> changeSetEntry : entryMap.entrySet()) {
-                        String key = changeSetEntry.getKey().toString();
-                        if (!CHANGE_SET_TAG_NAME.equals(key)) {
-                            continue;
-                        }
-
-                        ChangeLogElement element =
-                                buildChangeSetElement(CHANGE_SET_TAG_NAME, changeSetEntry.getValue());
-                        changeSetElements.add(element);
-                    }
+                    ChangeLogElement element =
+                            buildChangeSetElement(CHANGE_SET_TAG_NAME, changeSetEntry.getValue());
+                    changeSetElements.add(element);
                 }
-
-                return changeSetElements;
             }
+
+            return changeSetElements;
         } catch (Exception e) {
             throw new ChangeLogParseException(changeLogFile.getName(), e);
         }
@@ -119,34 +117,32 @@ public class YamlChangeLogParser implements ChangeLogParser {
      * @throws ChangeLogParseException - if parsing goes wrong.
      */
     public List<ChangeLogElement> parseNonChangeSets(final File changeLogFile) throws ChangeLogParseException {
-        try {
-            try (FileInputStream inputStream = new FileInputStream(changeLogFile)) {
-                Yaml yaml = new Yaml();
-                Object loaded = yaml.load(inputStream);
+        try (FileInputStream inputStream = new FileInputStream(changeLogFile)) {
+            Yaml yaml = new Yaml();
+            Object loaded = yaml.load(inputStream);
 
-                List<?> changeLogEntries = getObjectList(loaded);
+            List<?> changeLogEntries = getObjectList(loaded);
 
-                List<ChangeLogElement> nonChangeSetElements = new ArrayList<>();
+            List<ChangeLogElement> nonChangeSetElements = new ArrayList<>();
 
-                for (Object changeLogEntry : changeLogEntries) {
-                    if (!(changeLogEntry instanceof Map<?, ?>)) {
+            for (Object changeLogEntry : changeLogEntries) {
+                if (!(changeLogEntry instanceof Map<?, ?>)) {
+                    continue;
+                }
+                Map<?, ?> entryMap = (Map<?, ?>) changeLogEntry;
+
+                for (Map.Entry<?, ?> entry : entryMap.entrySet()) {
+                    String key = entry.getKey().toString();
+                    if (CHANGE_SET_TAG_NAME.equals(key)) {
                         continue;
                     }
-                    Map<?, ?> entryMap = (Map<?, ?>) changeLogEntry;
 
-                    for (Map.Entry<?, ?> entry : entryMap.entrySet()) {
-                        String key = entry.getKey().toString();
-                        if (CHANGE_SET_TAG_NAME.equals(key)) {
-                            continue;
-                        }
-
-                        ChangeLogElement element = buildChangeSetElement(key, entry.getValue());
-                        nonChangeSetElements.add(element);
-                    }
+                    ChangeLogElement element = buildChangeSetElement(key, entry.getValue());
+                    nonChangeSetElements.add(element);
                 }
-
-                return nonChangeSetElements;
             }
+
+            return nonChangeSetElements;
         } catch (Exception e) {
             throw new ChangeLogParseException(changeLogFile.getName(), e);
         }

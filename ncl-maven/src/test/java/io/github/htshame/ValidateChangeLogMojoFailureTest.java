@@ -277,9 +277,11 @@ public class ValidateChangeLogMojoFailureTest {
      * Unit test for validateInput. Should succeed when rules are provided through URL only.
      *
      * @throws ReflectiveOperationException - thrown if validation method is not accessible.
+     * @throws MalformedURLException       - thrown if URL is malformed.
      */
     @Test
-    public void testValidateInputWithRulesUrlOnlySuccess() throws ReflectiveOperationException {
+    public void testValidateInputWithRulesUrlOnlySuccess()
+            throws ReflectiveOperationException, MalformedURLException {
         // arrange
         setField("pathToRulesFile", null);
         setField("rulesFileUrl", toUrl("src/test/resources/rules.xml"));

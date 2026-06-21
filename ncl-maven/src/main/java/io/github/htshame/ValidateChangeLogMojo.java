@@ -3,6 +3,7 @@ package io.github.htshame;
 import io.github.htshame.core.PluginConfig;
 import io.github.htshame.core.ValidateChangeLogService;
 import io.github.htshame.enums.ChangeLogFormatEnum;
+import io.github.htshame.enums.PluginTypeEnum;
 import io.github.htshame.exception.ValidateChangeLogException;
 import io.github.htshame.log.PluginLogger;
 import org.apache.maven.plugin.AbstractMojo;
@@ -13,6 +14,7 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
 import java.io.File;
+import java.net.URL;
 
 /**
  * <code>validate-liquibase-changeLog</code> mojo executor.
@@ -25,14 +27,26 @@ public class ValidateChangeLogMojo extends AbstractMojo {
     /**
      * Path to the XML file with rules.
      */
-    @Parameter(required = true)
+    @Parameter
     private File pathToRulesFile;
+
+    /**
+     * Rules file URL.
+     */
+    @Parameter
+    private URL rulesFileUrl;
 
     /**
      * Path to the XML file with exclusions.
      */
     @Parameter
     private File pathToExclusionsFile;
+
+    /**
+     * Exclusions file URL.
+     */
+    @Parameter
+    private URL exclusionsFileUrl;
 
     /**
      * Path to directory with changeLog files.
@@ -107,13 +121,17 @@ public class ValidateChangeLogMojo extends AbstractMojo {
         validateInput();
         configReminder();
 
-        PluginConfig config = new PluginConfig(
-                changeLogFormat,
-                pathToRulesFile,
-                pathToExclusionsFile,
-                changeLogDirectory,
-                shouldGenerateExclusions,
-                pluginDescriptor.getVersion());
+        PluginConfig config = PluginConfig.builder()
+                .changeLogFormat(changeLogFormat)
+                .pathToRulesFile(pathToRulesFile)
+                .rulesFileUrl(rulesFileUrl)
+                .pathToExclusionsFile(pathToExclusionsFile)
+                .exclusionsFileUrl(exclusionsFileUrl)
+                .changeLogDirectory(changeLogDirectory)
+                .shouldGenerateExclusions(shouldGenerateExclusions)
+                .pluginVersion(pluginDescriptor.getVersion())
+                .pluginType(PluginTypeEnum.MAVEN)
+                .build();
 
         PluginLogger logger = preparePluginLogger();
 
@@ -196,11 +214,19 @@ public class ValidateChangeLogMojo extends AbstractMojo {
         if (!changeLogDirectory.isDirectory()) {
             throw new MojoExecutionException(INVALID_PATH + changeLogDirectory);
         }
-        if (!pathToRulesFile.exists()) {
+        if (pathToRulesFile != null && !pathToRulesFile.exists()) {
             throw new MojoExecutionException(INVALID_PATH + pathToRulesFile);
         }
         if (pathToExclusionsFile != null && !pathToExclusionsFile.exists()) {
             throw new MojoExecutionException(INVALID_PATH + pathToExclusionsFile);
+        }
+        if ((pathToRulesFile == null) == (rulesFileUrl == null)) {
+            throw new MojoExecutionException(
+                    "Exactly one of 'pathToRulesFile' or 'rulesFileUrl' parameters must be present");
+        }
+        if (pathToExclusionsFile != null && exclusionsFileUrl != null) {
+            throw new MojoExecutionException(
+                    "Only one of 'pathToExclusionsFile' or 'exclusionsFileUrl' parameters must be present");
         }
         try {
             ChangeLogFormatEnum.fromValue(changeLogFormat.toLowerCase());

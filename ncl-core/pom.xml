@@ -10,14 +10,14 @@
     <parent>
         <groupId>io.github.htshame</groupId>
         <artifactId>base</artifactId>
-        <version>4.0</version>
+        <version>4.1</version>
     </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.deploy.skip>false</maven.deploy.skip>
 
-        <test.coverage.min.threshold>0.80</test.coverage.min.threshold>
+        <test.coverage.min.threshold>0.81</test.coverage.min.threshold>
     </properties>
 
     <dependencies>

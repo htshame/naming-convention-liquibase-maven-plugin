@@ -8,8 +8,7 @@ Just use <b>naming-convention-liquibase-maven-plugin</b>!
 
 This plugin allows you to create a set of rules and enforce them.
 
-- If someone names the index 'customer_external_id_idx' instead of 'idx_customer_external_id' (or vice versa), the build
-  will fail!
+- If someone names the index 'customer_external_id_idx' instead of 'idx_customer_external_id' (or vice versa), the build will fail!
 
 - If someone names the table 'customer-metadata' instead of 'customer_metadata' (or vice versa), the build will fail!
 
@@ -24,11 +23,11 @@ This plugin allows you to create a set of rules and enforce them.
 # How to use it?
 
 1. Create <b>[rules.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/rules_example.xml)</b> (or name it differently) file and provide it in `<pathToRulesFile>`. Or fetch your rules file from remote URL by specifying `<rulesFileUrl>` parameter instead.
-2. Create <b>[exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml)</b> (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`. Or fetch your exclusions file from remote URL by specifying `<exclusionsFileUrl>` parameter instead.
-3. Provide the path to the directory with Liquibase XML changeLogs in `<changeLogDirectory>`.
-4. Provide `false` in `<shouldFailBuild>` if you want to just see the warnings.
-5. Provide `true` in `<shouldGenerateExclusions>` if you want your exclusions file to be generated automatically.
-6. Put this into your pom.xml:
+1. Create <b>[exclusions.xml](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/schema/example/exclusions_example.xml)</b> (or name it differently) file (not mandatory) and provide it in `<pathToExclusionsFile>`. Or fetch your exclusions file from remote URL by specifying `<exclusionsFileUrl>` parameter instead.
+1. Provide the path to the directory with Liquibase XML changeLogs in `<changeLogDirectory>`.
+1. Provide `false` in `<shouldFailBuild>` if you want to just see the warnings.
+1. Provide `true` in `<shouldGenerateExclusions>` if you want your exclusions file to be generated automatically.
+1. Put this into your pom.xml:
     ```xml
     <plugin>
         <groupId>io.github.htshame</groupId>
@@ -78,7 +77,7 @@ This plugin allows you to create a set of rules and enforce them.
         </configuration>
     </plugin>
     ```
-7. Run your build.
+1. Run your build.
 
 ---
 
@@ -513,8 +512,8 @@ Not a single rule will be applied to `changelog_01.xml`. This file will be ignor
 To exclude the provided rule for the provided changeSet
 
 ```xml
-<changeSetExclusion fileName="changelog_04.xml" 
-                    changeSetId="changelog_04-1" changeSetAuthor="test" 
+<changeSetExclusion fileName="changelog_04.xml"
+                    changeSetId="changelog_04-1" changeSetAuthor="test"
                     rule="tag-must-exist"/>
 ```
 
@@ -527,8 +526,8 @@ Rule `tag-must-exist` will not be applied to the change set with `id=changelog_0
 To exclude all rules for the provided changeSet
 
 ```xml
-<changeSetExclusion fileName="changelog_04.xml" 
-                    changeSetId="changelog_04-1" changeSetAuthor="test" 
+<changeSetExclusion fileName="changelog_04.xml"
+                    changeSetId="changelog_04-1" changeSetAuthor="test"
                     rule="*"/>
 ```
 

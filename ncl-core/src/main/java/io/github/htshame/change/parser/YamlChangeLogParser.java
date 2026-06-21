@@ -39,40 +39,34 @@ public class YamlChangeLogParser implements ChangeLogParser {
     @Override
     public List<ChangeLogElement> parseChangeSets(final File changeLogFile) throws ChangeLogParseException {
         try {
-            Yaml yaml = new Yaml();
-            Object loaded = yaml.load(new FileInputStream(changeLogFile));
+            try (FileInputStream inputStream = new FileInputStream(changeLogFile)) {
+                Yaml yaml = new Yaml();
+                Object loaded = yaml.load(inputStream);
 
-            if (!(loaded instanceof Map<?, ?>)) {
-                throw new IllegalArgumentException("Invalid YAML structure: Expected a top-level map");
-            }
-            Map<?, ?> rootMap = (Map<?, ?>) loaded;
+                List<?> changeLogEntries = getObjectList(loaded);
 
-            Object dbChangeLog = rootMap.get(DATABASE_CHANGELOG_NAME);
-            if (!(dbChangeLog instanceof List<?>)) {
-                throw new IllegalArgumentException("Missing 'databaseChangeLog'");
-            }
-            List<?> changeLogEntries = (List<?>) dbChangeLog;
+                List<ChangeLogElement> changeSetElements = new ArrayList<>();
 
-            List<ChangeLogElement> changeSetElements = new ArrayList<>();
-
-            for (Object changeLogEntry : changeLogEntries) {
-                if (!(changeLogEntry instanceof Map<?, ?>)) {
-                    continue;
-                }
-                Map<?, ?> entryMap = (Map<?, ?>) changeLogEntry;
-
-                for (Map.Entry<?, ?> changeSetEntry : entryMap.entrySet()) {
-                    String key = changeSetEntry.getKey().toString();
-                    if (!CHANGE_SET_TAG_NAME.equals(key)) {
+                for (Object changeLogEntry : changeLogEntries) {
+                    if (!(changeLogEntry instanceof Map<?, ?>)) {
                         continue;
                     }
+                    Map<?, ?> entryMap = (Map<?, ?>) changeLogEntry;
 
-                    ChangeLogElement element = buildChangeSetElement(CHANGE_SET_TAG_NAME, changeSetEntry.getValue());
-                    changeSetElements.add(element);
+                    for (Map.Entry<?, ?> changeSetEntry : entryMap.entrySet()) {
+                        String key = changeSetEntry.getKey().toString();
+                        if (!CHANGE_SET_TAG_NAME.equals(key)) {
+                            continue;
+                        }
+
+                        ChangeLogElement element =
+                                buildChangeSetElement(CHANGE_SET_TAG_NAME, changeSetEntry.getValue());
+                        changeSetElements.add(element);
+                    }
                 }
-            }
 
-            return changeSetElements;
+                return changeSetElements;
+            }
         } catch (Exception e) {
             throw new ChangeLogParseException(changeLogFile.getName(), e);
         }
@@ -126,42 +120,54 @@ public class YamlChangeLogParser implements ChangeLogParser {
      */
     public List<ChangeLogElement> parseNonChangeSets(final File changeLogFile) throws ChangeLogParseException {
         try {
-            Yaml yaml = new Yaml();
-            Object loaded = yaml.load(new FileInputStream(changeLogFile));
+            try (FileInputStream inputStream = new FileInputStream(changeLogFile)) {
+                Yaml yaml = new Yaml();
+                Object loaded = yaml.load(inputStream);
 
-            if (!(loaded instanceof Map<?, ?>)) {
-                throw new IllegalArgumentException("Invalid YAML structure: Expected a top-level map");
-            }
-            Map<?, ?> rootMap = (Map<?, ?>) loaded;
+                List<?> changeLogEntries = getObjectList(loaded);
 
-            Object dbChangeLog = rootMap.get(DATABASE_CHANGELOG_NAME);
-            if (!(dbChangeLog instanceof List<?>)) {
-                throw new IllegalArgumentException("Missing 'databaseChangeLog'");
-            }
-            List<?> changeLogEntries = (List<?>) dbChangeLog;
+                List<ChangeLogElement> nonChangeSetElements = new ArrayList<>();
 
-            List<ChangeLogElement> nonChangeSetElements = new ArrayList<>();
-
-            for (Object changeLogEntry : changeLogEntries) {
-                if (!(changeLogEntry instanceof Map<?, ?>)) {
-                    continue;
-                }
-                Map<?, ?> entryMap = (Map<?, ?>) changeLogEntry;
-
-                for (Map.Entry<?, ?> entry : entryMap.entrySet()) {
-                    String key = entry.getKey().toString();
-                    if (CHANGE_SET_TAG_NAME.equals(key)) {
+                for (Object changeLogEntry : changeLogEntries) {
+                    if (!(changeLogEntry instanceof Map<?, ?>)) {
                         continue;
                     }
+                    Map<?, ?> entryMap = (Map<?, ?>) changeLogEntry;
 
-                    ChangeLogElement element = buildChangeSetElement(key, entry.getValue());
-                    nonChangeSetElements.add(element);
+                    for (Map.Entry<?, ?> entry : entryMap.entrySet()) {
+                        String key = entry.getKey().toString();
+                        if (CHANGE_SET_TAG_NAME.equals(key)) {
+                            continue;
+                        }
+
+                        ChangeLogElement element = buildChangeSetElement(key, entry.getValue());
+                        nonChangeSetElements.add(element);
+                    }
                 }
-            }
 
-            return nonChangeSetElements;
+                return nonChangeSetElements;
+            }
         } catch (Exception e) {
             throw new ChangeLogParseException(changeLogFile.getName(), e);
         }
+    }
+
+    /**
+     * Get object list from YAML file.
+     *
+     * @param loaded - loaded input stream.
+     * @return list of objects.
+     */
+    private static List<?> getObjectList(final Object loaded) {
+        if (!(loaded instanceof Map<?, ?>)) {
+            throw new IllegalArgumentException("Invalid YAML structure: Expected a top-level map");
+        }
+        Map<?, ?> rootMap = (Map<?, ?>) loaded;
+
+        Object dbChangeLog = rootMap.get(DATABASE_CHANGELOG_NAME);
+        if (!(dbChangeLog instanceof List<?>)) {
+            throw new IllegalArgumentException("Missing 'databaseChangeLog'");
+        }
+        return (List<?>) dbChangeLog;
     }
 }

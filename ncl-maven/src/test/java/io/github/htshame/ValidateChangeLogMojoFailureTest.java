@@ -10,6 +10,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import static org.junit.Assert.assertEquals;
 
@@ -246,38 +247,6 @@ public class ValidateChangeLogMojoFailureTest {
 
     /**
      * Integration test for {@link ValidateChangeLogMojo#execute()}.
-     * Should not fail validation when rules are provided through URL only.
-     *
-     * @throws NoSuchFieldException   - thrown if required field is missing.
-     * @throws IllegalAccessException - thrown if files not found.
-     * @throws MalformedURLException  - thrown if URL is malformed.
-     */
-    @Test
-    public void testExecuteRulesUrlOnlySuccess()
-            throws NoSuchFieldException, IllegalAccessException, MalformedURLException {
-        // arrange
-        boolean isExceptionThrown = false;
-        setField("pathToRulesFile", null);
-        setField("rulesFileUrl", toUrl("src/test/resources/rules.xml"));
-        setField("pathToExclusionsFile", null);
-        setField("exclusionsFileUrl", null);
-        setField("changeLogDirectory", new File("src/test/resources/db/xml"));
-        setField("shouldFailBuild", false);
-        setField("shouldGenerateExclusions", false);
-        setField("changeLogFormat", "xml");
-
-        // act
-        try {
-            validateChangeLogMojo.execute();
-        } catch (MojoExecutionException e) {
-            isExceptionThrown = true;
-        }
-
-        Assert.assertFalse(isExceptionThrown);
-    }
-
-    /**
-     * Integration test for {@link ValidateChangeLogMojo#execute()}.
      * Should fail when both rules file path and URL are absent.
      *
      * @throws NoSuchFieldException   - thrown if required field is missing.
@@ -302,6 +271,25 @@ public class ValidateChangeLogMojoFailureTest {
                     e.getMessage());
         }
         Assert.assertTrue(isExceptionThrown);
+    }
+
+    /**
+     * Unit test for validateInput. Should succeed when rules are provided through URL only.
+     *
+     * @throws ReflectiveOperationException - thrown if validation method is not accessible.
+     */
+    @Test
+    public void testValidateInputWithRulesUrlOnlySuccess() throws ReflectiveOperationException {
+        // arrange
+        setField("pathToRulesFile", null);
+        setField("rulesFileUrl", toUrl("src/test/resources/rules.xml"));
+        setField("pathToExclusionsFile", null);
+        setField("exclusionsFileUrl", null);
+        setField("changeLogDirectory", new File("src/test/resources/db/xml"));
+        setField("changeLogFormat", "xml");
+
+        // act
+        invokeValidateInput();
     }
 
     /**
@@ -375,5 +363,11 @@ public class ValidateChangeLogMojoFailureTest {
 
     private URL toUrl(final String path) throws MalformedURLException {
         return new File(path).toURI().toURL();
+    }
+
+    private void invokeValidateInput() throws ReflectiveOperationException {
+        Method validateInputMethod = ValidateChangeLogMojo.class.getDeclaredMethod("validateInput");
+        validateInputMethod.setAccessible(true);
+        validateInputMethod.invoke(validateChangeLogMojo);
     }
 }

@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.deploy.skip>false</maven.deploy.skip>
 
-        <test.coverage.min.threshold>0.21</test.coverage.min.threshold>
+        <test.coverage.min.threshold>1.00</test.coverage.min.threshold>
     </properties>
 
     <dependencies>
@@ -81,6 +81,11 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.maven.plugin.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>io/github/htshame/naming_convention_liquibase_maven_plugin/*</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <id>default-prepare-agent</id>

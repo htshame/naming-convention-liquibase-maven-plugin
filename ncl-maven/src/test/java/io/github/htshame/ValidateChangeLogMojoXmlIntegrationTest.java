@@ -76,6 +76,24 @@ public class ValidateChangeLogMojoXmlIntegrationTest {
         Assert.assertFalse(isExceptionThrown);
     }
 
+    /**
+     * Integration test for {@link ValidateChangeLogMojo#execute()}.
+     * Covers the configReminder log message when shouldGenerateExclusions is false.
+     *
+     * @throws NoSuchFieldException   - thrown if required field is missing.
+     * @throws IllegalAccessException - thrown if files not found.
+     */
+    @Test
+    public void testExecuteWithShouldGenerateExclusionsFalse()
+            throws NoSuchFieldException, IllegalAccessException {
+        setField("shouldGenerateExclusions", false);
+        try {
+            validateChangeLogMojo.execute();
+        } catch (MojoExecutionException e) {
+            // violations are expected; we just need configReminder() to have been called
+        }
+    }
+
     private void setField(final String fieldName,
                           final Object value)
             throws NoSuchFieldException, IllegalAccessException {

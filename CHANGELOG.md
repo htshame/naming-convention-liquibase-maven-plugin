@@ -6,6 +6,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and 
 
 ---
 
+## Version 4.1.1
+
+- improve OK and Redirect response status handling for remove URL configuration
+- fix potential memory leak for YAML changeLogs
+
+
+---
+
 ## Version 4.1
 
 - added the ability to fetch `rules` and `exclusions` files from remote URLs. Plugin config parameters `<rulesFileUrl>` and `<exclusionsFileUrl>` were added to support this change
@@ -43,14 +51,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and 
 
 ---
 
-## Version 2.11
-
-- Implement `no-trailing-spaces-in-changelog` rule
-
----
-
 ### Previous Releases
 
+- [4.1.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/4.1.1.md)
 - [4.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/4.1.md)
 - [4.0](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/4.0.md)
 - [3.1](https://github.com/htshame/naming-convention-liquibase-maven-plugin/blob/main/docs/releases/3.1.md)

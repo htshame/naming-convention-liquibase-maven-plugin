@@ -38,20 +38,11 @@ public class YamlChangeLogParser implements ChangeLogParser {
      */
     @Override
     public List<ChangeLogElement> parseChangeSets(final File changeLogFile) throws ChangeLogParseException {
-        try {
+        try (FileInputStream inputStream = new FileInputStream(changeLogFile)) {
             Yaml yaml = new Yaml();
-            Object loaded = yaml.load(new FileInputStream(changeLogFile));
+            Object loaded = yaml.load(inputStream);
 
-            if (!(loaded instanceof Map<?, ?>)) {
-                throw new IllegalArgumentException("Invalid YAML structure: Expected a top-level map");
-            }
-            Map<?, ?> rootMap = (Map<?, ?>) loaded;
-
-            Object dbChangeLog = rootMap.get(DATABASE_CHANGELOG_NAME);
-            if (!(dbChangeLog instanceof List<?>)) {
-                throw new IllegalArgumentException("Missing 'databaseChangeLog'");
-            }
-            List<?> changeLogEntries = (List<?>) dbChangeLog;
+            List<?> changeLogEntries = getObjectList(loaded);
 
             List<ChangeLogElement> changeSetElements = new ArrayList<>();
 
@@ -67,7 +58,8 @@ public class YamlChangeLogParser implements ChangeLogParser {
                         continue;
                     }
 
-                    ChangeLogElement element = buildChangeSetElement(CHANGE_SET_TAG_NAME, changeSetEntry.getValue());
+                    ChangeLogElement element =
+                            buildChangeSetElement(CHANGE_SET_TAG_NAME, changeSetEntry.getValue());
                     changeSetElements.add(element);
                 }
             }
@@ -125,20 +117,11 @@ public class YamlChangeLogParser implements ChangeLogParser {
      * @throws ChangeLogParseException - if parsing goes wrong.
      */
     public List<ChangeLogElement> parseNonChangeSets(final File changeLogFile) throws ChangeLogParseException {
-        try {
+        try (FileInputStream inputStream = new FileInputStream(changeLogFile)) {
             Yaml yaml = new Yaml();
-            Object loaded = yaml.load(new FileInputStream(changeLogFile));
+            Object loaded = yaml.load(inputStream);
 
-            if (!(loaded instanceof Map<?, ?>)) {
-                throw new IllegalArgumentException("Invalid YAML structure: Expected a top-level map");
-            }
-            Map<?, ?> rootMap = (Map<?, ?>) loaded;
-
-            Object dbChangeLog = rootMap.get(DATABASE_CHANGELOG_NAME);
-            if (!(dbChangeLog instanceof List<?>)) {
-                throw new IllegalArgumentException("Missing 'databaseChangeLog'");
-            }
-            List<?> changeLogEntries = (List<?>) dbChangeLog;
+            List<?> changeLogEntries = getObjectList(loaded);
 
             List<ChangeLogElement> nonChangeSetElements = new ArrayList<>();
 
@@ -163,5 +146,24 @@ public class YamlChangeLogParser implements ChangeLogParser {
         } catch (Exception e) {
             throw new ChangeLogParseException(changeLogFile.getName(), e);
         }
+    }
+
+    /**
+     * Get object list from YAML file.
+     *
+     * @param loaded - object loaded from YAML parser.
+     * @return list of objects.
+     */
+    private static List<?> getObjectList(final Object loaded) {
+        if (!(loaded instanceof Map<?, ?>)) {
+            throw new IllegalArgumentException("Invalid YAML structure: Expected a top-level map");
+        }
+        Map<?, ?> rootMap = (Map<?, ?>) loaded;
+
+        Object dbChangeLog = rootMap.get(DATABASE_CHANGELOG_NAME);
+        if (!(dbChangeLog instanceof List<?>)) {
+            throw new IllegalArgumentException("Missing 'databaseChangeLog'");
+        }
+        return (List<?>) dbChangeLog;
     }
 }

@@ -14,9 +14,7 @@ import java.net.URL;
  */
 public class ConfigApiGateway {
 
-    private static final int OK_200 = 200;
     private static final int BUFFER_SIZE = 8192;
-    private static final int REDIRECT_301 = 301;
     private static final int TIMEOUT = 10000;
 
     /**
@@ -43,7 +41,8 @@ public class ConfigApiGateway {
             connection.setReadTimeout(TIMEOUT);
 
             int status = connection.getResponseCode();
-            if (status != OK_200 && status != REDIRECT_301) {
+            String statusString = String.valueOf(status);
+            if (statusString.indexOf("2") != 0 && statusString.indexOf("3") != 0) {
                 connection.disconnect();
                 throw new ConfigApiGatewayException("Error reading configuration content from URL: " + configFileUrl
                         + ". Status code: " + status);

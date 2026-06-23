@@ -151,7 +151,7 @@ public class YamlChangeLogParser implements ChangeLogParser {
     /**
      * Get object list from YAML file.
      *
-     * @param loaded - loaded input stream.
+     * @param loaded - object loaded from YAML parser.
      * @return list of objects.
      */
     private static List<?> getObjectList(final Object loaded) {
